@@ -1,4 +1,4 @@
-package ch.studer.GermanClimateDataAnalyser;
+package ch.studer.germanclimatedataanalyser;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
