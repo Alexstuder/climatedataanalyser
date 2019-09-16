@@ -11,7 +11,7 @@
 --              MAX_CONNECTIONS_PER_HOUR 0
 --              MAX_USER_CONNECTIONS 0;
 -- GRANT ALL PRIVILEGES ON climate.* TO 'climateUser'@'localhost';
-create database if not exists climate;
+-- create database if not exists climate;
 
 
 DROP  TABLE if exists month ;

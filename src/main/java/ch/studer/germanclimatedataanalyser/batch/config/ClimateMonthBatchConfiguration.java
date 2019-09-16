@@ -2,6 +2,9 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.listener.JobCompletionNotificationListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
+import ch.studer.germanclimatedataanalyser.batch.reader.ClimatMonthFlatFileReader;
+import ch.studer.germanclimatedataanalyser.batch.reader.ClimateMonthMultiSourceReader;
+import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.springframework.batch.core.Job;
@@ -9,22 +12,27 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import javax.validation.constraints.Null;
+import java.io.IOException;
 
 @Configuration
 @EnableBatchProcessing
@@ -40,35 +48,67 @@ public class ClimateMonthBatchConfiguration {
     public DataSource dataSource;
 
     @Bean
-    public FlatFileItemReader<MonthFile> reader() {
+    @StepScope
+    public MultiResourceItemReader<MonthFile> multiResourceItemReader()
+    {
+        Resource[] inputResources = null;
+        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
+        try {
+            inputResources = patternResolver.getResources("src/main/resources/InputFiles/produkt*.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
+        resourceItemReader.setResources(inputResources);
+        resourceItemReader.setDelegate(reader());
+        return resourceItemReader;
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Bean
+    public FlatFileItemReader<MonthFile> reader()
+    {
+        //Create reader instance
         FlatFileItemReader<MonthFile> reader = new FlatFileItemReader<MonthFile>();
+
+        //Set number of lines to skips. Use it if file has header rows.
         reader.setLinesToSkip(1);
-        reader.setResource(new ClassPathResource("InputFiles/produkt_klima_monat_19710301_20181231_00044.txt"));
-        reader.setLineMapper(new DefaultLineMapper<MonthFile>() {{
-            setLineTokenizer(new DelimitedLineTokenizer() {{
-                setNames(new String[]{"stationsId"
-                                      ,"messDatumBeginn"
-                                      ,"messDatumEnde"
-                                      ,"qn4"
-                                      ,"moN"
-                                      ,"moTt"
-                                      ,"moTx"
-                                      ,"moTn"
-                                      ,"moFk"
-                                      ,"mxTx"
-                                      ,"mxFx"
-                                      ,"mxTn"
-                                      ,"moSdS"
-                                      ,"qn6"
-                                      ,"moRr"
-                                      ,"mxRs"
-                                      ,"eor" });
-                setDelimiter(";");
-            }});
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<MonthFile>() {{
-                setTargetType(MonthFile.class);
-            }});
-        }});
+
+        //Configure how each line will be parsed and mapped to different values
+        reader.setLineMapper(new DefaultLineMapper() {
+            {
+                //3 columns in each row
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    {
+
+                        setNames(new String[]{"stationsId"
+                                , "messDatumBeginn"
+                                , "messDatumEnde"
+                                , "qn4"
+                                , "moN"
+                                , "moTt"
+                                , "moTx"
+                                , "moTn"
+                                , "moFk"
+                                , "mxTx"
+                                , "mxFx"
+                                , "mxTn"
+                                , "moSdS"
+                                , "qn6"
+                                , "moRr"
+                                , "mxRs"
+                                , "eor"});
+                        setDelimiter(";");
+                    }
+                });
+                //Set values in Employee class
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<MonthFile>() {
+                    {
+                        setTargetType(MonthFile.class);
+                    }
+                });
+            }
+        });
         return reader;
     }
 
@@ -78,19 +118,9 @@ public class ClimateMonthBatchConfiguration {
     }
 
     @Bean
-    public JdbcBatchItemWriter<Month> writer() {
+    public ClimateMonthDBWriter writer() {
+        return new ClimateMonthDBWriter(dataSource);}
 
-      JdbcBatchItemWriter<Month> writer = new JdbcBatchItemWriter<Month>();
-
-      writer.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Month>());
-      writer.setSql("INSERT INTO month(STATIONS_ID,MESS_DATUM_BEGINN,MESS_DATUM_ENDE,QN_4,MO_N,MO_TT,MO_TX,MO_TN,MO_FK,MX_TX,MX_FX,MX_TN,MO_SD_S,QN_6,MO_RR,MX_RS)"
-                  + "VALUES (:stationsId,:messDatumBeginn,:messDatumEnde,:qn4,:moN,:moTt,:moTx,:moTn,:moFk,:mxTx,:mxFx,:mxTn,:moSdS,:qn6,:moRr,:mxRs)"
-                  );
-      writer.setDataSource(dataSource);
-
-        return writer;
-
-    }
 
     @Bean
     public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
@@ -107,7 +137,7 @@ public class ClimateMonthBatchConfiguration {
     public Step step01(){
         return stepBuilderFactory.get("step01")
                 .<MonthFile,Month> chunk(10)
-                .reader(reader())
+                .reader(multiResourceItemReader())
                 .processor(processor())
                 .writer(writer())
                 .build()

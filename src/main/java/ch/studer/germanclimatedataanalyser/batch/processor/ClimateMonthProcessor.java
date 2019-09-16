@@ -49,7 +49,7 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
                                            ,MO_RR
                                            ,MX_RS);
 
-        log.info("Station" + STATIONS_ID + "for Period "+ MESS_DATUM_BEGINN +" - " + MESS_DATUM_ENDE  +"transformed");
+        log.info("Station" + STATIONS_ID + " for Period "+ MESS_DATUM_BEGINN +" - " + MESS_DATUM_ENDE  +"transformed");
         return transformedMonth;
     }
 }
