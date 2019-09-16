@@ -1,6 +1,9 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
+import ch.studer.germanclimatedataanalyser.common.Statistics;
 import ch.studer.germanclimatedataanalyser.model.Month;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
@@ -12,6 +15,11 @@ import java.util.List;
 
 public class ClimateMonthDBWriter extends JdbcBatchItemWriter<Month> implements ItemWriter<Month> {
 
+    private static final Logger log = LoggerFactory.getLogger(ClimateMonthDBWriter.class);
+
+
+    @Autowired
+    private Statistics statistics;
 
     public ClimateMonthDBWriter(DataSource dataSource){
         init(dataSource);
@@ -26,19 +34,14 @@ public class ClimateMonthDBWriter extends JdbcBatchItemWriter<Month> implements 
         super.setDataSource(dataSource);
     }
 
-    public void writer(List<Month> months) {
 
+    @Override
+    public void write(List<? extends Month> months) throws Exception {
         try {
             super.write(months);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-    }
-
-    @Override
-    public void write(List<? extends Month> items) throws Exception {
 
     }
 }

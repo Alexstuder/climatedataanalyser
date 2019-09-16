@@ -1,10 +1,12 @@
 package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.listener.JobCompletionNotificationListener;
+import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
+import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
-import ch.studer.germanclimatedataanalyser.batch.reader.ClimatMonthFlatFileReader;
-import ch.studer.germanclimatedataanalyser.batch.reader.ClimateMonthMultiSourceReader;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
+import ch.studer.germanclimatedataanalyser.common.Statistics;
+import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
 import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.springframework.batch.core.Job;
@@ -14,9 +16,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -26,12 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
-import javax.validation.constraints.Null;
 import java.io.IOException;
 
 @Configuration
@@ -46,6 +42,11 @@ public class ClimateMonthBatchConfiguration {
 
     @Autowired
     public DataSource dataSource;
+
+    @Bean
+    public Statistics statistics(){
+        return new StatisticsImpl();
+    }
 
     @Bean
     @StepScope
@@ -138,7 +139,9 @@ public class ClimateMonthBatchConfiguration {
         return stepBuilderFactory.get("step01")
                 .<MonthFile,Month> chunk(10)
                 .reader(multiResourceItemReader())
+                .listener(new StepProcessorListener(statistics()))
                 .processor(processor())
+                .listener(new StepWriterListener(statistics()))
                 .writer(writer())
                 .build()
                 ;

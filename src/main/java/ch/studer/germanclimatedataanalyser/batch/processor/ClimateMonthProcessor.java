@@ -1,17 +1,20 @@
 package ch.studer.germanclimatedataanalyser.batch.processor;
 
+import ch.studer.germanclimatedataanalyser.common.Statistics;
 import ch.studer.germanclimatedataanalyser.model.Month;
 
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
 
     private static final Logger log = LoggerFactory.getLogger(ClimateMonthProcessor.class);
 
-
+    @Autowired
+    private Statistics statistics;
 
     @Override
     public Month process(final MonthFile monthFile) {
@@ -49,7 +52,7 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
                                            ,MO_RR
                                            ,MX_RS);
 
-        log.info("Station" + STATIONS_ID + " for Period "+ MESS_DATUM_BEGINN +" - " + MESS_DATUM_ENDE  +"transformed");
+        statistics.getActual().setAnzahlProcess(statistics.getActual().getAnzahlProcess() + 1) ;
         return transformedMonth;
     }
 }
