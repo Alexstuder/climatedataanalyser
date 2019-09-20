@@ -15,4 +15,5 @@ public interface Statistics {
     public StatisticRecord getActual();
     public void setActual(StatisticRecord statisticRecord);
     public void addActualToStatistics();
+    public void writeDbAnzahl();
 }

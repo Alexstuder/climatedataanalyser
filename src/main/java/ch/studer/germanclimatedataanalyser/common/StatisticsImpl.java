@@ -1,12 +1,18 @@
 package ch.studer.germanclimatedataanalyser.common;
 
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class StatisticsImpl implements Statistics{
+
 
     private StatisticRecord actual ;
     private ArrayList<StatisticRecord> statisticRecords;
@@ -36,6 +42,13 @@ public class StatisticsImpl implements Statistics{
         this.getActual().setAnzahlProcess(this.getActual().getAnzahlProcess());
         this.getActual().setLastDatum(this.getActual().getLastDatum());
         this.getStatisticRecords().add(this.getActual());
+    }
+
+    @Override
+    public void writeDbAnzahl() {
+          //TODO: Change Model to JPA EntityModel !
+
+
     }
 
     public ArrayList<StatisticRecord> getStatisticRecords() {

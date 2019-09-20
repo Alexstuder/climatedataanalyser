@@ -57,6 +57,11 @@
 			<artifactId>spring-batch-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+	    <dependency>
+		    <groupId>com.madgag</groupId>
+		    <artifactId>util-compress</artifactId>
+		    <version>1.35</version>
+	</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -66,5 +71,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	<!-- https://mvnrepository.com/artifact/com.madgag/util-compress -->
+
 
 </project>

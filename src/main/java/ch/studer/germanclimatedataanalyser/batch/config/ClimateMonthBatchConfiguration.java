@@ -4,6 +4,8 @@ import ch.studer.germanclimatedataanalyser.batch.listener.JobCompletionNotificat
 import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.unzip.ClimateFtpDataDownloader;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.unzip.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistics;
 import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
@@ -35,10 +37,10 @@ import java.io.IOException;
 public class ClimateMonthBatchConfiguration {
 
     @Autowired
-    public JobBuilderFactory jobBuilderFactory;
+    public JobBuilderFactory jobBuilderFactoryImport;
 
     @Autowired
-    public StepBuilderFactory stepBuilderFactory;
+    public StepBuilderFactory stepBuilderFactoryImport;
 
     @Autowired
     public DataSource dataSource;
@@ -48,6 +50,10 @@ public class ClimateMonthBatchConfiguration {
         return new StatisticsImpl();
     }
 
+    @Bean
+    public ClimateFtpDataUnziper unziper(){
+        return new ClimateFtpDataUnziper();
+    }
     @Bean
     @StepScope
     public MultiResourceItemReader<MonthFile> multiResourceItemReader()
@@ -120,23 +126,67 @@ public class ClimateMonthBatchConfiguration {
 
     @Bean
     public ClimateMonthDBWriter writer() {
-        return new ClimateMonthDBWriter(dataSource);}
+        return new ClimateMonthDBWriter(dataSource);
+    }
 
-
+    // #############################################################################
+    // # First Job : Download the Files in specific Folder
+    // #############################################################################
     @Bean
-    public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
-        return jobBuilderFactory.get("importClimateMonthDataJob")
-               .incrementer(new RunIdIncrementer())
-               .listener(listener)
-               .flow(step01())
-               .end()
-               .build()
+    public ClimateFtpDataDownloader download() {return new ClimateFtpDataDownloader(); }
+/*
+   @Bean
+    public Job downloadClimateDataFiles(){
+        return jobBuilderFactoryDownload.get("downloadCimateDataFiles")
+                .incrementer(new RunIdIncrementer())
+                .start(downloadFiles())
+                .build()
                 ;
     }
 
+ */
+    @Bean
+    public Step downloadFiles(){
+        return stepBuilderFactoryImport.get("download")
+                .tasklet(download())
+                .build();
+    }
+
+    // ##################################################################################
+    // # Job 2. Unzip the Files and move the needed File into the InputFile folder
+    // ##################################################################################
+
+    /*@Bean
+    public Job unzipDataFiles() {
+        return jobBuilderFactoryUnzip.get("unzipDataImportFiles")
+                .incrementer(new RunIdIncrementer())
+                .start(unzipFiles())
+                .build();
+    }*/
+    @Bean
+    public Step unzipFiles() {
+        return stepBuilderFactoryImport.get("unzipFiles")
+                .tasklet(unziper())
+                .build();
+    }
+    // ##################################################################################
+    // # Job 2. Unzip the Files and move the needed File into the InputFile folder
+    // ##################################################################################
+
+    @Bean
+    public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
+        return jobBuilderFactoryImport.get("importClimateMonthDataJob")
+               .incrementer(new RunIdIncrementer())
+               .listener(listener)
+              // .start(downloadFiles())
+                .start(unzipFiles())
+                .next(step01())
+               .build()
+                ;
+    }
     @Bean
     public Step step01(){
-        return stepBuilderFactory.get("step01")
+        return stepBuilderFactoryImport.get("step01")
                 .<MonthFile,Month> chunk(10)
                 .reader(multiResourceItemReader())
                 .listener(new StepProcessorListener(statistics()))
@@ -146,5 +196,4 @@ public class ClimateMonthBatchConfiguration {
                 .build()
                 ;
     }
-
 }
