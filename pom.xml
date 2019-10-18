@@ -61,7 +61,12 @@
 		    <groupId>com.madgag</groupId>
 		    <artifactId>util-compress</artifactId>
 		    <version>1.35</version>
-	</dependency>
+	    </dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

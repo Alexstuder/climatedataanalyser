@@ -17,7 +17,6 @@ public class ClimateMonthDBWriter extends JdbcBatchItemWriter<Month> implements 
 
     private static final Logger log = LoggerFactory.getLogger(ClimateMonthDBWriter.class);
 
-
     @Autowired
     private Statistics statistics;
 

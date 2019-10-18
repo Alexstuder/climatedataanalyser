@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -112,9 +113,19 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
     private File getDirectory(String directoryName) throws IOException {
         Resource[] resources = new Resource[0];
         Resource resource = null;
-
+        log.info("DirectoryName :" + directoryName);
         try {
             resources = applicationContext.getResources("classpath*:/"+directoryName);
+
+            //mkdir if directory does not exist ;
+            if (resources.length == 0) {
+                log.info("Directory is 0");
+                File tempFile = new File(directoryName);
+                tempFile.mkdir();
+                resources = applicationContext.getResources("classpath*:/"+directoryName);
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -28,7 +28,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Controller;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import javax.sql.DataSource;
 import java.io.IOException;
 
@@ -44,6 +51,9 @@ public class ClimateMonthBatchConfiguration {
 
     @Autowired
     public DataSource dataSource;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Bean
     public Statistics statistics(){
@@ -61,7 +71,7 @@ public class ClimateMonthBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources("src/main/resources/InputFiles/produkt*.txt");
+            inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -133,7 +143,9 @@ public class ClimateMonthBatchConfiguration {
     // # First Job : Download the Files in specific Folder
     // #############################################################################
     @Bean
-    public ClimateFtpDataDownloader download() {return new ClimateFtpDataDownloader(); }
+    public ClimateFtpDataDownloader download() {
+
+        return new ClimateFtpDataDownloader(); }
 /*
    @Bean
     public Job downloadClimateDataFiles(){
@@ -152,17 +164,6 @@ public class ClimateMonthBatchConfiguration {
                 .build();
     }
 
-    // ##################################################################################
-    // # Job 2. Unzip the Files and move the needed File into the InputFile folder
-    // ##################################################################################
-
-    /*@Bean
-    public Job unzipDataFiles() {
-        return jobBuilderFactoryUnzip.get("unzipDataImportFiles")
-                .incrementer(new RunIdIncrementer())
-                .start(unzipFiles())
-                .build();
-    }*/
     @Bean
     public Step unzipFiles() {
         return stepBuilderFactoryImport.get("unzipFiles")
@@ -178,9 +179,9 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-              // .start(downloadFiles())
-                .start(unzipFiles())
-                .next(step01())
+               .start(downloadFiles())
+               .next(unzipFiles())
+               .next(step01())
                .build()
                 ;
     }
