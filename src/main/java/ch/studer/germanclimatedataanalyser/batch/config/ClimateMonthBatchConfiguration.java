@@ -33,6 +33,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.sql.DataSource;
@@ -50,6 +51,9 @@ public class ClimateMonthBatchConfiguration {
 
     @Autowired
     public DataSource dataSource;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Bean
     public Statistics statistics(){
@@ -139,7 +143,9 @@ public class ClimateMonthBatchConfiguration {
     // # First Job : Download the Files in specific Folder
     // #############################################################################
     @Bean
-    public ClimateFtpDataDownloader download() {return new ClimateFtpDataDownloader(); }
+    public ClimateFtpDataDownloader download() {
+
+        return new ClimateFtpDataDownloader(); }
 /*
    @Bean
     public Job downloadClimateDataFiles(){
