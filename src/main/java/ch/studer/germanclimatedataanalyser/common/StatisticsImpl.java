@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.common;
 
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
