@@ -28,14 +28,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.sql.DataSource;
 import java.io.IOException;
 
@@ -52,9 +46,6 @@ public class ClimateMonthBatchConfiguration {
     @Autowired
     public DataSource dataSource;
 
-    @PersistenceContext
-    private EntityManager em;
-
     @Bean
     public Statistics statistics(){
         return new StatisticsImpl();
@@ -64,6 +55,8 @@ public class ClimateMonthBatchConfiguration {
     public ClimateFtpDataUnziper unziper(){
         return new ClimateFtpDataUnziper();
     }
+
+
     @Bean
     @StepScope
     public MultiResourceItemReader<MonthFile> multiResourceItemReader()
@@ -142,6 +135,7 @@ public class ClimateMonthBatchConfiguration {
     // #############################################################################
     // # First Job : Download the Files in specific Folder
     // #############################################################################
+
     @Bean
     public ClimateFtpDataDownloader download() {
 
@@ -157,6 +151,8 @@ public class ClimateMonthBatchConfiguration {
     }
 
  */
+
+    @Transactional
     @Bean
     public Step downloadFiles(){
         return stepBuilderFactoryImport.get("download")
@@ -164,6 +160,7 @@ public class ClimateMonthBatchConfiguration {
                 .build();
     }
 
+    @Transactional
     @Bean
     public Step unzipFiles() {
         return stepBuilderFactoryImport.get("unzipFiles")
@@ -185,6 +182,7 @@ public class ClimateMonthBatchConfiguration {
                .build()
                 ;
     }
+    @Transactional
     @Bean
     public Step step01(){
         return stepBuilderFactoryImport.get("step01")
