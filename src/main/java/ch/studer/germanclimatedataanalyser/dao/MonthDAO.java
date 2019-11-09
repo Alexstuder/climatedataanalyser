@@ -10,4 +10,5 @@ public interface MonthDAO {
 
     public void saveAll(List<? extends Month> months);
 
+    int getCountOnDb(int stationsID);
 }

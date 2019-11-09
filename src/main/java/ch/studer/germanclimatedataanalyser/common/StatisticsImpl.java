@@ -3,12 +3,8 @@ package ch.studer.germanclimatedataanalyser.common;
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class StatisticsImpl implements Statistics{
 
@@ -43,12 +39,12 @@ public class StatisticsImpl implements Statistics{
         this.getStatisticRecords().add(this.getActual());
     }
 
-    @Override
+ /*   @Override
     public void writeDbAnzahl() {
           //TODO: Change Model to JPA EntityModel !
 
 
-    }
+    }*/
 
     public ArrayList<StatisticRecord> getStatisticRecords() {
         return statisticRecords;

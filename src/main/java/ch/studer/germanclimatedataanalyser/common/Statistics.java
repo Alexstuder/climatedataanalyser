@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public interface Statistics {
 
-    public void printStatistics();
+    void printStatistics();
 
-    public boolean checkIsNewStationsID(String stationId);
+    boolean checkIsNewStationsID(String stationId);
 
-    public ArrayList<StatisticRecord> getStatisticRecords();
-    public void setStatisticRecords(ArrayList<StatisticRecord> statisticRecords);
-    public StatisticRecord getActual();
-    public void setActual(StatisticRecord statisticRecord);
-    public void addActualToStatistics();
-    public void writeDbAnzahl();
+    ArrayList<StatisticRecord> getStatisticRecords();
+    //void setStatisticRecords(ArrayList<StatisticRecord> statisticRecords);
+    StatisticRecord getActual();
+    void setActual(StatisticRecord statisticRecord);
+    void addActualToStatistics();
+    //void writeDbAnzahl();
 }

@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.common.Statistics;
 import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
@@ -21,6 +22,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
     @Autowired
     public Statistics statistic;
+
+    @Autowired
+    private DbCheck dbCheck;
 
     @Autowired
     public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
@@ -55,6 +59,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
             log.info("Batch Exit Status :" + jobExecution.getStatus().toString());
 
         }
+
+        dbCheck.printDbStatus();
 
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         log.info("!!!                     STATISTIC                            !!!");

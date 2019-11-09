@@ -1,5 +1,6 @@
-package ch.studer.germanclimatedataanalyser.batch.tasklet.unzip;
+package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import ch.studer.germanclimatedataanalyser.common.Statistics;
 import com.madgag.compress.CompressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,7 +20,10 @@ import java.nio.file.Files;
 public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
     @Autowired
-    ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private Statistics statistics;
 
     @Value("${climate.path.unzipOutputFolderName}")
     private String unzipOutputFolderName;
@@ -153,6 +156,6 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("After Properties Set");
+        log.info("After Properties Set in ClimateFtpDataUnziper by A.Studer");
     }
 }

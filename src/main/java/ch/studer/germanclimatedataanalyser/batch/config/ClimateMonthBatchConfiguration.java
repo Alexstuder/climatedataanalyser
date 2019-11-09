@@ -4,8 +4,9 @@ import ch.studer.germanclimatedataanalyser.batch.listener.JobCompletionNotificat
 import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
-import ch.studer.germanclimatedataanalyser.batch.tasklet.unzip.ClimateFtpDataDownloader;
-import ch.studer.germanclimatedataanalyser.batch.tasklet.unzip.ClimateFtpDataUnziper;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloader;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistics;
 import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
@@ -13,7 +14,6 @@ import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -50,6 +50,10 @@ public class ClimateMonthBatchConfiguration {
     @Bean
     public Statistics statistics(){
         return new StatisticsImpl();
+    }
+
+    @Bean
+    public DbCheck dbCheck(){return new DbCheck();
     }
 
     @Bean
@@ -146,7 +150,8 @@ public class ClimateMonthBatchConfiguration {
     public ClimateFtpDataDownloader download() {
 
         return new ClimateFtpDataDownloader(); }
-/*
+
+        /*
    @Bean
     public Job downloadClimateDataFiles(){
         return jobBuilderFactoryDownload.get("downloadCimateDataFiles")
@@ -173,6 +178,7 @@ public class ClimateMonthBatchConfiguration {
                 .tasklet(unziper())
                 .build();
     }
+
     // ##################################################################################
     // # Job 2. Unzip the Files and move the needed File into the InputFile folder
     // ##################################################################################
