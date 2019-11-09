@@ -26,11 +26,12 @@ public class StepProcessorListener implements ItemProcessListener<MonthFile,Mont
     public void beforeProcess(MonthFile monthFile) {
 
         //If New Stations ID ; Add actual to Statistic
+        //TODO A.Studer : getStationsID() == 0  Prüfung sollte auf NULL ändern !
         if (statistics.checkIsNewStationsID(monthFile.getStationsId())){
+
             if (statistics.getActual().getStationsID() == 0 ) {
                 statistics.getActual().setStationsID(Integer.valueOf(monthFile.getStationsId().trim()));
                 statistics.getActual().setFirstDatum(monthFile.getMessDatumBeginn());
-                statistics.getActual().setLastDatum(monthFile.getMessDatumEnde());
             } else {
                 // Add Record to statistic
                 statistics.addActualToStatistics();
@@ -47,7 +48,10 @@ public class StepProcessorListener implements ItemProcessListener<MonthFile,Mont
     }
 
     @Override
-    public void afterProcess(MonthFile item, Month result) {
+    public void afterProcess(MonthFile monthFile, Month result) {
+
+                // Set the Last MessDatumEnde
+                statistics.getActual().setLastDatum(monthFile.getMessDatumEnde());
 
     }
 

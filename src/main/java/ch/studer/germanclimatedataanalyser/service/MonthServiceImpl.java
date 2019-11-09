@@ -20,4 +20,10 @@ public class MonthServiceImpl implements MonthService {
 
         monthDAO.saveAll(months);
     }
+
+    @Override
+    @Transactional
+    public int getCountOnDb(int stationsID) {
+         return monthDAO.getCountOnDb(stationsID);
+    }
 }

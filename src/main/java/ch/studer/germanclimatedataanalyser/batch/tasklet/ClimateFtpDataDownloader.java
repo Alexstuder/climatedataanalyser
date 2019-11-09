@@ -1,9 +1,8 @@
-package ch.studer.germanclimatedataanalyser.batch.tasklet.unzip;
+package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -16,14 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.sql.Time;
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.util.List;
-
-import static java.rmi.Naming.list;
 
 public class ClimateFtpDataDownloader implements Tasklet {
 

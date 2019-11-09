@@ -7,4 +7,6 @@ import java.util.List;
 public interface MonthService {
 
     void saveAllMonth(List<? extends Month> months);
+
+    int getCountOnDb(int stationsID);
 }

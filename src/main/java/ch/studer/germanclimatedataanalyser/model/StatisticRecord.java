@@ -113,4 +113,5 @@ public class StatisticRecord {
                 ", WhatIsMissing='" + WhatIsMissing + '\'' +
                 '}';
     }
+
 }
