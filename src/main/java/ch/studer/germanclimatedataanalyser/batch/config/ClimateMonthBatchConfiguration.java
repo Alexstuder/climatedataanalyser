@@ -13,6 +13,7 @@ import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -127,9 +128,14 @@ public class ClimateMonthBatchConfiguration {
         return new ClimateMonthProcessor();
     }
 
+
+    //public ClimateMonthDBWriter writer() {
+     //   return new ClimateMonthDBWriter(dataSource);
+    //}
     @Bean
+    @StepScope
     public ClimateMonthDBWriter writer() {
-        return new ClimateMonthDBWriter(dataSource);
+        return new ClimateMonthDBWriter();
     }
 
     // #############################################################################
@@ -176,9 +182,9 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               .start(downloadFiles())
-               .next(unzipFiles())
-               .next(step01())
+               //.start(downloadFiles())
+               //.next(unzipFiles())
+               .start(step01())
                .build()
                 ;
     }
