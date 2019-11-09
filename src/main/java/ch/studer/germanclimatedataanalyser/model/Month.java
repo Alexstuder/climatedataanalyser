@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity
 @Table(name="MONTH")
@@ -18,10 +19,10 @@ public class Month implements Serializable {
   private int stationsId;
 
   @Column(name="MESS_DATUM_BEGINN")
-  private int messDatumBeginn;
+  private Date messDatumBeginn;
 
   @Column(name="MESS_DATUM_ENDE")
-  private int messDatumEnde;
+  private Date messDatumEnde;
 
   @Column(name="QN_4")
   private int qn4;
@@ -66,7 +67,7 @@ public class Month implements Serializable {
 
   }
 
-    public Month(int stationsId, int messDatumBeginn, int messDatumEnde, int qn4, double moN, double moTt, double moTx, double moTn, double moFk, double mxTx, double mxFx, double mxTn, double moSdS, int qn6, double moRr, double mxRs) {
+    public Month(int stationsId, Date messDatumBeginn, Date messDatumEnde, int qn4, double moN, double moTt, double moTx, double moTn, double moFk, double mxTx, double mxFx, double mxTn, double moSdS, int qn6, double moRr, double mxRs) {
         this.stationsId = stationsId;
         this.messDatumBeginn = messDatumBeginn;
         this.messDatumEnde = messDatumEnde;
@@ -93,19 +94,19 @@ public class Month implements Serializable {
         this.stationsId = stationsId;
     }
 
-    public int getMessDatumBeginn() {
+    public Date getMessDatumBeginn() {
         return messDatumBeginn;
     }
 
-    public void setMessDatumBeginn(int messDatumBeginn) {
+    public void setMessDatumBeginn(Date messDatumBeginn) {
         this.messDatumBeginn = messDatumBeginn;
     }
 
-    public int getMessDatumEnde() {
+    public Date getMessDatumEnde() {
         return messDatumEnde;
     }
 
-    public void setMessDatumEnde(int messDatumEnde) {
+    public void setMessDatumEnde(Date messDatumEnde) {
         this.messDatumEnde = messDatumEnde;
     }
 

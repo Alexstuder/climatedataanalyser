@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
+
 public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
 
     private static final Logger log = LoggerFactory.getLogger(ClimateMonthProcessor.class);
@@ -19,8 +21,8 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
     @Override
     public Month process(final MonthFile monthFile) {
         final int STATIONS_ID          = Integer.valueOf(monthFile.getStationsId().trim());
-        final int MESS_DATUM_BEGINN    = Integer.valueOf(monthFile.getMessDatumBeginn().trim());
-        final int MESS_DATUM_ENDE      = Integer.valueOf(monthFile.getMessDatumEnde().trim());
+        final Date MESS_DATUM_BEGINN   = getSQLDate(monthFile.getMessDatumBeginn().trim());
+        final Date MESS_DATUM_ENDE     = getSQLDate(monthFile.getMessDatumEnde().trim());
         final int QN_4                 = Integer.valueOf(monthFile.getQn4().trim());
         final double MO_N              = Double.valueOf(monthFile.getMoN().trim());
         final double  MO_TT            = Double.valueOf(monthFile.getMoTt().trim());
@@ -54,5 +56,21 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
 
         statistics.getActual().setAnzahlProcess(statistics.getActual().getAnzahlProcess() + 1) ;
         return transformedMonth;
+    }
+
+    private Date getSQLDate(String dateIn) {
+
+        Date date = null;
+        try{
+            date = new Date(Integer.valueOf(dateIn.substring(0,4))
+                           ,Integer.valueOf(dateIn.substring(5,6))
+                           ,Integer.valueOf(dateIn.substring(7,8)));
+
+        } catch (RuntimeException e) {
+
+
+        }
+
+        return date;
     }
 }
