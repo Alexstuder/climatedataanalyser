@@ -188,9 +188,9 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               //.start(downloadFiles())
-               //.next(unzipFiles())
-               .start(step01())
+               .start(downloadFiles())
+               .next(unzipFiles())
+               .next(step01())
                .build()
                 ;
     }
