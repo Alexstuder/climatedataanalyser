@@ -55,22 +55,14 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
                                            ,MX_RS);
 
         statistics.getActual().setAnzahlProcess(statistics.getActual().getAnzahlProcess() + 1) ;
+        log.info(transformedMonth.toString());
         return transformedMonth;
     }
 
     private Date getSQLDate(String dateIn) {
 
-        Date date = null;
-        try{
-            date = new Date(Integer.valueOf(dateIn.substring(0,4))
-                           ,Integer.valueOf(dateIn.substring(5,6))
-                           ,Integer.valueOf(dateIn.substring(7,8)));
+        return   Date.valueOf(dateIn.substring(0,4)+"-"+dateIn.substring(4,6)+"-"+dateIn.substring(6,8));
 
-        } catch (RuntimeException e) {
-
-
-        }
-
-        return date;
     }
+
 }
