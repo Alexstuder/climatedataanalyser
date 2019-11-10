@@ -4,7 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
 
 import java.util.ArrayList;
 
-public interface Statistics {
+public interface Statistic {
 
     void printStatistics();
 

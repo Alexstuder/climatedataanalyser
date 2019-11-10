@@ -6,16 +6,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
-public class StatisticsImpl implements Statistics{
+public class StatisticImpl implements Statistic {
 
 
     private StatisticRecord actual ;
     private ArrayList<StatisticRecord> statisticRecords;
 
-    private static final Logger log = LoggerFactory.getLogger(StatisticsImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(StatisticImpl.class);
 
 
-    public StatisticsImpl() {
+    public StatisticImpl() {
 
         this.statisticRecords =new ArrayList<StatisticRecord>();
         this.actual = new StatisticRecord();

@@ -1,10 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
-import ch.studer.germanclimatedataanalyser.common.Statistics;
+import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.MonthFile;
-import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
-import org.springframework.batch.core.ItemProcessListener;
 import org.springframework.batch.core.ItemWriteListener;
 
 import java.util.List;
@@ -12,11 +9,11 @@ import java.util.List;
 
 public class StepWriterListener implements ItemWriteListener<Month> {
 
-   private Statistics statistics;
+   private Statistic statistic;
 
-    public StepWriterListener(Statistics statistics) {
+    public StepWriterListener(Statistic statistic) {
 
-        this.statistics = statistics;
+        this.statistic = statistic;
     }
 
     @Override

@@ -8,8 +8,8 @@ import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloader;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
-import ch.studer.germanclimatedataanalyser.common.Statistics;
-import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
+import ch.studer.germanclimatedataanalyser.common.Statistic;
+import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
 import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
 import org.springframework.batch.core.Job;
@@ -48,8 +48,8 @@ public class ClimateMonthBatchConfiguration {
     public DataSource dataSource;
 
     @Bean
-    public Statistics statistics(){
-        return new StatisticsImpl();
+    public Statistic statistics(){
+        return new StatisticImpl();
     }
 
     @Bean
@@ -188,9 +188,9 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               .start(downloadFiles())
-               .next(unzipFiles())
-               .next(step01())
+               //.start(downloadFiles())
+               //.next(unzipFiles())
+               .start(step01())
                .build()
                 ;
     }
