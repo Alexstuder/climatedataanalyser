@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import ch.studer.germanclimatedataanalyser.common.Statistic;
+
 import ch.studer.germanclimatedataanalyser.model.Month;
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
 import ch.studer.germanclimatedataanalyser.service.MonthService;
@@ -112,6 +113,7 @@ public class DbCheck {
         c.setTime(date);
         c.add(Calendar.DATE, days);
         return new Date(c.getTimeInMillis());
+
     }
 
     private boolean checkProcessedCounterIsEqualWritenOnDbCounter() {
@@ -143,7 +145,7 @@ public class DbCheck {
 
     public void printDbStatus() {
 
-        log.info("********************  DB Check  ********************");
+        log.debug("********************  DB Check  ********************");
         checkDB();
     }
 }

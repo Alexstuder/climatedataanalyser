@@ -55,6 +55,7 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
                                            ,MX_RS);
 
         statistic.getActual().setAnzahlProcess(statistic.getActual().getAnzahlProcess() + 1) ;
+        log.debug(transformedMonth.toString());
         return transformedMonth;
     }
 
