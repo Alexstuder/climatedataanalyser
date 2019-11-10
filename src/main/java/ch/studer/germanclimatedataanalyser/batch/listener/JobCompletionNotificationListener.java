@@ -32,12 +32,10 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     @Override
     public void beforeJob(JobExecution jobExecution){
 
-        log.info("****************************************************************");
-        log.info("!!!                      JOB START                           !!!");
-        log.info("****************************************************************");
+        log.debug("****************************************************************");
+        log.debug("!!!                      JOB START                           !!!");
+        log.debug("****************************************************************");
 
-        // Init the StatisticImpl
-       // statistic = new StatisticImpl();
     }
 
    @Override
@@ -47,30 +45,30 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
        statistic.addActualToStatistics();
 
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            log.info("##########################################################");
-            log.info("!!!          JOB FINISHED! SUCCESSFULLY                !!!");
-            log.info("##########################################################");
+            log.debug("##########################################################");
+            log.debug("!!!          JOB FINISHED! SUCCESSFULLY                !!!");
+            log.debug("##########################################################");
         } else {
-            log.info("??????????????????????????????????????????????????????????");
-            log.info("!!!          JOB FAILED                                !!!");
-            log.info("??????????????????????????????????????????????????????????");
-            log.info("Batch Exit Status :" + jobExecution.getStatus().toString());
+            log.debug("??????????????????????????????????????????????????????????");
+            log.debug("!!!          JOB FAILED                                !!!");
+            log.debug("??????????????????????????????????????????????????????????");
+            log.debug("Batch Exit Status :" + jobExecution.getStatus().toString());
 
         }
 
         dbCheck.printDbStatus();
 
-        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        log.info("!!!                     STATISTIC                            !!!");
-        log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.debug("!!!                     STATISTIC                            !!!");
+        log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         statistic.printStatistics();
 
 
 
 
-       log.info("****************************************************************");
-       log.info("!!!          JOB ENDE                                        !!!");
-       log.info("****************************************************************");
+       log.debug("****************************************************************");
+       log.debug("!!!          JOB ENDE                                        !!!");
+       log.debug("****************************************************************");
 
    }
 

@@ -26,4 +26,10 @@ public class MonthServiceImpl implements MonthService {
     public int getCountOnDb(int stationsID) {
          return monthDAO.getCountOnDb(stationsID);
     }
+
+    @Override
+    @Transactional
+    public List<Month> getMonthsById(int stationsID) {
+        return monthDAO.getMonthsById(stationsID);
+    }
 }
