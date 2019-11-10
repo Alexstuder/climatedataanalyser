@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
-import ch.studer.germanclimatedataanalyser.common.Statistics;
+import ch.studer.germanclimatedataanalyser.common.Statistic;
 import com.madgag.compress.CompressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
     private ApplicationContext applicationContext;
 
     @Autowired
-    private Statistics statistics;
+    private Statistic statistic;
 
     @Value("${climate.path.unzipOutputFolderName}")
     private String unzipOutputFolderName;

@@ -1,9 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
-import ch.studer.germanclimatedataanalyser.common.Statistics;
-import ch.studer.germanclimatedataanalyser.common.StatisticsImpl;
-import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
+import ch.studer.germanclimatedataanalyser.common.Statistic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -21,7 +19,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     private final JdbcTemplate jdbcTemplate ;
 
     @Autowired
-    public Statistics statistic;
+    public Statistic statistic;
 
     @Autowired
     private DbCheck dbCheck;
@@ -38,8 +36,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!                      JOB START                           !!!");
         log.info("****************************************************************");
 
-        // Init the StatisticsImpl
-       // statistic = new StatisticsImpl();
+        // Init the StatisticImpl
+       // statistic = new StatisticImpl();
     }
 
    @Override

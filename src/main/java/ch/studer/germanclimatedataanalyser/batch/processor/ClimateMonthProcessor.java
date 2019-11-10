@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.processor;
 
-import ch.studer.germanclimatedataanalyser.common.Statistics;
+import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.model.Month;
 
 import ch.studer.germanclimatedataanalyser.model.MonthFile;
@@ -16,7 +16,7 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
     private static final Logger log = LoggerFactory.getLogger(ClimateMonthProcessor.class);
 
     @Autowired
-    private Statistics statistics;
+    private Statistic statistic;
 
     @Override
     public Month process(final MonthFile monthFile) {
@@ -54,7 +54,7 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
                                            ,MO_RR
                                            ,MX_RS);
 
-        statistics.getActual().setAnzahlProcess(statistics.getActual().getAnzahlProcess() + 1) ;
+        statistic.getActual().setAnzahlProcess(statistic.getActual().getAnzahlProcess() + 1) ;
         log.info(transformedMonth.toString());
         return transformedMonth;
     }
