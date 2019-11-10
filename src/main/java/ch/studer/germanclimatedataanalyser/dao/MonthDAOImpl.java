@@ -49,9 +49,6 @@ public class MonthDAOImpl implements MonthDAO {
 
         int countOnDb = 0 ;
 
-        //TODO Remove the if Statement !
-        // and call the getMonthsById(int stationsID) Method to get all Months Reocrds to a StationsId
-        //if (months == null){
            Session currentSession = getSession();
 
            Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID", Month.class)
@@ -62,7 +59,6 @@ public class MonthDAOImpl implements MonthDAO {
            List<Month> newmonths = theQuery.getResultList();
 
            countOnDb = newmonths.size();
-        //}
 
         return countOnDb;
     }
@@ -77,11 +73,8 @@ public class MonthDAOImpl implements MonthDAO {
         Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID ORDER BY messDatumBeginn asc", Month.class)
                 .setParameter("stationsID",stationsID);
 
-
         // execute and get result list
         months = theQuery.getResultList();
-
-
 
         return months;
     }

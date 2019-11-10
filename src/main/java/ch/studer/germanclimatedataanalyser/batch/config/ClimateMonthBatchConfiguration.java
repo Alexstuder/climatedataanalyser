@@ -128,14 +128,11 @@ public class ClimateMonthBatchConfiguration {
     }
 
     @Bean
+    @StepScope
     public ClimateMonthProcessor processor() {
         return new ClimateMonthProcessor();
     }
 
-
-    //public ClimateMonthDBWriter writer() {
-     //   return new ClimateMonthDBWriter(dataSource);
-    //}
     @Bean
     @StepScope
     public ClimateMonthDBWriter writer() {
@@ -150,18 +147,6 @@ public class ClimateMonthBatchConfiguration {
     public ClimateFtpDataDownloader download() {
 
         return new ClimateFtpDataDownloader(); }
-
-        /*
-   @Bean
-    public Job downloadClimateDataFiles(){
-        return jobBuilderFactoryDownload.get("downloadCimateDataFiles")
-                .incrementer(new RunIdIncrementer())
-                .start(downloadFiles())
-                .build()
-                ;
-    }
-
- */
 
     @Transactional
     @Bean

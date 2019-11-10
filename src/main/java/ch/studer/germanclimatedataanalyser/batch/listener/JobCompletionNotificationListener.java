@@ -56,12 +56,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
         }
 
-        dbCheck.printDbStatus();
+        dbCheck.checkDB();
 
         log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         log.debug("!!!                     STATISTIC                            !!!");
         log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        statistic.printStatistics();
+        //statistic.printStatistics();
 
 
 

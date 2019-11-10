@@ -156,6 +156,5 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("After Properties Set in ClimateFtpDataUnziper by A.Studer");
     }
 }

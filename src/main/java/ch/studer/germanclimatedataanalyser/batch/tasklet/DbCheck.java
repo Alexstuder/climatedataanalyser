@@ -28,16 +28,13 @@ public class DbCheck {
 
         // Count Records on DB and write it to the statistic Record
         if (!addCountOnDbToStatisticRecord()) {
-            log.info("Couldn't write AnzahlToDb into the Statistic Record");
+            log.warn("Couldn't write AnzahlToDb into the Statistic Record");
         }
 
         // Check on Statistic Records if counter of processed Records is equal to counter writen on DB
 
         if (!checkProcessedCounterIsEqualWritenOnDbCounter()) {
-            log.info("Counter Processed is not equal Counter WrittenOnDb");
-        } else {
-            log.info("Counter Processed is EQUAL Counter WrittenOnDb");
-
+            log.warn("Counter Processed is not equal Counter WrittenOnDb");
         }
 
 
@@ -45,11 +42,10 @@ public class DbCheck {
         // so all records togheter are building a chain
 
         if (!checkDateChain()) {
-            log.info("Broken Chain in Date registered !");
-
+            log.warn("Broken Chain in Date registered !");
         }
 
-
+        printDbStatus();
 
 
     }
@@ -143,8 +139,8 @@ public class DbCheck {
 
     public void printDbStatus() {
 
-        log.info("********************  DB Check  ********************");
-        checkDB();
+        log.info("********************  Start Print DB Status  ********************");
+        log.info("********************  End   Print DB Status  ********************");
     }
 }
 
