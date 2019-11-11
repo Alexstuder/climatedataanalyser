@@ -61,17 +61,14 @@ public class DbCheck {
         log.debug("##################### Date Check Beginn ! #####################");
 
         for(StatisticRecord statisticRecord : statistic.getStatisticRecords()){
-        //TODO A.Studer Implement the logic for Date check !
 
             List<Month> checkMonths = monthService.getMonthsById(statisticRecord.getStationsID());
 
             for(Month month : checkMonths){
 
-                //log.info(month.toString());
                 beginDate = month.getMessDatumBeginn();
 
                 if(endDate!=null){
-
 
                      if(month.getMessDatumBeginn().compareTo(addDays(endDate,1))!=0){
 
@@ -88,14 +85,7 @@ public class DbCheck {
 
                 endDate = month.getMessDatumEnde();
 
-
-
-
             }
-
-
-
-
 
         }
         log.debug("Anzahl Lücken insgesamt :" + counter);
@@ -130,16 +120,14 @@ public class DbCheck {
             statisticRecord.setAnzahlOnDb(monthService.getCountOnDb(statisticRecord.getStationsID()));
 
         }
-
-
-
-
-            return status;
+        return status;
         }
 
     public void printDbStatus() {
 
         log.info("********************  Start Print DB Status  ********************");
+        //TODO ...well,Print a DB Status :-)
+        log.info("Not implemented now !");
         log.info("********************  End   Print DB Status  ********************");
     }
 }
