@@ -70,8 +70,23 @@ public class MonthDAOImpl implements MonthDAO {
 
         Session currentSession = getSession();
 
-        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID ORDER BY messDatumBeginn asc", Month.class)
+        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID ORDER BY messDatumBeginn ASC", Month.class)
                 .setParameter("stationsID",stationsID);
+
+        // execute and get result list
+        months = theQuery.getResultList();
+
+        return months;
+    }
+
+    @Override
+    public List<Month> getMonthsByIdOrderDesc(int stationsId) {
+        List<Month> months = null;
+
+        Session currentSession = getSession();
+
+        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID ORDER BY messDatumBeginn DESC", Month.class)
+                .setParameter("stationsID",stationsId);
 
         // execute and get result list
         months = theQuery.getResultList();

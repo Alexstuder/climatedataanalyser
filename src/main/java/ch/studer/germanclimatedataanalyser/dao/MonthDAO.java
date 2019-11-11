@@ -10,7 +10,9 @@ public interface MonthDAO {
 
     public void saveAll(List<? extends Month> months);
 
-    int getCountOnDb(int stationsID);
+    int getCountOnDb(int stationsId);
 
-    List<Month> getMonthsById(int stationsID);
+    List<Month> getMonthsById(int stationsId);
+
+    List<Month> getMonthsByIdOrderDesc(int stationsId);
 }

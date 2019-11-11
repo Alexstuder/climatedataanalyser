@@ -11,4 +11,6 @@ public interface MonthService {
     int getCountOnDb(int stationsID);
 
     List<Month> getMonthsById(int stationsID);
+
+    List<Month> getMonthsByIdOrderDesc(int stationsId);
 }
