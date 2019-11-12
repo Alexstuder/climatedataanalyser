@@ -1,12 +1,13 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClimateAtStationServiceImpl implements ClimateAtStationService {
@@ -30,18 +31,54 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
 
         // calculate the average Temperature for every Month
         // Don't forget to proof if all Data are available
-        for(Month month : months){
 
-            log.debug(month.toString());
 
+            // get all Temperature organized by their month
+            // Only years with ALL 12 Month are allowed
+            // just cut the begin and end ... !?
+            TemperatureDataYear temperatureDataYears = new TemperatureDataYear();
+            temperatureDataYears = getAllTemperatureDateYears(months);
+
+            // if there are some holes ! Calculate a temperature for it !
+
+
+            // get all ClimateRecords : 1 = Period of 30 years
+
+            // print Differences !
+
+
+        return climateAtStation;
+    }
+
+    private TemperatureDataYear getAllTemperatureDateYears(List<Month> months) {
+
+
+        // Get an actual Record but just init with null
+        TemperatureDataYear actualTempYearRecord = new TemperatureDataYear();
+
+        for (Month month : months){
+
+            String actualMont = getActualMonth(month.getMessDatumEnde());
+            log.info(actualMont);
+
+            if(actualMont.contentEquals("12")){
+
+                TemperatureDataMonth temperatureDataMonth = new TemperatureDataMonth(month.getMessDatumEnde().toString().substring(0,4),month.getMessDatumEnde().toString().substring(5,7),month.getMoTt());
+                 actualTempYearRecord.getDec().add(temperatureDataMonth);
+
+                log.info(months.toString());
+            }
 
 
         }
 
-        // Calculate an averag temperature for holes
+
+        return actualTempYearRecord ;
 
 
+    }
 
-        return climateAtStation;
+    private String getActualMonth(Date messDatumEnde) {
+        return messDatumEnde.toString().substring(5,7);
     }
 }
