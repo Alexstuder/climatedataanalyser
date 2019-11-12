@@ -1,36 +1,69 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
-import ch.studer.germanclimatedataanalyser.TestConfiguration;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
+import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
+import ch.studer.germanclimatedataanalyser.service.MonthService;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 
 
-@Import(TestConfiguration.class)
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class)
-class DbCheckTest {
+@RunWith(MockitoJUnitRunner.class)
+public class DbCheckTest {
 
 
 
-    @Autowired
-    private Statistic statistic;
+    @Mock
+    Statistic statistic;
+
+    @Mock
+    MonthService monthService;
+
+    @InjectMocks
+    DbCheck dbCheck;
 
     @Before
-    void prepareStatistic(){
+    public void prepareStatistic(){
 
     }
     @Test
-    void checkDB() {
+    public void checkDB() {
 
-        DbCheck dbCheck = new DbCheck();
-        dbCheck.checkDB();
+        when(statistic.getStatisticRecords()).thenReturn(getStatisticRecords());
+        //when(monthService.getCountOnDb(1)).thenReturn(getMonthService());
+        assertEquals(true,dbCheck.addCountOnDbToStatisticRecord());
+
 
 
     }
+
+
+
+    private ArrayList<StatisticRecord> getStatisticRecords(){
+        ArrayList<StatisticRecord> statisticRecords = new ArrayList<StatisticRecord>();
+
+        StatisticRecord statisticRecord = new StatisticRecord();
+        statisticRecord.setStationsID(1);
+
+        statisticRecords.add(statisticRecord);
+
+
+     return  statisticRecords;
+    }
+
+    private int getMonthService(){
+        int countOnDb = 1;
+
+        return countOnDb;
+    }
+
 }
