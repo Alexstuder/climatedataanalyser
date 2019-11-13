@@ -40,7 +40,7 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
             // just cut the begin and end ... !?
             TemperatureDataYear temperatureDataYears = new TemperatureDataYear();
             temperatureDataYears = getAllTemperatureDateYears(months);
-            temperatureDataYears.printTemperatureDataYear();
+            temperatureDataYears.printTemperatureDataYear(stationsId);
 
             // if there are some holes ! Calculate a temperature for it !
 

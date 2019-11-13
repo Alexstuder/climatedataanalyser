@@ -38,7 +38,7 @@ public class ClimateAtSTationServiceTest {
 
         // Define the begin Year ; all following Records are descending
         begin = 2018 ;
-        numberYears = 40;
+        numberYears = 90;
 
         when(monthService.getMonthsByIdOrderDesc(stationsId)).thenReturn(getMonth(stationsId,begin,numberYears));
         assertNotNull(climateAtStationService.getClimateDataBy(stationsId));
