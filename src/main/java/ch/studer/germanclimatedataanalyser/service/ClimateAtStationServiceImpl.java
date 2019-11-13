@@ -40,6 +40,7 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
             // just cut the begin and end ... !?
             TemperatureDataYear temperatureDataYears = new TemperatureDataYear();
             temperatureDataYears = getAllTemperatureDateYears(months);
+            temperatureDataYears.printTemperatureDataYear();
 
             // if there are some holes ! Calculate a temperature for it !
 
@@ -61,28 +62,68 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
         for (Month month : months){
 
             String actualMont = getActualMonth(month.getMessDatumEnde());
-            log.info(actualMont);
+            String actualYear = getActualYear(month.getMessDatumEnde());
 
+            switch(actualMont){
+                case "12":
+                    actualTempYearRecord.getDec().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "11":
+                    actualTempYearRecord.getNov().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "10":
+                    actualTempYearRecord.getOct().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "09":
+                    actualTempYearRecord.getSep().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "08":
+                    actualTempYearRecord.getAug().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "07":
+                    actualTempYearRecord.getJul().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "06":
+                    actualTempYearRecord.getJun().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "05":
+                    actualTempYearRecord.getMai().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "04":
+                    actualTempYearRecord.getApr().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "03":
+                    actualTempYearRecord.getMar().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "02":
+                    actualTempYearRecord.getFeb().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                case "01":
+                    actualTempYearRecord.getJan().add(new TemperatureDataMonth(actualYear,month.getMoTt()));
+                break;
+                default:
+                 log.info("Something went wrong !");
+                break;
+            }
 
             // get the first Dec Record
 
-            for (int i = 12 ; i == 1 ; i--){
-                log.info("i :" + i);
-            }
-
-            if(actualMont.contentEquals("12")){
-
-                TemperatureDataMonth temperatureDataMonth = new TemperatureDataMonth(month.getMessDatumEnde().toString().substring(0,4),month.getMessDatumEnde().toString().substring(5,7),month.getMoTt());
-                 actualTempYearRecord.getDec().add(temperatureDataMonth);
-
+                log.info(actualMont);
+                log.info(actualYear);
                 log.info(months.toString());
-            }
+
+
 
 
         }
 
 
         return actualTempYearRecord ;
+
+
+    }
+
+    private String getActualYear(Date messDatumEnde) {return messDatumEnde.toString().substring(0,4);
 
 
     }

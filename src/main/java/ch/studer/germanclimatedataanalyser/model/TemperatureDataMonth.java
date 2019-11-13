@@ -14,7 +14,7 @@ public class TemperatureDataMonth {
     // #   Constructor
     // ###########################################
 
-    public TemperatureDataMonth(String year, String month, double temperature) {
+    public TemperatureDataMonth(String year, double temperature) {
         this.year = year;
         this.temperature = temperature;
     }
