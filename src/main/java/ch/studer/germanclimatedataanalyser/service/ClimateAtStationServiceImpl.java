@@ -1,13 +1,15 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.*;
+import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
+import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.TemperatureDataMonth;
+import ch.studer.germanclimatedataanalyser.model.TemperatureDataYear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClimateAtStationServiceImpl implements ClimateAtStationService {
@@ -60,6 +62,13 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
 
             String actualMont = getActualMonth(month.getMessDatumEnde());
             log.info(actualMont);
+
+
+            // get the first Dec Record
+
+            for (int i = 12 ; i == 1 ; i--){
+                log.info("i :" + i);
+            }
 
             if(actualMont.contentEquals("12")){
 
