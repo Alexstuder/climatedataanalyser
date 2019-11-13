@@ -140,18 +140,19 @@ public class TemperatureDataYear {
                 '}';
     }
 
-    public void printTemperatureDataYear(){
+    public void printTemperatureDataYear(int stationsId){
 
         String highestYear = getHighestYear();
         int numberRows = getNumberRows();
 
-        log.info("");
+        log.info("-------------------------------------------------------------------------------------------------------------------");
+        log.info("                                      Stations Id : "+ stationsId +"                                               ");
         log.info("-------------------------------------------------------------------------------------------------------------------");
         log.info("     |    Jan  |  Feb   |  Mar   |  Apr   |  Mai   |  Jun   |  Jul   |  Aug   |  Sep   | Oct    |  Nov   |  Dec   |");
         log.info("-------------------------------------------------------------------------------------------------------------------");
 
         String yearCounter = highestYear;
-        for(int i = 1 ; i <= numberRows + 2 ; i++){
+        for(int i = 1 ; i <= numberRows ; i++){
 
           log.info(getPrintLine(yearCounter));
           yearCounter = String.valueOf(Integer.valueOf(yearCounter) - 1);
