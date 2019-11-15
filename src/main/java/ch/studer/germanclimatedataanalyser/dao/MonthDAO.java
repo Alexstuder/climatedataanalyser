@@ -15,4 +15,6 @@ public interface MonthDAO {
     List<Month> getMonthsById(int stationsId);
 
     List<Month> getMonthsByIdOrderDesc(int stationsId);
+
+    List<Integer> getAllStationID();
 }

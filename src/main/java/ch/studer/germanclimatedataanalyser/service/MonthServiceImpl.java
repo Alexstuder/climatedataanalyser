@@ -38,4 +38,10 @@ public class MonthServiceImpl implements MonthService {
 
         return monthDAO.getMonthsByIdOrderDesc(stationsId);
     }
+
+    @Override
+    public List<Integer> getAllStationId() {
+
+        return monthDAO.getAllStationID();
+    }
 }

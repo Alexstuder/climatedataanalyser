@@ -5,4 +5,6 @@ import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
 public interface ClimateAtStationService {
 
     public ClimateAtStation getClimateDataBy(int stationsId);
+
+    void getClimateDataAll();
 }

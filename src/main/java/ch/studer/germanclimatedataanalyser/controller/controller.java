@@ -19,6 +19,12 @@ public class controller {
             return "Hello, " + stationId + "!";
         }
 
+       @RequestMapping("/runAll")
+        String run() {
+            climateAtStationService.getClimateDataAll();
+            return "Run All, ";
+        }
+
         @RequestMapping("/hello/{name}")
         String hello(@PathVariable String name) {
             return "Hello, " + name + "!";
