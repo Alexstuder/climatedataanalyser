@@ -174,8 +174,8 @@ public class ClimateMonthBatchConfiguration {
                .incrementer(new RunIdIncrementer())
                .listener(listener)
                //.start(downloadFiles())
-               //.next(unzipFiles())
-               .start(step01())
+               .start(unzipFiles())
+               .next(step01())
                .build()
                 ;
     }

@@ -119,11 +119,11 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         log.info("DirectoryName :" + directoryName);
         try {
             resources = applicationContext.getResources("classpath*:/"+directoryName);
-
+            Resource[] rootPath = applicationContext.getResources("classpath*:/");
             //mkdir if directory does not exist ;
             if (resources.length == 0) {
                 log.info("Directory is 0");
-                File tempFile = new File(directoryName);
+                File tempFile = new File(rootPath[0].getFile().getPath()+"/" + directoryName);
                 tempFile.mkdir();
                 resources = applicationContext.getResources("classpath*:/"+directoryName);
 

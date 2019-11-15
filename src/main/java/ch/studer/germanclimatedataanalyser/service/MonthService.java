@@ -13,4 +13,6 @@ public interface MonthService {
     List<Month> getMonthsById(int stationsID);
 
     List<Month> getMonthsByIdOrderDesc(int stationsId);
+
+    List<Integer> getAllStationId();
 }

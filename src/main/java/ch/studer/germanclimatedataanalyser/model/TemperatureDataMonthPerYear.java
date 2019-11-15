@@ -3,15 +3,14 @@ package ch.studer.germanclimatedataanalyser.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TemperatureDataYear {
+public class TemperatureDataMonthPerYear {
 
 
-    private static final Logger log = LoggerFactory.getLogger(TemperatureDataYear.class);
+    private static final Logger log = LoggerFactory.getLogger(TemperatureDataMonthPerYear.class);
 
     // All Temperature Data for Month Jan collected !
     private List<TemperatureDataMonth> jan ;
@@ -55,7 +54,7 @@ public class TemperatureDataYear {
     // #   Constructor
     // ###########################################
 
-    public TemperatureDataYear() {
+    public TemperatureDataMonthPerYear() {
         this.jan = new ArrayList<TemperatureDataMonth>();
         this.feb = new ArrayList<TemperatureDataMonth>();
         this.mar = new ArrayList<TemperatureDataMonth>();
@@ -124,7 +123,7 @@ public class TemperatureDataYear {
 
     @Override
     public String toString() {
-        return "TemperatureDataYear{" +
+        return "TemperatureRecord{" +
                 "jan=" + jan +
                 ", feb=" + feb +
                 ", mar=" + mar +
@@ -159,9 +158,6 @@ public class TemperatureDataYear {
         log.info("-------------------------------------------------------------------------------------------------------------------");
 
         }
-
-
-
     }
 
     private String getPrintLine(String year) {

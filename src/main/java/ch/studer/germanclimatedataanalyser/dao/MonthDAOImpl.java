@@ -2,11 +2,13 @@ package ch.studer.germanclimatedataanalyser.dao;
 
 import ch.studer.germanclimatedataanalyser.model.Month;
 import org.hibernate.Session;
+import org.hibernate.jpa.QueryHints;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -92,5 +94,21 @@ public class MonthDAOImpl implements MonthDAO {
         months = theQuery.getResultList();
 
         return months;
+    }
+
+    @Override
+    public List<Integer> getAllStationID() {
+        List<Integer> stationIds = new ArrayList<Integer>();
+
+        Session currentSession = getSession();
+
+        Query<Integer> theQuery = currentSession.createQuery("SELECT DISTINCT stationsId FROM Month m ORDER By 1", Integer.class);
+        theQuery.setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false);
+
+        // execute and get result list
+        stationIds = theQuery.getResultList();
+
+
+        return stationIds;
     }
 }

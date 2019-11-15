@@ -46,6 +46,33 @@ public class ClimateAtSTationServiceTest {
 
     }
 
+    @Test
+    public void testClimateAtStationServiceWithNulls(){
+
+        // Define the begin Year ; all following Records are descending
+        begin = 2018 ;
+        numberYears = 90;
+
+        when(monthService.getMonthsByIdOrderDesc(stationsId)).thenReturn(getNulls(getMonth(stationsId,begin,numberYears)));
+        assertNotNull(climateAtStationService.getClimateDataBy(stationsId));
+       // assertEquals(480,climateAtStationService.getClimateDataBy(stationsId).getClimateRecords().size());
+
+    }
+
+    private List<Month> getNulls(List<Month> month) {
+
+        // remove Jan
+        month.remove(23);
+
+        // remove Dec
+        month.remove(47);
+
+        // remove Jun
+        month.remove(88);
+
+       return month;
+    }
+
 
     private List<Month> getMonth(int stationsId, int beginDate, int numberYears){
 
