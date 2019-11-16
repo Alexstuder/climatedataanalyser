@@ -1,22 +1,31 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 
+import ch.studer.germanclimatedataanalyser.model.ClimateRecord;
 import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClimateAtSTationServiceTest {
+public class ClimateAtStationServiceTest {
 
 
     @Mock
@@ -32,17 +41,28 @@ public class ClimateAtSTationServiceTest {
     private static final String BEGIN = "BEGIN";
     private static final String END = "END";
 
+    @Before
+    public void setUp(){
+        climateAtStationService.period = 30;
+    }
+
+
 
     @Test
     public void testClimateAtStationService(){
+
+        // HappyFlow Test without Null ;
 
         // Define the begin Year ; all following Records are descending
         begin = 2018 ;
         numberYears = 90;
 
         when(monthService.getMonthsByIdOrderDesc(stationsId)).thenReturn(getMonth(stationsId,begin,numberYears));
-        assertNotNull(climateAtStationService.getClimateDataBy(stationsId));
-       // assertEquals(480,climateAtStationService.getClimateDataBy(stationsId).getClimateRecords().size());
+
+        List<TemperatureRecord> temperatureRecords = climateAtStationService.getClimateDataBy(stationsId).getClimateRecords();
+
+        assertNotNull(temperatureRecords);
+        assertEquals(true,isAllMonthTemperatureValid(temperatureRecords));
 
     }
 
@@ -53,22 +73,54 @@ public class ClimateAtSTationServiceTest {
         begin = 2018 ;
         numberYears = 90;
 
-        when(monthService.getMonthsByIdOrderDesc(stationsId)).thenReturn(getNulls(getMonth(stationsId,begin,numberYears)));
-        assertNotNull(climateAtStationService.getClimateDataBy(stationsId));
-       // assertEquals(480,climateAtStationService.getClimateDataBy(stationsId).getClimateRecords().size());
 
+        when(monthService.getMonthsByIdOrderDesc(stationsId)).thenReturn(getNulls(getMonth(stationsId,begin,numberYears)));
+
+        List<TemperatureRecord> temperatureRecords = climateAtStationService.getClimateDataBy(stationsId).getClimateRecords();
+
+        assertEquals(91,temperatureRecords.size());
+        assertEquals(01.00,temperatureRecords.get(0).getJan(),0);
+        assertEquals(12.00,temperatureRecords.get(90).getDec(),0);
+        assertEquals(true,isAllMonthTemperatureValid(temperatureRecords));
+
+    }
+
+    private boolean isAllMonthTemperatureValid(List<TemperatureRecord> temperatureRecords) {
+
+        boolean status = true;
+
+        for (TemperatureRecord t : temperatureRecords){
+            if (t.getJan() != 01.00d) {return false;}
+            if (t.getFeb() != 02.00d) {return false;}
+            if (t.getMar() != 03.00d) {return false;}
+            if (t.getApr() != 04.00d) {return false;}
+            if (t.getMai() != 05.00d) {return false;}
+            if (t.getJun() != 06.00d) {return false;}
+            if (t.getJul() != 07.00d) {return false;}
+            if (t.getAug() != 08.00d) {return false;}
+            if (t.getSep() != 09.00d) {return false;}
+            if (t.getOct() != 10.00d) {return false;}
+            if (t.getNov() != 11.00d) {return false;}
+            if (t.getDec() != 12.00d) {return false;}
+        }
+
+        return status;
     }
 
     private List<Month> getNulls(List<Month> month) {
 
-        // remove Jan
-        month.remove(23);
+        // remove first Jan
+        month.remove(11);
 
-        // remove Dec
-        month.remove(47);
+        // remove Last
+        month.remove(month.size()-12);
 
-        // remove Jun
-        month.remove(88);
+
+        // Get some null on different positions
+
+        for(int i = 0 ; i < month.size() ; i = i +10 ){
+            month.remove(i);
+        }
 
        return month;
     }
@@ -80,7 +132,7 @@ public class ClimateAtSTationServiceTest {
         int date = beginDate ;
 
         // Year iteration
-        for (int year = 0 ; year < numberYears ; year++ ){
+        for (int year = 0 ; year <= numberYears ; year++ ){
 
             // Month iteration
             for(int month = 12 ; month >0 ; month--){
