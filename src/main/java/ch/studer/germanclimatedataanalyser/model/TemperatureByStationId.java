@@ -40,7 +40,7 @@ public class TemperatureByStationId {
 
     public void print() {
 
-        int numberRows = this.getTemperatureRecordList().size();
+        //int numberRows = this.getTemperatureRecordList().size();
 
         log.info("-------------------------------------------------------------------------------------------------------------------");
         log.info("                                    Stations Id : " + this.stationId + "                                             ");

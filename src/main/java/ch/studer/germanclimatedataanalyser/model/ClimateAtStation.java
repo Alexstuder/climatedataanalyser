@@ -9,7 +9,7 @@ public class ClimateAtStation {
     private int stationsId;
 
     // All ClimateRecords for a Station
-    private List<ClimateRecord> climateRecords ;
+    private List<TemperatureRecord> climateRecords ;
 
     // ####################################
     // # Constructor
@@ -31,11 +31,11 @@ public class ClimateAtStation {
         this.stationsId = stationsId;
     }
 
-    public List<ClimateRecord> getClimateRecords() {
+    public List<TemperatureRecord> getClimateRecords() {
         return climateRecords;
     }
 
-    public void setClimateRecords(List<ClimateRecord> climateRecords) {
+    public void setClimateRecords(List<TemperatureRecord> climateRecords) {
         this.climateRecords = climateRecords;
     }
 
