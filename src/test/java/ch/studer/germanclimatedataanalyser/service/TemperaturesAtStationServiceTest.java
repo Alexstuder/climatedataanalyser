@@ -1,8 +1,7 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
+
 import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
 import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,101 +9,114 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClimateAtStationServiceTest {
+public class TemperaturesAtStationServiceTest {
 
-    @Mock
-    TemperaturesAtStationService temperaturesAtStationService;
 
     @Mock
     MonthService monthService;
 
     @InjectMocks
-    ClimateServiceImpl climateService;
+    TemperaturesAtStationServiceImpl temperaturesAtStationService;
 
-    int stationId = 1 ;
+    private int stationId = 1 ;
+    private int begin;
+    private int numberYears;
+
     private static final String BEGIN = "BEGIN";
     private static final String END = "END";
 
-    int begin;
-    int numberYears;
-
-    TemperatureByStationId temperatureByStationId;
-
-
     @Before
     public void setUp(){
-
-        climateService.period = 30;
-
+        temperaturesAtStationService.period = 30;
     }
+
 
 
     @Test
-    public void testClimateService(){
+    public void testTemperaturesAtStationService(){
 
+        // HappyFlow Test without Null ;
 
+        // Define the begin Year ; all following Records are descending
+        begin = 2018 ;
+        numberYears = 90;
 
-        when(temperaturesAtStationService.getTemperaturesBy(stationId)).thenReturn(getTemperaturesBy(stationId));
+        when(monthService.getMonthsByIdOrderDesc(stationId)).thenReturn(getMonth(stationId,begin,numberYears));
 
-        ClimateAtStation climateAtStation = climateService.getClimateAtStationId(stationId);
+        List<TemperatureRecord> temperatureRecords = temperaturesAtStationService.getTemperaturesBy(stationId).getTemperatureRecordList();
+
+        assertNotNull(temperatureRecords);
+        assertTrue(isAllMonthTemperatureValid(temperatureRecords));
 
     }
 
-    private TemperatureByStationId getTemperaturesBy(int stationId) {
+    @Test
+    public void testTemperaturesAtStationServiceWithNulls(){
 
-        TemperatureByStationId temperatureByStationId = new TemperatureByStationId(stationId);
-
-        int startYear = 2018; // Start from
-        int numberYears = 90 ; // Number of Records to return
-        temperatureByStationId.setTemperatureRecordList(getTemperatureRecordList(startYear , numberYears));
-
+        // Define the begin Year ; all following Records are descending
+        begin = 2018 ;
+        numberYears = 90;
 
 
+        when(monthService.getMonthsByIdOrderDesc(stationId)).thenReturn(getNulls(getMonth(stationId,begin,numberYears)));
 
-        return temperatureByStationId;
+        List<TemperatureRecord> temperatureRecords = temperaturesAtStationService.getTemperaturesBy(stationId).getTemperatureRecordList();
+
+        assertEquals(91,temperatureRecords.size());
+        assertEquals(01.00,temperatureRecords.get(0).getJan(),0);
+        assertEquals(12.00,temperatureRecords.get(90).getDec(),0);
+        assertTrue(isAllMonthTemperatureValid(temperatureRecords));
+
     }
 
-    private List<TemperatureRecord> getTemperatureRecordList(int startDate, int numberYears) {
-        List<TemperatureRecord> temperatureRecords = new ArrayList<>();
-
-        int actualYear;
-        actualYear = Integer.valueOf(startDate);
+    private boolean isAllMonthTemperatureValid(List<TemperatureRecord> temperatureRecords) {
 
 
-        for (int i = 0 ; i <= numberYears; i++){
-
-            TemperatureRecord t = new TemperatureRecord(String.valueOf(actualYear));
-            t.setJan(1.00);
-            t.setFeb(2.00);
-            t.setMar(3.00);
-            t.setApr(4.00);
-            t.setMai(5.00);
-            t.setJun(6.00);
-            t.setJul(7.00);
-            t.setAug(8.00);
-            t.setSep(9.00);
-            t.setOct(10.00);
-            t.setNov(11.00);
-            t.setDec(12.00);
-            temperatureRecords.add(t);
-            actualYear--;
+        for (TemperatureRecord t : temperatureRecords){
+            if (t.getJan() != 01.00d) {return false;}
+            if (t.getFeb() != 02.00d) {return false;}
+            if (t.getMar() != 03.00d) {return false;}
+            if (t.getApr() != 04.00d) {return false;}
+            if (t.getMai() != 05.00d) {return false;}
+            if (t.getJun() != 06.00d) {return false;}
+            if (t.getJul() != 07.00d) {return false;}
+            if (t.getAug() != 08.00d) {return false;}
+            if (t.getSep() != 09.00d) {return false;}
+            if (t.getOct() != 10.00d) {return false;}
+            if (t.getNov() != 11.00d) {return false;}
+            if (t.getDec() != 12.00d) {return false;}
         }
 
-
-
-
-       return temperatureRecords;
+        return true;
     }
+
+    private List<Month> getNulls(List<Month> month) {
+
+        // remove first Jan
+        month.remove(11);
+
+        // remove Last
+        month.remove(month.size()-12);
+
+
+        // Get some null on different positions
+
+        for(int i = 0 ; i < month.size() ; i = i +10 ){
+            month.remove(i);
+        }
+
+       return month;
+    }
+
 
     private List<Month> getMonth(int stationsId, int beginDate, int numberYears){
 
@@ -117,14 +129,14 @@ public class ClimateAtStationServiceTest {
             // Month iteration
             for(int month = 12 ; month >0 ; month--){
 
-                Month m = new Month();
-                m.setStationsId(stationsId);
-                m.setMessDatumBeginn(Date.valueOf(getDate(BEGIN,date,month)));
-                m.setMessDatumEnde(Date.valueOf(getDate(END,date,month)));
+               Month m = new Month();
+               m.setStationsId(stationsId);
+               m.setMessDatumBeginn(Date.valueOf(getDate(BEGIN,date,month)));
+               m.setMessDatumEnde(Date.valueOf(getDate(END,date,month)));
 
-                m.setMoTt(month);
+               m.setMoTt(month);
 
-                months.add(m);
+               months.add(m);
             }
 
             //Descending Year
@@ -139,6 +151,7 @@ public class ClimateAtStationServiceTest {
 
 
     }
+
     private String getDate(String modus,int year,int month){
         String date ;
 
@@ -146,9 +159,9 @@ public class ClimateAtStationServiceTest {
             case 1:
                 //Jan
                 if(modus.equals(BEGIN)){
-                    date = String.valueOf(year).concat("-01-01");
+                     date = String.valueOf(year).concat("-01-01");
                 } else {
-                    date = String.valueOf(year).concat("-01-31");
+                     date = String.valueOf(year).concat("-01-31");
                 }
                 break;
             case 2:

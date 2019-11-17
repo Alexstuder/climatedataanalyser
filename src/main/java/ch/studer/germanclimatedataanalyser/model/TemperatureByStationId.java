@@ -43,7 +43,7 @@ public class TemperatureByStationId {
         //int numberRows = this.getTemperatureRecordList().size();
 
         log.info("-------------------------------------------------------------------------------------------------------------------");
-        log.info("                                    Stations Id : " + this.stationId + "                                             ");
+        log.info("                            Temperature Records for Stations Id : " + this.stationId + "                                             ");
         log.info("-------------------------------------------------------------------------------------------------------------------");
         log.info("     |    Jan  |  Feb   |  Mar   |  Apr   |  Mai   |  Jun   |  Jul   |  Aug   |  Sep   | Oct    |  Nov   |  Dec   |");
         log.info("-------------------------------------------------------------------------------------------------------------------");

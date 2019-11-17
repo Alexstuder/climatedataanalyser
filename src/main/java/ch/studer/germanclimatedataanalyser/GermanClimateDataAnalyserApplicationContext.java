@@ -1,9 +1,7 @@
 package ch.studer.germanclimatedataanalyser;
 
-import ch.studer.germanclimatedataanalyser.service.ClimateAtStationService;
-import ch.studer.germanclimatedataanalyser.service.ClimateAtStationServiceImpl;
-import ch.studer.germanclimatedataanalyser.service.MonthService;
-import ch.studer.germanclimatedataanalyser.service.MonthServiceImpl;
+import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
+import ch.studer.germanclimatedataanalyser.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,8 +9,12 @@ import org.springframework.context.annotation.Configuration;
 public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
-    ClimateAtStationService climateAtStationService(){
-        return new ClimateAtStationServiceImpl();
+    TemperaturesAtStationService temperaturesAtStationService(){
+        return new TemperaturesAtStationServiceImpl();
+    }
+
+    @Bean
+    ClimateService climateService(){return new ClimateServiceImpl();
     }
 
     @Bean
