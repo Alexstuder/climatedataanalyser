@@ -3,10 +3,12 @@ package ch.studer.germanclimatedataanalyser.service;
 import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
 import ch.studer.germanclimatedataanalyser.model.ClimateRecord;
 import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
-import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,8 @@ public class ClimateServiceImpl implements ClimateService {
     ClimateAtStation climateAtStation ;
 
 
+    private static final Logger log = LoggerFactory.getLogger(ClimateServiceImpl.class);
+
     @Override
     public ClimateAtStation getClimateAtStationId(int stationId) {
          climateAtStation = new ClimateAtStation(stationId);
@@ -30,7 +34,7 @@ public class ClimateServiceImpl implements ClimateService {
         climateAtStation.setClimateRecords(getAllClimateRecordsForStation(temperaturesAtStationService.getTemperaturesBy(stationId)));
 
         // Print all Climate Records
-        climateAtStation.print();
+        print(climateAtStation);
 
 
         return climateAtStation;
@@ -95,6 +99,49 @@ public class ClimateServiceImpl implements ClimateService {
         climateRecords.setTempDez(climateRecords.getTempDez() / period);
 
       return climateRecords ;
+    }
+    public void print(ClimateAtStation c) {
+        DecimalFormat decimalFormat = new DecimalFormat("00000");
+
+        log.info("######################################################################################################################################################");
+        log.info("#                                                                Climate Records for Stations Id : " + decimalFormat.format(c.getStationId()) + "                                             #");
+        log.info("######################################################################################################################################################");
+        log.info("        |        |    Jan   |    Feb   |   Mar    |   Apr    |   Mai    |   Jun    |   Jul    |   Aug    |   Sep    |  Oct     |   Nov    |   Dec    |");
+        log.info("######################################################################################################################################################");
+
+        for (ClimateRecord climateRecord : c.getClimateRecords()) {
+            log.info(getPrintLine(climateRecord));
+        }
+
+        log.info("######################################################################################################################################################");
+        log.info("#------------------------------------------------------- End Climate Records for StationId : "+ decimalFormat.format(c.getStationId()) +" --------------------------------------------------#");
+        log.info("######################################################################################################################################################");
+
+    }
+    // ####################################################
+    // # Print
+    // ####################################################
+    private String getPrintLine(ClimateRecord c){
+
+        return "   " + c.getStartDate() + " |  " + c.getEndPeriod() + "  |" + getPrintMonth(c.getTempJan()) + getPrintMonth(c.getTempFeb()) + getPrintMonth(c.getTempMar()) + getPrintMonth(c.getTempApr()) + getPrintMonth(c.getTempMai())
+                + getPrintMonth(c.getTempJun()) + getPrintMonth(c.getTempJul()) + getPrintMonth(c.getTempAug()) + getPrintMonth(c.getTempSep()) + getPrintMonth(c.getTempOkt()) + getPrintMonth(c.getTempNov()) + getPrintMonth(c.getTempDez());
+    }
+    private String getPrintMonth ( double month){
+        String preSpace = "  ";
+        // use DecimalFormat
+        DecimalFormat decimalFormat = new DecimalFormat("00.0000");
+        String formatedTemperature = " ------ |";
+
+        if(month < 0){
+            preSpace = " ";
+        }
+
+        if (month != Double.MAX_VALUE) {
+            formatedTemperature = preSpace + decimalFormat.format(month) + " |";
+        }
+
+        return formatedTemperature;
+
     }
 
 
