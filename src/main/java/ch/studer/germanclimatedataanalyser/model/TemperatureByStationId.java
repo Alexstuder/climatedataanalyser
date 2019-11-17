@@ -56,6 +56,7 @@ public class TemperatureByStationId {
 
 
         }
+        // TODO Ende Printen , damit klar ist , dass hier der Report fertig ist
     }
         // ####################################################
         // # Print
@@ -67,6 +68,7 @@ public class TemperatureByStationId {
         }
         private String getPrintMonth ( double month){
             // use DecimalFormat
+            //TODO Nur minus Zeichen Printen wenn vorhanden und den Platz dafür vorsehen !
             DecimalFormat decimalFormat = new DecimalFormat("#00.00##");
             String formatedTemperature = " ------ |";
 
