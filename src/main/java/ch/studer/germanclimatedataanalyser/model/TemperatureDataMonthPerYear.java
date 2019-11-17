@@ -179,7 +179,7 @@ public class TemperatureDataMonthPerYear {
                 return formatedTemperature;
     }
 
-    private int getNumberRows() {
+    public int getNumberRows() {
 
         int numberRows = 0 ;
 

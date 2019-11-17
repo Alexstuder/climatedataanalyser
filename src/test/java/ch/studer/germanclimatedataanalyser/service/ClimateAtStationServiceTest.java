@@ -10,13 +10,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,6 +57,8 @@ public class ClimateAtStationServiceTest {
         when(temperaturesAtStationService.getTemperaturesBy(stationId)).thenReturn(getTemperaturesBy(stationId));
 
         ClimateAtStation climateAtStation = climateService.getClimateAtStationId(stationId);
+        assertNotNull(climateAtStation);
+        assertTrue(climateAtStation.getClimateRecords().size() == 61);
 
     }
 
@@ -84,7 +86,7 @@ public class ClimateAtStationServiceTest {
         for (int i = 0 ; i <= numberYears; i++){
 
             TemperatureRecord t = new TemperatureRecord(String.valueOf(actualYear));
-            t.setJan(1.00);
+            t.setJan(-1.00);
             t.setFeb(2.00);
             t.setMar(3.00);
             t.setApr(4.00);

@@ -14,8 +14,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TemperaturesAtStationServiceTest {
@@ -142,11 +142,7 @@ public class TemperaturesAtStationServiceTest {
             //Descending Year
             date--;
 
-
-
         }
-
-
         return months;
 
 

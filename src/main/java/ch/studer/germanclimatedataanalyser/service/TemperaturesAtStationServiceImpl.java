@@ -1,10 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
-import ch.studer.germanclimatedataanalyser.model.TemperatureDataMonthPerYear;
-import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
-import ch.studer.germanclimatedataanalyser.model.TemperatureDataMonth;
+import ch.studer.germanclimatedataanalyser.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +36,19 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         getNormalised(temperatureByStationId,months);
 
         // print before calculating the average value for null temperature
-        temperatureByStationId.print();
+        print(temperatureByStationId);
 
         //calculating the average value for every null temperature
         calculateHoles(temperatureByStationId);
 
 
         // print after calculating the average value for null temperature
-        temperatureByStationId.print();
+        print(temperatureByStationId);
 
         return temperatureByStationId;
     }
 
-    private void calculateHoles(@org.jetbrains.annotations.NotNull TemperatureByStationId temperatureByStationId) {
+    private void calculateHoles(TemperatureByStationId temperatureByStationId) {
 
         TemperatureDataMonthPerYear temperatureDataMonthPerYear = getAllTemperatureDateYearsInMonolyt(temperatureByStationId.getTemperatureRecordList());
 
@@ -273,21 +269,50 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     // ####################################################
     // # Print
     // ####################################################
-    private String getPrintLine(TemperatureRecord t) {
+    public void print(TemperatureByStationId t) {
 
-        return t.getYear() + " | "+getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar())  + getPrintMonth(t.getApr())
-                + getPrintMonth(t.getMai())  + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov())  + getPrintMonth(t.getDec()) ;
+        //int numberRows = this.getTemperatureRecordList().size();
+
+        log.info("-------------------------------------------------------------------------------------------------------------------");
+        log.info("                            Temperature Records for Stations Id : " + t.getStationId() + "                                             ");
+        log.info("-------------------------------------------------------------------------------------------------------------------");
+        log.info("     |    Jan  |  Feb   |  Mar   |  Apr   |  Mai   |  Jun   |  Jul   |  Aug   |  Sep   | Oct    |  Nov   |  Dec   |");
+        log.info("-------------------------------------------------------------------------------------------------------------------");
+
+        for (TemperatureRecord temperatureRecord : t.getTemperatureRecordList()) {
+
+
+            log.info(getPrintLine(temperatureRecord));
+
+
+        }
+        log.info("-------------------------------------------------------------------------------------------------------------------");
+        log.info("----------------  End Temperature Records for StationId : " +  t.getStationId() +" ----------------------------------------------------");
+        log.info("-------------------------------------------------------------------------------------------------------------------");
     }
-    private String getPrintMonth(double month) {
+    // ####################################################
+    // # Print
+    // ####################################################
+    private String getPrintLine(TemperatureRecord t){
+
+        return t.getYear() + " | " + getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar()) + getPrintMonth(t.getApr())
+                + getPrintMonth(t.getMai()) + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov()) + getPrintMonth(t.getDec());
+    }
+    private String getPrintMonth ( double month){
         // use DecimalFormat
+        String preSpace = " ";
         DecimalFormat decimalFormat = new DecimalFormat("#00.00##");
         String formatedTemperature = " ------ |";
 
+        if (month < 0){
+            preSpace = "";
+        }
         if (month != Double.MAX_VALUE) {
-          formatedTemperature= " " + decimalFormat.format(month) + "  |";
+            formatedTemperature = preSpace + decimalFormat.format(month) + "  |";
         }
 
         return formatedTemperature;
+
     }
 
 }
