@@ -63,6 +63,7 @@ public class ClimateAtStation {
 
 
          }
+        // TODO Ende Printen , damit klar ist , dass hier der Report fertig ist
      }
     // ####################################################
     // # Print
