@@ -2,53 +2,53 @@ package ch.studer.germanclimatedataanalyser.model;
 
 public class ClimateRecord {
 
-    // End date 'yyyymm' -> 201812
+    // End date 'yyyy' -> 2018
     private String endPeriod;
 
-    // Start date 'yyyymm' -> 198801
+    // Start date 'yyyy' -> 1988
     private String startDate;
 
 
+    public ClimateRecord(String endPeriod, String startDate) {
+        this.endPeriod = endPeriod;
+        this.startDate = startDate;
+    }
+
     // average Temperature for Dez;
-    private int tempDez;
+    private double tempDez;
 
     // average Temperature for Nov;
-    private int tempNov;
+    private double tempNov;
 
     // average Temperature for Okt;
-    private int tempOkt;
+    private double tempOkt;
 
     // average Temperature for Sep;
-    private int tempSep;
+    private double tempSep;
 
     // average Temperature for Aug;
-    private int tempAug;
+    private double tempAug;
 
     // average Temperature for Jul;
-    private int tempJul;
+    private double tempJul;
 
     // average Temperature for Jun;
-    private int tempJun;
+    private double tempJun;
 
     // average Temperature for Mai;
-    private int tempMai;
+    private double tempMai;
 
     // average Temperature for Apr;
-    private int tempApr;
+    private double tempApr;
 
     // average Temperature for Mar;
-    private int tempMar;
+    private double tempMar;
 
     // average Temperature for Feb;
-    private int tempFeb;
+    private double tempFeb;
 
     // average Temperature for Jan;
-    private int tempJan;
-
-
-    // #####################################################
-    // Getter and Setter
-    // #####################################################
+    private double tempJan;
 
     public String getEndPeriod() {
         return endPeriod;
@@ -66,99 +66,99 @@ public class ClimateRecord {
         this.startDate = startDate;
     }
 
-    public int getTempDez() {
+    public double getTempDez() {
         return tempDez;
     }
 
-    public void setTempDez(int tempDez) {
+    public void setTempDez(double tempDez) {
         this.tempDez = tempDez;
     }
 
-    public int getTempNov() {
+    public double getTempNov() {
         return tempNov;
     }
 
-    public void setTempNov(int tempNov) {
+    public void setTempNov(double tempNov) {
         this.tempNov = tempNov;
     }
 
-    public int getTempOkt() {
+    public double getTempOkt() {
         return tempOkt;
     }
 
-    public void setTempOkt(int tempOkt) {
+    public void setTempOkt(double tempOkt) {
         this.tempOkt = tempOkt;
     }
 
-    public int getTempSep() {
+    public double getTempSep() {
         return tempSep;
     }
 
-    public void setTempSep(int tempSep) {
+    public void setTempSep(double tempSep) {
         this.tempSep = tempSep;
     }
 
-    public int getTempAug() {
+    public double getTempAug() {
         return tempAug;
     }
 
-    public void setTempAug(int tempAug) {
+    public void setTempAug(double tempAug) {
         this.tempAug = tempAug;
     }
 
-    public int getTempJul() {
+    public double getTempJul() {
         return tempJul;
     }
 
-    public void setTempJul(int tempJul) {
+    public void setTempJul(double tempJul) {
         this.tempJul = tempJul;
     }
 
-    public int getTempJun() {
+    public double getTempJun() {
         return tempJun;
     }
 
-    public void setTempJun(int tempJun) {
+    public void setTempJun(double tempJun) {
         this.tempJun = tempJun;
     }
 
-    public int getTempMai() {
+    public double getTempMai() {
         return tempMai;
     }
 
-    public void setTempMai(int tempMai) {
+    public void setTempMai(double tempMai) {
         this.tempMai = tempMai;
     }
 
-    public int getTempApr() {
+    public double getTempApr() {
         return tempApr;
     }
 
-    public void setTempApr(int tempApr) {
+    public void setTempApr(double tempApr) {
         this.tempApr = tempApr;
     }
 
-    public int getTempMar() {
+    public double getTempMar() {
         return tempMar;
     }
 
-    public void setTempMar(int tempMar) {
+    public void setTempMar(double tempMar) {
         this.tempMar = tempMar;
     }
 
-    public int getTempFeb() {
+    public double getTempFeb() {
         return tempFeb;
     }
 
-    public void setTempFeb(int tempFeb) {
+    public void setTempFeb(double tempFeb) {
         this.tempFeb = tempFeb;
     }
 
-    public int getTempJan() {
+    public double getTempJan() {
         return tempJan;
     }
 
-    public void setTempJan(int tempJan) {
+    public void setTempJan(double tempJan) {
         this.tempJan = tempJan;
     }
 }

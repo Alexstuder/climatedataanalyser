@@ -1,6 +1,10 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.*;
+import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
+import ch.studer.germanclimatedataanalyser.model.TemperatureDataMonthPerYear;
+import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
+import ch.studer.germanclimatedataanalyser.model.TemperatureDataMonth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClimateAtStationServiceImpl implements ClimateAtStationService {
+public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationService {
 
     @Autowired
     MonthService monthService;
@@ -21,18 +25,15 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
 
     private static final String JAN = "JAN";
 
-    private static final Logger log = LoggerFactory.getLogger(ClimateAtStationServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(TemperaturesAtStationServiceImpl.class);
 
     @Override
-    public ClimateAtStation getClimateDataBy(int stationsId) {
+    public TemperatureByStationId getTemperaturesBy(int stationsId) {
 
-
-        ClimateAtStation climateAtStation = new ClimateAtStation(stationsId);
-
-        // Get all Months Records ordered by EndDate desc for a Climate Period (30 years)
+        // Get all Months Records ordered by EndDate desc for a ClimateService Period (30 years)
         List<Month> months = monthService.getMonthsByIdOrderDesc(stationsId);
 
-        // Get a fres Instance of TemperatureBySTationId
+        // Get a fresh Instance of TemperatureBySTationId
         TemperatureByStationId temperatureByStationId = new TemperatureByStationId(stationsId);
 
         // Fill and normalise all temperatureRecords
@@ -48,10 +49,7 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
         // print after calculating the average value for null temperature
         temperatureByStationId.print();
 
-        // give the temperature Liste to ClimateAtStation instance
-        climateAtStation.setClimateRecords(temperatureByStationId.getTemperatureRecordList());
-
-        return climateAtStation;
+        return temperatureByStationId;
     }
 
     private void calculateHoles(@org.jetbrains.annotations.NotNull TemperatureByStationId temperatureByStationId) {
@@ -146,9 +144,12 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
     }
 
     @Override
-    public void getClimateDataAll() {
+    public void getTemperaturesForAll() {
+
+        //TODO Return a List<TemperaturesByStationId>
+        // This was just coded to Print and do a visual Test !
         for (Integer stationId : monthService.getAllStationId()){
-            this.getClimateDataBy(stationId);
+            this.getTemperaturesBy(stationId);
         }
 
     }
@@ -161,6 +162,7 @@ public class ClimateAtStationServiceImpl implements ClimateAtStationService {
 
     private void getNormalised(TemperatureByStationId temperatureByStationId, List<Month> months) {
 
+        //TODO Check if months.get(0) exists or if DB is empty ¨!
         String processingEndDate = getActualYear(months.get(0).getMessDatumEnde());
         String actualEndDate = getActualYear(months.get(0).getMessDatumEnde());
 
