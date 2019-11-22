@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
-import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
 import ch.studer.germanclimatedataanalyser.service.ClimateService;
 import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,8 @@ public class controller {
 
         @RequestMapping("/climatAtStation/{stationId}")
         String run(@PathVariable int stationId) {
-            climateService.getClimateAtStationId(stationId);
+            climateService.getDifference(stationId);
+           // climateService.getClimateAtStationId(stationId);
             return "Climate, " + stationId + "!";
         }
 
