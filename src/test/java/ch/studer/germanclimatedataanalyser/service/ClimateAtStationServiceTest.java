@@ -59,6 +59,7 @@ public class ClimateAtStationServiceTest {
         ClimateAtStation climateAtStation = climateService.getClimateAtStationId(stationId);
         assertNotNull(climateAtStation);
         assertTrue(climateAtStation.getClimateRecords().size() == 61);
+        climateService.getDifference(stationId);
 
     }
 

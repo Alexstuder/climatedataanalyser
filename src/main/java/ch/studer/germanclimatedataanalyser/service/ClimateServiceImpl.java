@@ -1,8 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
-import ch.studer.germanclimatedataanalyser.model.ClimateRecord;
-import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
+import ch.studer.germanclimatedataanalyser.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,47 @@ public class ClimateServiceImpl implements ClimateService {
         return climateAtStation;
     }
 
+    @Override
+    public List<ClimateDifference> getDifference(int stationId) {
+        // Get Climate at Station Data
+        climateAtStation = this.getClimateAtStationId(stationId);
+
+        // Get the Difference between a Period
+        List<ClimateDifference> climateDiffAtStation = calculateDifference(climateAtStation.getStationId());
+
+        return climateDiffAtStation;
+    }
+
+    private List<ClimateDifference> calculateDifference(int stationId) {
+
+        List<ClimateDifference> climateDifferences = new ArrayList<ClimateDifference>();
+
+        for(int i = 0 ; i < (climateAtStation.getClimateRecords().size() -period) ; i++){
+
+            // Get a Fresh ClimateDifferenc Record
+            ClimateDifference climateDifference = new ClimateDifference(stationId
+                                                        , climateAtStation.getClimateRecords().get(i)
+                                                        , climateAtStation.getClimateRecords().get(i + period));
+
+
+
+            log.debug(getPrintLine(climateAtStation.getClimateRecords().get(i)));
+            log.debug(getPrintLine(climateAtStation.getClimateRecords().get(i+(period-1))));
+            log.debug(getPrintDifferenceLine(climateDifference.getDifference()));
+
+            climateDifferences.add(climateDifference);
+
+        }
+
+
+
+
+
+        return climateDifferences;
+
+    }
+
+
     private List<ClimateRecord> getAllClimateRecordsForStation(TemperatureByStationId temperaturesBy) {
         List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
 
@@ -64,7 +103,8 @@ public class ClimateServiceImpl implements ClimateService {
     }
 
     private ClimateRecord getClimateForaPeriod(int start, int end, TemperatureByStationId temperaturesBy) {
-      ClimateRecord climateRecords = new ClimateRecord(temperaturesBy.getTemperatureRecordList().get(start).getYear(),temperaturesBy.getTemperatureRecordList().get(end).getYear());
+        // Get a fresh Record StartDate = start and end Date = end-1 (cause the start of a Java List is 0 !)
+      ClimateRecord climateRecords = new ClimateRecord(temperaturesBy.getTemperatureRecordList().get(start).getYear(),temperaturesBy.getTemperatureRecordList().get(end-1).getYear());
 
       // Cumulate all Month temperature
       for(int i = start ; i < end ; i++ ){
@@ -119,12 +159,21 @@ public class ClimateServiceImpl implements ClimateService {
 
     }
     // ####################################################
-    // # Print
+    // # Print Climate Period
     // ####################################################
     private String getPrintLine(ClimateRecord c){
 
         return "   " + c.getStartDate() + " |  " + c.getEndPeriod() + "  |" + getPrintMonth(c.getTempJan()) + getPrintMonth(c.getTempFeb()) + getPrintMonth(c.getTempMar()) + getPrintMonth(c.getTempApr()) + getPrintMonth(c.getTempMai())
                 + getPrintMonth(c.getTempJun()) + getPrintMonth(c.getTempJul()) + getPrintMonth(c.getTempAug()) + getPrintMonth(c.getTempSep()) + getPrintMonth(c.getTempOkt()) + getPrintMonth(c.getTempNov()) + getPrintMonth(c.getTempDez());
+    }
+
+    // ####################################################
+    // # Print Climate Period
+    // ####################################################
+    private String getPrintDifferenceLine(TemperatureRecord t){
+
+        return "        |        |" + getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar()) + getPrintMonth(t.getApr()) + getPrintMonth(t.getMai())
+                + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov()) + getPrintMonth(t.getDec());
     }
     private String getPrintMonth ( double month){
         String preSpace = "  ";
