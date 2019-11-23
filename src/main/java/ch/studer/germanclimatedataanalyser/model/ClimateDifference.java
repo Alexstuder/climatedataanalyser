@@ -2,8 +2,6 @@ package ch.studer.germanclimatedataanalyser.model;
 
 public class ClimateDifference {
 
-    private int stationId;
-
     private ClimateRecord climateFirstPeriod;
 
     private ClimateRecord climateSecondPeriod;
@@ -11,8 +9,7 @@ public class ClimateDifference {
     private TemperatureRecord difference;
 
     // Constructor
-    public ClimateDifference(int stationId,ClimateRecord first ,ClimateRecord second) {
-        this.stationId = stationId;
+    public ClimateDifference(ClimateRecord first ,ClimateRecord second) {
         this.setClimateFirstPeriod(first);
         this.setClimateSecondPeriod(second);
 
@@ -23,16 +20,6 @@ public class ClimateDifference {
     }
 
     // Getter and Setter
-
-
-    public int getStationId() {
-        return stationId;
-    }
-
-    public void setStationId(int stationId) {
-        this.stationId = stationId;
-    }
-
     public ClimateRecord getClimateFirstPeriod() {
         return climateFirstPeriod;
     }

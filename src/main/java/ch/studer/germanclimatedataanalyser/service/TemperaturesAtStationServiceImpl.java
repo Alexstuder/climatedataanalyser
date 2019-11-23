@@ -55,51 +55,51 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         for(int i = 0 ; i < temperatureByStationId.getTemperatureRecordList().size(); i++){
 
             // Proof , if Jan is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getJan() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getJan())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setJan(calculateTemperature(temperatureDataMonthPerYear.getJan(), i));
             }
             // Proof , if Feb is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getFeb() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getFeb())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setFeb(calculateTemperature(temperatureDataMonthPerYear.getFeb(), i));
             }
             // Proof , if Mar is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getMar() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getMar())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setMar(calculateTemperature(temperatureDataMonthPerYear.getMar(), i));
             }
             // Proof , if Apr is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getApr() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getApr())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setApr(calculateTemperature(temperatureDataMonthPerYear.getApr(), i));
             }
             // Proof , if Mai is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getMai() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getMai())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setMai(calculateTemperature(temperatureDataMonthPerYear.getMai(), i));
             }
             // Proof , if Jun is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getJun() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getJun())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setJun(calculateTemperature(temperatureDataMonthPerYear.getJun(), i));
             }
             // Proof , if Jul is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getJul() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getJul())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setJul(calculateTemperature(temperatureDataMonthPerYear.getJul(), i));
             }
             // Proof , if Aug is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getAug() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getAug())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setAug(calculateTemperature(temperatureDataMonthPerYear.getAug(), i));
             }
             // Proof , if Sep is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getSep() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getSep())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setSep(calculateTemperature(temperatureDataMonthPerYear.getSep(), i));
             }
             // Proof , if Oct is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getOct() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getOct())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setOct(calculateTemperature(temperatureDataMonthPerYear.getOct(), i));
             }
             // Proof , if Nov is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getNov() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getNov())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setNov(calculateTemperature(temperatureDataMonthPerYear.getNov(), i));
             }
             // Proof , if Dec is null  then replace with average Temp
-            if(temperatureByStationId.getTemperatureRecordList().get(i).getDec() == Double.MAX_VALUE){
+            if(isNull(temperatureByStationId.getTemperatureRecordList().get(i).getDec())){
                 temperatureByStationId.getTemperatureRecordList().get(i).setDec(calculateTemperature(temperatureDataMonthPerYear.getDec(), i));
             }
 
@@ -107,6 +107,15 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         }
 
 
+    }
+
+    private boolean isNull(double temperature) {
+
+        if (temperature != Double.MAX_VALUE && temperature != -999){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private Double calculateTemperature(List<TemperatureDataMonth> months , int index) {
@@ -126,7 +135,8 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         // Collect all not null Temperature
         for(int i = start ; i < end; i++){
 
-            if(months.get(i).getTemperature() != Double.MAX_VALUE){
+            if((months.get(i).getTemperature() != Double.MAX_VALUE)
+                && (months.get(i).getTemperature() != -999)){
                 averageTemperatures.add(months.get(i).getTemperature());
             }
         }

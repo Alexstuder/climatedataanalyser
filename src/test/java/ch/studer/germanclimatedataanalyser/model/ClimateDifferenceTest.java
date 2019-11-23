@@ -54,7 +54,11 @@ public class ClimateDifferenceTest {
 
     @Test
     public void testClimateDifference(){
-        ClimateDifference climateDifference = new ClimateDifference(111,first,second);
+        ClimateDifferenceAtStation climateDifferenceAtStation = new ClimateDifferenceAtStation(111);
+        ClimateDifference climateDifference = new ClimateDifference(first,second);
+
+        climateDifferenceAtStation.getClimateDifferences().add(climateDifference);
+
 
         assertEquals(-1d,climateDifference.getDifference().jan,0.000001d);
         assertEquals(-1d,climateDifference.getDifference().feb,0.000001d);

@@ -39,43 +39,33 @@ public class ClimateServiceImpl implements ClimateService {
     }
 
     @Override
-    public List<ClimateDifference> getDifference(int stationId) {
+    public ClimateDifferenceAtStation getDifference(int stationId) {
         // Get Climate at Station Data
         climateAtStation = this.getClimateAtStationId(stationId);
 
         // Get the Difference between a Period
-        List<ClimateDifference> climateDiffAtStation = calculateDifference(climateAtStation.getStationId());
+        ClimateDifferenceAtStation climateDiffAtStation = calculateDifference(climateAtStation.getStationId());
+
+        printDifference(climateDiffAtStation);
 
         return climateDiffAtStation;
     }
 
-    private List<ClimateDifference> calculateDifference(int stationId) {
 
-        List<ClimateDifference> climateDifferences = new ArrayList<ClimateDifference>();
+
+    private ClimateDifferenceAtStation calculateDifference(int stationId) {
+
+        ClimateDifferenceAtStation climateDifferenceAtStation = new ClimateDifferenceAtStation(stationId);
 
         for(int i = 0 ; i < (climateAtStation.getClimateRecords().size() -period) ; i++){
 
             // Get a Fresh ClimateDifferenc Record
-            ClimateDifference climateDifference = new ClimateDifference(stationId
-                                                        , climateAtStation.getClimateRecords().get(i)
-                                                        , climateAtStation.getClimateRecords().get(i + period));
+            ClimateDifference climateDifference = new ClimateDifference(climateAtStation.getClimateRecords().get(i)
+                                                                      , climateAtStation.getClimateRecords().get(i + period));
 
-
-
-            log.debug(getPrintLine(climateAtStation.getClimateRecords().get(i)));
-            log.debug(getPrintLine(climateAtStation.getClimateRecords().get(i+(period-1))));
-            log.debug(getPrintDifferenceLine(climateDifference.getDifference()));
-
-            climateDifferences.add(climateDifference);
-
+            climateDifferenceAtStation.getClimateDifferences().add(climateDifference);
         }
-
-
-
-
-
-        return climateDifferences;
-
+        return climateDifferenceAtStation;
     }
 
 
@@ -140,6 +130,37 @@ public class ClimateServiceImpl implements ClimateService {
 
       return climateRecords ;
     }
+
+    private void printDifference(ClimateDifferenceAtStation d) {
+        DecimalFormat decimalFormat = new DecimalFormat("00000");
+
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        log.info("@                                                                Climate Differences for Stations Id : " + decimalFormat.format(d.getStationId()) + "                                         @");
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        log.info("        |        |    Jan   |    Feb   |   Mar    |   Apr    |   Mai    |   Jun    |   Jul    |   Aug    |   Sep    |  Oct     |   Nov    |   Dec    |");
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
+        for (ClimateDifference climateDifference : d.getClimateDifferences()) {
+            log.info(getPrintLine(climateDifference.getClimateFirstPeriod()));
+            log.info(getPrintLine(climateDifference.getClimateSecondPeriod()));
+            log.info(getPrintDifferenceLine(climateDifference.getDifference()));
+        }
+
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        log.info("@------------------------------------------------------- End Climate Differences for StationId : "+ decimalFormat.format(d.getStationId()) +" ----------------------------------------------@");
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    }
+
+    // ####################################################
+    // # Print Climate Period
+    // ####################################################
+    private String getPrintDifferenceLine(TemperatureRecord t){
+
+        return "        |        |" + getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar()) + getPrintMonth(t.getApr()) + getPrintMonth(t.getMai())
+                + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov()) + getPrintMonth(t.getDec());
+    }
+
+
     public void print(ClimateAtStation c) {
         DecimalFormat decimalFormat = new DecimalFormat("00000");
 
@@ -167,14 +188,6 @@ public class ClimateServiceImpl implements ClimateService {
                 + getPrintMonth(c.getTempJun()) + getPrintMonth(c.getTempJul()) + getPrintMonth(c.getTempAug()) + getPrintMonth(c.getTempSep()) + getPrintMonth(c.getTempOkt()) + getPrintMonth(c.getTempNov()) + getPrintMonth(c.getTempDez());
     }
 
-    // ####################################################
-    // # Print Climate Period
-    // ####################################################
-    private String getPrintDifferenceLine(TemperatureRecord t){
-
-        return "        |        |" + getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar()) + getPrintMonth(t.getApr()) + getPrintMonth(t.getMai())
-                + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov()) + getPrintMonth(t.getDec());
-    }
     private String getPrintMonth ( double month){
         String preSpace = "  ";
         // use DecimalFormat
