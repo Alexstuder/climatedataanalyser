@@ -148,8 +148,19 @@ public class ClimateMonthBatchConfiguration {
     @Bean
     public FlatFileItemReader<StationFile> readerStation()
     {
+        Resource[] inputResources = null;
+        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
+        try {
+            inputResources = patternResolver.getResources("classpath*:/"+ "FTPData/KL_Monatswerte_Beschreibung_Stationen.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //Create reader instance
         FlatFileItemReader<StationFile> reader = new FlatFileItemReader<StationFile>();
+
+        // There should be only One File ! So take the first one !
+        reader.setResource(inputResources[0]);
 
         //Set number of lines to skips. Use it if file has header rows.
         reader.setLinesToSkip(2);
@@ -157,7 +168,7 @@ public class ClimateMonthBatchConfiguration {
         //Configure how each line will be parsed and mapped to different values
         reader.setLineMapper(new DefaultLineMapper() {
             {
-                //3 columns in each row
+                //
                 setLineTokenizer(stationTokenizer());
                 //Set values in Employee class
                 setFieldSetMapper(new BeanWrapperFieldSetMapper<StationFile>() {
@@ -182,18 +193,20 @@ public class ClimateMonthBatchConfiguration {
         return new StationDBWriter();
     }
 
+
+
     public FixedLengthTokenizer stationTokenizer() {
         FixedLengthTokenizer tokenizer = new FixedLengthTokenizer();
 
         tokenizer.setNames("stationsId", "dateBegin", "dateEnd", "stationHigh","geoLatitude","geoLength","stationName","bundesLand");
-        tokenizer.setColumns(new Range(1-5),
-                new Range(7-14),
-                new Range(16-23),
-                new Range(24-38),
-                new Range(39-50),
-                new Range(51-60),
-                new Range(62-102),
-                new Range(103-160)
+        tokenizer.setColumns(new Range(1,5),
+                new Range(6,14),
+                new Range(15,23),
+                new Range(24,38),
+                new Range(39,50),
+                new Range(51,60),
+                new Range(61,102),
+                new Range(103,200)
         );
         return tokenizer;
     }
@@ -232,18 +245,18 @@ public class ClimateMonthBatchConfiguration {
     public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
-               .listener(listener)
+               //.listener(listener)
                //.start(downloadFiles())
-               .start(unzipFiles())
-               .next(importTemperatureRecords())
-               .next(importStations())
+               //.start(unzipFiles())
+               //.next(importTemperatureRecords())
+               .start(importStations())
                .build()
                 ;
     }
     @Transactional
     @Bean
     public Step importTemperatureRecords(){
-        return stepBuilderFactoryImport.get("step01")
+        return stepBuilderFactoryImport.get("import-temperature-records")
                 .<MonthFile,Month> chunk(10)
                 .reader(multiResourceItemReader())
                 .listener(new StepProcessorListener(statistics()))
@@ -257,7 +270,7 @@ public class ClimateMonthBatchConfiguration {
     @Transactional
     @Bean
     public Step importStations(){
-        return stepBuilderFactoryImport.get("step01")
+        return stepBuilderFactoryImport.get("import-station-records")
                 .<StationFile, Station> chunk(10)
                 .reader(readerStation())
                 //.listener(new StepProcessorListener(statistics()))

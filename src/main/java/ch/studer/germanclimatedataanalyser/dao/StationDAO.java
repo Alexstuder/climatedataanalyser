@@ -9,7 +9,7 @@ public interface StationDAO {
 
     public void save(Station station);
 
-    public void saveAll(List<Station> stations);
+    public void saveAll(List<? extends Station> stations);
 
     public List<Station> getStationsBy(int stationID);
 
