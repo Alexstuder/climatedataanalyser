@@ -120,6 +120,8 @@ public class DbCheck {
             statisticRecord.setAnzahlOnDb(monthService.getCountOnDb(statisticRecord.getStationsID()));
 
         }
+        // Yes looks strange ,but i think .. i wanted to do some more tests...
+        // go a head ....
         return status;
         }
 

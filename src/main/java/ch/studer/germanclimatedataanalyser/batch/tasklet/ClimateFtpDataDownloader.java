@@ -104,12 +104,17 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         deleteDirectoryFiles(directory);
         log.info("FTPDataFolderName : " + directory.getPath());
-        //for (FTPFile ftpFile : ftpFiles) {
-        for (int i = 0 ; i<100 ; i++) {
+        //TODO Download all FTP  Files
+        for (FTPFile ftpFile : ftpFiles) {
 
-        FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() +"/"+ftpFiles[i].getName());
+        //
+        //for (int i = 0 ; i<100 ; i++) {
+        //FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() +"/"+ftpFiles[i].getName());
+        //
+
+        FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() +"/"+ftpFile.getName());
         try {
-            ftpConnection.retrieveFile(ftpFiles[i].getName(), out);
+            ftpConnection.retrieveFile(ftpFile.getName(), out);
         } catch ( Exception e) {
 
             throw new RuntimeException("Error in Download File : "+e);

@@ -23,7 +23,7 @@ public class controller {
             return "Hello, " + stationId + "!";
         }*/
 
-        @RequestMapping("/climatAtStation/{stationId}")
+        @RequestMapping("/climateAtStation/{stationId}")
         String run(@PathVariable int stationId) {
             climateService.getDifference(stationId);
            // climateService.getClimateAtStationId(stationId);

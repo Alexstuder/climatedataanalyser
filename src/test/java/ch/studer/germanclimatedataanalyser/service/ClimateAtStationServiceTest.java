@@ -1,9 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
-import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.TemperatureByStationId;
-import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
+import ch.studer.germanclimatedataanalyser.model.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +56,36 @@ public class ClimateAtStationServiceTest {
         ClimateAtStation climateAtStation = climateService.getClimateAtStationId(stationId);
         assertNotNull(climateAtStation);
         assertTrue(climateAtStation.getClimateRecords().size() == 61);
-        climateService.getDifference(stationId);
+
+
+        // Proof if Difference is Zero
+        ClimateDifferenceAtStation climateDifferenceAtStation = climateService.getDifference(stationId);
+        assertTrue(isZero(climateDifferenceAtStation.getClimateDifferences()));
+
+
+    }
+
+    private boolean isZero(List<ClimateDifference> climateDifferences) {
+
+        for (ClimateDifference climateDifference : climateDifferences){
+            if (climateDifference.getDifference().getJan() != 0
+             || climateDifference.getDifference().getFeb() != 0
+             || climateDifference.getDifference().getMar() != 0
+             || climateDifference.getDifference().getApr() != 0
+             || climateDifference.getDifference().getMai() != 0
+             || climateDifference.getDifference().getJun() != 0
+             || climateDifference.getDifference().getJul() != 0
+             || climateDifference.getDifference().getAug() != 0
+             || climateDifference.getDifference().getSep() != 0
+             || climateDifference.getDifference().getOct() != 0
+             || climateDifference.getDifference().getNov() != 0
+             || climateDifference.getDifference().getDec() != 0
+            ){
+                return false;
+            }
+        }
+
+        return true;
 
     }
 
