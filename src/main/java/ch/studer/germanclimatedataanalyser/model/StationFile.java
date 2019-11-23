@@ -24,6 +24,8 @@ public class StationFile implements Serializable {
         this.stationName = stationName;
         this.bundesLand = bundesLand;
     }
+    public StationFile(){
+    }
 
     public String getStationsId() {
         return stationsId;

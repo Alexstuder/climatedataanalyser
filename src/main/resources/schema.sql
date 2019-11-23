@@ -41,17 +41,17 @@ CREATE TABLE `month` (
                          QN_6 int DEFAULT NULL,
                          MO_RR double DEFAULT NULL,
                          MX_RS double DEFAULT NULL
-)
+);
 
 CREATE TABLE `station` (
                         ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
-                        STATIONS_ID int NOT NULL,
+                        STATION_ID int NOT NULL,
                         DATE_BEGIN DATE NOT NULL,
                         DATE_END DATE NOT NULL,
-                        STATION_HIGH DECIMAL NOT NULL,
-                        GEO_LATITUDE DECIMAL NOT NULL,
-                        GEO_LENGTH DECIMAL NOT NULL,
+                        STATION_HIGH DECIMAL(9,3) NOT NULL,
+                        GEO_LATITUDE DECIMAL(7,4) NOT NULL,
+                        GEO_LENGTH DECIMAL(7,4) NOT NULL,
                         STATION_NAME VARCHAR(100) NOT NULL,
                         BUNDES_LAND VARCHAR(100) NOT NULL
 
-)
+);

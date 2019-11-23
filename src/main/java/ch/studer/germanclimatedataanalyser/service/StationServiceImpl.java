@@ -14,10 +14,11 @@ public class StationServiceImpl implements StationService {
 
     @Override
     @Transactional
-    public void saveAllStation(List<Station> stations) {
+    public void saveAllStation(List<? extends Station> stations) {
 
         stationDAO.saveAll(stations);
     }
+
 
     @Override
     public Station getStation(int stationID) {

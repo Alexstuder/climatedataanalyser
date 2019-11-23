@@ -4,10 +4,12 @@ import ch.studer.germanclimatedataanalyser.model.Station;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Repository
 public class StationDaoImpl implements StationDAO {
 
     @Autowired
@@ -28,7 +30,7 @@ public class StationDaoImpl implements StationDAO {
     }
 
     @Override
-    public void saveAll(List<Station> stations) {
+    public void saveAll(List<? extends Station> stations) {
 
         for(Station station : stations){
             this.save(station);

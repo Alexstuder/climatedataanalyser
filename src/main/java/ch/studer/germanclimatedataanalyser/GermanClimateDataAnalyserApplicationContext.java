@@ -21,4 +21,7 @@ public class GermanClimateDataAnalyserApplicationContext {
     MonthService monthService(){
         return new MonthServiceImpl();
     }
+
+    @Bean
+    StationService stationService() {return new StationServiceImpl();}
 }
