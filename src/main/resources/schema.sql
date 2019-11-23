@@ -13,24 +13,45 @@
 -- GRANT ALL PRIVILEGES ON climate.* TO 'climateUser'@'localhost';
 -- create database if not exists climate;
 
-
+-- ##########################
+-- Drop Tables
+-- ##########################
 DROP  TABLE if exists month ;
+DROP  TABLE if exists station ;
+
+
+-- ##########################
+-- Create Tables
+-- ##########################
 CREATE TABLE `month` (
-  MONTH_ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
-  STATIONS_ID int NOT NULL,
-  MESS_DATUM_BEGINN DATE NOT NULL,
-  MESS_DATUM_ENDE DATE NOT NULL,
-  QN_4 int DEFAULT NULL,
-  MO_N double DEFAULT NULL,
-  MO_TT double DEFAULT NULL,
-  MO_TX double DEFAULT NULL,
-  MO_TN double DEFAULT NULL,
-  MO_FK double DEFAULT NULL,
-  MX_TX double DEFAULT NULL,
-  MX_FX double DEFAULT NULL,
-  MX_TN double DEFAULT NULL,
-  MO_SD_S double DEFAULT NULL,
-  QN_6 int DEFAULT NULL,
-  MO_RR double DEFAULT NULL,
-  MX_RS double DEFAULT NULL
+                         MONTH_ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
+                         STATIONS_ID int NOT NULL,
+                         MESS_DATUM_BEGINN DATE NOT NULL,
+                         MESS_DATUM_ENDE DATE NOT NULL,
+                         QN_4 int DEFAULT NULL,
+                         MO_N double DEFAULT NULL,
+                         MO_TT double DEFAULT NULL,
+                         MO_TX double DEFAULT NULL,
+                         MO_TN double DEFAULT NULL,
+                         MO_FK double DEFAULT NULL,
+                         MX_TX double DEFAULT NULL,
+                         MX_FX double DEFAULT NULL,
+                         MX_TN double DEFAULT NULL,
+                         MO_SD_S double DEFAULT NULL,
+                         QN_6 int DEFAULT NULL,
+                         MO_RR double DEFAULT NULL,
+                         MX_RS double DEFAULT NULL
+)
+
+CREATE TABLE `station` (
+                        ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
+                        STATIONS_ID int NOT NULL,
+                        DATE_BEGIN DATE NOT NULL,
+                        DATE_END DATE NOT NULL,
+                        STATION_HIGH DECIMAL NOT NULL,
+                        GEO_LATITUDE DECIMAL NOT NULL,
+                        GEO_LENGTH DECIMAL NOT NULL,
+                        STATION_NAME VARCHAR(100) NOT NULL,
+                        BUNDES_LAND VARCHAR(100) NOT NULL
+
 )
