@@ -34,6 +34,10 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
     @Value("${climate.path.ftpDataFolderName}")
     private String ftpDataFolderName;
 
+    @Value("${climate.path.temperature.input.file.pattern}")
+    private String inputFilePattern;
+
+    static final private String CLASSPATH = "classpath*:";
 
     //private Resource unzipOutputFolder;
 
@@ -64,7 +68,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
     private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) throws IOException {
 
-       Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName,"produkt*.txt");
+       Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName,inputFilePattern);
 
        for (Resource resource : resources){
            try {
@@ -87,7 +91,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] files = new Resource[0];
         {
             try {
-                files = applicationContext.getResources("classpath*:/"+ directory+"/"+classifier);
+                files = applicationContext.getResources(CLASSPATH+"/"+ directory+"/"+classifier);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,14 +122,14 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] resources = new Resource[0];
         Resource resource = null;
         try {
-            resources = applicationContext.getResources("classpath*:/"+directoryName);
-            Resource[] rootPath = applicationContext.getResources("classpath*:/");
+            resources = applicationContext.getResources(CLASSPATH+"/"+directoryName);
+            Resource[] rootPath = applicationContext.getResources(CLASSPATH+"/");
             //mkdir if directory does not exist ;
             if (resources.length == 0) {
                 log.info("Directory is 0");
                 File tempFile = new File(rootPath[0].getFile().getPath()+"/" + directoryName);
                 tempFile.mkdir();
-                resources = applicationContext.getResources("classpath*:/"+directoryName);
+                resources = applicationContext.getResources(CLASSPATH+"/"+directoryName);
 
             }
 
@@ -145,7 +149,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] zipFiles = new Resource[0];
         {
             try {
-                zipFiles = applicationContext.getResources("classpath*:/FTPData/*.zip");
+                zipFiles = applicationContext.getResources(CLASSPATH+"/"+ftpDataFolderName+"/"+"*.zip");
             } catch (IOException e) {
                 e.printStackTrace();
             }
