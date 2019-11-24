@@ -74,6 +74,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
                //Copy
                Files.copy(inputFile.toPath(),outputFile.toPath() );
+               log.debug("Unziped File  :" + outputFile.toPath());
            } catch (IOException e) {
                e.printStackTrace();
            }
@@ -116,7 +117,6 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
     private File getDirectory(String directoryName) throws IOException {
         Resource[] resources = new Resource[0];
         Resource resource = null;
-        log.info("DirectoryName :" + directoryName);
         try {
             resources = applicationContext.getResources("classpath*:/"+directoryName);
             Resource[] rootPath = applicationContext.getResources("classpath*:/");
