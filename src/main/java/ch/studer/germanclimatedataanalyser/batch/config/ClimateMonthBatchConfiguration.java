@@ -31,6 +31,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.FixedLengthTokenizer;
 import org.springframework.batch.item.file.transform.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -52,6 +53,20 @@ public class ClimateMonthBatchConfiguration {
 
     @Autowired
     public DataSource dataSource;
+
+    @Value("${climate.path.temperature.input.file.pattern}")
+    private String inputFilePattern;
+
+    @Value("${climate.path.inputFolderName}")
+    private String inputDirectory;
+
+    @Value("${climate.path.ftpDataFolderName}")
+    private String FtpDirectory;
+
+    @Value("${climate.path.station.input.file.pattern}")
+    private String stationFileName;
+
+    static final private String CLASSPATH = "classpath*:";
 
     @Bean
     public Statistic statistics(){
@@ -75,7 +90,9 @@ public class ClimateMonthBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
+            //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
+            //.getResources("classpath*:/"+ directory+"/"+classifier);
+            inputResources = patternResolver.getResources("classpath*:/"+ inputDirectory+"/"+ inputFilePattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,7 +168,7 @@ public class ClimateMonthBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources("classpath*:/"+ "FTPData/KL_Monatswerte_Beschreibung_Stationen.txt");
+            inputResources = patternResolver.getResources(CLASSPATH+"/"+FtpDirectory+"/"+stationFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -247,9 +264,9 @@ public class ClimateMonthBatchConfiguration {
                .incrementer(new RunIdIncrementer())
                //.listener(listener)
                //.start(downloadFiles())
-               //.start(unzipFiles())
-               //.next(importTemperatureRecords())
-               .start(importStations())
+               .start(unzipFiles())
+               .next(importTemperatureRecords())
+               .next(importStations())
                .build()
                 ;
     }
