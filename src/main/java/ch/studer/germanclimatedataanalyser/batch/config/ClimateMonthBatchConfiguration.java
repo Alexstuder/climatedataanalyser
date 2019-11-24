@@ -92,7 +92,7 @@ public class ClimateMonthBatchConfiguration {
         try {
             //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
             //.getResources("classpath*:/"+ directory+"/"+classifier);
-            inputResources = patternResolver.getResources("classpath*:/"+ inputDirectory+"/"+ inputFilePattern);
+            inputResources = patternResolver.getResources(CLASSPATH+"/"+ inputDirectory+"/"+ inputFilePattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
