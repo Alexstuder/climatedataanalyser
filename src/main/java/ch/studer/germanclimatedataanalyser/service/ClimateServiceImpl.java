@@ -20,14 +20,18 @@ public class ClimateServiceImpl implements ClimateService {
     int period;
 
     // Inludes all Cimate Records for a Station
-    ClimateAtStation climateAtStation ;
+    //ClimateAtStation climateAtStation ;
+
+
+    @Autowired
+    StationService stationService;
 
 
     private static final Logger log = LoggerFactory.getLogger(ClimateServiceImpl.class);
 
     @Override
     public ClimateAtStation getClimateAtStationId(int stationId) {
-         climateAtStation = new ClimateAtStation(stationId);
+         ClimateAtStation climateAtStation = new ClimateAtStation(stationId);
 
         climateAtStation.setClimateRecords(getAllClimateRecordsForStation(temperaturesAtStationService.getTemperaturesBy(stationId)));
 
@@ -40,22 +44,45 @@ public class ClimateServiceImpl implements ClimateService {
 
     @Override
     public ClimateDifferenceAtStation getDifference(int stationId) {
-        // Get Climate at Station Data
-        climateAtStation = this.getClimateAtStationId(stationId);
 
         // Get the Difference between a Period
-        ClimateDifferenceAtStation climateDiffAtStation = calculateDifference(climateAtStation.getStationId());
+        ClimateDifferenceAtStation climateDiffAtStation = calculateDifference(stationId);
 
         printDifference(climateDiffAtStation);
 
         return climateDiffAtStation;
     }
 
+    @Override
+    public ClimateDifferenceAtStation getClimateByStationName(String stationName) {
+
+        List<Station> stations = stationService.getStation(stationName);
+
+        if(stations.size()!=0){
+
+            if(stations.size() == 1){
+
+                this.getDifference(stations.get(0).getStationId());
+
+            } else {
+                log.debug("There are more Stations under the Station Name :"+ stationName);
+            }
+
+        } else {
+            log.debug("There is no Station by name : " + stationName);
+        }
+
+
+
+        return null;
+    }
 
 
     private ClimateDifferenceAtStation calculateDifference(int stationId) {
 
         ClimateDifferenceAtStation climateDifferenceAtStation = new ClimateDifferenceAtStation(stationId);
+
+        ClimateAtStation climateAtStation = getClimateAtStationId(stationId);
 
         for(int i = 0 ; i < (climateAtStation.getClimateRecords().size() -period) ; i++){
 

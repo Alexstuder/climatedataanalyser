@@ -11,4 +11,6 @@ public interface ClimateService {
     public ClimateAtStation getClimateAtStationId(int stationId);
 
     public ClimateDifferenceAtStation getDifference(int stationId);
+
+    public ClimateDifferenceAtStation getClimateByStationName(String stationName);
 }

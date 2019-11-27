@@ -39,6 +39,9 @@ public class Station {
     private String bundesLand;
 
 
+    public Station(){
+
+    }
     public Station(int stationId, Date dateBegin, Date dateEnd, BigDecimal stationHigh, BigDecimal geoLatitude, BigDecimal geoLength, String stationName, String bundesLand) {
         this.stationId = stationId;
         this.dateBegin = dateBegin;
@@ -50,9 +53,35 @@ public class Station {
         this.bundesLand = bundesLand;
     }
 
+    public int getStationId() {
+        return stationId;
+    }
 
+    public Date getDateBegin() {
+        return dateBegin;
+    }
 
+    public Date getDateEnd() {
+        return dateEnd;
+    }
 
+    public BigDecimal getStationHigh() {
+        return stationHigh;
+    }
 
+    public BigDecimal getGeoLatitude() {
+        return geoLatitude;
+    }
 
+    public BigDecimal getGeoLength() {
+        return geoLength;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public String getBundesLand() {
+        return bundesLand;
+    }
 }

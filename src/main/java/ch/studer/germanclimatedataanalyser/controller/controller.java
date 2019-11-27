@@ -29,6 +29,12 @@ public class controller {
            // climateService.getClimateAtStationId(stationId);
             return "Climate, " + stationId + "!";
         }
+        @RequestMapping("/climateByStationName/{stationName}")
+        String run(@PathVariable String stationName) {
+            climateService.getClimateByStationName(stationName);
+           // climateService.getClimateAtStationId(stationId);
+            return "Climate, " + stationName + "!";
+        }
 
        @RequestMapping("/runAll")
         String run() {

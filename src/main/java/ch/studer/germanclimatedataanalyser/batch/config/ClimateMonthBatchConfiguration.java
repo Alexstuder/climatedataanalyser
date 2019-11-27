@@ -98,12 +98,14 @@ public class ClimateMonthBatchConfiguration {
         }
         MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
         resourceItemReader.setResources(inputResources);
+
         resourceItemReader.setDelegate(reader());
         return resourceItemReader;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean
+    @StepScope
     public FlatFileItemReader<MonthFile> reader()
     {
         //Create reader instance
@@ -111,12 +113,14 @@ public class ClimateMonthBatchConfiguration {
 
         //Set number of lines to skips. Use it if file has header rows.
         reader.setLinesToSkip(1);
+        reader.setEncoding("utf-8");
 
         //Configure how each line will be parsed and mapped to different values
         reader.setLineMapper(new DefaultLineMapper() {
             {
                 //3 columns in each row
                 setLineTokenizer(new DelimitedLineTokenizer() {
+
                     {
 
                         setNames(new String[]{"stationsId"
@@ -163,6 +167,7 @@ public class ClimateMonthBatchConfiguration {
     }
 
     @Bean
+    @StepScope
     public FlatFileItemReader<StationFile> readerStation()
     {
         Resource[] inputResources = null;
@@ -178,6 +183,9 @@ public class ClimateMonthBatchConfiguration {
 
         // There should be only One File ! So take the first one !
         reader.setResource(inputResources[0]);
+
+        //Set the right encoding for ANSI
+        reader.setEncoding("Cp1252");
 
         //Set number of lines to skips. Use it if file has header rows.
         reader.setLinesToSkip(2);
@@ -262,9 +270,9 @@ public class ClimateMonthBatchConfiguration {
     public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
-               //.listener(listener)
-               //.start(downloadFiles())
-               .start(unzipFiles())
+               .listener(listener)
+               .start(downloadFiles())
+               .next(unzipFiles())
                .next(importTemperatureRecords())
                .next(importStations())
                .build()
