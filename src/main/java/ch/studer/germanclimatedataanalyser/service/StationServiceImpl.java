@@ -21,7 +21,12 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    public Station getStation(int stationID) {
+    public Station getStation(int stationId) {
         return null;
+    }
+
+    @Override
+    public List<Station> getStation(String stationName) {
+        return stationDAO.getStationByName(stationName);
     }
 }

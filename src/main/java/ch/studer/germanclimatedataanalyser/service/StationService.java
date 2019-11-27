@@ -8,7 +8,9 @@ public interface StationService {
 
     void saveAllStation(List<? extends Station> stations);
 
-    Station getStation(int stationID);
+    public Station getStation(int stationId);
+
+    public List<Station> getStation(String stationName);
 
 
 }

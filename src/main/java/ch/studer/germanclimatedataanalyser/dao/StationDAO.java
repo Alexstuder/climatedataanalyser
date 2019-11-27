@@ -13,5 +13,7 @@ public interface StationDAO {
 
     public List<Station> getStationsBy(int stationID);
 
+    public List<Station> getStationByName(String stationName);
+
 
 }

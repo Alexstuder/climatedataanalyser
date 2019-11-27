@@ -53,4 +53,19 @@ public class StationDaoImpl implements StationDAO {
         return stations;
 
     }
+
+    @Override
+    public List<Station> getStationByName(String stationName) {
+
+        List<Station> stations = null;
+
+        Session currentSession = getSession();
+
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationName = :stationName",Station.class)
+                .setParameter("stationName",stationName);
+
+        stations = theQuery.getResultList();
+
+        return stations;
+    }
 }
