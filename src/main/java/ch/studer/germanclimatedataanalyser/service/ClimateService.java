@@ -13,4 +13,6 @@ public interface ClimateService {
     public ClimateDifferenceAtStation getDifference(int stationId);
 
     public ClimateDifferenceAtStation getClimateByStationName(String stationName);
+
+    public List<ClimateDifferenceAtStation> getClimateByBundesland(String bundesland);
 }

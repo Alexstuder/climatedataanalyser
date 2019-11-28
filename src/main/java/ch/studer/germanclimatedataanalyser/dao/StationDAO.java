@@ -16,4 +16,5 @@ public interface StationDAO {
     public List<Station> getStationByName(String stationName);
 
 
+    List<Station> getStationsFromBundesland(String bundesland);
 }

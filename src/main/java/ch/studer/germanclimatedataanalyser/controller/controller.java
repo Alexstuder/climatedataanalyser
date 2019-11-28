@@ -35,6 +35,11 @@ public class controller {
            // climateService.getClimateAtStationId(stationId);
             return "Climate, " + stationName + "!";
         }
+        @RequestMapping("/climate/ByBundesland/{bundesland}")
+        String climateByBundesland(@PathVariable String bundesland) {
+            climateService.getClimateByBundesland(bundesland);
+            return "Climate, " + bundesland + "!";
+        }
 
        @RequestMapping("/runAll")
         String run() {
