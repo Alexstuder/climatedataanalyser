@@ -13,4 +13,5 @@ public interface StationService {
     public List<Station> getStation(String stationName);
 
 
+    List<Station> getStationsFromBundesland(String bundesland);
 }

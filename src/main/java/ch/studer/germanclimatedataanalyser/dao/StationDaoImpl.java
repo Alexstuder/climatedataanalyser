@@ -68,4 +68,18 @@ public class StationDaoImpl implements StationDAO {
 
         return stations;
     }
+
+    @Override
+    public List<Station> getStationsFromBundesland(String bundesland) {
+        List<Station> stations = null;
+
+        Session currentSession = getSession();
+
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.bundesLand = :bundesland",Station.class)
+                .setParameter("bundesland",bundesland);
+
+        stations = theQuery.getResultList();
+
+        return stations;
+    }
 }

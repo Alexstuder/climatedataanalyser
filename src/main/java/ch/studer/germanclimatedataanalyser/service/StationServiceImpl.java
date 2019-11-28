@@ -29,4 +29,11 @@ public class StationServiceImpl implements StationService {
     public List<Station> getStation(String stationName) {
         return stationDAO.getStationByName(stationName);
     }
+
+    @Override
+    public List<Station> getStationsFromBundesland(String bundesland) {
+        return stationDAO.getStationsFromBundesland(bundesland);
+    }
+
+
 }

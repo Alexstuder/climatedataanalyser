@@ -57,12 +57,12 @@ public class ClimateServiceImpl implements ClimateService {
     public ClimateDifferenceAtStation getClimateByStationName(String stationName) {
 
         List<Station> stations = stationService.getStation(stationName);
-
+        ClimateDifferenceAtStation climateDifferenceAtStation = null;
         if(stations.size()!=0){
 
             if(stations.size() == 1){
 
-                this.getDifference(stations.get(0).getStationId());
+                 climateDifferenceAtStation = this.getDifference(stations.get(0).getStationId());
 
             } else {
                 log.debug("There are more Stations under the Station Name :"+ stationName);
@@ -74,7 +74,24 @@ public class ClimateServiceImpl implements ClimateService {
 
 
 
-        return null;
+        return climateDifferenceAtStation;
+    }
+
+    @Override
+    public List<ClimateDifferenceAtStation> getClimateByBundesland(String bundesland) {
+        List<ClimateDifferenceAtStation> climateDifferenceAtStations = new ArrayList<ClimateDifferenceAtStation>();
+
+        // Get All Stations from Bundesland
+
+        List<Station> stations = stationService.getStationsFromBundesland(bundesland);
+
+        // Get all Climate Differences from Stations
+
+        for(Station station : stations){
+            climateDifferenceAtStations.add(getDifference(station.getStationId()));
+        }
+
+        return climateDifferenceAtStations;
     }
 
 
