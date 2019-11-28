@@ -16,14 +16,14 @@
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP  TABLE if exists month ;
-DROP  TABLE if exists station ;
+--#DROP  TABLE if exists month ;
+--#DROP  TABLE if exists station ;
 
 
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE `month` (
+CREATE TABLE if not exists `month` (
                          MONTH_ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
                          STATIONS_ID int NOT NULL,
                          MESS_DATUM_BEGINN DATE NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `month` (
                          MX_RS double DEFAULT NULL
 );
 
-CREATE TABLE `station` (
+CREATE TABLE if not exists `station`  (
                         ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
                         STATION_ID int NOT NULL,
                         DATE_BEGIN DATE NOT NULL,

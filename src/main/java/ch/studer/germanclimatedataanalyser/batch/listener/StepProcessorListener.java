@@ -2,7 +2,7 @@ package ch.studer.germanclimatedataanalyser.batch.listener;
 
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.MonthFile;
+import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
 import org.springframework.batch.core.ItemProcessListener;
 
