@@ -13,15 +13,15 @@ import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
 import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.MonthFile;
+import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import ch.studer.germanclimatedataanalyser.model.Station;
-import ch.studer.germanclimatedataanalyser.model.StationFile;
+import ch.studer.germanclimatedataanalyser.model.file.StationFile;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
+import org.springframework.batch.core.annotation.BeforeJob;
+import org.springframework.batch.core.configuration.annotation.*;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
@@ -38,21 +38,26 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @Configuration
 @EnableBatchProcessing
 public class ClimateMonthBatchConfiguration {
 
     @Autowired
-    public JobBuilderFactory jobBuilderFactoryImport;
+    private JobBuilderFactory jobBuilderFactoryImport;
 
     @Autowired
-    public StepBuilderFactory stepBuilderFactoryImport;
+    private StepBuilderFactory stepBuilderFactoryImport;
 
     @Autowired
-    public DataSource dataSource;
+    private DataSource dataSource;
+
+
 
     @Value("${climate.path.temperature.input.file.pattern}")
     private String inputFilePattern;
@@ -271,10 +276,10 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               //.start(downloadFiles())
-               //.next(unzipFiles())
-               //.next(importTemperatureRecords())
-               .start(importStations())
+               .start(downloadFiles())
+               .next(unzipFiles())
+               .next(importTemperatureRecords())
+               .next(importStations())
                .build()
                 ;
     }
@@ -282,7 +287,7 @@ public class ClimateMonthBatchConfiguration {
     @Bean
     public Step importTemperatureRecords(){
         return stepBuilderFactoryImport.get("import-temperature-records")
-                .<MonthFile,Month> chunk(10)
+                .<MonthFile,Month> chunk(10000)
                 .reader(multiResourceItemReader())
                 .listener(new StepProcessorListener(statistics()))
                 .processor(processor())

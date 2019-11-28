@@ -311,7 +311,7 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     private String getPrintMonth ( double month){
         // use DecimalFormat
         String preSpace = " ";
-        DecimalFormat decimalFormat = new DecimalFormat("#00.00##");
+        DecimalFormat decimalFormat = new DecimalFormat("#00.0000");
         String formatedTemperature = " ------ |";
 
         if (month < 0){

@@ -3,7 +3,7 @@ package ch.studer.germanclimatedataanalyser.batch.processor;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.model.Month;
 
-import ch.studer.germanclimatedataanalyser.model.MonthFile;
+import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;

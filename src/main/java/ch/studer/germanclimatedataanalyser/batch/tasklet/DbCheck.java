@@ -72,13 +72,13 @@ public class DbCheck {
 
                      if(month.getMessDatumBeginn().compareTo(addDays(endDate,1))!=0){
 
-                     log.debug("StationsId :" + month.getStationsId());
-                     log.debug("Daten sind nicht die selben !");
+                    // log.debug("StationsId :" + month.getStationsId());
+                    // log.debug("Daten sind nicht die selben !");
                      counter++;
-                     log.debug("                         EndDate :" + endDate);
-                     log.debug("BeginDate :" + beginDate);
-                     log.debug("EndDate + 1 :" + addDays(endDate,1));
-
+                    // log.debug("                         EndDate :" + endDate);
+                    // log.debug("BeginDate :" + beginDate);
+                    // log.debug("EndDate + 1 :" + addDays(endDate,1));
+                         addDays(endDate,1);
                      }
 
                 }

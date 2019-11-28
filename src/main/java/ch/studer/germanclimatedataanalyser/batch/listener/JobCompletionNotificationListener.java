@@ -2,6 +2,10 @@ package ch.studer.germanclimatedataanalyser.batch.listener;
 
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
+import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.Station;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -10,6 +14,9 @@ import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
@@ -24,6 +31,14 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     @Autowired
     private DbCheck dbCheck;
 
+
+    @Autowired
+    private EntityManager entityManager;
+
+    private Session getSession() {
+        return entityManager.unwrap(Session.class);
+    }
+
     @Autowired
     public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -35,6 +50,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.debug("****************************************************************");
         log.debug("!!!                      JOB START                           !!!");
         log.debug("****************************************************************");
+
+       jdbcTemplate.execute("Delete FROM STATION");
+       jdbcTemplate.execute("Delete FROM MONTH");
 
     }
 
@@ -56,7 +74,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
         }
 
-        dbCheck.checkDB();
+      //  dbCheck.checkDB();
 
         log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         log.debug("!!!                     STATISTIC                            !!!");

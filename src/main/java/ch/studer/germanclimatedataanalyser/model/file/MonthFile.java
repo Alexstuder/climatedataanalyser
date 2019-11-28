@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.model;
+package ch.studer.germanclimatedataanalyser.model.file;
 
 import java.io.Serializable;
 

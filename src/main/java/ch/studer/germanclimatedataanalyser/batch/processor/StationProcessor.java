@@ -1,15 +1,13 @@
 package ch.studer.germanclimatedataanalyser.batch.processor;
 
 import ch.studer.germanclimatedataanalyser.model.Station;
-import ch.studer.germanclimatedataanalyser.model.StationFile;
+import ch.studer.germanclimatedataanalyser.model.file.StationFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 
 public class StationProcessor  implements ItemProcessor<StationFile, Station> {
 
