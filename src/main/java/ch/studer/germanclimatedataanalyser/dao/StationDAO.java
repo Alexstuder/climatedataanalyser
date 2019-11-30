@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
 import ch.studer.germanclimatedataanalyser.model.Station;
+import javassist.NotFoundException;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ public interface StationDAO {
 
     public void saveAll(List<? extends Station> stations);
 
-    public List<Station> getStationsBy(int stationID);
+    public Station getStationsBy(int stationID) throws NotFoundException;
 
-    public List<Station> getStationByName(String stationName);
+    public Station getStationByName(String stationName) throws NotFoundException;
 
 
     List<Station> getStationsFromBundesland(String bundesland);

@@ -2,11 +2,14 @@ package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationDAO;
 import ch.studer.germanclimatedataanalyser.model.Station;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Component
 public class StationServiceImpl implements StationService {
 
     @Autowired
@@ -21,12 +24,10 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    public Station getStation(int stationId) {
-        return null;
-    }
+    public Station getStation(int stationId) throws NotFoundException {return stationDAO.getStationsBy(stationId);}
 
     @Override
-    public List<Station> getStation(String stationName) {
+    public Station getStation(String stationName) throws NotFoundException {
         return stationDAO.getStationByName(stationName);
     }
 

@@ -24,4 +24,7 @@ public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
     StationService stationService() {return new StationServiceImpl();}
+
+    @Bean
+    ClimateAtStation climateAtStation() {return new ClimateAtStation();}
 }

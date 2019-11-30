@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
 import ch.studer.germanclimatedataanalyser.model.Station;
+import javassist.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,24 +39,29 @@ public class StationDaoImpl implements StationDAO {
     }
 
     @Override
-    public List<Station> getStationsBy(int stationID) {
+    public Station getStationsBy(int stationID) throws NotFoundException {
 
         List<Station> stations = null;
 
         Session currentSession = getSession();
 
-        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationsId = :stationsID ORDER BY dateBegin ASC", Station.class)
-                .setParameter("stationsID",stationID);
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationId = :stationID ORDER BY dateBegin ASC", Station.class)
+                .setParameter("stationID",stationID);
 
         // execute and get result list
         stations = theQuery.getResultList();
 
-        return stations;
+        if(stations.size() == 0){
+            throw new NotFoundException("Station : "+ stationID + " not Found !");
+        }
+
+        // There is only one Station !
+        return stations.get(0);
 
     }
 
     @Override
-    public List<Station> getStationByName(String stationName) {
+    public Station getStationByName(String stationName) throws NotFoundException {
 
         List<Station> stations = null;
 
@@ -66,7 +72,11 @@ public class StationDaoImpl implements StationDAO {
 
         stations = theQuery.getResultList();
 
-        return stations;
+        if(stations.size() == 0){
+            throw new NotFoundException("Station : "+ stationName + " not Found !");
+        }
+        // there is only One Station!
+        return stations.get(0);
     }
 
     @Override
