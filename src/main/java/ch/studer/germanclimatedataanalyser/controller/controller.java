@@ -26,30 +26,24 @@ public class controller {
          @Autowired
          Job job;
 
-         @RequestMapping("/runit")
+         @RequestMapping("/batchImportStart")
          public void handle() throws Exception{
          JobParameters jobParameters =
                 new JobParametersBuilder()
-                        .addLong("time",System.currentTimeMillis()).toJobParameters();
+                        .addLong("time",System.currentTimeMillis())
+                        .toJobParameters();
           jobLauncher.run(job, jobParameters);
          }
 
-
-        /*@RequestMapping("/run/{stationId}")
-        String run(@PathVariable int stationId) {
-            temperaturesAtStationService.getTemperaturesBy(stationId);
-            return "Hello, " + stationId + "!";
-        }*/
-
-        @RequestMapping("/climateAtStation/{stationId}")
-        String run(@PathVariable int stationId) {
-            climateService.getDifference(stationId);
+        @RequestMapping("/climateByStationId/{stationId}")
+        String climateByStationId(@PathVariable String stationId) throws Exception {
+            climateService.getClimateAtStationId(stationId);
            // climateService.getClimateAtStationId(stationId);
             return "Climate, " + stationId + "!";
         }
         @RequestMapping("/climateByStationName/{stationName}")
-        String run(@PathVariable String stationName) {
-            climateService.getClimateByStationName(stationName);
+        String climateByStationName(@PathVariable String stationName) throws Exception {
+            climateService.getClimateAtStationId(stationName);
            // climateService.getClimateAtStationId(stationId);
             return "Climate, " + stationName + "!";
         }
@@ -59,14 +53,14 @@ public class controller {
             return "Climate, " + bundesland + "!";
         }
 
-       @RequestMapping("/runAll")
-        String run() {
-            temperaturesAtStationService.getTemperaturesForAll();
-            return "Run All, ";
-        }
-
-        @RequestMapping("/hello/{name}")
-        String hello(@PathVariable String name) {
-            return "Hello, " + name + "!";
-        }
+//       @RequestMapping("/runAll")
+//        String run() {
+//            temperaturesAtStationService.getTemperaturesForAll();
+//            return "Run All, ";
+//        }
+//
+//        @RequestMapping("/hello/{name}")
+//        String hello(@PathVariable String name) {
+//            return "Hello, " + name + "!";
+//        }
 }

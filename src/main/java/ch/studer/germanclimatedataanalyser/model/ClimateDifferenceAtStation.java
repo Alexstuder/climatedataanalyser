@@ -5,19 +5,19 @@ import java.util.List;
 
 public class ClimateDifferenceAtStation {
 
-    private final int stationId ;
+    private final Station  station ;
 
 
     private List<ClimateDifference> climateDifferences;
 
 
-    public ClimateDifferenceAtStation(int stationId) {
-        this.stationId = stationId;
+    public ClimateDifferenceAtStation(Station station) {
+        this.station = station;
         this.climateDifferences = new ArrayList<ClimateDifference>();
     }
 
-    public int getStationId() {
-        return stationId;
+    public Station getStation() {
+        return station;
     }
 
     public List<ClimateDifference> getClimateDifferences() {

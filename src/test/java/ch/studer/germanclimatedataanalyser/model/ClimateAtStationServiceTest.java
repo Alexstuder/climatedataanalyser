@@ -1,34 +1,55 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.model;
 
 import ch.studer.germanclimatedataanalyser.model.*;
+import ch.studer.germanclimatedataanalyser.service.MonthService;
+import ch.studer.germanclimatedataanalyser.service.StationService;
+import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
+import javassist.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
+import javax.persistence.NoResultException;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
+@SpringBootConfiguration
 @RunWith(MockitoJUnitRunner.class)
+@TestPropertySource(properties = {
+        "climate.calculation.period.year=30",
+})
 public class ClimateAtStationServiceTest {
 
     @Mock
     TemperaturesAtStationService temperaturesAtStationService;
 
     @Mock
-    MonthService monthService;
+    StationService stationService;
 
     @InjectMocks
-    ClimateServiceImpl climateService;
+    ClimateAtStation climateAtStation;
+
+    @Mock
+    MonthService monthService;
+
+//    @InjectMocks
+//    ClimateServiceImpl climateService;
 
     int stationId = 1 ;
+    private static final String STATION_NOT_FOUND = "StationNotFound";
+    private static final String STATION_NAME = "StationName";
     private static final String BEGIN = "BEGIN";
     private static final String END = "END";
 
@@ -40,28 +61,91 @@ public class ClimateAtStationServiceTest {
 
     @Before
     public void setUp(){
-
-        climateService.period = 30;
+     climateAtStation.period = 30;
 
     }
 
 
     @Test
-    public void testClimateService(){
+    public void testClimateService() throws NotFoundException {
 
 
 
         when(temperaturesAtStationService.getTemperaturesBy(stationId)).thenReturn(getTemperaturesBy(stationId));
+        when(stationService.getStation(stationId)).thenReturn(getStationBy(stationId));
 
-        ClimateAtStation climateAtStation = climateService.getClimateAtStationId(stationId);
+        try{
+           climateAtStation.getNewClimateAtStation(String.valueOf(stationId));
+        } catch (Exception e){
+         //TODO ??? what to proof here ?
+        }
         assertNotNull(climateAtStation);
         assertTrue(climateAtStation.getClimateRecords().size() == 61);
 
+        // Proof if Difference is Zero
+        assertTrue(isZero(climateAtStation.getClimateDifferences()));
+
+
+    }
+
+@Test
+    public void testClimateAtStationWithName() throws NotFoundException {
+
+
+
+        when(temperaturesAtStationService.getTemperaturesBy(stationId)).thenReturn(getTemperaturesBy(stationId));
+        when(stationService.getStation(STATION_NAME)).thenReturn(getStationBy(stationId));
+
+        try{
+           climateAtStation.getNewClimateAtStation(String.valueOf(STATION_NAME));
+        } catch (Exception e){
+        }
+        assertNotNull(climateAtStation);
+        assertTrue(climateAtStation.getClimateRecords().size() == 61);
 
         // Proof if Difference is Zero
-        ClimateDifferenceAtStation climateDifferenceAtStation = climateService.getDifference(stationId);
-        assertTrue(isZero(climateDifferenceAtStation.getClimateDifferences()));
+        assertTrue(isZero(climateAtStation.getClimateDifferences()));
 
+
+    }
+
+    @Test
+    public void testClimateAtStationNotFound() throws NotFoundException {
+
+        when(stationService.getStation(STATION_NOT_FOUND)).thenReturn(new Station());
+        try {
+            climateAtStation.getNewClimateAtStation(STATION_NOT_FOUND);
+        } catch (NoResultException exe){
+            assertEquals("No Station :StationNotFound found! ",exe.getMessage());
+        }
+
+
+    }
+
+    @Test
+    public void testClimateAtStationWithIdNotFound() throws NotFoundException {
+
+        when(stationService.getStation(2)).thenReturn(new Station());
+        try {
+            climateAtStation.getNewClimateAtStation("2");
+        } catch (NoResultException exe){
+            assertEquals("No Station :2 found! ",exe.getMessage());
+        }
+
+
+    }
+
+    private Station getStationBy(int stationId) {
+        Station station = new Station(stationId
+                ,new Date(1999,01,01)
+                ,new Date(1999,12,31)
+                ,new BigDecimal(100)
+                ,new BigDecimal(22.22)
+                ,new BigDecimal(23.34)
+                ,"Name"
+                ,"bundesland");
+
+        return station;
 
     }
 

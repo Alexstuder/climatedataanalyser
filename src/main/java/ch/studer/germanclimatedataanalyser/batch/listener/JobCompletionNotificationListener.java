@@ -13,9 +13,13 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -51,8 +55,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!                      JOB START                           !!!");
         log.info("****************************************************************");
 
-       jdbcTemplate.execute("Delete FROM STATION");
-       jdbcTemplate.execute("Delete FROM MONTH");
+        // Prepend the Tables
+        jdbcTemplate.execute("Delete FROM month");
+        jdbcTemplate.execute("Delete FROM station");
 
 
 
