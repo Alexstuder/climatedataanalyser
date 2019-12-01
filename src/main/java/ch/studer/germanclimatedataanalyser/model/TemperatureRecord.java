@@ -1,39 +1,41 @@
 package ch.studer.germanclimatedataanalyser.model;
 
+import java.math.BigDecimal;
+
 public class TemperatureRecord {
 
 
     String year ;
-    double jan;
-    double feb;
-    double mar;
-    double apr;
-    double mai;
-    double jun;
-    double jul;
-    double aug;
-    double sep;
-    double oct;
-    double nov;
-    double dec;
+    BigDecimal jan;
+    BigDecimal feb;
+    BigDecimal mar;
+    BigDecimal apr;
+    BigDecimal mai;
+    BigDecimal jun;
+    BigDecimal jul;
+    BigDecimal aug;
+    BigDecimal sep;
+    BigDecimal oct;
+    BigDecimal nov;
+    BigDecimal dec;
 
     // ####################################################
     // #   Constructor
     // ####################################################
     public TemperatureRecord(String year) {
         this.year = year;
-        this.jan = Double.MAX_VALUE;
-        this.feb = Double.MAX_VALUE;
-        this.mar = Double.MAX_VALUE;
-        this.apr = Double.MAX_VALUE;
-        this.mai = Double.MAX_VALUE;
-        this.jun = Double.MAX_VALUE;
-        this.jul = Double.MAX_VALUE;
-        this.aug = Double.MAX_VALUE;
-        this.sep = Double.MAX_VALUE;
-        this.oct = Double.MAX_VALUE;
-        this.nov = Double.MAX_VALUE;
-        this.dec = Double.MAX_VALUE;
+        this.jan = BigDecimal.ZERO;
+        this.feb = BigDecimal.ZERO;
+        this.mar = BigDecimal.ZERO;
+        this.apr = BigDecimal.ZERO;
+        this.mai = BigDecimal.ZERO;
+        this.jun = BigDecimal.ZERO;
+        this.jul = BigDecimal.ZERO;
+        this.aug = BigDecimal.ZERO;
+        this.sep = BigDecimal.ZERO;
+        this.oct = BigDecimal.ZERO;
+        this.nov = BigDecimal.ZERO;
+        this.dec = BigDecimal.ZERO;
     }
 
     // ####################################################
@@ -45,103 +47,103 @@ public class TemperatureRecord {
         return year;
     }
 
+    public BigDecimal getJan() {
+        return jan;
+    }
+
+    public BigDecimal getFeb() {
+        return feb;
+    }
+
+    public BigDecimal getMar() {
+        return mar;
+    }
+
+    public BigDecimal getApr() {
+        return apr;
+    }
+
+    public BigDecimal getMai() {
+        return mai;
+    }
+
+    public BigDecimal getJun() {
+        return jun;
+    }
+
+    public BigDecimal getJul() {
+        return jul;
+    }
+
+    public BigDecimal getAug() {
+        return aug;
+    }
+
+    public BigDecimal getSep() {
+        return sep;
+    }
+
+    public BigDecimal getOct() {
+        return oct;
+    }
+
+    public BigDecimal getNov() {
+        return nov;
+    }
+
+    public BigDecimal getDec() {
+        return dec;
+    }
+
     public void setYear(String year) {
         this.year = year;
     }
 
-    public double getJan() {
-        return jan;
-    }
-
-    public void setJan(double jan) {
+    public void setJan(BigDecimal jan) {
         this.jan = jan;
     }
 
-    public double getFeb() {
-        return feb;
-    }
-
-    public void setFeb(double feb) {
+    public void setFeb(BigDecimal feb) {
         this.feb = feb;
     }
 
-    public double getMar() {
-        return mar;
-    }
-
-    public void setMar(double mar) {
+    public void setMar(BigDecimal mar) {
         this.mar = mar;
     }
 
-    public double getApr() {
-        return apr;
-    }
-
-    public void setApr(double apr) {
+    public void setApr(BigDecimal apr) {
         this.apr = apr;
     }
 
-    public double getMai() {
-        return mai;
-    }
-
-    public void setMai(double mai) {
+    public void setMai(BigDecimal mai) {
         this.mai = mai;
     }
 
-    public double getJun() {
-        return jun;
-    }
-
-    public void setJun(double jun) {
+    public void setJun(BigDecimal jun) {
         this.jun = jun;
     }
 
-    public double getJul() {
-        return jul;
-    }
-
-    public void setJul(double jul) {
+    public void setJul(BigDecimal jul) {
         this.jul = jul;
     }
 
-    public double getAug() {
-        return aug;
-    }
-
-    public void setAug(double aug) {
+    public void setAug(BigDecimal aug) {
         this.aug = aug;
     }
 
-    public double getSep() {
-        return sep;
-    }
-
-    public void setSep(double sep) {
+    public void setSep(BigDecimal sep) {
         this.sep = sep;
     }
 
-    public double getOct() {
-        return oct;
-    }
-
-    public void setOct(double oct) {
+    public void setOct(BigDecimal oct) {
         this.oct = oct;
     }
 
-    public double getNov() {
-        return nov;
-    }
-
-    public void setNov(double nov) {
+    public void setNov(BigDecimal nov) {
         this.nov = nov;
     }
 
-    public double getDec() {
-        return dec;
-    }
-
-    public void setDec(double dec) {
+    public void setDec(BigDecimal dec) {
         this.dec = dec;
     }
 }

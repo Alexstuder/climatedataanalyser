@@ -14,6 +14,8 @@ public interface StationDAO {
 
     public Station getStationsBy(int stationID) throws NotFoundException;
 
+    public List<Station> getAllStations();
+
     public Station getStationByName(String stationName) throws NotFoundException;
 
 

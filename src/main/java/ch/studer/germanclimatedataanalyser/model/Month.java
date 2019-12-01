@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
@@ -28,46 +29,46 @@ public class Month implements Serializable {
   private int qn4;
 
   @Column(name="MO_N")
-  private double moN;
+  private BigDecimal moN;
 
   @Column(name="MO_TT")
-  private double moTt;
+  private BigDecimal moTt;
 
   @Column(name="MO_TX")
-  private double moTx;
+  private BigDecimal moTx;
 
   @Column(name="MO_TN")
-  private double moTn;
+  private BigDecimal moTn;
 
   @Column(name="MO_FK")
-  private double moFk;
+  private BigDecimal moFk;
 
   @Column(name="MX_TX")
-  private double mxTx;
+  private BigDecimal mxTx;
 
   @Column(name="MX_FX")
-  private double mxFx;
+  private BigDecimal mxFx;
 
   @Column(name="MX_TN")
-  private double mxTn;
+  private BigDecimal mxTn;
 
   @Column(name="MO_SD_S")
-  private double moSdS;
+  private BigDecimal moSdS;
 
   @Column(name="QN_6")
   private int qn6;
 
   @Column(name="MO_RR")
-  private double moRr;
+  private BigDecimal moRr;
 
   @Column(name="MX_RS")
-  private double mxRs;
+  private BigDecimal mxRs;
 
   public Month(){
 
   }
 
-    public Month(int stationsId, Date messDatumBeginn, Date messDatumEnde, int qn4, double moN, double moTt, double moTx, double moTn, double moFk, double mxTx, double mxFx, double mxTn, double moSdS, int qn6, double moRr, double mxRs) {
+    public Month(int stationsId, Date messDatumBeginn, Date messDatumEnde, int qn4, BigDecimal moN, BigDecimal moTt, BigDecimal moTx, BigDecimal moTn, BigDecimal moFk, BigDecimal mxTx, BigDecimal mxFx, BigDecimal mxTn, BigDecimal moSdS, int qn6, BigDecimal moRr, BigDecimal mxRs) {
         this.stationsId = stationsId;
         this.messDatumBeginn = messDatumBeginn;
         this.messDatumEnde = messDatumEnde;
@@ -118,75 +119,75 @@ public class Month implements Serializable {
         this.qn4 = qn4;
     }
 
-    public double getMoN() {
+    public BigDecimal getMoN() {
         return moN;
     }
 
-    public void setMoN(double moN) {
+    public void setMoN(BigDecimal moN) {
         this.moN = moN;
     }
 
-    public double getMoTt() {
+    public BigDecimal getMoTt() {
         return moTt;
     }
 
-    public void setMoTt(double moTt) {
+    public void setMoTt(BigDecimal moTt) {
         this.moTt = moTt;
     }
 
-    public double getMoTx() {
+    public BigDecimal getMoTx() {
         return moTx;
     }
 
-    public void setMoTx(double moTx) {
+    public void setMoTx(BigDecimal moTx) {
         this.moTx = moTx;
     }
 
-    public double getMoTn() {
+    public BigDecimal getMoTn() {
         return moTn;
     }
 
-    public void setMoTn(double moTn) {
+    public void setMoTn(BigDecimal moTn) {
         this.moTn = moTn;
     }
 
-    public double getMoFk() {
+    public BigDecimal getMoFk() {
         return moFk;
     }
 
-    public void setMoFk(double moFk) {
+    public void setMoFk(BigDecimal moFk) {
         this.moFk = moFk;
     }
 
-    public double getMxTx() {
+    public BigDecimal getMxTx() {
         return mxTx;
     }
 
-    public void setMxTx(double mxTx) {
+    public void setMxTx(BigDecimal mxTx) {
         this.mxTx = mxTx;
     }
 
-    public double getMxFx() {
+    public BigDecimal getMxFx() {
         return mxFx;
     }
 
-    public void setMxFx(double mxFx) {
+    public void setMxFx(BigDecimal mxFx) {
         this.mxFx = mxFx;
     }
 
-    public double getMxTn() {
+    public BigDecimal getMxTn() {
         return mxTn;
     }
 
-    public void setMxTn(double mxTn) {
+    public void setMxTn(BigDecimal mxTn) {
         this.mxTn = mxTn;
     }
 
-    public double getMoSdS() {
+    public BigDecimal getMoSdS() {
         return moSdS;
     }
 
-    public void setMoSdS(double moSdS) {
+    public void setMoSdS(BigDecimal moSdS) {
         this.moSdS = moSdS;
     }
 
@@ -198,19 +199,19 @@ public class Month implements Serializable {
         this.qn6 = qn6;
     }
 
-    public double getMoRr() {
+    public BigDecimal getMoRr() {
         return moRr;
     }
 
-    public void setMoRr(double moRr) {
+    public void setMoRr(BigDecimal moRr) {
         this.moRr = moRr;
     }
 
-    public double getMxRs() {
+    public BigDecimal getMxRs() {
         return mxRs;
     }
 
-    public void setMxRs(double mxRs) {
+    public void setMxRs(BigDecimal mxRs) {
         this.mxRs = mxRs;
     }
 

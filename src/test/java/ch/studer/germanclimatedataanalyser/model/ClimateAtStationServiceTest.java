@@ -77,10 +77,11 @@ public class ClimateAtStationServiceTest {
         try{
            climateAtStation.getNewClimateAtStation(String.valueOf(stationId));
         } catch (Exception e){
+            System.out.print("Hier Error msg " + e.getMessage());
          //TODO ??? what to proof here ?
         }
         assertNotNull(climateAtStation);
-        assertTrue(climateAtStation.getClimateRecords().size() == 61);
+        assertEquals(61,climateAtStation.getClimateRecords().size());
 
         // Proof if Difference is Zero
         assertTrue(isZero(climateAtStation.getClimateDifferences()));
@@ -152,18 +153,18 @@ public class ClimateAtStationServiceTest {
     private boolean isZero(List<ClimateDifference> climateDifferences) {
 
         for (ClimateDifference climateDifference : climateDifferences){
-            if (climateDifference.getDifference().getJan() != 0
-             || climateDifference.getDifference().getFeb() != 0
-             || climateDifference.getDifference().getMar() != 0
-             || climateDifference.getDifference().getApr() != 0
-             || climateDifference.getDifference().getMai() != 0
-             || climateDifference.getDifference().getJun() != 0
-             || climateDifference.getDifference().getJul() != 0
-             || climateDifference.getDifference().getAug() != 0
-             || climateDifference.getDifference().getSep() != 0
-             || climateDifference.getDifference().getOct() != 0
-             || climateDifference.getDifference().getNov() != 0
-             || climateDifference.getDifference().getDec() != 0
+            if (climateDifference.getDifference().getJan().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getFeb().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getMar().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getApr().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getMai().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getJun().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getJul().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getAug().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getSep().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getOct().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getNov().compareTo(new BigDecimal(0)) != 0
+             || climateDifference.getDifference().getDec().compareTo(new BigDecimal(0)) != 0
             ){
                 return false;
             }
@@ -197,18 +198,18 @@ public class ClimateAtStationServiceTest {
         for (int i = 0 ; i <= numberYears; i++){
 
             TemperatureRecord t = new TemperatureRecord(String.valueOf(actualYear));
-            t.setJan(-1.00);
-            t.setFeb(2.00);
-            t.setMar(3.00);
-            t.setApr(4.00);
-            t.setMai(5.00);
-            t.setJun(6.00);
-            t.setJul(7.00);
-            t.setAug(8.00);
-            t.setSep(9.00);
-            t.setOct(10.00);
-            t.setNov(11.00);
-            t.setDec(12.00);
+            t.setJan(new BigDecimal(-1.00));
+            t.setFeb(new BigDecimal(2.00));
+            t.setMar(new BigDecimal(3.00));
+            t.setApr(new BigDecimal(4.00));
+            t.setMai(new BigDecimal(5.00));
+            t.setJun(new BigDecimal(6.00));
+            t.setJul(new BigDecimal(7.00));
+            t.setAug(new BigDecimal(8.00));
+            t.setSep(new BigDecimal(9.00));
+            t.setOct(new BigDecimal(10.00));
+            t.setNov(new BigDecimal(11.00));
+            t.setDec(new BigDecimal(12.00));
             temperatureRecords.add(t);
             actualYear--;
         }
@@ -235,7 +236,7 @@ public class ClimateAtStationServiceTest {
                 m.setMessDatumBeginn(Date.valueOf(getDate(BEGIN,date,month)));
                 m.setMessDatumEnde(Date.valueOf(getDate(END,date,month)));
 
-                m.setMoTt(month);
+                m.setMoTt(new BigDecimal(month));
 
                 months.add(m);
             }

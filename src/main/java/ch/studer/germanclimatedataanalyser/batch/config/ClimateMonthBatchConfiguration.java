@@ -5,6 +5,7 @@ import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
+import ch.studer.germanclimatedataanalyser.batch.processor.WeatherProcessor;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloader;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
@@ -12,17 +13,15 @@ import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.*;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
-import ch.studer.germanclimatedataanalyser.model.Station;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.annotation.BeforeJob;
 import org.springframework.batch.core.configuration.annotation.*;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -36,13 +35,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 @Configuration
 @EnableBatchProcessing
@@ -90,7 +90,7 @@ public class ClimateMonthBatchConfiguration {
 
     @Bean
     @StepScope
-    public MultiResourceItemReader<MonthFile> multiResourceItemReader()
+    public MultiResourceItemReader<MonthFile> monthFilesReader()
     {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
@@ -161,13 +161,13 @@ public class ClimateMonthBatchConfiguration {
 
     @Bean
     @StepScope
-    public ClimateMonthProcessor processor() {
+    public ClimateMonthProcessor temperaturProcessor() {
         return new ClimateMonthProcessor();
     }
 
     @Bean
     @StepScope
-    public ClimateMonthDBWriter writer() {
+    public ClimateMonthDBWriter monthWriter() {
         return new ClimateMonthDBWriter();
     }
 
@@ -276,8 +276,8 @@ public class ClimateMonthBatchConfiguration {
         return jobBuilderFactoryImport.get("importClimateMonthDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               .start(downloadFiles())
-               .next(unzipFiles())
+               //.start(downloadFiles())
+               .start(unzipFiles())
                .next(importTemperatureRecords())
                .next(importStations())
                .build()
@@ -288,20 +288,57 @@ public class ClimateMonthBatchConfiguration {
     public Step importTemperatureRecords(){
         return stepBuilderFactoryImport.get("import-temperature-records")
                 .<MonthFile,Month> chunk(10000)
-                .reader(multiResourceItemReader())
+                .reader(monthFilesReader())
                 .listener(new StepProcessorListener(statistics()))
-                .processor(processor())
+                .processor(temperaturProcessor())
                 .listener(new StepWriterListener(statistics()))
-                .writer(writer())
+                .writer(monthWriter())
                 .build()
                 ;
     }
 
+
+//    @Bean
+//    @StepScope
+//    public JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> temperatureFromDbReader(){
+//        return new JdbcCursorItemReaderBuilder<RawMonthTemperatureAtStationRecord>()
+//                .dataSource(this.dataSource)
+//                .name("weatherReader")
+//                .sql("select STATION_ID,MESS_DATUM_BEGINN,MESS_DATUM_ENDE,MO_TT ")
+//                .rowMapper(new TemperatureRowMapper())
+//                .build();
+//
+//
+//
+//    }
+
+    @Bean
+    @StepScope
+    public WeatherProcessor weatherProcessor() {
+        return new WeatherProcessor();
+    }
+
+
+//    @Transactional
+//    @Bean
+//    public Step importWeatherRecords(){
+//        return stepBuilderFactoryImport.get("import-weather-records")
+//                .<RawMonthTemperatureAtStationRecord, StationWeather> chunk(5000)
+//                .reader(temperatureFromDbReader())
+//                //.listener(new StepProcessorListener(statistics()))
+//                .processor(weatherProcessor())
+//                //.listener(new StepWriterListener(statistics()))
+//                .writer(weatherWriter())
+//                .build()
+//                ;
+//    }
+    
+    
     @Transactional
     @Bean
     public Step importStations(){
         return stepBuilderFactoryImport.get("import-station-records")
-                .<StationFile, Station> chunk(10)
+                .<StationFile, Station> chunk(100)
                 .reader(readerStation())
                 //.listener(new StepProcessorListener(statistics()))
                 .processor(stationProcessor())
@@ -311,3 +348,24 @@ public class ClimateMonthBatchConfiguration {
                 ;
     }
 }
+//    class TemperatureRowMapper implements RowMapper<RawMonthTemperatureAtStationRecord> {
+//
+//        final String STATION_ID = "stationsId";
+//        final String MESS_DATUM_BEGINN = "messDatumBeginn";
+//        final String MESS_DATUM_ENDE = "messDatumEnde";
+//        final double MO_TT = "moTt";
+//
+//        @Override
+//        public RawMonthTemperatureAtStationRecord mapRow(ResultSet resultSet, int i) throws SQLException {
+//            RawMonthTemperatureAtStationRecord monthRecord = new RawMonthTemperatureAtStationRecord();
+//
+//            monthRecord.setStationId(resultSet.getString(STATION_ID));
+//            monthRecord.setMessDatumBeginn(resultSet.getString(MESS_DATUM_BEGINN));
+//            monthRecord.setMessDatumEnd(resultSet.getString(MESS_DATUM_ENDE));
+//            monthRecord.setTemperatur(resultSet.getString(MO_TT));
+//
+//            return monthRecord;
+//        }
+//    }
+
+

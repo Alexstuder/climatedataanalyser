@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +73,8 @@ public class TemperaturesAtStationServiceTest {
         List<TemperatureRecord> temperatureRecords = temperaturesAtStationService.getTemperaturesBy(stationId).getTemperatureRecordList();
 
         assertEquals(91,temperatureRecords.size());
-        assertEquals(01.00,temperatureRecords.get(0).getJan(),0);
-        assertEquals(12.00,temperatureRecords.get(90).getDec(),0);
+        assertTrue(temperatureRecords.get(0).getJan().compareTo(new BigDecimal(01.00)) == 0);
+        assertTrue(temperatureRecords.get(90).getDec().compareTo(new BigDecimal(12.00)) == 0);
         assertTrue(isAllMonthTemperatureValid(temperatureRecords));
 
     }
@@ -82,18 +83,18 @@ public class TemperaturesAtStationServiceTest {
 
 
         for (TemperatureRecord t : temperatureRecords){
-            if (t.getJan() != 01.00d) {return false;}
-            if (t.getFeb() != 02.00d) {return false;}
-            if (t.getMar() != 03.00d) {return false;}
-            if (t.getApr() != 04.00d) {return false;}
-            if (t.getMai() != 05.00d) {return false;}
-            if (t.getJun() != 06.00d) {return false;}
-            if (t.getJul() != 07.00d) {return false;}
-            if (t.getAug() != 08.00d) {return false;}
-            if (t.getSep() != 09.00d) {return false;}
-            if (t.getOct() != 10.00d) {return false;}
-            if (t.getNov() != 11.00d) {return false;}
-            if (t.getDec() != 12.00d) {return false;}
+            if (t.getJan().compareTo(new BigDecimal(01.00)) != 0) {return false;}
+            if (t.getFeb().compareTo(new BigDecimal(02.00)) != 0) {return false;}
+            if (t.getMar().compareTo(new BigDecimal(03.00)) != 0) {return false;}
+            if (t.getApr().compareTo(new BigDecimal(04.00)) != 0) {return false;}
+            if (t.getMai().compareTo(new BigDecimal(05.00)) != 0) {return false;}
+            if (t.getJun().compareTo(new BigDecimal(06.00)) != 0) {return false;}
+            if (t.getJul().compareTo(new BigDecimal(07.00)) != 0) {return false;}
+            if (t.getAug().compareTo(new BigDecimal(08.00)) != 0) {return false;}
+            if (t.getSep().compareTo(new BigDecimal(09.00)) != 0) {return false;}
+            if (t.getOct().compareTo(new BigDecimal(10.00)) != 0) {return false;}
+            if (t.getNov().compareTo(new BigDecimal(11.00)) != 0) {return false;}
+            if (t.getDec().compareTo(new BigDecimal(12.00)) != 0) {return false;}
         }
 
         return true;
@@ -134,7 +135,7 @@ public class TemperaturesAtStationServiceTest {
                m.setMessDatumBeginn(Date.valueOf(getDate(BEGIN,date,month)));
                m.setMessDatumEnde(Date.valueOf(getDate(END,date,month)));
 
-               m.setMoTt(month);
+               m.setMoTt(new BigDecimal(month));
 
                months.add(m);
             }

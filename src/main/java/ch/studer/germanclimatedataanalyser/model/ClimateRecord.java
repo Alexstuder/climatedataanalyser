@@ -1,5 +1,7 @@
 package ch.studer.germanclimatedataanalyser.model;
 
+import java.math.BigDecimal;
+
 public class ClimateRecord {
 
     // End date 'yyyy' -> 2018
@@ -12,153 +14,165 @@ public class ClimateRecord {
     public ClimateRecord(String endPeriod, String startDate) {
         this.endPeriod = endPeriod;
         this.startDate = startDate;
+        this.setTempJan(new BigDecimal(0));
+        this.setTempFeb(new BigDecimal(0));
+        this.setTempMar(new BigDecimal(0));
+        this.setTempApr(new BigDecimal(0));
+        this.setTempMai(new BigDecimal(0));
+        this.setTempJun(new BigDecimal(0));
+        this.setTempJul(new BigDecimal(0));
+        this.setTempAug(new BigDecimal(0));
+        this.setTempSep(new BigDecimal(0));
+        this.setTempOkt(new BigDecimal(0));
+        this.setTempNov(new BigDecimal(0));
+        this.setTempDez(new BigDecimal(0));
     }
 
     // average Temperature for Dez;
-    private double tempDez;
+    private BigDecimal tempDez;
 
     // average Temperature for Nov;
-    private double tempNov;
+    private BigDecimal tempNov;
 
     // average Temperature for Okt;
-    private double tempOkt;
+    private BigDecimal tempOkt;
 
     // average Temperature for Sep;
-    private double tempSep;
+    private BigDecimal tempSep;
 
     // average Temperature for Aug;
-    private double tempAug;
+    private BigDecimal tempAug;
 
     // average Temperature for Jul;
-    private double tempJul;
+    private BigDecimal tempJul;
 
     // average Temperature for Jun;
-    private double tempJun;
+    private BigDecimal tempJun;
 
     // average Temperature for Mai;
-    private double tempMai;
+    private BigDecimal tempMai;
 
     // average Temperature for Apr;
-    private double tempApr;
+    private BigDecimal tempApr;
 
     // average Temperature for Mar;
-    private double tempMar;
+    private BigDecimal tempMar;
 
     // average Temperature for Feb;
-    private double tempFeb;
+    private BigDecimal tempFeb;
 
     // average Temperature for Jan;
-    private double tempJan;
+    private BigDecimal tempJan;
 
     public String getEndPeriod() {
         return endPeriod;
-    }
-
-    public void setEndPeriod(String endPeriod) {
-        this.endPeriod = endPeriod;
     }
 
     public String getStartDate() {
         return startDate;
     }
 
+    public BigDecimal getTempDez() {
+        return tempDez;
+    }
+
+    public BigDecimal getTempNov() {
+        return tempNov;
+    }
+
+    public BigDecimal getTempOkt() {
+        return tempOkt;
+    }
+
+    public BigDecimal getTempSep() {
+        return tempSep;
+    }
+
+    public BigDecimal getTempAug() {
+        return tempAug;
+    }
+
+    public BigDecimal getTempJul() {
+        return tempJul;
+    }
+
+    public BigDecimal getTempJun() {
+        return tempJun;
+    }
+
+    public BigDecimal getTempMai() {
+        return tempMai;
+    }
+
+    public BigDecimal getTempApr() {
+        return tempApr;
+    }
+
+    public BigDecimal getTempMar() {
+        return tempMar;
+    }
+
+    public BigDecimal getTempFeb() {
+        return tempFeb;
+    }
+
+    public BigDecimal getTempJan() {
+        return tempJan;
+    }
+
+    public void setEndPeriod(String endPeriod) {
+        this.endPeriod = endPeriod;
+    }
+
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public double getTempDez() {
-        return tempDez;
-    }
-
-    public void setTempDez(double tempDez) {
+    public void setTempDez(BigDecimal tempDez) {
         this.tempDez = tempDez;
     }
 
-    public double getTempNov() {
-        return tempNov;
-    }
-
-    public void setTempNov(double tempNov) {
+    public void setTempNov(BigDecimal tempNov) {
         this.tempNov = tempNov;
     }
 
-    public double getTempOkt() {
-        return tempOkt;
-    }
-
-    public void setTempOkt(double tempOkt) {
+    public void setTempOkt(BigDecimal tempOkt) {
         this.tempOkt = tempOkt;
     }
 
-    public double getTempSep() {
-        return tempSep;
-    }
-
-    public void setTempSep(double tempSep) {
+    public void setTempSep(BigDecimal tempSep) {
         this.tempSep = tempSep;
     }
 
-    public double getTempAug() {
-        return tempAug;
-    }
-
-    public void setTempAug(double tempAug) {
+    public void setTempAug(BigDecimal tempAug) {
         this.tempAug = tempAug;
     }
 
-    public double getTempJul() {
-        return tempJul;
-    }
-
-    public void setTempJul(double tempJul) {
+    public void setTempJul(BigDecimal tempJul) {
         this.tempJul = tempJul;
     }
 
-    public double getTempJun() {
-        return tempJun;
-    }
-
-    public void setTempJun(double tempJun) {
+    public void setTempJun(BigDecimal tempJun) {
         this.tempJun = tempJun;
     }
 
-    public double getTempMai() {
-        return tempMai;
-    }
-
-    public void setTempMai(double tempMai) {
+    public void setTempMai(BigDecimal tempMai) {
         this.tempMai = tempMai;
     }
 
-    public double getTempApr() {
-        return tempApr;
-    }
-
-    public void setTempApr(double tempApr) {
+    public void setTempApr(BigDecimal tempApr) {
         this.tempApr = tempApr;
     }
 
-    public double getTempMar() {
-        return tempMar;
-    }
-
-    public void setTempMar(double tempMar) {
+    public void setTempMar(BigDecimal tempMar) {
         this.tempMar = tempMar;
     }
 
-    public double getTempFeb() {
-        return tempFeb;
-    }
-
-    public void setTempFeb(double tempFeb) {
+    public void setTempFeb(BigDecimal tempFeb) {
         this.tempFeb = tempFeb;
     }
 
-    public double getTempJan() {
-        return tempJan;
-    }
-
-    public void setTempJan(double tempJan) {
+    public void setTempJan(BigDecimal tempJan) {
         this.tempJan = tempJan;
     }
 }

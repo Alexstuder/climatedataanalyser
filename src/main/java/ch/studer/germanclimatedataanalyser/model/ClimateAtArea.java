@@ -41,6 +41,8 @@ public class ClimateAtArea extends Climate{
         }
 
         // Set ClimatRecords and get the Diffenrences from it
+        //TODO Die Liste muss noch vorerst aggregiert werden !
+        // Nach Clima Jahr !?
         super.setClimate(climateRecords);
 
 

@@ -32,6 +32,11 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    public List<Station> getAllStations() {
+        return stationDAO.getAllStations();
+    }
+
+    @Override
     public List<Station> getStationsFromBundesland(String bundesland) {
         return stationDAO.getStationsFromBundesland(bundesland);
     }

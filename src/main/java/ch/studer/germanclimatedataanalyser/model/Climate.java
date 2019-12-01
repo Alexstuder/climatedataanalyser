@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,17 +116,17 @@ public abstract class Climate {
                 + getPrintMonth(c.getTempJun()) + getPrintMonth(c.getTempJul()) + getPrintMonth(c.getTempAug()) + getPrintMonth(c.getTempSep()) + getPrintMonth(c.getTempOkt()) + getPrintMonth(c.getTempNov()) + getPrintMonth(c.getTempDez());
     }
 
-    private String getPrintMonth ( double month){
+    private String getPrintMonth ( BigDecimal month){
         String preSpace = "  ";
         // use DecimalFormat
         DecimalFormat decimalFormat = new DecimalFormat("00.0000");
         String formatedTemperature = " ------ |";
 
-        if(month < 0){
+        if(month.compareTo(BigDecimal.ZERO) < 0){
             preSpace = " ";
         }
 
-        if (month != Double.MAX_VALUE) {
+        if (month.compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) != 0) {
             formatedTemperature = preSpace + decimalFormat.format(month) + " |";
         }
 

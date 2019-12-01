@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 
 //@RunWith(MockitoJUnitRunner.class)
@@ -18,34 +20,34 @@ public class ClimateDifferenceTest {
     public void setUp(){
 
         first = new ClimateRecord("2019","2000");
-        first.setTempJan(1.01d);
-        first.setTempFeb(2.01d);
-        first.setTempMar(3.01d);
-        first.setTempApr(4.01d);
-        first.setTempMai(5.01d);
-        first.setTempJun(6.01d);
-        first.setTempJul(7.01d);
-        first.setTempAug(8.01d);
-        first.setTempSep(9.01d);
-        first.setTempOkt(10.01d);
-        first.setTempNov(11.01d);
-        first.setTempDez(12.01d);
+        first.setTempJan(new BigDecimal(1.01));
+        first.setTempFeb(new BigDecimal(2.01d));
+        first.setTempMar(new BigDecimal(3.01d));
+        first.setTempApr(new BigDecimal(4.01d));
+        first.setTempMai(new BigDecimal(5.01d));
+        first.setTempJun(new BigDecimal(6.01d));
+        first.setTempJul(new BigDecimal(7.01d));
+        first.setTempAug(new BigDecimal(8.01d));
+        first.setTempSep(new BigDecimal(9.01d));
+        first.setTempOkt(new BigDecimal(10.01d));
+        first.setTempNov(new BigDecimal(11.01d));
+        first.setTempDez(new BigDecimal(12.01d));
 
         second = new ClimateRecord("2000","1980");
         second.setStartDate("1980");
         second.setEndPeriod("2000");
-        second.setTempJan(2.01d);
-        second.setTempFeb(3.01d);
-        second.setTempMar(4.01d);
-        second.setTempApr(5.01d);
-        second.setTempMai(6.01d);
-        second.setTempJun(7.01d);
-        second.setTempJul(8.01d);
-        second.setTempAug(9.01d);
-        second.setTempSep(10.01d);
-        second.setTempOkt(11.01d);
-        second.setTempNov(12.01d);
-        second.setTempDez(13.01d);
+        second.setTempJan(new BigDecimal(2.01d));
+        second.setTempFeb(new BigDecimal(3.01d));
+        second.setTempMar(new BigDecimal(4.01d));
+        second.setTempApr(new BigDecimal(5.01d));
+        second.setTempMai(new BigDecimal(6.01d));
+        second.setTempJun(new BigDecimal(7.01d));
+        second.setTempJul(new BigDecimal(8.01d));
+        second.setTempAug(new BigDecimal(9.01d));
+        second.setTempSep(new BigDecimal(10.01d));
+        second.setTempOkt(new BigDecimal(11.01d));
+        second.setTempNov(new BigDecimal(12.01d));
+        second.setTempDez(new BigDecimal(13.01d));
 
 
 

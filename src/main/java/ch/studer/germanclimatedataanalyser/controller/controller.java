@@ -53,11 +53,11 @@ public class controller {
             return "Climate, " + bundesland + "!";
         }
 
-//       @RequestMapping("/runAll")
-//        String run() {
-//            temperaturesAtStationService.getTemperaturesForAll();
-//            return "Run All, ";
-//        }
+       @RequestMapping("/runAll")
+        String run() {
+            temperaturesAtStationService.getTemperaturesForAll();
+            return "Run All, ";
+        }
 //
 //        @RequestMapping("/hello/{name}")
 //        String hello(@PathVariable String name) {
