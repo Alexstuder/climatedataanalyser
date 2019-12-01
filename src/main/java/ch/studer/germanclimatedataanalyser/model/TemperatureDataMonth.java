@@ -1,11 +1,13 @@
 package ch.studer.germanclimatedataanalyser.model;
 
+import java.math.BigDecimal;
+
 public class TemperatureDataMonth {
 
 
     private String year;
 
-    private double temperature ;
+    private BigDecimal temperature ;
 
 
 
@@ -14,7 +16,7 @@ public class TemperatureDataMonth {
     // #   Constructor
     // ###########################################
 
-    public TemperatureDataMonth(String year, double temperature) {
+    public TemperatureDataMonth(String year, BigDecimal temperature) {
         this.year = year;
         this.temperature = temperature;
     }
@@ -32,11 +34,11 @@ public class TemperatureDataMonth {
         this.year = year;
     }
 
-    public double getTemperature() {
+    public BigDecimal getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    public void setTemperature(BigDecimal temperature) {
         this.temperature = temperature;
     }
 }

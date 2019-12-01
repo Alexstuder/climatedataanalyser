@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
@@ -24,18 +25,18 @@ public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
         final Date MESS_DATUM_BEGINN   = getSQLDate(monthFile.getMessDatumBeginn().trim());
         final Date MESS_DATUM_ENDE     = getSQLDate(monthFile.getMessDatumEnde().trim());
         final int QN_4                 = Integer.valueOf(monthFile.getQn4().trim());
-        final double MO_N              = Double.valueOf(monthFile.getMoN().trim());
-        final double  MO_TT            = Double.valueOf(monthFile.getMoTt().trim());
-        final double MO_TX             = Double.valueOf(monthFile.getMoTx().trim());
-        final double MO_TN             = Double.valueOf(monthFile.getMoTn().trim());
-        final double MO_FK             = Double.valueOf(monthFile.getMoFk().trim());
-        final double MX_TX             = Double.valueOf(monthFile.getMxTx().trim());
-        final double MX_FX             = Double.valueOf(monthFile.getMxFx().trim());
-        final double MX_TN             = Double.valueOf(monthFile.getMxTn().trim());
-        final double MO_SD_S           = Double.valueOf(monthFile.getMoSdS().trim());
+        final BigDecimal MO_N          = BigDecimal.valueOf(Double.valueOf(monthFile.getMoN().trim()));
+        final BigDecimal  MO_TT        = BigDecimal.valueOf(Double.valueOf(monthFile.getMoTt().trim()));
+        final BigDecimal MO_TX         = BigDecimal.valueOf(Double.valueOf(monthFile.getMoTx().trim()));
+        final BigDecimal MO_TN         = BigDecimal.valueOf(Double.valueOf(monthFile.getMoTn().trim()));
+        final BigDecimal MO_FK         = BigDecimal.valueOf(Double.valueOf(monthFile.getMoFk().trim()));
+        final BigDecimal MX_TX         = BigDecimal.valueOf(Double.valueOf(monthFile.getMxTx().trim()));
+        final BigDecimal MX_FX         = BigDecimal.valueOf(Double.valueOf(monthFile.getMxFx().trim()));
+        final BigDecimal MX_TN         = BigDecimal.valueOf(Double.valueOf(monthFile.getMxTn().trim()));
+        final BigDecimal MO_SD_S       = BigDecimal.valueOf(Double.valueOf(monthFile.getMoSdS().trim()));
         final int QN_6                 = Integer.valueOf(monthFile.getQn6().trim());
-        final double MO_RR             = Double.valueOf(monthFile.getMoRr().trim());
-        final double MX_RS             = Double.valueOf(monthFile.getMxRs().trim());
+        final BigDecimal MO_RR         = BigDecimal.valueOf(Double.valueOf(monthFile.getMoRr().trim()));
+        final BigDecimal MX_RS         = BigDecimal.valueOf(Double.valueOf(monthFile.getMxRs().trim()));
 
         final Month transformedMonth = new Month(STATIONS_ID
                                            ,MESS_DATUM_BEGINN

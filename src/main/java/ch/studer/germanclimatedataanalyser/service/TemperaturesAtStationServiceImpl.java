@@ -6,15 +6,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.math.BigDecimal.ROUND_DOWN;
+import static java.math.BigDecimal.ROUND_UNNECESSARY;
+
 public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationService {
 
     @Autowired
     MonthService monthService;
+
+    @Autowired
+    StationService stationService;
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
@@ -33,7 +41,9 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         TemperatureByStationId temperatureByStationId = new TemperatureByStationId(stationsId);
 
         // Fill and normalise all temperatureRecords
-        getNormalised(temperatureByStationId,months);
+        if(months.size() > 0){
+          getNormalised(temperatureByStationId,months);
+        }
 
         // print before calculating the average value for null temperature
         print(temperatureByStationId);
@@ -109,21 +119,21 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
     }
 
-    private boolean isNull(double temperature) {
+    private boolean isNull(BigDecimal temperature) {
 
-        if (temperature != Double.MAX_VALUE && temperature != -999){
+        if (temperature.compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) !=0 && temperature.compareTo(BigDecimal.valueOf(-999)) != 0 ){
             return false;
         } else {
             return true;
         }
     }
 
-    private Double calculateTemperature(List<TemperatureDataMonth> months , int index) {
+    private BigDecimal calculateTemperature(List<TemperatureDataMonth> months , int index) {
 
         int start = index - period ;
         int end = index + period ;
-        List<Double> averageTemperatures = new ArrayList<Double>();
-        Double averageTemperature = 0d ;
+        List<BigDecimal> averageTemperatures = new ArrayList<BigDecimal>();
+        BigDecimal averageTemperature = new BigDecimal(0) ;
 
 
         // Get Start Index
@@ -135,18 +145,21 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         // Collect all not null Temperature
         for(int i = start ; i < end; i++){
 
-            if((months.get(i).getTemperature() != Double.MAX_VALUE)
-                && (months.get(i).getTemperature() != -999)){
+            if((months.get(i).getTemperature().compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) != 0)
+                && (months.get(i).getTemperature().compareTo(BigDecimal.valueOf(-999)) != 0)){
                 averageTemperatures.add(months.get(i).getTemperature());
             }
         }
         // Build sum
-        for(Double temperature: averageTemperatures){
-            averageTemperature = averageTemperature + temperature;
+        for(BigDecimal temperature: averageTemperatures){
+            averageTemperature = averageTemperature.add(temperature);
         }
 
         // calculate average
-        return averageTemperature = averageTemperature / averageTemperatures.size();
+        if(averageTemperatures.size() == 0){
+            log.debug("Stop here !");
+        }
+        return averageTemperature = averageTemperature.divide(BigDecimal.valueOf(averageTemperatures.size()),4, RoundingMode.DOWN);
     }
 
     @Override
@@ -154,8 +167,10 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
         //TODO Return a List<TemperaturesByStationId>
         // This was just coded to Print and do a visual Test !
-        for (Integer stationId : monthService.getAllStationId()){
-            this.getTemperaturesBy(stationId);
+        for (Station station : stationService.getAllStations()){
+            log.debug("STATION : " + station.getStationName());
+            log.debug("STATION : " + station.getStationId());
+            this.getTemperaturesBy(station.getStationId());
         }
 
     }
@@ -308,16 +323,16 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         return t.getYear() + " | " + getPrintMonth(t.getJan()) + getPrintMonth(t.getFeb()) + getPrintMonth(t.getMar()) + getPrintMonth(t.getApr())
                 + getPrintMonth(t.getMai()) + getPrintMonth(t.getJun()) + getPrintMonth(t.getJul()) + getPrintMonth(t.getAug()) + getPrintMonth(t.getSep()) + getPrintMonth(t.getOct()) + getPrintMonth(t.getNov()) + getPrintMonth(t.getDec());
     }
-    private String getPrintMonth ( double month){
+    private String getPrintMonth ( BigDecimal month){
         // use DecimalFormat
         String preSpace = " ";
         DecimalFormat decimalFormat = new DecimalFormat("#00.0000");
         String formatedTemperature = " ------ |";
 
-        if (month < 0){
+        if (month.compareTo(new BigDecimal(0))  != 0){
             preSpace = "";
         }
-        if (month != Double.MAX_VALUE) {
+        if (month.compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) != 0 ) {
             formatedTemperature = preSpace + decimalFormat.format(month) + "  |";
         }
 

@@ -12,6 +12,7 @@ public interface StationService {
     public Station getStation(int stationId) throws NotFoundException;
 
     public Station getStation(String stationName) throws NotFoundException;
+    public List<Station> getAllStations() ;
 
 
     List<Station> getStationsFromBundesland(String bundesland);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -58,6 +59,20 @@ public class StationDaoImpl implements StationDAO {
         // There is only one Station !
         return stations.get(0);
 
+    }
+
+    @Override
+    public List<Station> getAllStations() {
+
+        List<Station> stations = null;
+
+        Session currentSession = getSession();
+
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s", Station.class);
+
+        stations = theQuery.getResultList();
+
+        return stations;
     }
 
     @Override

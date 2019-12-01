@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.NoResultException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,35 +128,36 @@ public class ClimateAtStation extends Climate {
 
         // Cumulate all Month temperature
         for(int i = start ; i < end ; i++ ){
-            climateRecords.setTempJan(climateRecords.getTempJan() + temperaturesBy.getTemperatureRecordList().get(i).getJan());
-            climateRecords.setTempFeb(climateRecords.getTempFeb() + temperaturesBy.getTemperatureRecordList().get(i).getFeb());
-            climateRecords.setTempMar(climateRecords.getTempMar() + temperaturesBy.getTemperatureRecordList().get(i).getMar());
-            climateRecords.setTempApr(climateRecords.getTempApr() + temperaturesBy.getTemperatureRecordList().get(i).getApr());
-            climateRecords.setTempMai(climateRecords.getTempMai() + temperaturesBy.getTemperatureRecordList().get(i).getMai());
-            climateRecords.setTempJun(climateRecords.getTempJun() + temperaturesBy.getTemperatureRecordList().get(i).getJun());
-            climateRecords.setTempJul(climateRecords.getTempJul() + temperaturesBy.getTemperatureRecordList().get(i).getJul());
-            climateRecords.setTempAug(climateRecords.getTempAug() + temperaturesBy.getTemperatureRecordList().get(i).getAug());
-            climateRecords.setTempSep(climateRecords.getTempSep() + temperaturesBy.getTemperatureRecordList().get(i).getSep());
-            climateRecords.setTempOkt(climateRecords.getTempOkt() + temperaturesBy.getTemperatureRecordList().get(i).getOct());
-            climateRecords.setTempNov(climateRecords.getTempNov() + temperaturesBy.getTemperatureRecordList().get(i).getNov());
-            climateRecords.setTempDez(climateRecords.getTempDez() + temperaturesBy.getTemperatureRecordList().get(i).getDec());
+            climateRecords.setTempJan(climateRecords.getTempJan().add(temperaturesBy.getTemperatureRecordList().get(i).getJan()));
+            climateRecords.setTempFeb(climateRecords.getTempFeb().add(temperaturesBy.getTemperatureRecordList().get(i).getFeb()));
+            climateRecords.setTempMar(climateRecords.getTempMar().add(temperaturesBy.getTemperatureRecordList().get(i).getMar()));
+            climateRecords.setTempApr(climateRecords.getTempApr().add(temperaturesBy.getTemperatureRecordList().get(i).getApr()));
+            climateRecords.setTempMai(climateRecords.getTempMai().add(temperaturesBy.getTemperatureRecordList().get(i).getMai()));
+            climateRecords.setTempJun(climateRecords.getTempJun().add(temperaturesBy.getTemperatureRecordList().get(i).getJun()));
+            climateRecords.setTempJul(climateRecords.getTempJul().add(temperaturesBy.getTemperatureRecordList().get(i).getJul()));
+            climateRecords.setTempAug(climateRecords.getTempAug().add(temperaturesBy.getTemperatureRecordList().get(i).getAug()));
+            climateRecords.setTempSep(climateRecords.getTempSep().add(temperaturesBy.getTemperatureRecordList().get(i).getSep()));
+            climateRecords.setTempOkt(climateRecords.getTempOkt().add(temperaturesBy.getTemperatureRecordList().get(i).getOct()));
+            climateRecords.setTempNov(climateRecords.getTempNov().add(temperaturesBy.getTemperatureRecordList().get(i).getNov()));
+            climateRecords.setTempDez(climateRecords.getTempDez().add(temperaturesBy.getTemperatureRecordList().get(i).getDec()));
         }
 
 
         // // Divide to get the average
 
-        climateRecords.setTempJan(climateRecords.getTempJan() / period);
-        climateRecords.setTempFeb(climateRecords.getTempFeb() / period);
-        climateRecords.setTempMar(climateRecords.getTempMar() / period);
-        climateRecords.setTempApr(climateRecords.getTempApr() / period);
-        climateRecords.setTempMai(climateRecords.getTempMai() / period);
-        climateRecords.setTempJun(climateRecords.getTempJun() / period);
-        climateRecords.setTempJul(climateRecords.getTempJul() / period);
-        climateRecords.setTempAug(climateRecords.getTempAug() / period);
-        climateRecords.setTempSep(climateRecords.getTempSep() / period);
-        climateRecords.setTempOkt(climateRecords.getTempOkt() / period);
-        climateRecords.setTempNov(climateRecords.getTempNov() / period);
-        climateRecords.setTempDez(climateRecords.getTempDez() / period);
+        BigDecimal bdPeriod = new BigDecimal(period);
+        climateRecords.setTempJan(climateRecords.getTempJan().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempFeb(climateRecords.getTempFeb().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempMar(climateRecords.getTempMar().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempApr(climateRecords.getTempApr().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempMai(climateRecords.getTempMai().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempJun(climateRecords.getTempJun().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempJul(climateRecords.getTempJul().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempAug(climateRecords.getTempAug().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempSep(climateRecords.getTempSep().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempOkt(climateRecords.getTempOkt().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempNov(climateRecords.getTempNov().divide(bdPeriod,4, RoundingMode.DOWN));
+        climateRecords.setTempDez(climateRecords.getTempDez().divide(bdPeriod,4, RoundingMode.DOWN));
 
         return climateRecords ;
     }

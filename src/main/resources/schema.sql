@@ -29,18 +29,18 @@ CREATE TABLE if not exists `month` (
                          MESS_DATUM_BEGINN DATE NOT NULL,
                          MESS_DATUM_ENDE DATE NOT NULL,
                          QN_4 int DEFAULT NULL,
-                         MO_N double DEFAULT NULL,
-                         MO_TT double DEFAULT NULL,
-                         MO_TX double DEFAULT NULL,
-                         MO_TN double DEFAULT NULL,
-                         MO_FK double DEFAULT NULL,
-                         MX_TX double DEFAULT NULL,
-                         MX_FX double DEFAULT NULL,
-                         MX_TN double DEFAULT NULL,
-                         MO_SD_S double DEFAULT NULL,
+                         MO_N DECIMAL(7,4) DEFAULT NULL,
+                         MO_TT DECIMAL(7,4) DEFAULT NULL,
+                         MO_TX DECIMAL(7,4) DEFAULT NULL,
+                         MO_TN DECIMAL(7,4) DEFAULT NULL,
+                         MO_FK DECIMAL(7,4) DEFAULT NULL,
+                         MX_TX DECIMAL(7,4) DEFAULT NULL,
+                         MX_FX DECIMAL(7,4) DEFAULT NULL,
+                         MX_TN DECIMAL(7,4) DEFAULT NULL,
+                         MO_SD_S DECIMAL(7,4) DEFAULT NULL,
                          QN_6 int DEFAULT NULL,
-                         MO_RR double DEFAULT NULL,
-                         MX_RS double DEFAULT NULL
+                         MO_RR DECIMAL(7,4) DEFAULT NULL,
+                         MX_RS DECIMAL(7,4) DEFAULT NULL
 );
 
 CREATE TABLE if not exists `station`  (
@@ -57,5 +57,20 @@ CREATE TABLE if not exists `station`  (
 );
 
 CREATE TABLE if not exists `weather` (
+                        ID BIGINT auto_increment NOT NULL PRIMARY KEY
+                        ,STATION_ID int NOT NULL
+                        ,YEAR VARCHAR(200)
+                        ,JANUAR DECIMAL(7,4) NOT NULL
+                        ,FEBRUAR DECIMAL(7,4) NOT NULL
+                        ,MAERZ DECIMAL(7,4) NOT NULL
+                        ,APRIL DECIMAL(7,4) NOT NULL
+                        ,MAI DECIMAL(7,4) NOT NULL
+                        ,JUNI DECIMAL(7,4) NOT NULL
+                        ,JULI DECIMAL(7,4) NOT NULL
+                        ,AUGUST DECIMAL(7,4) NOT NULL
+                        ,SEPTEMBER DECIMAL(7,4) NOT NULL
+                        ,OKTOBER DECIMAL(7,4) NOT NULL
+                        ,NOVEMBER DECIMAL(7,4) NOT NULL
+                        ,DEZEMBER DECIMAL(7,4) NOT NULL
 
 );
