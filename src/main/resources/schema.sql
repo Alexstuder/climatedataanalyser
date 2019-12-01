@@ -55,3 +55,7 @@ CREATE TABLE if not exists `station`  (
                         BUNDES_LAND VARCHAR(100) NOT NULL
 
 );
+
+CREATE TABLE if not exists `weather` (
+
+);
