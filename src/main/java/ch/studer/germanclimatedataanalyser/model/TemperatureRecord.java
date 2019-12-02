@@ -24,18 +24,18 @@ public class TemperatureRecord {
     // ####################################################
     public TemperatureRecord(String year) {
         this.year = year;
-        this.jan = BigDecimal.ZERO;
-        this.feb = BigDecimal.ZERO;
-        this.mar = BigDecimal.ZERO;
-        this.apr = BigDecimal.ZERO;
-        this.mai = BigDecimal.ZERO;
-        this.jun = BigDecimal.ZERO;
-        this.jul = BigDecimal.ZERO;
-        this.aug = BigDecimal.ZERO;
-        this.sep = BigDecimal.ZERO;
-        this.oct = BigDecimal.ZERO;
-        this.nov = BigDecimal.ZERO;
-        this.dec = BigDecimal.ZERO;
+        this.jan = null ;
+        this.feb = null ;
+        this.mar = null ;
+        this.apr = null ;
+        this.mai = null ;
+        this.jun = null ;
+        this.jul = null ;
+        this.aug = null ;
+        this.sep = null ;
+        this.oct = null ;
+        this.nov = null ;
+        this.dec = null ;
     }
 
     // ####################################################

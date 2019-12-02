@@ -9,12 +9,7 @@ public class MonthTemperatureAtStationRecord {
     private String messDatumEnd;
     private BigDecimal temperatur ;
 
-    public MonthTemperatureAtStationRecord(String stationId, String messDatumBeginn, String messDatumEnd, BigDecimal temperatur) {
-        this.stationId = stationId;
-        this.messDatumBeginn = messDatumBeginn;
-        this.messDatumEnd = messDatumEnd;
-        this.temperatur = temperatur;
-    }
+
 
     public String getStationId() {
         return stationId;
