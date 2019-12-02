@@ -23,11 +23,19 @@ public class StationWeatherImpl implements StationWeatherDAO{
     @Override
     public void save(StationWeather stationWeather) {
 
+        // Get the current hibernate Session
+        Session currentSession = getSession();
+        getSession().save(stationWeather);
+
     }
 
     @Override
-    public void saveAll(List<StationWeather> stationWeather) {
+    public void saveAll(List<StationWeather> stationWeathers) {
 
+
+        for (StationWeather stationWeather : stationWeathers){
+            save(stationWeather);
+        }
     }
 
     @Override

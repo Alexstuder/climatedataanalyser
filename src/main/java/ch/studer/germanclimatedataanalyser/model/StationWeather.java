@@ -14,48 +14,49 @@ public class StationWeather {
 
     //TODO STATION as an Object !
     @Column(name="STATION_ID")
-    private final int stationId;
+    private int stationId;
 
     @Column(name="YEAR")
-    private final String year;
+    private String year;
 
     @Column(name="JANUAR")
-    private final BigDecimal januar;
+    private BigDecimal januar;
 
     @Column(name="FEBRUAR")
-    private final BigDecimal februar;
+    private BigDecimal februar;
 
     @Column(name="MAERZ")
-    private final BigDecimal maerz;
+    private BigDecimal maerz;
 
     @Column(name="APRIL")
-    private final BigDecimal april;
+    private BigDecimal april;
 
     @Column(name="MAI")
-    private final BigDecimal mai;
+    private BigDecimal mai;
 
     @Column(name="JUNI")
-    private final BigDecimal juni;
+    private BigDecimal juni;
 
     @Column(name="JULI")
-    private final BigDecimal juli;
+    private BigDecimal juli;
 
     @Column(name="AUGUST")
-    private final BigDecimal august;
+    private BigDecimal august;
 
     @Column(name="SEPTEMBER")
-    private final BigDecimal september;
+    private BigDecimal september;
 
     @Column(name="OKTOBER")
-    private final BigDecimal oktober;
+    private BigDecimal oktober;
 
     @Column(name="NOVEMBER")
-    private final BigDecimal november;
+    private BigDecimal november;
 
     @Column(name="DEZEMBER")
-    private final BigDecimal dezember;
+    private  BigDecimal dezember;
 
 
+    //TODO : Do we really need that Constructor ?
     public StationWeather(int stationId, String year, BigDecimal januar, BigDecimal februar, BigDecimal maerz, BigDecimal april, BigDecimal mai, BigDecimal juni, BigDecimal juli, BigDecimal august, BigDecimal september, BigDecimal oktober, BigDecimal november, BigDecimal dezember) {
         this.stationId = stationId;
         this.year = year;
@@ -72,6 +73,24 @@ public class StationWeather {
         this.november = november;
         this.dezember = dezember;
     }
+
+    public StationWeather(int stationId){
+
+        this.stationId = stationId;
+        this.year      = null;
+        this.januar    = new BigDecimal(-99.9999);
+        this.februar   = new BigDecimal(-99.9999);
+        this.maerz     = new BigDecimal(-99.9999);
+        this.april     = new BigDecimal(-99.9999);
+        this.mai       = new BigDecimal(-99.9999);
+        this.juni      = new BigDecimal(-99.9999);
+        this.juli      = new BigDecimal(-99.9999);
+        this.august    = new BigDecimal(-99.9999);
+        this.september = new BigDecimal(-99.9999);
+        this.oktober   = new BigDecimal(-99.9999);
+        this.november  = new BigDecimal(-99.9999);
+        this.dezember  = new BigDecimal(-99.9999);
+    };
 
     public int getStationId() {
         return stationId;
@@ -127,5 +146,65 @@ public class StationWeather {
 
     public BigDecimal getDezember() {
         return dezember;
+    }
+
+    public void setWeatherId(int weatherId) {
+        this.weatherId = weatherId;
+    }
+
+    public void setStationId(int stationId) {
+        this.stationId = stationId;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setJanuar(BigDecimal januar) {
+        this.januar = januar;
+    }
+
+    public void setFebruar(BigDecimal februar) {
+        this.februar = februar;
+    }
+
+    public void setMaerz(BigDecimal maerz) {
+        this.maerz = maerz;
+    }
+
+    public void setApril(BigDecimal april) {
+        this.april = april;
+    }
+
+    public void setMai(BigDecimal mai) {
+        this.mai = mai;
+    }
+
+    public void setJuni(BigDecimal juni) {
+        this.juni = juni;
+    }
+
+    public void setJuli(BigDecimal juli) {
+        this.juli = juli;
+    }
+
+    public void setAugust(BigDecimal august) {
+        this.august = august;
+    }
+
+    public void setSeptember(BigDecimal september) {
+        this.september = september;
+    }
+
+    public void setOktober(BigDecimal oktober) {
+        this.oktober = oktober;
+    }
+
+    public void setNovember(BigDecimal november) {
+        this.november = november;
+    }
+
+    public void setDezember(BigDecimal dezember) {
+        this.dezember = dezember;
     }
 }

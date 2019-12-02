@@ -11,6 +11,7 @@ import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
+import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
 import ch.studer.germanclimatedataanalyser.model.*;
@@ -277,9 +278,10 @@ public class ClimateMonthBatchConfiguration {
                .incrementer(new RunIdIncrementer())
                .listener(listener)
                //.start(downloadFiles())
-               .start(unzipFiles())
-               .next(importTemperatureRecords())
-               .next(importStations())
+               //.start(unzipFiles())
+               //.start(importTemperatureRecords())
+               // .next(importStations())
+                .start(importWeatherRecords())
                .build()
                 ;
     }
@@ -298,19 +300,6 @@ public class ClimateMonthBatchConfiguration {
     }
 
 
-//    @Bean
-//    @StepScope
-//    public JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> temperatureFromDbReader(){
-//        return new JdbcCursorItemReaderBuilder<RawMonthTemperatureAtStationRecord>()
-//                .dataSource(this.dataSource)
-//                .name("weatherReader")
-//                .sql("select STATION_ID,MESS_DATUM_BEGINN,MESS_DATUM_ENDE,MO_TT ")
-//                .rowMapper(new TemperatureRowMapper())
-//                .build();
-//
-//
-//
-//    }
 
     @Bean
     @StepScope
@@ -318,20 +307,24 @@ public class ClimateMonthBatchConfiguration {
         return new WeatherProcessor();
     }
 
+    @Bean@StepScope
+    public WeatherWriter weatherWriter(){
+        return new WeatherWriter();
+    }
 
-//    @Transactional
-//    @Bean
-//    public Step importWeatherRecords(){
-//        return stepBuilderFactoryImport.get("import-weather-records")
-//                .<RawMonthTemperatureAtStationRecord, StationWeather> chunk(5000)
-//                .reader(temperatureFromDbReader())
-//                //.listener(new StepProcessorListener(statistics()))
-//                .processor(weatherProcessor())
-//                //.listener(new StepWriterListener(statistics()))
-//                .writer(weatherWriter())
-//                .build()
-//                ;
-//    }
+    @Transactional
+    @Bean
+    public Step importWeatherRecords(){
+        return stepBuilderFactoryImport.get("import-weather-records")
+                .<RawMonthTemperatureAtStationRecord, MonthTemperatureAtStationRecord> chunk(5000)
+                .reader(temperatureFromDbReader())
+                //.listener(new StepProcessorListener(statistics()))
+                .processor(weatherProcessor())
+                //.listener(new StepWriterListener(statistics()))
+                .writer(weatherWriter())
+                .build()
+                ;
+    }
     
     
     @Transactional
@@ -347,25 +340,39 @@ public class ClimateMonthBatchConfiguration {
                 .build()
                 ;
     }
+    @Bean
+    @StepScope
+    public JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> temperatureFromDbReader(){
+        return new JdbcCursorItemReaderBuilder<RawMonthTemperatureAtStationRecord>()
+                .dataSource(this.dataSource)
+                .name("weatherReader")
+                .sql("select STATIONS_ID,MESS_DATUM_BEGINN,MESS_DATUM_ENDE,MO_TT from MONTH")
+                .rowMapper(new TemperatureRowMapper())
+                .build();
+
+
+
+    }
+
 }
-//    class TemperatureRowMapper implements RowMapper<RawMonthTemperatureAtStationRecord> {
-//
-//        final String STATION_ID = "stationsId";
-//        final String MESS_DATUM_BEGINN = "messDatumBeginn";
-//        final String MESS_DATUM_ENDE = "messDatumEnde";
-//        final double MO_TT = "moTt";
-//
-//        @Override
-//        public RawMonthTemperatureAtStationRecord mapRow(ResultSet resultSet, int i) throws SQLException {
-//            RawMonthTemperatureAtStationRecord monthRecord = new RawMonthTemperatureAtStationRecord();
-//
-//            monthRecord.setStationId(resultSet.getString(STATION_ID));
-//            monthRecord.setMessDatumBeginn(resultSet.getString(MESS_DATUM_BEGINN));
-//            monthRecord.setMessDatumEnd(resultSet.getString(MESS_DATUM_ENDE));
-//            monthRecord.setTemperatur(resultSet.getString(MO_TT));
-//
-//            return monthRecord;
-//        }
-//    }
+    class TemperatureRowMapper implements RowMapper<RawMonthTemperatureAtStationRecord> {
+
+        final String STATIONS_ID = "STATIONS_ID";
+        final String MESS_DATUM_BEGINN = "MESS_DATUM_BEGINN";
+        final String MESS_DATUM_ENDE = "MESS_DATUM_ENDE";
+        final String MO_TT = "MO_TT";
+
+        @Override
+        public RawMonthTemperatureAtStationRecord mapRow(ResultSet resultSet, int i) throws SQLException {
+            RawMonthTemperatureAtStationRecord monthRecord = new RawMonthTemperatureAtStationRecord();
+
+            monthRecord.setStationId(resultSet.getString(STATIONS_ID));
+            monthRecord.setMessDatumBeginn(resultSet.getString(MESS_DATUM_BEGINN));
+            monthRecord.setMessDatumEnd(resultSet.getString(MESS_DATUM_ENDE));
+            monthRecord.setTemperatur(resultSet.getString(MO_TT));
+
+            return monthRecord;
+        }
+    }
 
 

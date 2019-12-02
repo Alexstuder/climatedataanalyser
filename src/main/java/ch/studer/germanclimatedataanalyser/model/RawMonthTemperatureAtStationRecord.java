@@ -1,5 +1,7 @@
 package ch.studer.germanclimatedataanalyser.model;
 
+import java.math.BigDecimal;
+
 public class RawMonthTemperatureAtStationRecord {
 
     private String stationId;

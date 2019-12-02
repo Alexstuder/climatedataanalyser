@@ -13,9 +13,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.math.BigDecimal.ROUND_DOWN;
-import static java.math.BigDecimal.ROUND_UNNECESSARY;
-
 public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationService {
 
     @Autowired
@@ -27,9 +24,7 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
 
-    private static final String JAN = "JAN";
-
-    private static final Logger log = LoggerFactory.getLogger(TemperaturesAtStationServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TemperaturesAtStationServiceImpl.class);
 
     @Override
     public TemperatureByStationId getTemperaturesBy(int stationsId) {
@@ -42,18 +37,21 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
         // Fill and normalise all temperatureRecords
         if(months.size() > 0){
-          getNormalised(temperatureByStationId,months);
+            getNormalised(temperatureByStationId,months);
+
+            // print before calculating the average value for null temperature
+            LOG.debug("print before calculating the average value for null temperature");
+            print(temperatureByStationId);
+
+            //calculating the average value for every null temperature
+            calculateHoles(temperatureByStationId);
+
+            // print after calculating the average value for null temperature
+            LOG.debug("calculating the average value for every null temperature");
+            print(temperatureByStationId);
+        } else {
+            LOG.debug("Nothing to normalise !");
         }
-
-        // print before calculating the average value for null temperature
-        print(temperatureByStationId);
-
-        //calculating the average value for every null temperature
-        calculateHoles(temperatureByStationId);
-
-
-        // print after calculating the average value for null temperature
-        print(temperatureByStationId);
 
         return temperatureByStationId;
     }
@@ -119,9 +117,10 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
     }
 
-    private boolean isNull(BigDecimal temperature) {
+    private boolean isNull(final BigDecimal temperature) {
 
-        if (temperature.compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) !=0 && temperature.compareTo(BigDecimal.valueOf(-999)) != 0 ){
+        // -99 gibt es nicht mehr ! Da der SQL die -999 entfernt ! --> Aus dem Code Entfernen !
+        if (temperature != null && temperature.compareTo(BigDecimal.valueOf(-999)) != 0 ){
             return false;
         } else {
             return true;
@@ -145,7 +144,8 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         // Collect all not null Temperature
         for(int i = start ; i < end; i++){
 
-            if((months.get(i).getTemperature().compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) != 0)
+
+            if((months.get(i).getTemperature() != null)
                 && (months.get(i).getTemperature().compareTo(BigDecimal.valueOf(-999)) != 0)){
                 averageTemperatures.add(months.get(i).getTemperature());
             }
@@ -157,9 +157,11 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
         // calculate average
         if(averageTemperatures.size() == 0){
-            log.debug("Stop here !");
+            LOG.debug("Stop here !");
+            return null;
+        } else {
+            return averageTemperature = averageTemperature.divide(BigDecimal.valueOf(averageTemperatures.size()), 4, RoundingMode.DOWN);
         }
-        return averageTemperature = averageTemperature.divide(BigDecimal.valueOf(averageTemperatures.size()),4, RoundingMode.DOWN);
     }
 
     @Override
@@ -168,8 +170,8 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         //TODO Return a List<TemperaturesByStationId>
         // This was just coded to Print and do a visual Test !
         for (Station station : stationService.getAllStations()){
-            log.debug("STATION : " + station.getStationName());
-            log.debug("STATION : " + station.getStationId());
+            LOG.debug("STATION : " + station.getStationName());
+            LOG.debug("STATION : " + station.getStationId());
             this.getTemperaturesBy(station.getStationId());
         }
 
@@ -245,7 +247,7 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
                          temperatureRecord.setJan(month.getMoTt());
                          break;
                      default:
-                         log.info("Something went wrong !");
+                         LOG.info("Something went wrong !");
                          break;
 
 
@@ -298,22 +300,22 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
         //int numberRows = this.getTemperatureRecordList().size();
 
-        log.info("-------------------------------------------------------------------------------------------------------------------");
-        log.info("                            Temperature Records for Stations Id : " + t.getStationId() + "                                             ");
-        log.info("-------------------------------------------------------------------------------------------------------------------");
-        log.info("     |    Jan  |  Feb   |  Mar   |  Apr   |  Mai   |  Jun   |  Jul   |  Aug   |  Sep   | Oct    |  Nov   |  Dec   |");
-        log.info("-------------------------------------------------------------------------------------------------------------------");
+        LOG.info("-------------------------------------------------------------------------------------------------------------------");
+        LOG.info("                            Temperature Records for Stations Id : " + t.getStationId() + "                                             ");
+        LOG.info("-------------------------------------------------------------------------------------------------------------------");
+        LOG.info("     |    Jan  |  Feb   |  Mar   |  Apr   |  Mai   |  Jun   |  Jul   |  Aug   |  Sep   | Oct    |  Nov   |  Dec   |");
+        LOG.info("-------------------------------------------------------------------------------------------------------------------");
 
         for (TemperatureRecord temperatureRecord : t.getTemperatureRecordList()) {
 
 
-            log.info(getPrintLine(temperatureRecord));
+            LOG.info(getPrintLine(temperatureRecord));
 
 
         }
-        log.info("-------------------------------------------------------------------------------------------------------------------");
-        log.info("----------------  End Temperature Records for StationId : " +  t.getStationId() +" ----------------------------------------------------");
-        log.info("-------------------------------------------------------------------------------------------------------------------");
+        LOG.info("-------------------------------------------------------------------------------------------------------------------");
+        LOG.info("----------------  End Temperature Records for StationId : " +  t.getStationId() +" ----------------------------------------------------");
+        LOG.info("-------------------------------------------------------------------------------------------------------------------");
     }
     // ####################################################
     // # Print
@@ -325,14 +327,14 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     }
     private String getPrintMonth ( BigDecimal month){
         // use DecimalFormat
-        String preSpace = " ";
+        String preSpace ;
         DecimalFormat decimalFormat = new DecimalFormat("#00.0000");
         String formatedTemperature = " ------ |";
 
-        if (month.compareTo(new BigDecimal(0))  != 0){
-            preSpace = "";
-        }
-        if (month.compareTo(BigDecimal.valueOf(Double.MAX_VALUE)) != 0 ) {
+        if (month != null ) {
+            if (month.compareTo(BigDecimal.ZERO) < 0){preSpace = "";}
+              else {preSpace = " ";}
+
             formatedTemperature = preSpace + decimalFormat.format(month) + "  |";
         }
 
