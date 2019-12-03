@@ -6,6 +6,7 @@ import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
 import ch.studer.germanclimatedataanalyser.batch.processor.WeatherProcessor;
+import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloader;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
@@ -19,6 +20,7 @@ import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.*;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
@@ -34,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,6 +50,7 @@ import java.sql.SQLException;
 
 @Configuration
 @EnableBatchProcessing
+@Import({WeatherBatchConfiguration.class})
 public class ClimateMonthBatchConfiguration {
 
     @Autowired
@@ -57,6 +61,12 @@ public class ClimateMonthBatchConfiguration {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private MonthReader monthReader;
+
+    //@Autowired
+   // private WeatherBatchConfiguration weatherBatchConfiguration;
 
 
 
@@ -268,20 +278,26 @@ public class ClimateMonthBatchConfiguration {
                 .build();
     }
 
+    @Transactional
+    @Bean
+    public Step impoWeatherRecords(){
+        return weatherBatchConfiguration.importWeatherRecords();
+    }
+
     // ##################################################################################
     // # Job 2. Unzip the Files and move the needed File into the InputFile folder
     // ##################################################################################
 
     @Bean
-    public Job importClimateMonthDataJob(JobCompletionNotificationListener listener){
-        return jobBuilderFactoryImport.get("importClimateMonthDataJob")
+    public Job importGermanClimateDataJob(JobCompletionNotificationListener listener){
+        return jobBuilderFactoryImport.get("importGermanClimateDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
                //.start(downloadFiles())
                //.start(unzipFiles())
                //.start(importTemperatureRecords())
                // .next(importStations())
-                .start(importWeatherRecords())
+                .start(impoWeatherRecords())
                .build()
                 ;
     }
@@ -314,10 +330,11 @@ public class ClimateMonthBatchConfiguration {
 
     @Transactional
     @Bean
-    public Step importWeatherRecords(){
+    public Step oldImportWeatherRecords(){
         return stepBuilderFactoryImport.get("import-weather-records")
                 .<RawMonthTemperatureAtStationRecord, MonthTemperatureAtStationRecord> chunk(5000)
-                .reader(temperatureFromDbReader())
+                //.reader(temperatureFromDbReader())
+                .reader(monthReader.getMonthFromDbReader() )
                 //.listener(new StepProcessorListener(statistics()))
                 .processor(weatherProcessor())
                 //.listener(new StepWriterListener(statistics()))
@@ -342,37 +359,10 @@ public class ClimateMonthBatchConfiguration {
     }
     @Bean
     @StepScope
-    public JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> temperatureFromDbReader(){
-        return new JdbcCursorItemReaderBuilder<RawMonthTemperatureAtStationRecord>()
-                .dataSource(this.dataSource)
-                .name("weatherReader")
-                .sql("select STATIONS_ID,MESS_DATUM_BEGINN,MESS_DATUM_ENDE,MO_TT from MONTH")
-                .rowMapper(new TemperatureRowMapper())
-                .build();
-
-
-
+    JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> monthFromDbReader(){
+        return monthReader.getMonthFromDbReader();
     }
-
 }
-    class TemperatureRowMapper implements RowMapper<RawMonthTemperatureAtStationRecord> {
 
-        final String STATIONS_ID = "STATIONS_ID";
-        final String MESS_DATUM_BEGINN = "MESS_DATUM_BEGINN";
-        final String MESS_DATUM_ENDE = "MESS_DATUM_ENDE";
-        final String MO_TT = "MO_TT";
-
-        @Override
-        public RawMonthTemperatureAtStationRecord mapRow(ResultSet resultSet, int i) throws SQLException {
-            RawMonthTemperatureAtStationRecord monthRecord = new RawMonthTemperatureAtStationRecord();
-
-            monthRecord.setStationId(resultSet.getString(STATIONS_ID));
-            monthRecord.setMessDatumBeginn(resultSet.getString(MESS_DATUM_BEGINN));
-            monthRecord.setMessDatumEnd(resultSet.getString(MESS_DATUM_ENDE));
-            monthRecord.setTemperatur(resultSet.getString(MO_TT));
-
-            return monthRecord;
-        }
-    }
 
 

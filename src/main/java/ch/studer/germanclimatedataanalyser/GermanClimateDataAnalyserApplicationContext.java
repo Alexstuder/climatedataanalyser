@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser;
 
+import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.model.ClimateAtStation;
 import ch.studer.germanclimatedataanalyser.service.*;
 import org.springframework.context.annotation.Bean;
@@ -27,4 +28,7 @@ public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
     ClimateAtStation climateAtStation() {return new ClimateAtStation();}
+
+    @Bean
+    MonthReader monthReader() {return new MonthReader();}
 }
