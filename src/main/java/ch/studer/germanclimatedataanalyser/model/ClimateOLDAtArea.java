@@ -3,11 +3,10 @@ package ch.studer.germanclimatedataanalyser.model;
 import ch.studer.germanclimatedataanalyser.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClimateAtArea extends Climate{
+public class ClimateOLDAtArea extends Climate_OLD {
 
     @Autowired
     StationService stationService;
@@ -17,7 +16,7 @@ public class ClimateAtArea extends Climate{
     private Point upper_left;
     private Point down_right;
 
-    public ClimateAtArea(List<String> bundeslaender) {
+    public ClimateOLDAtArea(List<String> bundeslaender) {
 
         List<Station> stations = new ArrayList<Station>();
 
@@ -28,27 +27,27 @@ public class ClimateAtArea extends Climate{
           }
         }
 
-        List<ClimateAtStation> climateAtStations = new ArrayList<ClimateAtStation>();
+        List<ClimateOLDAtStation> climateAtStations = new ArrayList<ClimateOLDAtStation>();
         for(Station station : stations){
-            ClimateAtStation climateAtStation = new ClimateAtStation();
+            ClimateOLDAtStation climateAtStation = new ClimateOLDAtStation();
             climateAtStation.getNewClimateAtStation(station.getStationName());
             climateAtStations.add(climateAtStation);
         }
 
-        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
-        for (ClimateAtStation climateAtStation : climateAtStations){
-            climateRecords.addAll(climateAtStation.getClimateRecords());
+        List<ClimateRecord_OLD> climateRecordOLDS = new ArrayList<ClimateRecord_OLD>();
+        for (ClimateOLDAtStation climateAtStation : climateAtStations){
+            climateRecordOLDS.addAll(climateAtStation.getClimateRecordOLDS());
         }
 
         // Set ClimatRecords and get the Diffenrences from it
         //TODO Die Liste muss noch vorerst aggregiert werden !
         // Nach Clima Jahr !?
-        super.setClimate(climateRecords);
+        super.setClimate(climateRecordOLDS);
 
 
     }
 
-    public ClimateAtArea(Point upper_left, Point down_right) {
+    public ClimateOLDAtArea(Point upper_left, Point down_right) {
         this.upper_left = upper_left;
         this.down_right = down_right;
     }

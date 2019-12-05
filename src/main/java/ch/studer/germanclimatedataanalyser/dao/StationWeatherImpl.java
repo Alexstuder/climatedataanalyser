@@ -1,8 +1,12 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
+import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
 import ch.studer.germanclimatedataanalyser.model.Station;
-import ch.studer.germanclimatedataanalyser.model.StationWeather;
+import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
+import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,22 +23,26 @@ public class StationWeatherImpl implements StationWeatherDAO{
         return entityManager.unwrap(Session.class);
     }
 
+    private static final Logger LOG = LoggerFactory.getLogger(StationWeatherImpl.class);
+
+
 
     @Override
-    public void save(StationWeather stationWeather) {
+    public void save(StationWeatherPerYear stationWeatherPerYear) {
 
         // Get the current hibernate Session
         Session currentSession = getSession();
-        getSession().save(stationWeather);
+        getSession().save(stationWeatherPerYear);
 
     }
 
     @Override
-    public void saveAll(List<StationWeather> stationWeathers) {
+    public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
 
 
-        for (StationWeather stationWeather : stationWeathers){
-            save(stationWeather);
+        for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears){
+            LOG.debug("Record to write into DB : " + stationWeatherPerYear.getStationId());
+            save(stationWeatherPerYear);
         }
     }
 

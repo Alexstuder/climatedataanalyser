@@ -1,7 +1,8 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationWeatherDAO;
-import ch.studer.germanclimatedataanalyser.model.StationWeather;
+import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
+import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     StationWeatherDAO stationWeatherDAO;
 
     @Override
-    public void saveAll(List<StationWeather> stationWeathers) {
-      stationWeatherDAO.saveAll(stationWeathers);
+    public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
+      stationWeatherDAO.saveAll(stationWeatherPerYears);
     }
 }

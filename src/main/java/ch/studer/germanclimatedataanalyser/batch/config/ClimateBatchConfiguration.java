@@ -1,9 +1,11 @@
 package ch.studer.germanclimatedataanalyser.batch.config;
 
-import ch.studer.germanclimatedataanalyser.batch.processor.WeatherProcessor;
-import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
-import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
+import ch.studer.germanclimatedataanalyser.batch.processor.ClimateProcessor;
+import ch.studer.germanclimatedataanalyser.batch.reader.WeatherReader;
+import ch.studer.germanclimatedataanalyser.batch.writer.ClimateWriter;
 import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
-public class WeatherBatchConfiguration {
+public class ClimateBatchConfiguration {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactoryImport;
@@ -25,31 +27,31 @@ public class WeatherBatchConfiguration {
 
 
     @Autowired
-    private MonthReader monthReader;
+    private WeatherReader weatherReader;
 
     @Bean
     @StepScope
-    public WeatherProcessor weatherProcessor() {
-        return new WeatherProcessor();
+    public ClimateProcessor climateProcessor() {
+        return new ClimateProcessor();
     }
 
     @Bean
     @StepScope
-    public WeatherWriter weatherWriter(){
-        return new WeatherWriter();
+    public ClimateWriter climateWriter(){
+        return new ClimateWriter();
     }
 
     @Transactional
-    @Bean("importWeatherRecords")
+    @Bean("importClimateRecords")
     public Step importWeatherRecords(){
         return stepBuilderFactoryImport.get("import-weather-records")
-                .<Month, Month> chunk(5000)
+                .<StationTemperature, StationTemperature> chunk(5000)
                 //.reader(temperatureFromDbReader())
-                .reader(monthReader.getMonthFromDbReader() )
+                .reader(weatherReader.getMonthFromDbReader() )
                 //.listener(new StepProcessorListener(statistics()))
-                .processor(weatherProcessor())
+                .processor(climateProcessor())
                 //.listener(new StepWriterListener(statistics()))
-                .writer(weatherWriter())
+                .writer(climateWriter())
                 .build()
                 ;
     }

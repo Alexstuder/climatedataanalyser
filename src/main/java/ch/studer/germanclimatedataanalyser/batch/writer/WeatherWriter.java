@@ -1,8 +1,8 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
-import ch.studer.germanclimatedataanalyser.model.MonthTemperatureAtStationRecord;
-import ch.studer.germanclimatedataanalyser.model.StationWeather;
-import ch.studer.germanclimatedataanalyser.model.TemperatureRecord;
+import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
+import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
 import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
 import org.slf4j.Logger;
@@ -10,48 +10,47 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeatherWriter implements ItemWriter<MonthTemperatureAtStationRecord> {
+public class WeatherWriter implements ItemWriter<Month> {
 
     @Autowired
     TemperaturesAtStationService temperaturesAtStationService;
 
     @Autowired
     StationWeatherService stationWeatherService;
-    StationWeather stationWeather ;
+
+    StationWeatherPerYear stationWeatherPerYear;
 
     private static final Logger LOG = LoggerFactory.getLogger(WeatherWriter.class);
 
 
     @Override
-    public void write(List<? extends MonthTemperatureAtStationRecord> list) throws Exception {
+    public void write(List<? extends Month> list) throws Exception {
 
 
-        List<StationWeather> write = new ArrayList<StationWeather>();
-        MonthTemperatureAtStationRecord l = null;
+        List<StationWeatherPerYear> write = new ArrayList<StationWeatherPerYear>();
 
-        String processingEndDate = getActualYear(list.get(0).getMessDatumEnd());
-        String actualEndDate = getActualYear(list.get(0).getMessDatumEnd());
+        String processingEndDate = getActualYear(list.get(0).getMessDatumEnde().toString());
+        String actualEndDate = getActualYear(list.get(0).getMessDatumEnde().toString());
 
-        // get first StationWeather Record
-        stationWeather = new StationWeather(Integer.valueOf(list.get(0).getStationId()));
+        // get first StationTemperature Record
+        stationWeatherPerYear = new StationWeatherPerYear(Integer.valueOf(list.get(0).getStationsId()));
 
-        for (MonthTemperatureAtStationRecord m : list){
+        for (Month m : list){
             // check if last station ID = new StationID
 
             if (!processingEndDate.contentEquals((actualEndDate))){
 
-                stationWeather.setYear(processingEndDate);
-                write.add(stationWeather);
-                stationWeather = new StationWeather(Integer.valueOf(m.getStationId()));
-                processingEndDate = getActualYear(m.getMessDatumEnd());
+                stationWeatherPerYear.setYear(processingEndDate);
+                write.add(stationWeatherPerYear);
+                stationWeatherPerYear = new StationWeatherPerYear(Integer.valueOf(m.getStationsId()));
+                processingEndDate = getActualYear(m.getMessDatumEnde().toString());
             }
 
            normalise(m);
-           actualEndDate = getActualYear(m.getMessDatumEnd());
+           actualEndDate = getActualYear(m.getMessDatumEnde().toString());
 
         }
 
@@ -61,44 +60,44 @@ public class WeatherWriter implements ItemWriter<MonthTemperatureAtStationRecord
 
     }
 
-    private void normalise(MonthTemperatureAtStationRecord m) {
+    private void normalise(Month m) {
 
-        switch (getActualMonth(m.getMessDatumEnd())){
+        switch (getActualMonth(m.getMessDatumEnde().toString())){
             case "12":
-                stationWeather.setDezember(m.getTemperatur());
+                stationWeatherPerYear.setDezember(m.getMoTt());
                 break;
             case "11":
-                stationWeather.setNovember(m.getTemperatur());
+                stationWeatherPerYear.setNovember(m.getMoTt());
                 break;
             case "10":
-                stationWeather.setOktober(m.getTemperatur());
+                stationWeatherPerYear.setOktober(m.getMoTt());
                 break;
             case "09":
-                stationWeather.setSeptember(m.getTemperatur());
+                stationWeatherPerYear.setSeptember(m.getMoTt());
                 break;
             case "08":
-                stationWeather.setAugust(m.getTemperatur());
+                stationWeatherPerYear.setAugust(m.getMoTt());
                 break;
             case "07":
-                stationWeather.setJuli(m.getTemperatur());
+                stationWeatherPerYear.setJuli(m.getMoTt());
                 break;
             case "06":
-                stationWeather.setJuni(m.getTemperatur());
+                stationWeatherPerYear.setJuni(m.getMoTt());
                 break;
             case "05":
-                stationWeather.setMai(m.getTemperatur());
+                stationWeatherPerYear.setMai(m.getMoTt());
                 break;
             case "04":
-                stationWeather.setApril(m.getTemperatur());
+                stationWeatherPerYear.setApril(m.getMoTt());
                 break;
             case "03":
-                stationWeather.setMaerz(m.getTemperatur());
+                stationWeatherPerYear.setMaerz(m.getMoTt());
                 break;
             case "02":
-                stationWeather.setFebruar(m.getTemperatur());
+                stationWeatherPerYear.setFebruar(m.getMoTt());
                 break;
             case "01":
-                stationWeather.setJanuar(m.getTemperatur());
+                stationWeatherPerYear.setJanuar(m.getMoTt());
                 break;
             default:
                 LOG.info("Something went wrong !");

@@ -20,25 +20,25 @@ public class ClimateServiceImpl implements ClimateService {
     int period;
 
     // Inludes all Cimate Records for a Station
-    //ClimateAtStation climateAtStation ;
+    //ClimateOLDAtStation climateAtStation ;
 
 
     @Autowired
     StationService stationService;
 
     @Autowired
-    ClimateAtStation climateAtStation;
+    ClimateOLDAtStation climateAtStation;
 
     private static final Logger log = LoggerFactory.getLogger(ClimateServiceImpl.class);
 
     @Override
-    public ClimateAtStation getClimateAtStationId(String stationId) throws Exception{
+    public ClimateOLDAtStation getClimateAtStationId(String stationId) throws Exception{
 
 
         try{
             climateAtStation.getNewClimateAtStation(stationId);
 
-        // Print all Climate Records
+        // Print all Climate_OLD Records
         climateAtStation.printClimateRecords();
         climateAtStation.printClimateDifferences();
 
@@ -58,7 +58,7 @@ public class ClimateServiceImpl implements ClimateService {
 
         List<Station> stations = stationService.getStationsFromBundesland(bundesland);
 
-        // Get all Climate Differences from Stations
+        // Get all Climate_OLD Differences from Stations
 
         for(Station station : stations){
          //   climateDifferenceAtStations.add(getDifference(station.getStationId()));

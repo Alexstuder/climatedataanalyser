@@ -2,7 +2,7 @@ package ch.studer.germanclimatedataanalyser.model;
 
 import java.math.BigDecimal;
 
-public class ClimateRecord {
+public class ClimateRecord_OLD {
 
     // End date 'yyyy' -> 2018
     private String endPeriod;
@@ -11,7 +11,7 @@ public class ClimateRecord {
     private String startDate;
 
 
-    public ClimateRecord(String endPeriod, String startDate) {
+    public ClimateRecord_OLD(String endPeriod, String startDate) {
         this.endPeriod = endPeriod;
         this.startDate = startDate;
         this.setTempJan(new BigDecimal(0));

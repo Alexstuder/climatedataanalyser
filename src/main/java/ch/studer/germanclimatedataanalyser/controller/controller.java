@@ -39,18 +39,18 @@ public class controller {
         String climateByStationId(@PathVariable String stationId) throws Exception {
             climateService.getClimateAtStationId(stationId);
            // climateService.getClimateAtStationId(stationId);
-            return "Climate, " + stationId + "!";
+            return "Climate_OLD, " + stationId + "!";
         }
         @RequestMapping("/climateByStationName/{stationName}")
         String climateByStationName(@PathVariable String stationName) throws Exception {
             climateService.getClimateAtStationId(stationName);
            // climateService.getClimateAtStationId(stationId);
-            return "Climate, " + stationName + "!";
+            return "Climate_OLD, " + stationName + "!";
         }
         @RequestMapping("/climate/ByBundesland/{bundesland}")
         String climateByBundesland(@PathVariable String bundesland) {
             climateService.getClimateByBundesland(bundesland);
-            return "Climate, " + bundesland + "!";
+            return "Climate_OLD, " + bundesland + "!";
         }
 
        @RequestMapping("/runAll")
