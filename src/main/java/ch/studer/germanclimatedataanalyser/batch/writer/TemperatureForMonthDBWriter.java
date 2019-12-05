@@ -12,9 +12,9 @@ import javax.sql.DataSource;
 import java.util.List;
 
 
-public class ClimateMonthDBWriter implements ItemWriter<Month> {
+public class TemperatureForMonthDBWriter implements ItemWriter<Month> {
 
-    private static final Logger log = LoggerFactory.getLogger(ClimateMonthDBWriter.class);
+    private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthDBWriter.class);
 
     @Autowired
     private Statistic statistic;
@@ -25,7 +25,7 @@ public class ClimateMonthDBWriter implements ItemWriter<Month> {
     @Autowired
     private MonthService monthService;
 
-    public ClimateMonthDBWriter(){
+    public TemperatureForMonthDBWriter(){
     }
 
     @Override

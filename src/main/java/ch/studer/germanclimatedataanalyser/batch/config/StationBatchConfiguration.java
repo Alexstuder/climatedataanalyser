@@ -2,7 +2,6 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
-import ch.studer.germanclimatedataanalyser.model.RawMonthTemperatureAtStationRecord;
 import ch.studer.germanclimatedataanalyser.model.Station;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
 import org.springframework.batch.core.Step;
@@ -122,10 +121,4 @@ public class StationBatchConfiguration {
                 .build()
                 ;
     }
-//    @Bean
-//    @StepScope
-//    JdbcCursorItemReader<RawMonthTemperatureAtStationRecord> monthFromDbReader(){
-//        return monthReader.getMonthFromDbReader();
-//    }
-
 }

@@ -9,33 +9,33 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Climate {
+public abstract class Climate_OLD {
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
 
-    private List<ClimateRecord> climateRecords = null;
+    private List<ClimateRecord_OLD> climateRecordOLDS = null;
 
     private List<ClimateDifference> climateDifferences = null;
 
-    private static final Logger log = LoggerFactory.getLogger(Climate.class);
+    private static final Logger log = LoggerFactory.getLogger(Climate_OLD.class);
 
 
 
-    public Climate(){
-        this.climateRecords = new ArrayList<ClimateRecord>();
+    public Climate_OLD(){
+        this.climateRecordOLDS = new ArrayList<ClimateRecord_OLD>();
         this.climateDifferences = new ArrayList<ClimateDifference>();
 
     };
 
     // CONSTRUCTOR
-    public void setClimate(List<ClimateRecord> climateRecords) {
-        this.climateRecords = climateRecords;
+    public void setClimate(List<ClimateRecord_OLD> climateRecordOLDS) {
+        this.climateRecordOLDS = climateRecordOLDS;
         this.climateDifferences = calculateClimatesDifferences();
     }
 
-    public List<ClimateRecord> getClimateRecords() {
-        return climateRecords;
+    public List<ClimateRecord_OLD> getClimateRecordOLDS() {
+        return climateRecordOLDS;
     }
 
     public List<ClimateDifference> getClimateDifferences() {
@@ -46,13 +46,13 @@ public abstract class Climate {
     private java.util.List<ClimateDifference> calculateClimatesDifferences() {
 
         List<ClimateDifference> climateDifferences =  new ArrayList<ClimateDifference>();
-        //ClimateAtStation climateAtStation = getClimateAtStationId(stationId);
+        //ClimateOLDAtStation climateAtStation = getClimateAtStationId(stationId);
 
-        for(int i = 0; i < (climateRecords.size() -period) ; i++){
+        for(int i = 0; i < (climateRecordOLDS.size() -period) ; i++){
 
             // Get a Fresh ClimateDifferenc Record
-            ClimateDifference climateDifference = new ClimateDifference(climateRecords.get(i)
-                    , climateRecords.get(i + period));
+            ClimateDifference climateDifference = new ClimateDifference(climateRecordOLDS.get(i)
+                    , climateRecordOLDS.get(i + period));
 
             climateDifferences.add(climateDifference);
         }
@@ -63,17 +63,17 @@ public abstract class Climate {
         DecimalFormat decimalFormat = new DecimalFormat("00000");
 
         log.info("######################################################################################################################################################");
-        log.info("#                                                                Climate Records for " + titel + "                                               #");
+        log.info("#                                                                Climate_OLD Records for " + titel + "                                               #");
         log.info("######################################################################################################################################################");
         log.info("        |        |    Jan   |    Feb   |   Mar    |   Apr    |   Mai    |   Jun    |   Jul    |   Aug    |   Sep    |  Oct     |   Nov    |   Dec    |");
         log.info("######################################################################################################################################################");
 
-        for (ClimateRecord climateRecord : this.getClimateRecords()) {
-            log.info(getPrintLine(climateRecord));
+        for (ClimateRecord_OLD climateRecordOLD : this.getClimateRecordOLDS()) {
+            log.info(getPrintLine(climateRecordOLD));
         }
 
         log.info("######################################################################################################################################################");
-        log.info("#------------------------------------------------------- End Climate Records "+ titel +" --------------------------------------------------#");
+        log.info("#------------------------------------------------------- End Climate_OLD Records "+ titel +" --------------------------------------------------#");
         log.info("######################################################################################################################################################");
 
     }
@@ -82,7 +82,7 @@ public abstract class Climate {
         DecimalFormat decimalFormat = new DecimalFormat("00000");
 
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        log.info("@                                                                Climate Differences for " + titel + "                                         @");
+        log.info("@                                                                Climate_OLD Differences for " + titel + "                                         @");
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         log.info("        |        |    Jan   |    Feb   |   Mar    |   Apr    |   Mai    |   Jun    |   Jul    |   Aug    |   Sep    |  Oct     |   Nov    |   Dec    |");
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -94,12 +94,12 @@ public abstract class Climate {
         }
 
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        log.info("@------------------------------------------------------- End Climate Differences for "+ titel +" ----------------------------------------------@");
+        log.info("@------------------------------------------------------- End Climate_OLD Differences for "+ titel +" ----------------------------------------------@");
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     // ####################################################
-    // # Print Climate Period
+    // # Print Climate_OLD Period
     // ####################################################
     private String getPrintDifferenceLine(TemperatureRecord t){
 
@@ -108,9 +108,9 @@ public abstract class Climate {
     }
 
     // ####################################################
-    // # Print Climate Period
+    // # Print Climate_OLD Period
     // ####################################################
-    private String getPrintLine(ClimateRecord c){
+    private String getPrintLine(ClimateRecord_OLD c){
 
         return "   " + c.getStartDate() + " |  " + c.getEndPeriod() + "  |" + getPrintMonth(c.getTempJan()) + getPrintMonth(c.getTempFeb()) + getPrintMonth(c.getTempMar()) + getPrintMonth(c.getTempApr()) + getPrintMonth(c.getTempMai())
                 + getPrintMonth(c.getTempJun()) + getPrintMonth(c.getTempJul()) + getPrintMonth(c.getTempAug()) + getPrintMonth(c.getTempSep()) + getPrintMonth(c.getTempOkt()) + getPrintMonth(c.getTempNov()) + getPrintMonth(c.getTempDez());

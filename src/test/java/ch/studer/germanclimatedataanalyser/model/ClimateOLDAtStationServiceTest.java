@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.model;
 
-import ch.studer.germanclimatedataanalyser.model.*;
 import ch.studer.germanclimatedataanalyser.service.MonthService;
 import ch.studer.germanclimatedataanalyser.service.StationService;
 import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.when;
 @TestPropertySource(properties = {
         "climate.calculation.period.year=30",
 })
-public class ClimateAtStationServiceTest {
+public class ClimateOLDAtStationServiceTest {
 
     @Mock
     TemperaturesAtStationService temperaturesAtStationService;
@@ -39,7 +38,7 @@ public class ClimateAtStationServiceTest {
     StationService stationService;
 
     @InjectMocks
-    ClimateAtStation climateAtStation;
+    ClimateOLDAtStation climateAtStation;
 
     @Mock
     MonthService monthService;
@@ -81,7 +80,7 @@ public class ClimateAtStationServiceTest {
          //TODO ??? what to proof here ?
         }
         assertNotNull(climateAtStation);
-        assertEquals(61,climateAtStation.getClimateRecords().size());
+        assertEquals(61,climateAtStation.getClimateRecordOLDS().size());
 
         // Proof if Difference is Zero
         assertTrue(isZero(climateAtStation.getClimateDifferences()));
@@ -102,7 +101,7 @@ public class ClimateAtStationServiceTest {
         } catch (Exception e){
         }
         assertNotNull(climateAtStation);
-        assertTrue(climateAtStation.getClimateRecords().size() == 61);
+        assertTrue(climateAtStation.getClimateRecordOLDS().size() == 61);
 
         // Proof if Difference is Zero
         assertTrue(isZero(climateAtStation.getClimateDifferences()));

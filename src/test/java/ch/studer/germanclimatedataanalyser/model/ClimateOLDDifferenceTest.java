@@ -2,24 +2,22 @@ package ch.studer.germanclimatedataanalyser.model;
 
 
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 
 //@RunWith(MockitoJUnitRunner.class)
-public class ClimateDifferenceTest {
+public class ClimateOLDDifferenceTest {
 
-    ClimateRecord first  ;
+    ClimateRecord_OLD first  ;
 
-    ClimateRecord second;
+    ClimateRecord_OLD second;
 
     @Before
     public void setUp(){
 
-        first = new ClimateRecord("2019","2000");
+        first = new ClimateRecord_OLD("2019","2000");
         first.setTempJan(new BigDecimal(1.01));
         first.setTempFeb(new BigDecimal(2.01d));
         first.setTempMar(new BigDecimal(3.01d));
@@ -33,7 +31,7 @@ public class ClimateDifferenceTest {
         first.setTempNov(new BigDecimal(11.01d));
         first.setTempDez(new BigDecimal(12.01d));
 
-        second = new ClimateRecord("2000","1980");
+        second = new ClimateRecord_OLD("2000","1980");
         second.setStartDate("1980");
         second.setEndPeriod("2000");
         second.setTempJan(new BigDecimal(2.01d));

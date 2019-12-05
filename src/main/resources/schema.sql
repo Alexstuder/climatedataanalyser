@@ -59,7 +59,27 @@ CREATE TABLE if not exists `station`  (
 CREATE TABLE if not exists `weather` (
                         ID BIGINT auto_increment NOT NULL PRIMARY KEY
                         ,STATION_ID int NOT NULL
-                        ,YEAR VARCHAR(200)
+                        ,YEAR VARCHAR(4)        COMMENT 'Weather Temperature for the year : yyyy'
+                        ,JANUAR DECIMAL(7,4) NOT NULL
+                        ,FEBRUAR DECIMAL(7,4) NOT NULL
+                        ,MAERZ DECIMAL(7,4) NOT NULL
+                        ,APRIL DECIMAL(7,4) NOT NULL
+                        ,MAI DECIMAL(7,4) NOT NULL
+                        ,JUNI DECIMAL(7,4) NOT NULL
+                        ,JULI DECIMAL(7,4) NOT NULL
+                        ,AUGUST DECIMAL(7,4) NOT NULL
+                        ,SEPTEMBER DECIMAL(7,4) NOT NULL
+                        ,OKTOBER DECIMAL(7,4) NOT NULL
+                        ,NOVEMBER DECIMAL(7,4) NOT NULL
+                        ,DEZEMBER DECIMAL(7,4) NOT NULL
+
+);
+
+CREATE TABLE if not exists `climate` (
+                        ID BIGINT auto_increment NOT NULL PRIMARY KEY
+                        ,STATION_ID int NOT NULL
+                        ,END_PERIOD VARCHAR(4) COMMENT 'Climate Data end Period : yyyy  --> 2018 : for a 30 Year Climate Period !'
+                        ,START_PERIOD VARCHAR(4) COMMENT 'Climate Data start Period : yyyy  --> 1987'
                         ,JANUAR DECIMAL(7,4) NOT NULL
                         ,FEBRUAR DECIMAL(7,4) NOT NULL
                         ,MAERZ DECIMAL(7,4) NOT NULL

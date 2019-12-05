@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-public class ClimateMonthProcessor  implements ItemProcessor<MonthFile,Month> {
+public class TemperatureForMonthProcessor implements ItemProcessor<MonthFile,Month> {
 
-    private static final Logger log = LoggerFactory.getLogger(ClimateMonthProcessor.class);
+    private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthProcessor.class);
 
     @Autowired
     private Statistic statistic;

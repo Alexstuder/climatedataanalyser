@@ -2,8 +2,8 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
-import ch.studer.germanclimatedataanalyser.batch.processor.ClimateMonthProcessor;
-import ch.studer.germanclimatedataanalyser.batch.writer.ClimateMonthDBWriter;
+import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
+import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
 import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
 import ch.studer.germanclimatedataanalyser.model.Month;
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 
 @Configuration
-public class MonthTemperatureBatchConfiguration {
+public class TemperatureForMonthBatchConfiguration {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactoryImport;
@@ -122,14 +122,14 @@ public class MonthTemperatureBatchConfiguration {
 
     @Bean
     @StepScope
-    public ClimateMonthProcessor temperaturProcessor() {
-        return new ClimateMonthProcessor();
+    public TemperatureForMonthProcessor temperaturProcessor() {
+        return new TemperatureForMonthProcessor();
     }
 
     @Bean
     @StepScope
-    public ClimateMonthDBWriter monthWriter() {
-        return new ClimateMonthDBWriter();
+    public TemperatureForMonthDBWriter monthWriter() {
+        return new TemperatureForMonthDBWriter();
     }
 
 
