@@ -1,8 +1,10 @@
 package ch.studer.germanclimatedataanalyser.model.database;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.math.BigDecimal;
 
+@MappedSuperclass
 public abstract class TemperatureForMonths {
 
     @Column(name="JANUAR")

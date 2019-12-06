@@ -25,18 +25,7 @@ public class StationWeatherPerYear extends  StationTemperature{
 
         super(stationId);
         this.year      = null;
-        super.setJanuar(new BigDecimal(-99.9999));
-        this.setFebruar(new BigDecimal(-99.9999));
-        this.setMaerz(new BigDecimal(-99.9999));
-        this.setApril(new BigDecimal(-99.9999));
-        this.setMai(new BigDecimal(-99.9999));
-        this.setJuni(new BigDecimal(-99.9999));
-        this.setJuli(new BigDecimal(-99.9999));
-        this.setAugust(new BigDecimal(-99.9999));
-        this.setSeptember(new BigDecimal(-99.9999));
-        this.setOktober(new BigDecimal(-99.9999));
-        this.setNovember(new BigDecimal(-99.9999));
-        this.setDezember(new BigDecimal(-99.9999));
+
     };
 
     public String getYear() {

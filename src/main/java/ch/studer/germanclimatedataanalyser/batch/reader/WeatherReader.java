@@ -16,7 +16,7 @@ public class WeatherReader {
     @Autowired
     DataSource dataSource;
 
-    public JdbcCursorItemReader<StationWeatherPerYear> getMonthFromDbReader(){
+    public JdbcCursorItemReader<StationWeatherPerYear> getWeatherFromDbReader(){
         return new JdbcCursorItemReaderBuilder<StationWeatherPerYear>()
                 .dataSource(this.dataSource)
                 .name("weatherReader")
@@ -35,7 +35,7 @@ public class WeatherReader {
                         ",NOVEMBER" +
                         ",DEZEMBER" +
                         "             from WEATHER" +
-                        "ORDER BY STATION_ID, YEAR ASC")
+                        " ORDER BY STATION_ID, YEAR ASC")
                 .rowMapper(new StationWeatherRowMapper())
                 .build();
 
