@@ -31,6 +31,9 @@ public class AnalyzerBatchConfiguration {
 //    private MonthReader monthReader;
 
     @Autowired
+    private ClimateBatchConfiguration climateBatchConfiguration;
+
+    @Autowired
     private WeatherBatchConfiguration weatherBatchConfiguration;
 
     @Autowired
@@ -80,7 +83,8 @@ public class AnalyzerBatchConfiguration {
                //.next(unzipFiles())
                //.next(monthTemperatureBatchConfiguration.importTemperatureRecords())
                //.next(stationBatchConfiguration.importStations())
-               .start(weatherBatchConfiguration.importWeatherRecords())
+               //.start(weatherBatchConfiguration.importWeatherRecords())
+               .start(climateBatchConfiguration.importClimateRecords())
                .build()
                 ;
     }

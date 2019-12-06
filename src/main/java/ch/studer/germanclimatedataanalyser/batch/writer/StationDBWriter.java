@@ -13,7 +13,7 @@ import java.util.List;
 
 public class StationDBWriter implements ItemWriter<Station> {
 
-    private static final Logger log = LoggerFactory.getLogger(StationDBWriter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StationDBWriter.class);
 
     @Autowired
     private DataSource dataSource;

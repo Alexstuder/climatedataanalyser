@@ -3,6 +3,7 @@ package ch.studer.germanclimatedataanalyser.model.database;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@MappedSuperclass
 public abstract class StationTemperature extends TemperatureForMonths {
 
     @Column(name="STATION_ID")
