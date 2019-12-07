@@ -6,6 +6,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,5 +18,13 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     @Override
     public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
       stationWeatherDAO.saveAll(stationWeatherPerYears);
+    }
+
+    @Override
+    public List<StationWeatherPerYear> fillHoles(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
+        // TODO fill Holes !
+        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
+
+        return stationWeatherPerYearsFilledHoles;
     }
 }

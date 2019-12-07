@@ -29,7 +29,7 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     @Override
     public TemperatureByStationId getTemperaturesBy(int stationsId) {
 
-        // Get all Months Records ordered by EndDate desc for a ClimateService Period (30 years)
+        // Get all Months Records ordered by EndDate desc for a ClimateService_OLD Period (30 years)
         List<Month> months = monthService.getMonthsByIdOrderDesc(stationsId);
 
         // Get a fresh Instance of TemperatureBySTationId

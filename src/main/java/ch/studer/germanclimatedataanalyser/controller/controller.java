@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
-import ch.studer.germanclimatedataanalyser.service.ClimateService;
+import ch.studer.germanclimatedataanalyser.service.ClimateService_OLD;
 import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -18,7 +18,7 @@ public class controller {
         TemperaturesAtStationService temperaturesAtStationService;
 
         @Autowired
-        ClimateService  climateService;
+        ClimateService_OLD climateServiceOLD;
 
         @Autowired
         JobLauncher jobLauncher;
@@ -37,19 +37,19 @@ public class controller {
 
         @RequestMapping("/climateByStationId/{stationId}")
         String climateByStationId(@PathVariable String stationId) throws Exception {
-            climateService.getClimateAtStationId(stationId);
-           // climateService.getClimateAtStationId(stationId);
+            climateServiceOLD.getClimateAtStationId(stationId);
+           // climateServiceOLD.getClimateAtStationId(stationId);
             return "Climate_OLD, " + stationId + "!";
         }
         @RequestMapping("/climateByStationName/{stationName}")
         String climateByStationName(@PathVariable String stationName) throws Exception {
-            climateService.getClimateAtStationId(stationName);
-           // climateService.getClimateAtStationId(stationId);
+            climateServiceOLD.getClimateAtStationId(stationName);
+           // climateServiceOLD.getClimateAtStationId(stationId);
             return "Climate_OLD, " + stationName + "!";
         }
         @RequestMapping("/climate/ByBundesland/{bundesland}")
         String climateByBundesland(@PathVariable String bundesland) {
-            climateService.getClimateByBundesland(bundesland);
+            climateServiceOLD.getClimateByBundesland(bundesland);
             return "Climate_OLD, " + bundesland + "!";
         }
 

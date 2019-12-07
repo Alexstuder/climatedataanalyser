@@ -20,6 +20,11 @@ public class GermanClimateDataAnalyserApplicationContext {
     ClimateService climateService(){return new ClimateServiceImpl();
     }
 
+    //TODO REMOVE OLD
+    @Bean
+    ClimateService_OLD climateServiceOld(){return new ClimateServiceOLDImpl();
+    }
+
     @Bean
     MonthService monthService(){
         return new MonthServiceImpl();
