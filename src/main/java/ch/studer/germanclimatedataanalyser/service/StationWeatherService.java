@@ -8,4 +8,7 @@ import java.util.List;
 public interface StationWeatherService {
 
     public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears);
+
+    public List<StationWeatherPerYear> fillHoles(List<? extends StationWeatherPerYear> stationWeatherPerYears);
+
 }

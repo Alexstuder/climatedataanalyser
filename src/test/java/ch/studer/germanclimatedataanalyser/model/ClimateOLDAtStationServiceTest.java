@@ -44,7 +44,7 @@ public class ClimateOLDAtStationServiceTest {
     MonthService monthService;
 
 //    @InjectMocks
-//    ClimateServiceImpl climateService;
+//    ClimateServiceOLDImpl climateService;
 
     int stationId = 1 ;
     private static final String STATION_NOT_FOUND = "StationNotFound";
