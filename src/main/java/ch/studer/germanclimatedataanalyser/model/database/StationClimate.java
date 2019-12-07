@@ -22,8 +22,8 @@ public class StationClimate extends  StationTemperature{
 
 
 
-    public StationClimate() {
-    }
+//    public StationClimate() {
+//    }
 
     public StationClimate(int stationId){
 

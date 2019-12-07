@@ -43,7 +43,7 @@ public abstract class TemperatureForMonths {
     @Column(name="DEZEMBER")
     private  BigDecimal dezember;
 
-    public final static BigDecimal NULL_TEMPERATURE = new BigDecimal(-99.9999);
+    private final static BigDecimal NULL_TEMPERATURE = new BigDecimal(-99.9999);
 
     public TemperatureForMonths() {
 
