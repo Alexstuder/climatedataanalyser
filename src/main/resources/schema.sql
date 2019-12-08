@@ -60,6 +60,7 @@ CREATE TABLE if not exists `weather` (
                         ID BIGINT auto_increment NOT NULL PRIMARY KEY
                         ,STATION_ID int NOT NULL
                         ,YEAR VARCHAR(4)        COMMENT 'Weather Temperature for the year : yyyy'
+                        ,CALCULATED_ARTIFICIALLY BOOLEAN Not Null Comment 'Marks a record as calculated and not as delivered'
                         ,JANUAR DECIMAL(7,4) NOT NULL
                         ,FEBRUAR DECIMAL(7,4) NOT NULL
                         ,MAERZ DECIMAL(7,4) NOT NULL

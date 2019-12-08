@@ -30,12 +30,34 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
 
         if(list.size() > 0){
 
-            List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles =  stationWeatherService.fillHoles(list);
+            List<StationWeatherPerYear> stationWeatherPerYearsGroupedByStationID = new ArrayList<StationWeatherPerYear>();
+            int actualStationId = list.get(0).getStationID() ;
 
-            List<StationClimate> stationClimates =  climateService.getClimateForStation(stationWeatherPerYearsFilledHoles);
-            if (stationClimates.size() > 0 ){
-              climateService.saveAllClimateAtStationId(stationClimates);
+            for (StationWeatherPerYear stationWeatherPerYear : list){
+
+              if (stationWeatherPerYear.getStationId() == actualStationId){
+                 stationWeatherPerYearsGroupedByStationID.add(stationWeatherPerYear);
+              } else {
+
+                List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles =  stationWeatherService.fillHoles(stationWeatherPerYearsGroupedByStationID);
+                List<StationClimate> stationClimates =  climateService.getClimateForStation(stationWeatherPerYearsFilledHoles);
+
+                if (stationClimates.size() > 0 ){
+                  climateService.saveAllClimateAtStationId(stationClimates);
+                } else {
+                       LOG.debug("There was nothing to persist on database! ");
+                }
+
+                stationWeatherPerYearsGroupedByStationID = new ArrayList<StationWeatherPerYear>();
+                stationWeatherPerYearsGroupedByStationID.add(stationWeatherPerYear);
+                actualStationId = stationWeatherPerYear.getStationID();
+
+
+              }
+
+
             }
+
         }
     }
 }
