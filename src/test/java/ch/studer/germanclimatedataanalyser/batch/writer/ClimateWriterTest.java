@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
+import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.ClimateService;
@@ -43,6 +44,11 @@ class ClimateWriterTest {
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     private int period;
+
+    @Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
+    private static BigDecimal NULL_TEMPERATURE;
+
+
     private static final int stationId = 1 ;
 
     List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
@@ -94,12 +100,18 @@ class ClimateWriterTest {
         // Build TestRecords
         // ******************
         stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
-        // Add first weather without climate Record cause period -1 !
-
-        List<StationWeatherPerYear> weatherComplete = getStationWeatherPerYearList("2018",1);
-        weatherComplete.remove(period-1);
-        List<StationWeatherPerYear> weatherWithHoles = getHoles(weatherComplete);
+        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1);
+        stationWeatherPerYearList.addAll(weatherComplete);
+        List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
         stationWeatherPerYearList.addAll(weatherWithHoles);
+
+        List<StationWeatherPerYear> weatherComplete2 = StationWeatherPerYearTestData.getStationWeatherPerYearList("2017",2);
+        stationWeatherPerYearList.addAll(weatherComplete2);
+        List<StationWeatherPerYear> weatherWithHoles2 = StationWeatherPerYearTestData.getHoles(weatherComplete2);
+        stationWeatherPerYearList.addAll(weatherWithHoles2);
+
+
+
 
         // *********************
         // Mock ClimateService
@@ -118,7 +130,7 @@ class ClimateWriterTest {
         // ************
         Exception exception = null;
 
-        // Test Happy Flow ClimateWrite and Assert exeption == null
+        // Test Happy Flow ClimateWrite and Assert exception == null
         try {
             climateWriter.write(stationWeatherPerYearList);
         } catch (Exception e) {
@@ -127,7 +139,7 @@ class ClimateWriterTest {
         }
 
         Assertions.assertNull(exception);
-        // Write Assertion to proof , if the CAll to DB was right !? ..but how ??
+        // TODO Mockito Write Assertion to proof , if the CAll to DB was right !? ..but how ??
     }
 
     private List<StationClimate> getClimate(List<StationWeatherPerYear> weatherComplete) {
@@ -158,8 +170,6 @@ class ClimateWriterTest {
 
 
     private List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
-       //TODO Injext NULL_TEMPERATURE
-        final  BigDecimal NULL_TEMPERATURE = new BigDecimal(-99.9999);
 
         List<StationWeatherPerYear> weatherWithHoles = new ArrayList<StationWeatherPerYear>();
 
@@ -178,7 +188,7 @@ class ClimateWriterTest {
            if (i != 9) n.setSeptember(s.getSeptember());else n.setSeptember(NULL_TEMPERATURE);
            if (i != 10) n.setOktober(s.getOktober());else n.setOktober(NULL_TEMPERATURE);
            if (i != 11) n.setNovember(s.getNovember());else n.setNovember(NULL_TEMPERATURE);
-           if (i != 12) {n.setDezember(s.getDezember());i=1;}else n.setDezember(NULL_TEMPERATURE);
+           if (i != 12) n.setDezember(s.getDezember());else {n.setDezember(NULL_TEMPERATURE);i=0;}
 
          weatherWithHoles.add(n);
         }

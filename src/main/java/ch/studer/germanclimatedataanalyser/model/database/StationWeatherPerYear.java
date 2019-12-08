@@ -15,6 +15,9 @@ public class StationWeatherPerYear extends  StationTemperature{
     @Column(name="YEAR")
     private String year;
 
+    @Column(name="CALCULATED_ARTIFICIALLY")
+    private boolean calculatedArtificially;
+
 
 
 
@@ -25,6 +28,7 @@ public class StationWeatherPerYear extends  StationTemperature{
 
         super(stationId);
         this.year      = null;
+        this.calculatedArtificially = false ;
 
     };
 
@@ -43,4 +47,11 @@ public class StationWeatherPerYear extends  StationTemperature{
         this.year = year;
     }
 
+    public boolean isCalculatedArtificially() {
+        return calculatedArtificially;
+    }
+
+    public void setCalculatedArtificially(boolean calculatedArtificially) {
+        this.calculatedArtificially = calculatedArtificially;
+    }
 }
