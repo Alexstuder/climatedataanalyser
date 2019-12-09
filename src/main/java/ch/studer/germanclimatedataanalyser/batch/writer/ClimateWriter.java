@@ -52,12 +52,8 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
                 stationWeatherPerYearsGroupedByStationID.add(stationWeatherPerYear);
                 actualStationId = stationWeatherPerYear.getStationID();
 
-
               }
-
-
             }
-
         }
     }
 }

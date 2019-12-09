@@ -198,16 +198,4 @@ class ClimateWriterTest {
         return  weatherWithHoles;
     }
 
-    @Test
-    void writeNullList() {
-    }
-    @Test
-    void writeListWithHoles() {
-    }
-    @Test
-    void writeWithoutClimateRecord() {
-    }
-    @Test
-    void writeJustOneClimateRecord() {
-    }
 }

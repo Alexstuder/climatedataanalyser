@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,9 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImpl.class);
 
-    @Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
-    private static String NULL_TEMPERATURE_INIT;
+    @Value("#{new String('${climate.temperature.big.decimal.null.value}')}")
+    private String NULL_TEMPERATURE_INIT;
+
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     private int period;
@@ -40,6 +42,8 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     private static final String NOVEMBER = "NOVEMBER";
     private static final String DEZEMBER = "DEZEMBER";
 
+    private BigDecimal NULL_TEMPERATURE;
+
     @Override
     public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
       stationWeatherDAO.saveAll(stationWeatherPerYears);
@@ -48,8 +52,10 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     @Override
     public List<StationWeatherPerYear> fillHoles(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
 
-        BigDecimal NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
+        // Init the Null cause !! No way to Inject BigDecimal
+        NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
+        LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
 
@@ -60,6 +66,17 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         for(int i = 0 ; i < completed.size();i++){
 
             if(completed.get(i).getJanuar().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJanuar(getAverageTemperatur(completed,JANUAR,i));
+            if(completed.get(i).getFebruar().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setFebruar(getAverageTemperatur(completed,FEBRUAR,i));
+            if(completed.get(i).getMaerz().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setMaerz(getAverageTemperatur(completed,MAERZ,i));
+            if(completed.get(i).getApril().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setApril(getAverageTemperatur(completed,APRIL,i));
+            if(completed.get(i).getMai().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setMai(getAverageTemperatur(completed,MAI,i));
+            if(completed.get(i).getJuni().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJuni(getAverageTemperatur(completed,JUNI,i));
+            if(completed.get(i).getJuli().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJuli(getAverageTemperatur(completed,JULI,i));
+            if(completed.get(i).getAugust().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setAugust(getAverageTemperatur(completed,AUGUST,i));
+            if(completed.get(i).getSeptember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setSeptember(getAverageTemperatur(completed,SEPTEMBER,i));
+            if(completed.get(i).getOktober().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setOktober(getAverageTemperatur(completed,OCTOBER,i));
+            if(completed.get(i).getNovember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setNovember(getAverageTemperatur(completed,NOVEMBER,i));
+            if(completed.get(i).getDezember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setDezember(getAverageTemperatur(completed,DEZEMBER,i));
 
 
             stationWeatherPerYearsFilledHoles.add(completed.get(0));
@@ -70,44 +87,49 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
     private BigDecimal getAverageTemperatur(List<StationWeatherPerYear> completed, String month, int index) {
 
-        BigDecimal NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
+        //Cause we got one temperature with the value NULL = -99.999 we start with +99.999 = bit tricky but does the job !
+        BigDecimal result = new BigDecimal("0");
 
-        //BigDecimal result = new BigDecimal(0);
-        BigDecimal result = new BigDecimal("000.000");
 
         int start = 0 ;
-        if((index -(period/2)) > 0) start=index;
+        if((index -(period/2)) > 0) start=(index-(period/2));
 
         int end = (completed.size() - 1) ;
         if((index+(period/2)) < end) end =(index+(period/2));
 
+        int counter = 0 ;
         for (int i= start ; i < end ; i++ ){
 
-            result = (month.contentEquals(JANUAR))? result.add(completed.get(i).getJanuar()):result;
-            if(month == FEBRUAR) result.add(completed.get(i).getFebruar());
-            if(month == MAERZ) result.add(completed.get(i).getMaerz());
-            if(month == APRIL) result.add(completed.get(i).getApril());
-            if(month == MAI) result.add(completed.get(i).getMai());
-            if(month == JUNI) result.add(completed.get(i).getJuni());
-            if(month == JULI) result.add(completed.get(i).getJuli());
-            if(month == AUGUST) result.add(completed.get(i).getAugust());
-            if(month == SEPTEMBER) result.add(completed.get(i).getSeptember());
-            if(month == OCTOBER) result.add(completed.get(i).getOktober());
-            if(month == NOVEMBER) result.add(completed.get(i).getNovember());
-            if(month == DEZEMBER) result.add(completed.get(i).getDezember());
 
+            switch (month){
+
+            case JANUAR: if (!completed.get(i).getJanuar().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getJanuar());counter++;}break;
+            case FEBRUAR: if (!completed.get(i).getFebruar().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getFebruar());counter++;}break;
+            case MAERZ: if (!completed.get(i).getMaerz().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getMaerz());counter++;}break;
+            case APRIL: if (!completed.get(i).getApril().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getApril());counter++;}break;
+            case MAI: if (!completed.get(i).getMai().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getMai());counter++;}break;
+            case JUNI: if (!completed.get(i).getJuni().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getJuni());counter++;}break;
+            case JULI: if (!completed.get(i).getJuli().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getJuli());counter++;}break;
+            case AUGUST: if (!completed.get(i).getAugust().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getAugust());counter++;}break;
+            case SEPTEMBER: if (!completed.get(i).getSeptember().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getSeptember());counter++;}break;
+            case OCTOBER: if (!completed.get(i).getOktober().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getOktober());counter++;}break;
+            case NOVEMBER: if (!completed.get(i).getNovember().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getNovember());counter++;}break;
+            case DEZEMBER: if (!completed.get(i).getDezember().equals(NULL_TEMPERATURE)){result = result.add(completed.get(i).getDezember());counter++;}break;
+
+            default: break;
+            }
 
         }
 
-
         // To eleminate the -99.999 Null value !
-        result = result.add(NULL_TEMPERATURE.multiply(BigDecimal.valueOf(-1)));
-
-        return result.divide(new BigDecimal(period));
+        //result = result.add(NULL_TEMPERATURE.multiply(BigDecimal.valueOf(-1)));
+        LOG.debug("Month {}",month);
+        return result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
     }
 
     private List<StationWeatherPerYear> complete(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
 
+        LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
         //
         List<StationWeatherPerYear> completedList = new ArrayList<StationWeatherPerYear>();
 

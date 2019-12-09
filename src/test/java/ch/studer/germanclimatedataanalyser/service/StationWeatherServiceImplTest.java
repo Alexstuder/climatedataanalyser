@@ -38,12 +38,9 @@ class StationWeatherServiceImplTest {
     @BeforeEach
     void setUp() {
 
-        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE_INIT","-99.999");
+        BigDecimal value = new BigDecimal("-99.999");
+        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE",value);
         ReflectionTestUtils.setField(stationWeatherService,"period",30);
-    }
-
-    @Test
-    void saveAll() {
     }
 
     @Test
@@ -52,6 +49,7 @@ class StationWeatherServiceImplTest {
         List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
 
         List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1);
+
         List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
 
         // remove one Record to test completion
@@ -62,7 +60,27 @@ class StationWeatherServiceImplTest {
 
         // Test the Service :
         // SetUp  : Just process a List with 1 StationId (group by prepended)
-        stationWeatherService.fillHoles(stationWeatherPerYearList);
+        List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearList);
+
+        int index= 0;
+        for(StationWeatherPerYear test: testList){
+
+            Assertions.assertTrue(test.getJanuar().compareTo(weatherComplete.get(index).getJanuar()) == 0);
+            Assertions.assertTrue(test.getFebruar().compareTo(weatherComplete.get(index).getFebruar()) == 0);
+            Assertions.assertTrue(test.getMaerz().compareTo(weatherComplete.get(index).getMaerz()) == 0);
+            Assertions.assertTrue(test.getApril().compareTo(weatherComplete.get(index).getApril()) == 0);
+            Assertions.assertTrue(test.getMai().compareTo(weatherComplete.get(index).getMai()) == 0);
+            Assertions.assertTrue(test.getJuni().compareTo(weatherComplete.get(index).getJuni()) == 0);
+            Assertions.assertTrue(test.getJuli().compareTo(weatherComplete.get(index).getJuli()) == 0);
+            Assertions.assertTrue(test.getAugust().compareTo(weatherComplete.get(index).getAugust()) == 0);
+            Assertions.assertTrue(test.getSeptember().compareTo(weatherComplete.get(index).getSeptember()) == 0);
+            Assertions.assertTrue(test.getOktober().compareTo(weatherComplete.get(index).getOktober()) == 0);
+            Assertions.assertTrue(test.getNovember().compareTo(weatherComplete.get(index).getNovember()) == 0);
+            Assertions.assertTrue(test.getDezember().compareTo(weatherComplete.get(index).getDezember()) == 0);
+
+           index++;
+        }
+
 
         // Add Assertions
     }
