@@ -43,7 +43,7 @@ public class ClimateBatchConfiguration {
     @Transactional
     @Bean("importClimateRecords")
     public Step importClimateRecords(){
-        return stepBuilderFactoryImport.get("import-weather-records")
+        return stepBuilderFactoryImport.get("importClimateRecords")
                 .<StationWeatherPerYear, StationWeatherPerYear> chunk(5000)
                 //.reader(temperatureFromDbReader())
                 .reader(weatherReader.getWeatherFromDbReader() )

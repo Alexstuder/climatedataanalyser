@@ -76,19 +76,17 @@ import java.util.List;
         s.setYear(String.valueOf(i));
         s.setStationId(stationId);
         s.setJanuar(new BigDecimal("-1.111"));
-        s.setFebruar(new BigDecimal(-2.222));
-        s.setMaerz(new BigDecimal(3.333));
-        s.setApril(new BigDecimal(4.444));
-        s.setMai(new BigDecimal(5.555));
-        s.setJuni(new BigDecimal(6.666));
-        s.setJuli(new BigDecimal(7.777));
-        s.setAugust(new BigDecimal(8.888));
-        s.setSeptember(new BigDecimal(9.999));
-        s.setOktober(new BigDecimal(10.10));
-        s.setNovember(new BigDecimal(-11.111));
-        s.setDezember(new BigDecimal(-12.12));
-
-
+        s.setFebruar(new BigDecimal("-2.222"));
+        s.setMaerz(new BigDecimal("3.333"));
+        s.setApril(new BigDecimal("4.444"));
+        s.setMai(new BigDecimal("5.555"));
+        s.setJuni(new BigDecimal("6.666"));
+        s.setJuli(new BigDecimal("7.777"));
+        s.setAugust(new BigDecimal("8.888"));
+        s.setSeptember(new BigDecimal("9.999"));
+        s.setOktober(new BigDecimal("10.10"));
+        s.setNovember(new BigDecimal("-11.111"));
+        s.setDezember(new BigDecimal("-12.12"));
 
         return s;
     }

@@ -35,7 +35,7 @@ public class WeatherReader {
                         ",NOVEMBER" +
                         ",DEZEMBER" +
                         "             from WEATHER" +
-                        " ORDER BY STATION_ID, YEAR ASC")
+                        " ORDER BY STATION_ID, YEAR DESC")
                 .rowMapper(new StationWeatherRowMapper())
                 .build();
 
