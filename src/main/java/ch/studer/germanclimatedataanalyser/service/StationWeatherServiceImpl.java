@@ -22,7 +22,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImpl.class);
 
     @Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
-    private static BigDecimal NULL_TEMPERATURE;
+    private static String NULL_TEMPERATURE_INIT;
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     private int period;
@@ -48,6 +48,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     @Override
     public List<StationWeatherPerYear> fillHoles(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
 
+        BigDecimal NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
@@ -69,8 +70,10 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
     private BigDecimal getAverageTemperatur(List<StationWeatherPerYear> completed, String month, int index) {
 
+        BigDecimal NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
+
         //BigDecimal result = new BigDecimal(0);
-        BigDecimal result = new BigDecimal(0);
+        BigDecimal result = new BigDecimal("000.000");
 
         int start = 0 ;
         if((index -(period/2)) > 0) start=index;
@@ -80,7 +83,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
         for (int i= start ; i < end ; i++ ){
 
-            if(month.contentEquals(JANUAR)) result.add(completed.get(i).getJanuar());
+            result = (month.contentEquals(JANUAR))? result.add(completed.get(i).getJanuar()):result;
             if(month == FEBRUAR) result.add(completed.get(i).getFebruar());
             if(month == MAERZ) result.add(completed.get(i).getMaerz());
             if(month == APRIL) result.add(completed.get(i).getApril());

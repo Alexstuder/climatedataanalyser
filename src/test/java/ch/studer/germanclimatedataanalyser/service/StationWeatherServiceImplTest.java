@@ -37,7 +37,8 @@ class StationWeatherServiceImplTest {
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImplTest.class);
     @BeforeEach
     void setUp() {
-        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE",new BigDecimal(-99.999));
+
+        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE_INIT","-99.999");
         ReflectionTestUtils.setField(stationWeatherService,"period",30);
     }
 
