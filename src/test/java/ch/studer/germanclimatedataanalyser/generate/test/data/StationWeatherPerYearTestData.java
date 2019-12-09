@@ -13,7 +13,7 @@ import java.util.List;
 
     private static int period = 30;
 
-    private static BigDecimal NULL_TEMPERATURE = new BigDecimal(-99.999);
+    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-99.999");
 
     public  final static  List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
 
@@ -75,7 +75,7 @@ import java.util.List;
         StationWeatherPerYear s = new StationWeatherPerYear(stationId);
         s.setYear(String.valueOf(i));
         s.setStationId(stationId);
-        s.setJanuar(new BigDecimal(-1.111));
+        s.setJanuar(new BigDecimal("-1.111"));
         s.setFebruar(new BigDecimal(-2.222));
         s.setMaerz(new BigDecimal(3.333));
         s.setApril(new BigDecimal(4.444));
