@@ -27,6 +27,10 @@ public class StationClimateImpl implements StationClimateDAO{
     @Override
     public void save(StationClimate stationClimate) {
 
+        Session currentSession = getSession();
+
+        currentSession.saveOrUpdate(stationClimate);
+
     }
 
     @Override
