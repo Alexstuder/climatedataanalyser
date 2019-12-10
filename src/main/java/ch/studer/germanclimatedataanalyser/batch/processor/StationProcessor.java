@@ -25,6 +25,7 @@ public class StationProcessor  implements ItemProcessor<StationFile, Station> {
       final BigDecimal geoLength  = new BigDecimal(stationFile.getGeoLength());
       final String stationName  = stationFile.getStationName();
       final String bundesLand  = stationFile.getBundesLand();
+      log.debug(bundesLand);
 
         return new Station(stationsId,dateBegin,dateEnd,stationHigh,geoLatitude,geoLength,stationName,bundesLand);
     }
