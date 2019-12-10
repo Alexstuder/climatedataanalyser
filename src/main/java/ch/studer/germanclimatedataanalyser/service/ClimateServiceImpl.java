@@ -1,9 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationClimateDAO;
-import ch.studer.germanclimatedataanalyser.model.ClimateDifferenceAtStation;
-import ch.studer.germanclimatedataanalyser.model.ClimateOLDAtStation;
-import ch.studer.germanclimatedataanalyser.model.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.slf4j.Logger;
@@ -37,6 +34,41 @@ public class ClimateServiceImpl implements ClimateService {
     @Override
     public List<StationClimate> getClimateForStation(List<StationWeatherPerYear> stationWeatherPerYears) {
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+
+        if (stationWeatherPerYears.size()  >= period){
+
+            for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears){
+
+            int start = 0;
+            int end = start + period;
+            end = (end > stationWeatherPerYears.size())? stationWeatherPerYears.size():end;
+
+           StationClimate stationClimate = new StationClimate(stationWeatherPerYears.get(start).getStationID());
+           stationClimate.setEndPeriod(stationWeatherPerYears.get(start).getYear());
+           stationClimate.setStartPeriod(stationWeatherPerYears.get(end-1).getYear());
+
+            for (int i =start ; i < end ; i ++ ){
+
+               stationClimate.getJanuar().add(stationWeatherPerYears.get(i).getJanuar());
+               stationClimate.getFebruar().add(stationWeatherPerYears.get(i).getFebruar());
+               stationClimate.getMaerz().add(stationWeatherPerYears.get(i).getMaerz());
+               stationClimate.getApril().add(stationWeatherPerYears.get(i).getApril());
+               stationClimate.getMai().add(stationWeatherPerYears.get(i).getMai());
+               stationClimate.getJuni().add(stationWeatherPerYears.get(i).getJuni());
+               stationClimate.getJuli().add(stationWeatherPerYears.get(i).getJuli());
+               stationClimate.getAugust().add(stationWeatherPerYears.get(i).getAugust());
+               stationClimate.getSeptember().add(stationWeatherPerYears.get(i).getSeptember());
+               stationClimate.getOktober().add(stationWeatherPerYears.get(i).getOktober());
+               stationClimate.getNovember().add(stationWeatherPerYears.get(i).getNovember());
+               stationClimate.getDezember().add(stationWeatherPerYears.get(i).getDezember());
+
+            }
+            }
+
+
+        }
+
+
 
 
 

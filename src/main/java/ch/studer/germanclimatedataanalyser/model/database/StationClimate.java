@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.model.database;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name="CLIMATE")
@@ -43,5 +42,13 @@ public class StationClimate extends  StationTemperature{
 
     public String getStartPeriod() {
         return startPeriod;
+    }
+
+    public void setEndPeriod(String endPeriod) {
+        this.endPeriod = endPeriod;
+    }
+
+    public void setStartPeriod(String startPeriod) {
+        this.startPeriod = startPeriod;
     }
 }
