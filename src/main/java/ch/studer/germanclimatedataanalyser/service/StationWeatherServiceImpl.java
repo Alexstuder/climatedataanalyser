@@ -79,7 +79,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
             if(completed.get(i).getDezember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setDezember(getAverageTemperatur(completed,DEZEMBER,i));
 
 
-            stationWeatherPerYearsFilledHoles.add(completed.get(0));
+            stationWeatherPerYearsFilledHoles.add(completed.get(i));
         }
 
         return stationWeatherPerYearsFilledHoles;
