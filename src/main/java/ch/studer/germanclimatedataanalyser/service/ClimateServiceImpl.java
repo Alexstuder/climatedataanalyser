@@ -30,6 +30,20 @@ public class ClimateServiceImpl implements ClimateService {
     @Autowired
     StationClimateDAO stationClimateDAO;
 
+    BigDecimal januarClimate ;
+    BigDecimal februarClimate ;
+    BigDecimal maerzClimate ;
+    BigDecimal aprilClimate ;
+    BigDecimal maiClimate ;
+    BigDecimal juniClimate ;
+    BigDecimal juliClimate ;
+    BigDecimal augustClimate ;
+    BigDecimal septemberClimate ;
+    BigDecimal octoberClimate ;
+    BigDecimal novemberClimate ;
+    BigDecimal dezemberClimate ;
+
+
     private static final Logger log = LoggerFactory.getLogger(ClimateServiceImpl.class);
 
 
@@ -47,24 +61,74 @@ public class ClimateServiceImpl implements ClimateService {
                 stationClimate.setEndPeriod(stationWeatherPerYears.get(start).getYear());
                 stationClimate.setStartPeriod(stationWeatherPerYears.get(end-1).getYear());
 
-                BigDecimal januar = new BigDecimal(0);
+                stationClimate.setJanuar(new BigDecimal(0));
+
+                januarClimate = new BigDecimal(0);
+                februarClimate = new BigDecimal(0);
+                maerzClimate = new BigDecimal(0);
+                aprilClimate = new BigDecimal(0);
+                maiClimate = new BigDecimal(0);
+                juniClimate = new BigDecimal(0);
+                juliClimate = new BigDecimal(0);
+                augustClimate = new BigDecimal(0);
+                septemberClimate = new BigDecimal(0);
+                octoberClimate = new BigDecimal(0);
+                novemberClimate = new BigDecimal(0);
+                dezemberClimate = new BigDecimal(0);
+
                 for (int i =start ; i < end ; i ++ ){
 
-                    januar = januar.add(stationWeatherPerYears.get(i).getJanuar());
+                    stationClimate.setJanuar(stationClimate.getJanuar().add(stationWeatherPerYears.get(i).getJanuar()));
+                    stationClimate.setFebruar(stationClimate.getFebruar().add(stationWeatherPerYears.get(i).getFebruar()));
+                    stationClimate.setMaerz(stationClimate.getMaerz().add(stationWeatherPerYears.get(i).getMaerz()));
+                    stationClimate.setApril(stationClimate.getApril().add(stationWeatherPerYears.get(i).getApril()));
+                    stationClimate.setMai(stationClimate.getMai().add(stationWeatherPerYears.get(i).getMai()));
+                    stationClimate.setJuni(stationClimate.getJuni().add(stationWeatherPerYears.get(i).getJuni()));
+                    stationClimate.setJuli(stationClimate.getJuli().add(stationWeatherPerYears.get(i).getJuli()));
+                    stationClimate.setAugust(stationClimate.getAugust().add(stationWeatherPerYears.get(i).getAugust()));
+                    stationClimate.setSeptember(stationClimate.getSeptember().add(stationWeatherPerYears.get(i).getSeptember()));
+                    stationClimate.setOktober(stationClimate.getOktober().add(stationWeatherPerYears.get(i).getOktober()));
+                    stationClimate.setNovember(stationClimate.getNovember().add(stationWeatherPerYears.get(i).getNovember()));
+                    stationClimate.setDezember(stationClimate.getDezember().add(stationWeatherPerYears.get(i).getDezember()));
+//                    januarClimate = januarClimate.add(stationWeatherPerYears.get(i).getJanuar());
+//                    februarClimate = februarClimate.add(stationWeatherPerYears.get(i).getFebruar());
+//                    maerzClimate = maerzClimate.add(stationWeatherPerYears.get(i).getMaerz());
+//                    aprilClimate = aprilClimate.add(stationWeatherPerYears.get(i).getApril());
+//                    maiClimate = maiClimate.add(stationWeatherPerYears.get(i).getMai());
+//                    juniClimate = juniClimate.add(stationWeatherPerYears.get(i).getJuni());
+//                    juliClimate = juliClimate.add(stationWeatherPerYears.get(i).getJuli());
+//                    augustClimate = augustClimate.add(stationWeatherPerYears.get(i).getAugust());
+//                    septemberClimate = septemberClimate.add(stationWeatherPerYears.get(i).getSeptember());
+//                    octoberClimate = octoberClimate.add(stationWeatherPerYears.get(i).getOktober());
+//                    novemberClimate = novemberClimate.add(stationWeatherPerYears.get(i).getNovember());
+//                    dezemberClimate = dezemberClimate.add(stationWeatherPerYears.get(i).getDezember());
                 }
-//                   stationClimate.getJanuar().add(stationWeatherPerYears.get(i).getJanuar());
-//                   stationClimate.getFebruar().add(stationWeatherPerYears.get(i).getFebruar());
-//                   stationClimate.getMaerz().add(stationWeatherPerYears.get(i).getMaerz());
-//                   stationClimate.getApril().add(stationWeatherPerYears.get(i).getApril());
-//                   stationClimate.getMai().add(stationWeatherPerYears.get(i).getMai());
-//                   stationClimate.getJuni().add(stationWeatherPerYears.get(i).getJuni());
-//                   stationClimate.getJuli().add(stationWeatherPerYears.get(i).getJuli());
-//                   stationClimate.getAugust().add(stationWeatherPerYears.get(i).getAugust());
-//                   stationClimate.getSeptember().add(stationWeatherPerYears.get(i).getSeptember());
-//                   stationClimate.getOktober().add(stationWeatherPerYears.get(i).getOktober());
-//                   stationClimate.getNovember().add(stationWeatherPerYears.get(i).getNovember());
-//                   stationClimate.getDezember().add(stationWeatherPerYears.get(i).getDezember());
-                stationClimate.setJanuar(januar.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+
+                // Divide trough Years (Period)
+                //stationClimate.setJanuar(januarClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+                stationClimate.setJanuar(stationClimate.getJanuar().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setFebruar(stationClimate.getFebruar().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setMaerz(stationClimate.getMaerz().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setApril(stationClimate.getApril().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setMai(stationClimate.getMai().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setJuni(stationClimate.getJuni().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setJuli(stationClimate.getJuli().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setAugust(stationClimate.getAugust().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setSeptember(stationClimate.getSeptember().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setOktober(stationClimate.getOktober().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setNovember(stationClimate.getNovember().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+                stationClimate.setDezember(stationClimate.getDezember().divide(BigDecimal.valueOf(period),3,RoundingMode.HALF_DOWN));
+//                stationClimate.setFebruar(februarClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setMaerz(maerzClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setApril(aprilClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setMai(maiClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setJuni(juniClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setJuli(juliClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setAugust(augustClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setSeptember(septemberClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setOktober(octoberClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setNovember(novemberClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
+//                stationClimate.setDezember(dezemberClimate.divide(BigDecimal.valueOf(period),3 , RoundingMode.HALF_UP));
                 stationClimates.add(stationClimate);
                 start++;
                 end = start + period;
