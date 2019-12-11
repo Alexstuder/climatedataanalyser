@@ -5,7 +5,9 @@ import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloade
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.*;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -81,9 +83,9 @@ public class AnalyzerBatchConfiguration {
                .listener(listener)
                //.start(downloadFiles())
                //.next(unzipFiles())
-               //.next(monthTemperatureBatchConfiguration.importTemperatureRecords())
+               //.start(temperatureForMonthBatchConfiguration.importTemperatureRecords())
                //.next(stationBatchConfiguration.importStations())
-               //.start(weatherBatchConfiguration.importWeatherRecords())
+               //.next(weatherBatchConfiguration.importWeatherRecords())
                .start(climateBatchConfiguration.importClimateRecords())
                .build()
                 ;
