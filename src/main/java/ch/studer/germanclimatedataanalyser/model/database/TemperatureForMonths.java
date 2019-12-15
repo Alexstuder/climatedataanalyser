@@ -43,8 +43,8 @@ public abstract class TemperatureForMonths {
     @Column(name="DEZEMBER")
     private  BigDecimal dezember;
 
-    //TODO Injext NULL_TEMPERATURE
-    private final static BigDecimal NULL_TEMPERATURE = new BigDecimal(-99.9999);
+    //TODO Inject NULL_TEMPERATURE How ?? it's an abstaract class !?
+    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public TemperatureForMonths() {
 

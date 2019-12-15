@@ -2,10 +2,7 @@ package ch.studer.germanclimatedataanalyser.batch.listener;
 
 import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.common.Statistic;
-import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.Station;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -13,14 +10,9 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
@@ -56,9 +48,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("****************************************************************");
 
         // Prepend the Tables
-        //jdbcTemplate.execute("Delete FROM month");
-        //jdbcTemplate.execute("Delete FROM station");
-       // jdbcTemplate.execute("Delete FROM weather");
+        jdbcTemplate.execute("Delete FROM month");
+        jdbcTemplate.execute("Delete FROM station");
+        jdbcTemplate.execute("Delete FROM weather");
         jdbcTemplate.execute("Delete FROM climate");
 
 

@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationWeatherDAO;
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,10 +55,13 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
         LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
+        if(stationWeatherPerYears.get(0).getStationId()==93){
+            LOG.debug("Here !");
+        }
+            LOG.info("Station_ID {}" , stationWeatherPerYears.get(0).getStationID());
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
 
-        // TODO fill Holes !
         List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
 
 

@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.generate.test.data;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
@@ -13,7 +12,7 @@ import java.util.List;
 
     private static int period = 30;
 
-    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-99.999");
+    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public  final static  List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
 
