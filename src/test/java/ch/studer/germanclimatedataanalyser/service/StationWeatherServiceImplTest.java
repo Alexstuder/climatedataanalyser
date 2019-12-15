@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.batch.writer.ClimateWriter;
 import ch.studer.germanclimatedataanalyser.dao.StationWeatherDAO;
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
@@ -11,11 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,16 +27,16 @@ class StationWeatherServiceImplTest {
     @InjectMocks
     StationWeatherServiceImpl stationWeatherService;
 
-    @Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
-    private static BigDecimal NULL_TEMPERATURE;
+    //@Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
+    //private static BigDecimal NULL_TEMPERATURE;
 
 
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImplTest.class);
     @BeforeEach
     void setUp() {
 
-        BigDecimal value = new BigDecimal("-99.999");
-        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE",value);
+        String value = "-999.0000";
+        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE_INIT",value);
         ReflectionTestUtils.setField(stationWeatherService,"period",30);
     }
 
