@@ -23,6 +23,9 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
     @Autowired
     StationWeatherService stationWeatherService;
 
+    @Value("#{new Integer('${climate.calculation.period.year}')}")
+    int period;
+
     private static final Logger LOG = LoggerFactory.getLogger(ClimateWriter.class);
 
     @Override
@@ -39,14 +42,18 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
                  stationWeatherPerYearsGroupedByStationID.add(stationWeatherPerYear);
               } else {
 
-                List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles =  stationWeatherService.fillHoles(stationWeatherPerYearsGroupedByStationID);
-                List<StationClimate> stationClimates =  climateService.getClimateForStation(stationWeatherPerYearsFilledHoles);
+                  // build the climate record ; if we have enough weather record
+                  if (stationWeatherPerYearsGroupedByStationID.size()>= period ){
 
-                if (stationClimates.size() > 0 ){
-                  climateService.saveAllClimateAtStationId(stationClimates);
-                } else {
-                       LOG.debug("There was nothing to persist on database! ");
-                }
+                    List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles =  stationWeatherService.fillHoles(stationWeatherPerYearsGroupedByStationID);
+                    List<StationClimate> stationClimates =  climateService.getClimateForStation(stationWeatherPerYearsFilledHoles);
+
+                    if (stationClimates.size() > 0 ){
+                      climateService.saveAllClimateAtStationId(stationClimates);
+                    } else {
+                           LOG.debug("There was nothing to persist on database! ");
+                    }
+                  }
 
                 stationWeatherPerYearsGroupedByStationID = new ArrayList<StationWeatherPerYear>();
                 stationWeatherPerYearsGroupedByStationID.add(stationWeatherPerYear);

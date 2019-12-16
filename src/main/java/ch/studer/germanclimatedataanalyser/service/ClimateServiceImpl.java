@@ -44,7 +44,7 @@ public class ClimateServiceImpl implements ClimateService {
     BigDecimal dezemberClimate ;
 
 
-    private static final Logger log = LoggerFactory.getLogger(ClimateServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ClimateServiceImpl.class);
 
 
     @Override

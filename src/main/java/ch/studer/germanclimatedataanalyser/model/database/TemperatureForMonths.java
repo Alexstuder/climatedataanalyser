@@ -43,12 +43,13 @@ public abstract class TemperatureForMonths {
     @Column(name="DEZEMBER")
     private  BigDecimal dezember;
 
+    // TODO : the NULL Value should be given trough the application.properties !
     //TODO Inject NULL_TEMPERATURE How ?? it's an abstaract class !?
     private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public TemperatureForMonths() {
 
-        this.setJanuar(NULL_TEMPERATURE); // TODO : the NULL Value should be given trough the application.properties !
+        this.setJanuar(NULL_TEMPERATURE);
         this.setFebruar(NULL_TEMPERATURE);
         this.setMaerz(NULL_TEMPERATURE);
         this.setApril(NULL_TEMPERATURE);

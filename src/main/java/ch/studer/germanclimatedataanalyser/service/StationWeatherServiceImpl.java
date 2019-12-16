@@ -55,13 +55,15 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
         LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
-        if(stationWeatherPerYears.get(0).getStationId()==93){
+        if(stationWeatherPerYears.get(0).getStationId()==1552){
             LOG.debug("Here !");
         }
             LOG.info("Station_ID {}" , stationWeatherPerYears.get(0).getStationID());
+
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
 
+        // calculate for every null (-999.000) an average temperature
         List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
 
 
@@ -81,10 +83,35 @@ public class StationWeatherServiceImpl implements StationWeatherService {
             if(completed.get(i).getDezember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setDezember(getAverageTemperatur(completed,DEZEMBER,i));
 
 
-            stationWeatherPerYearsFilledHoles.add(completed.get(i));
+            if (hasNoNullTemperature(completed.get(i))){
+                stationWeatherPerYearsFilledHoles.add(completed.get(i));
+            }
         }
 
         return stationWeatherPerYearsFilledHoles;
+    }
+
+    private boolean hasNoNullTemperature(StationWeatherPerYear stationWeatherPerYear) {
+     boolean status = true ;
+
+         if ((stationWeatherPerYear.getJanuar().equals(NULL_TEMPERATURE)) ||
+             (stationWeatherPerYear.getFebruar().equals(NULL_TEMPERATURE)) ||
+             (stationWeatherPerYear.getMaerz().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getApril().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getMai().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getJuni().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getJuli().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getAugust().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getSeptember().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getOktober().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getNovember().equals(NULL_TEMPERATURE))||
+             (stationWeatherPerYear.getDezember().equals(NULL_TEMPERATURE))){
+             status = false;
+
+        }
+
+
+     return status;
     }
 
     private BigDecimal getAverageTemperatur(List<StationWeatherPerYear> completed, String month, int index) {
@@ -123,10 +150,11 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
         }
 
-        // To eleminate the -99.999 Null value !
-        //result = result.add(NULL_TEMPERATURE.multiply(BigDecimal.valueOf(-1)));
-        LOG.debug("Month {}",month);
-        return result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
+        LOG.debug("Station_Id {} , Month {} , counter {}",completed.get(0).getStationID(),month,counter);
+
+        // if there are more then 30 years of NULL_TEMPERATURE , the climate Record can not be calculated !
+        result = (counter == 0)? NULL_TEMPERATURE :  result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
+        return result;
     }
 
     private List<StationWeatherPerYear> complete(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
@@ -153,6 +181,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
                    expectedYear = getExpectedNextYear(stationWeatherPerYears.get(i).getYear());
                } else {
                    // Insert a Nulled StationWeather to close the gap !
+                   LOG.debug("Insert a nulled Station Weather Record to close the gap ; Station_Id :{} , Year : {} " , actualStationId, expectedYear );
                    StationWeatherPerYear n = new StationWeatherPerYear(actualStationId);
                    n.setYear(expectedYear);
                    n.setCalculatedArtificially(true);
