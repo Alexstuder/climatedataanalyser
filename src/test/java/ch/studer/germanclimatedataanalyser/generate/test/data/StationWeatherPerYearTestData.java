@@ -57,13 +57,33 @@ import java.util.List;
 
         return weatherWithHoles;
     }
-    public static List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate,int stationId) {
+
+//    public static List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate,int stationId) {
+//        List<StationWeatherPerYear> l = new ArrayList<>();
+//
+//        int start = Integer.valueOf(startDate);
+//
+//        for(int i = start; i > start-period ;i-- ){
+//            l.add(getStationWeatherPerYear(i,stationId));
+//        }
+//
+//        return l;
+//    }
+    public static List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate,int stationId,boolean nullValues) {
         List<StationWeatherPerYear> l = new ArrayList<>();
 
         int start = Integer.valueOf(startDate);
 
-        for(int i = start; i > start-period ;i-- ){
-            l.add(getStationWeatherPerYear(i,stationId));
+        if (nullValues){
+            for(int i = start; i > start-period ;i-- ){
+                l.add(new StationWeatherPerYear(stationId,String.valueOf(i)));
+                      //  getStationWeatherPerYearNull(i,stationId));
+            }
+        } else {
+
+            for(int i = start; i > start-period ;i-- ){
+                l.add(getStationWeatherPerYear(i,stationId));
+            }
         }
 
         return l;

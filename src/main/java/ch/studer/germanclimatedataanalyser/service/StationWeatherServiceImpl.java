@@ -69,22 +69,27 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
         for(int i = 0 ; i < completed.size();i++){
 
-            if(completed.get(i).getJanuar().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJanuar(getAverageTemperatur(completed,JANUAR,i));
-            if(completed.get(i).getFebruar().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setFebruar(getAverageTemperatur(completed,FEBRUAR,i));
-            if(completed.get(i).getMaerz().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setMaerz(getAverageTemperatur(completed,MAERZ,i));
-            if(completed.get(i).getApril().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setApril(getAverageTemperatur(completed,APRIL,i));
-            if(completed.get(i).getMai().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setMai(getAverageTemperatur(completed,MAI,i));
-            if(completed.get(i).getJuni().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJuni(getAverageTemperatur(completed,JUNI,i));
-            if(completed.get(i).getJuli().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setJuli(getAverageTemperatur(completed,JULI,i));
-            if(completed.get(i).getAugust().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setAugust(getAverageTemperatur(completed,AUGUST,i));
-            if(completed.get(i).getSeptember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setSeptember(getAverageTemperatur(completed,SEPTEMBER,i));
-            if(completed.get(i).getOktober().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setOktober(getAverageTemperatur(completed,OCTOBER,i));
-            if(completed.get(i).getNovember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setNovember(getAverageTemperatur(completed,NOVEMBER,i));
-            if(completed.get(i).getDezember().compareTo(NULL_TEMPERATURE) == 0) completed.get(i).setDezember(getAverageTemperatur(completed,DEZEMBER,i));
+            //Get a copy of the original record
+            StationWeatherPerYear t = new StationWeatherPerYear(completed.get(i));
 
 
-            if (hasNoNullTemperature(completed.get(i))){
-                stationWeatherPerYearsFilledHoles.add(completed.get(i));
+            if(t.getJanuar().compareTo(NULL_TEMPERATURE) == 0) t.setJanuar(getAverageTemperatur(completed,JANUAR,i));
+            if(t.getFebruar().compareTo(NULL_TEMPERATURE) == 0) t.setFebruar(getAverageTemperatur(completed,FEBRUAR,i));
+            if(t.getMaerz().compareTo(NULL_TEMPERATURE) == 0) t.setMaerz(getAverageTemperatur(completed,MAERZ,i));
+            if(t.getApril().compareTo(NULL_TEMPERATURE) == 0) t.setApril(getAverageTemperatur(completed,APRIL,i));
+            if(t.getMai().compareTo(NULL_TEMPERATURE) == 0) t.setMai(getAverageTemperatur(completed,MAI,i));
+            if(t.getJuni().compareTo(NULL_TEMPERATURE) == 0) t.setJuni(getAverageTemperatur(completed,JUNI,i));
+            if(t.getJuli().compareTo(NULL_TEMPERATURE) == 0) t.setJuli(getAverageTemperatur(completed,JULI,i));
+            if(t.getAugust().compareTo(NULL_TEMPERATURE) == 0) t.setAugust(getAverageTemperatur(completed,AUGUST,i));
+            if(t.getSeptember().compareTo(NULL_TEMPERATURE) == 0) t.setSeptember(getAverageTemperatur(completed,SEPTEMBER,i));
+            if(t.getOktober().compareTo(NULL_TEMPERATURE) == 0) t.setOktober(getAverageTemperatur(completed,OCTOBER,i));
+            if(t.getNovember().compareTo(NULL_TEMPERATURE) == 0) t.setNovember(getAverageTemperatur(completed,NOVEMBER,i));
+            if(t.getDezember().compareTo(NULL_TEMPERATURE) == 0) t.setDezember(getAverageTemperatur(completed,DEZEMBER,i));
+
+
+            // Only Records without NULL Value would be added to list
+            if (hasNoNullTemperature(t)){
+                stationWeatherPerYearsFilledHoles.add(t);
             }
         }
 
@@ -168,8 +173,8 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
         // Proof if List is filled !
         if (stationWeatherPerYears.size()>0){
-            // Add first Record into completed List
 
+            // Add first Record into completed List
             completedList.add(stationWeatherPerYears.get(0));
             actualStationId = stationWeatherPerYears.get(0).getStationID();
             expectedYear = getExpectedNextYear(stationWeatherPerYears.get(0).getYear());
