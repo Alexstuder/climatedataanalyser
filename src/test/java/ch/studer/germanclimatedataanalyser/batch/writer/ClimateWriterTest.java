@@ -100,12 +100,12 @@ class ClimateWriterTest {
         // Build TestRecords
         // ******************
         stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
-        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1);
+        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
         stationWeatherPerYearList.addAll(weatherComplete);
         List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
         stationWeatherPerYearList.addAll(weatherWithHoles);
 
-        List<StationWeatherPerYear> weatherComplete2 = StationWeatherPerYearTestData.getStationWeatherPerYearList("2017",2);
+        List<StationWeatherPerYear> weatherComplete2 = StationWeatherPerYearTestData.getStationWeatherPerYearList("2017",2,false );
         stationWeatherPerYearList.addAll(weatherComplete2);
         List<StationWeatherPerYear> weatherWithHoles2 = StationWeatherPerYearTestData.getHoles(weatherComplete2);
         stationWeatherPerYearList.addAll(weatherWithHoles2);

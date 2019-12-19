@@ -41,11 +41,11 @@ class StationWeatherServiceImplTest {
     }
 
     @Test
-    void fillHoles() {
+    void fillHolesTest() {
 
         List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
 
-        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1);
+        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
 
         List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
 
@@ -77,9 +77,26 @@ class StationWeatherServiceImplTest {
 
            index++;
         }
+    }
+
+    @Test
+    void fillHolesWithToMuchNullValues(){
+
+        List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
+
+        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",2,false);
+
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1988",2,true));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1958",2,true));
+
+        // Test the Service :
+        // SetUp  : Just process a List with 1 StationId (group by prepended)
+        List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearsWithHoles);
+
+        LOG.debug("Hier Pause");
 
 
-        // Add Assertions
+
     }
 
     private boolean isWeatherEqual(List<StationWeatherPerYear> h, List<StationWeatherPerYear> c) {

@@ -31,6 +31,31 @@ public class StationWeatherPerYear extends  StationTemperature{
         this.calculatedArtificially = false ;
 
     };
+    public StationWeatherPerYear(int stationId,String year){
+
+        super(stationId);
+        this.year      = year;
+        this.calculatedArtificially = false ;
+
+    };
+
+    public StationWeatherPerYear(StationWeatherPerYear stationWeatherPerYear) {
+        super(stationWeatherPerYear.getStationID());
+        super.setJanuar(stationWeatherPerYear.getJanuar());
+        super.setFebruar(stationWeatherPerYear.getFebruar());
+        super.setMaerz(stationWeatherPerYear.getMaerz());
+        super.setApril(stationWeatherPerYear.getApril());
+        super.setMai(stationWeatherPerYear.getMai());
+        super.setJuni(stationWeatherPerYear.getJuni());
+        super.setJuli(stationWeatherPerYear.getJuli());
+        super.setAugust(stationWeatherPerYear.getAugust());
+        super.setSeptember(stationWeatherPerYear.getSeptember());
+        super.setOktober(stationWeatherPerYear.getOktober());
+        super.setNovember(stationWeatherPerYear.getNovember());
+        super.setDezember(stationWeatherPerYear.getDezember());
+        this.year = stationWeatherPerYear.getYear();
+        this.setCalculatedArtificially(false);
+    }
 
     public String getYear() {
         return year;
