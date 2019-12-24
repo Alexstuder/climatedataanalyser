@@ -39,7 +39,26 @@ class ClimateServiceImplTest {
     }
 
     @Test
+    void get0ClimateRecordForStation() {
+
+        // Build 29 StationWeather records to get 0 climate record as result
+
+        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
+
+        // remove any random Record
+        stationWeatherPerYearList.remove(15);
+
+        List<StationClimate> stationClimates = climateService.getClimateForStation(stationWeatherPerYearList);
+
+
+        Assertions.assertTrue(stationWeatherPerYearList.size()==29);
+        Assertions.assertTrue(stationClimates.size()==0);
+    }
+
+ @Test
     void get1ClimateRecordForStation() {
+
+        // Build 30 StationWeather records to get 1 climate record as result
 
         List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
 
@@ -61,25 +80,20 @@ class ClimateServiceImplTest {
             Assertions.assertTrue(stationClimate.getNovember().compareTo(new BigDecimal("-11.111"))==0);
             Assertions.assertTrue(stationClimate.getDezember().compareTo(new BigDecimal("-12.120"))==0);
         }
-
-
-
-
-
-
-
     }
 
     @Test
-    void getClimateRecordForStation() {
+    void get2ClimateRecordForStation() {
+
+        // Build 31 StationWeather Records to get 2 Climate Records as Result
 
         List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
-        stationWeatherPerYearList.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1988",1,false));
+        stationWeatherPerYearList.add(StationWeatherPerYearTestData.getStationWeatherPerYear("1988",1));
 
         List<StationClimate> stationClimates = climateService.getClimateForStation(stationWeatherPerYearList);
 
 
-        Assertions.assertTrue(stationClimates.size()==31);
+        Assertions.assertTrue(stationClimates.size()==2);
         for (StationClimate stationClimate : stationClimates){
             Assertions.assertTrue(stationClimate.getJanuar().compareTo(new BigDecimal("-1.111"))==0);
             Assertions.assertTrue(stationClimate.getFebruar().compareTo(new BigDecimal("-2.222"))==0);
