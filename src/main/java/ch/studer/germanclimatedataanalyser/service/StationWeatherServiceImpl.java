@@ -55,6 +55,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
         LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
+        // TODO remove if LOG
         if(stationWeatherPerYears.get(0).getStationId()==1552){
             LOG.debug("Here !");
         }

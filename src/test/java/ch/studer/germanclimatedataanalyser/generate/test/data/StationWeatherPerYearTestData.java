@@ -82,18 +82,17 @@ import java.util.List;
         } else {
 
             for(int i = start; i > start-period ;i-- ){
-                l.add(getStationWeatherPerYear(i,stationId));
+                l.add(getStationWeatherPerYear(String.valueOf(i),stationId));
             }
         }
 
         return l;
     }
 
-    private static StationWeatherPerYear getStationWeatherPerYear(int i, int stationId) {
+    public static StationWeatherPerYear getStationWeatherPerYear(String startDate,int stationId) {
 
         StationWeatherPerYear s = new StationWeatherPerYear(stationId);
-        s.setYear(String.valueOf(i));
-        s.setStationId(stationId);
+        s.setYear(String.valueOf(startDate));
         s.setJanuar(new BigDecimal("-1.111"));
         s.setFebruar(new BigDecimal("-2.222"));
         s.setMaerz(new BigDecimal("3.333"));
