@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationClimateDAO;
-import ch.studer.germanclimatedataanalyser.dao.StationWeatherDAO;
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
@@ -16,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ClimateServiceImplTest {
@@ -88,7 +84,7 @@ class ClimateServiceImplTest {
         // Build 31 StationWeather Records to get 2 Climate Records as Result
 
         List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
-        stationWeatherPerYearList.add(StationWeatherPerYearTestData.getStationWeatherPerYear("1988",1));
+        stationWeatherPerYearList.add(StationWeatherPerYearTestData.getStationWeatherPerYearTestData("1988",1));
 
         List<StationClimate> stationClimates = climateService.getClimateForStation(stationWeatherPerYearList);
 
