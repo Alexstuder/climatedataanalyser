@@ -65,8 +65,14 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
 
         // calculate for every null (-999.000) an average temperature
-        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
+        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = calculateHoles(completed);
 
+        return stationWeatherPerYearsFilledHoles;
+    }
+
+    private List<StationWeatherPerYear> calculateHoles(List<StationWeatherPerYear> completed) {
+
+        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
 
         for(int i = 0 ; i < completed.size();i++){
 
@@ -127,13 +133,14 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
 
         int start = 0 ;
-        if((index -(period/2)) > 0) start=(index-(period/2));
+        if((index -(getRange())) > 0) start=(index-(getRange()));
 
         int end = (completed.size() - 1) ;
-        if((index+(period/2)) < end) end =(index+(period/2));
+        if((index+(getRange())) < end) end =(index+(getRange()));
 
         int counter = 0 ;
-        for (int i= start ; i < end ; i++ ){
+        //TODO ????
+        for (int i= start ; i <= end ; i++ ){
 
 
             switch (month){
@@ -161,6 +168,22 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         // if there are more then 30 years of NULL_TEMPERATURE , the climate Record can not be calculated !
         result = (counter == 0)? NULL_TEMPERATURE :  result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
         return result;
+    }
+
+    /*
+    getRange() defines the Range to calculate the NULL_TEMPERATURE holes.
+    If its defined period/2 you get a range of 15 .
+
+    That means to calculate the NULL_TEMPERATURE holes it will take 15 before and after year from the starting year:
+    for example: the year 1989 is NULL_TEMPERATURE :
+    Take the month temperature from (2004 - 1990 and 1988 - 1974) / 30 .
+    n.b: 1989 was NULL !
+
+     */
+    private int getRange() {
+
+
+        return 4;
     }
 
     private List<StationWeatherPerYear> complete(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
