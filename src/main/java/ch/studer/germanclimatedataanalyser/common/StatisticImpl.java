@@ -39,13 +39,6 @@ public class StatisticImpl implements Statistic {
         this.getStatisticRecords().add(this.getActual());
     }
 
- /*   @Override
-    public void writeDbAnzahl() {
-          //TODO: Change Model to JPA EntityModel !
-
-
-    }*/
-
     public ArrayList<StatisticRecord> getStatisticRecords() {
         return statisticRecords;
     }

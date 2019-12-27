@@ -1,5 +1,8 @@
 package ch.studer.germanclimatedataanalyser.model.database;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,6 +22,8 @@ public class StationClimate extends  StationTemperature{
     @Column(name="START_PERIOD")
     private String startPeriod;
 
+
+    private static final Logger log = LoggerFactory.getLogger(StationClimate.class);
 
 
 //    public StationClimate() {
@@ -51,4 +56,6 @@ public class StationClimate extends  StationTemperature{
     public void setStartPeriod(String startPeriod) {
         this.startPeriod = startPeriod;
     }
+
+
 }

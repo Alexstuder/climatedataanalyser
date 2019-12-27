@@ -6,5 +6,4 @@ public interface TemperaturesAtStationService {
 
     public TemperatureByStationId getTemperaturesBy(int stationsId);
 
-    void getTemperaturesForAll();
 }

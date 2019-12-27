@@ -24,6 +24,8 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
 
+
+
     private static final Logger LOG = LoggerFactory.getLogger(TemperaturesAtStationServiceImpl.class);
 
     @Override
@@ -164,18 +166,6 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
         }
     }
 
-    @Override
-    public void getTemperaturesForAll() {
-
-        //TODO Return a List<TemperaturesByStationId>
-        // This was just coded to Print and do a visual Test !
-        for (Station station : stationService.getAllStations()){
-            LOG.debug("STATION : " + station.getStationName());
-            LOG.debug("STATION : " + station.getStationId());
-            this.getTemperaturesBy(station.getStationId());
-        }
-
-    }
 
     private TemperatureByStationId getCLimate(TemperatureByStationId temperatureByStationId) {
         TemperatureByStationId climateByStationId1 = new TemperatureByStationId(temperatureByStationId.getStationId());
@@ -185,7 +175,9 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
 
     private void getNormalised(TemperatureByStationId temperatureByStationId, List<Month> months) {
 
-        //TODO Check if months.get(0) exists or if DB is empty ¨!
+        //Check if months is not null!
+        if(months !=null){
+
         String processingEndDate = getActualYear(months.get(0).getMessDatumEnde());
         String actualEndDate = getActualYear(months.get(0).getMessDatumEnde());
 
@@ -251,11 +243,12 @@ public class TemperaturesAtStationServiceImpl implements TemperaturesAtStationSe
                          break;
 
 
-             }
-    }
+                     }
+                }
          // Add Last builded temperatureRecord to List
         // Add TemperatureRecord to TemperatureRecordList
         temperatureByStationId.getTemperatureRecordList().add(temperatureRecord);
+        }
     }
 
 

@@ -22,8 +22,6 @@ public class StepProcessorListener implements ItemProcessListener<MonthFile,Mont
     @Override
     public void beforeProcess(MonthFile monthFile) {
 
-        //If New Stations ID ; Add actual to Statistic
-        //TODO A.Studer : getStationsID() == 0  Prüfung sollte auf NULL ändern !
         if (statistic.checkIsNewStationsID(monthFile.getStationsId())){
 
             if (statistic.getActual().getStationsID() == 0 ) {

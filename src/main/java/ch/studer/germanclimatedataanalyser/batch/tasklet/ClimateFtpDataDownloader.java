@@ -104,7 +104,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         deleteDirectoryFiles(directory);
         log.info("FTPDataFolderName : " + directory.getPath());
-        //TODO Download all FTP  Files
+
         for (FTPFile ftpFile : ftpFiles) {
 
         FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() +"/"+ftpFile.getName());

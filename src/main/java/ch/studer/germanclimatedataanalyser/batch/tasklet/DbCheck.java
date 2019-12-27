@@ -45,9 +45,6 @@ public class DbCheck {
             log.warn("Broken Chain in Date registered !");
         }
 
-        printDbStatus();
-
-
     }
 
     private boolean checkDateChain() {
@@ -124,13 +121,5 @@ public class DbCheck {
         // go a head ....
         return status;
         }
-
-    public void printDbStatus() {
-
-        log.info("********************  Start Print DB Status  ********************");
-        //TODO ...well,Print a DB Status :-)
-        log.info("Not implemented now !");
-        log.info("********************  End   Print DB Status  ********************");
-    }
 }
 

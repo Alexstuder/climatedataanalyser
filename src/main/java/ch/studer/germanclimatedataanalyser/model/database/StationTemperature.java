@@ -1,7 +1,7 @@
 package ch.studer.germanclimatedataanalyser.model.database;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class StationTemperature extends TemperatureForMonths {
@@ -25,5 +25,9 @@ public abstract class StationTemperature extends TemperatureForMonths {
     }
     public void setStationId(int stationId) {
         this.stationId = stationId;
+    }
+
+    public TemperatureForMonths getTemperatureForMonths(){
+        return super.getTemperatureForMonths();
     }
 }
