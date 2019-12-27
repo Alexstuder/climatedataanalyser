@@ -1,10 +1,8 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
 import ch.studer.germanclimatedataanalyser.model.Month;
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
-import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
@@ -14,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherWriter implements ItemWriter<Month> {
-
-    @Autowired
-    TemperaturesAtStationService temperaturesAtStationService;
 
     @Autowired
     StationWeatherService stationWeatherService;

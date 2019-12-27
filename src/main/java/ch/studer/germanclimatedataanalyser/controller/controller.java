@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
-import ch.studer.germanclimatedataanalyser.service.TemperaturesAtStationService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -11,10 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class controller {
-
-        @Autowired
-        TemperaturesAtStationService temperaturesAtStationService;
-
 
         @Autowired
         JobLauncher jobLauncher;

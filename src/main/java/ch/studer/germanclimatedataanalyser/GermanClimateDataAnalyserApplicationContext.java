@@ -11,11 +11,6 @@ import org.springframework.context.annotation.Configuration;
 public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
-    TemperaturesAtStationService temperaturesAtStationService(){
-        return new TemperaturesAtStationServiceImpl();
-    }
-
-    @Bean
     ClimateService climateService(){return new ClimateServiceImpl();
     }
 
