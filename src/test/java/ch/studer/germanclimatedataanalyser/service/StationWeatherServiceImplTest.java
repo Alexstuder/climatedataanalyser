@@ -31,6 +31,8 @@ class StationWeatherServiceImplTest {
     //@Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
     //private static BigDecimal NULL_TEMPERATURE;
 
+    private int range = 4 ;
+    private int period = 30 ;
 
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImplTest.class);
     @BeforeEach
@@ -38,7 +40,8 @@ class StationWeatherServiceImplTest {
 
         String value = "-999.0000";
         ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE_INIT",value);
-        ReflectionTestUtils.setField(stationWeatherService,"period",30);
+        ReflectionTestUtils.setField(stationWeatherService,"period",period);
+        ReflectionTestUtils.setField(stationWeatherService,"range",range);
     }
 
 
@@ -104,46 +107,26 @@ class StationWeatherServiceImplTest {
         // SetUp  : Just process a List with 1 StationId (group by prepended)
         List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearsWithHoles);
 
-        Assertions.assertTrue(testList.size()==34);
+        // calculate size !
+        int size = period +(2 * range);
+        Assertions.assertTrue(testList.size()==size);
 
         for(StationWeatherPerYear stationWeatherPerYear : testList){
-            Assertions.assertTrue(stationWeatherPerYear.getJanuar().compareTo(new BigDecimal("-1.111"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getFebruar().compareTo(new BigDecimal("-2.222"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getMaerz().compareTo(new BigDecimal("3.333"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getApril().compareTo(new BigDecimal("4.444"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getMai().compareTo(new BigDecimal("5.555"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getJuni().compareTo(new BigDecimal("6.666"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getJuli().compareTo(new BigDecimal("7.777"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getAugust().compareTo(new BigDecimal("8.888"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getSeptember().compareTo(new BigDecimal("9.999"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getOktober().compareTo(new BigDecimal("10.100"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getNovember().compareTo(new BigDecimal("-11.111"))==0);
-            Assertions.assertTrue(stationWeatherPerYear.getDezember().compareTo(new BigDecimal("-12.120"))==0);
+            Assertions.assertTrue(stationWeatherPerYear.getJanuar().compareTo(new BigDecimal("-1.111"))==0,"Januar is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getFebruar().compareTo(new BigDecimal("-2.222"))==0,"Februar is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getMaerz().compareTo(new BigDecimal("3.333"))==0,"Marz is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getApril().compareTo(new BigDecimal("4.444"))==0,"April is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getMai().compareTo(new BigDecimal("5.555"))==0,"Mai is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getJuni().compareTo(new BigDecimal("6.666"))==0,"June is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getJuli().compareTo(new BigDecimal("7.777"))==0,"Juli is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getAugust().compareTo(new BigDecimal("8.888"))==0,"August is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getSeptember().compareTo(new BigDecimal("9.999"))==0,"September is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getOktober().compareTo(new BigDecimal("10.100"))==0,"October is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getNovember().compareTo(new BigDecimal("-11.111"))==0,"November is not Equal");
+            Assertions.assertTrue(stationWeatherPerYear.getDezember().compareTo(new BigDecimal("-12.120"))==0,"December is not Equal");
 
         }
 
     }
 
-    private boolean isWeatherEqual(List<StationWeatherPerYear> h, List<StationWeatherPerYear> c) {
-        boolean status = true ;
-        int size = 0 ;
-
-        if(h.size() == c.size()){
-            size = h.size();
-
-
-            for (int i =0 ; i < c.size(); i++){
-                //TODO Proof all Month !! Not Only Januar !? And Poff if compare cpuld handle the math differences !?
-
-                // if Status turns oncy to false : it will stay false !
-               status =  (h.get(i).getJanuar().compareTo(c.get(i).getJanuar()) == 0) ? status : false;
-               LOG.debug("Index {}, Status {}",i,status);
-
-            }
-
-        } else {
-            LOG.debug("Size are not Equal : Size withHolesWeather : {} .Size completeWeather : {} !",h.size(),c.size());
-        }
-        return status;
-    }
 }

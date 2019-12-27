@@ -41,10 +41,6 @@ public class ClimateServiceImpl implements ClimateService {
         int start = 0;
         int end = start + period;
 
-        if (stationWeatherPerYears.get(0).getStationID() ==1552){
-            LOG.debug("Here");
-        }
-
         for(StationWeatherPerYear stationWeatherPerYear:stationWeatherPerYears){
 
             if(end <= stationWeatherPerYears.size()){

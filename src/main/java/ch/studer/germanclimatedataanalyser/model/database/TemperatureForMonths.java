@@ -45,6 +45,7 @@ public abstract class TemperatureForMonths {
 
     // TODO : the NULL Value should be given trough the application.properties !
     //TODO Inject NULL_TEMPERATURE How ?? it's an abstaract class !?
+    // TODO How to inject a BigDecimal !
     private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public TemperatureForMonths() {
@@ -65,6 +66,9 @@ public abstract class TemperatureForMonths {
 
 // Getter and Setter
 
+    public TemperatureForMonths getTemperatureForMonths(){
+        return this;
+    }
 
     public BigDecimal getJanuar() {
         return januar;

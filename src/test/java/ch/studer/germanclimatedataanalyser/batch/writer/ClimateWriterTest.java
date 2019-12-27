@@ -5,25 +5,18 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.ClimateService;
 import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -117,13 +110,8 @@ class ClimateWriterTest {
         // Mock ClimateService
         // *********************
 
-        // **************************
-        //Mock StationWeatherService
         when(stationWeatherService.fillHoles(weatherWithHoles)).thenReturn(weatherComplete);
         when(climateService.getClimateForStation(weatherComplete)).thenReturn(getClimate(weatherComplete));
-        //TODO Proof if the Methode is Called with the right parameter ! ...but how !!??
-        //when(climateService.saveAllClimateAtStationId());
-        // **************************
 
         // ************
         // Start Test

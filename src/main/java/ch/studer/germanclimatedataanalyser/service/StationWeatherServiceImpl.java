@@ -28,6 +28,19 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     private int period;
 
+    /*
+    range: defines the range to calculate the NULL_TEMPERATURE holes.
+    If its defined period/2 you get a range of 15 .
+
+    That means to calculate the NULL_TEMPERATURE holes it will take 15 before and after year from the starting year:
+    for example: the year 1989 is NULL_TEMPERATURE :
+    Take the month temperature from (2004 - 1990 and 1988 - 1974) / 30 .
+    n.b: 1989 was NULL !
+
+     */
+    @Value("#{new Integer('${climate.calculation.range.year}')}")
+    private int range;
+
     private static final String JANUAR = "JANUAR";
     private static final String FEBRUAR = "FEBRUAR";
     private static final String MAERZ = "MAERZ";
@@ -55,11 +68,6 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
         LOG.debug("StationId {}, size{}",stationWeatherPerYears.get(0).getStationID(),stationWeatherPerYears.size());
-        // TODO remove if LOG
-        if(stationWeatherPerYears.get(0).getStationId()==1552){
-            LOG.debug("Here !");
-        }
-            LOG.info("Station_ID {}" , stationWeatherPerYears.get(0).getStationID());
 
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
@@ -133,13 +141,12 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
 
         int start = 0 ;
-        if((index -(getRange())) > 0) start=(index-(getRange()));
+        if((index -(range)) > 0) start=(index-(range));
 
         int end = (completed.size() - 1) ;
-        if((index+(getRange())) < end) end =(index+(getRange()));
+        if((index+(range)) < end) end =(index+(range));
 
         int counter = 0 ;
-        //TODO ????
         for (int i= start ; i <= end ; i++ ){
 
 
@@ -168,22 +175,6 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         // if there are more then 30 years of NULL_TEMPERATURE , the climate Record can not be calculated !
         result = (counter == 0)? NULL_TEMPERATURE :  result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
         return result;
-    }
-
-    /*
-    getRange() defines the Range to calculate the NULL_TEMPERATURE holes.
-    If its defined period/2 you get a range of 15 .
-
-    That means to calculate the NULL_TEMPERATURE holes it will take 15 before and after year from the starting year:
-    for example: the year 1989 is NULL_TEMPERATURE :
-    Take the month temperature from (2004 - 1990 and 1988 - 1974) / 30 .
-    n.b: 1989 was NULL !
-
-     */
-    private int getRange() {
-
-
-        return 4;
     }
 
     private List<StationWeatherPerYear> complete(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
