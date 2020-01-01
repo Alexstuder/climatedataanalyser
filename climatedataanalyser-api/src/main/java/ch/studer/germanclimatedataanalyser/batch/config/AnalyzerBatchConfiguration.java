@@ -75,12 +75,12 @@ public class AnalyzerBatchConfiguration {
         return jobBuilderFactoryImport.get("importGermanClimateDataJob")
                .incrementer(new RunIdIncrementer())
                .listener(listener)
-               .start(downloadFiles())
-               .next(unzipFiles())
-               .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
-               .next(stationBatchConfiguration.importStations())
-               .next(weatherBatchConfiguration.importWeatherRecords())
-               .next(climateBatchConfiguration.importClimateRecords())
+//               .start(downloadFiles())
+//               .next(unzipFiles())
+//               .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
+               .start(stationBatchConfiguration.importStations())
+//               .next(weatherBatchConfiguration.importWeatherRecords())
+//               .next(climateBatchConfiguration.importClimateRecords())
                .build()
                 ;
     }
