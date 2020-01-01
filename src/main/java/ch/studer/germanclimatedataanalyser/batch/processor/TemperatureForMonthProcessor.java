@@ -1,13 +1,10 @@
 package ch.studer.germanclimatedataanalyser.batch.processor;
 
-import ch.studer.germanclimatedataanalyser.common.Statistic;
-import ch.studer.germanclimatedataanalyser.model.Month;
-
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -15,9 +12,6 @@ import java.sql.Date;
 public class TemperatureForMonthProcessor implements ItemProcessor<MonthFile,Month> {
 
     private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthProcessor.class);
-
-    @Autowired
-    private Statistic statistic;
 
     @Override
     public Month process(final MonthFile monthFile) {
@@ -55,7 +49,6 @@ public class TemperatureForMonthProcessor implements ItemProcessor<MonthFile,Mon
                                            ,MO_RR
                                            ,MX_RS);
 
-        statistic.getActual().setAnzahlProcess(statistic.getActual().getAnzahlProcess() + 1) ;
         return transformedMonth;
     }
 

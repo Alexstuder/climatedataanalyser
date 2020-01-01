@@ -2,7 +2,6 @@ package ch.studer.germanclimatedataanalyser;
 
 import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.reader.WeatherReader;
-import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
 import ch.studer.germanclimatedataanalyser.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +26,4 @@ public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
     WeatherReader weatherReader() {return new WeatherReader();}
-
-    @Bean
-    public DbCheck dbCheck(){return new DbCheck();}
 }

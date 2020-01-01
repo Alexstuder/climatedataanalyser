@@ -1,8 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
-import ch.studer.germanclimatedataanalyser.model.Station;
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -41,7 +39,6 @@ public class StationWeatherImpl implements StationWeatherDAO{
 
 
         for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears){
-            LOG.debug("Record to write into DB : " + stationWeatherPerYear.getStationId());
             save(stationWeatherPerYear);
         }
     }

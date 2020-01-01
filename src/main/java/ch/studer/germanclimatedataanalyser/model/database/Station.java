@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.model;
+package ch.studer.germanclimatedataanalyser.model.database;
 
 
 import javax.persistence.*;

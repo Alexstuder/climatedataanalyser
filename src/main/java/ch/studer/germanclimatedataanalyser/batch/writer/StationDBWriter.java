@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
-import ch.studer.germanclimatedataanalyser.model.Station;
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.service.StationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

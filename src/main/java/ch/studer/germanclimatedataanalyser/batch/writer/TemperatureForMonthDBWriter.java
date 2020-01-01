@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
-import ch.studer.germanclimatedataanalyser.common.Statistic;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.service.MonthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,6 @@ import java.util.List;
 public class TemperatureForMonthDBWriter implements ItemWriter<Month> {
 
     private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthDBWriter.class);
-
-    @Autowired
-    private Statistic statistic;
 
     @Autowired
     private DataSource dataSource;

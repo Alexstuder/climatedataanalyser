@@ -1,7 +1,5 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
-import ch.studer.germanclimatedataanalyser.batch.tasklet.DbCheck;
-import ch.studer.germanclimatedataanalyser.common.Statistic;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +17,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
     private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
-    private final JdbcTemplate jdbcTemplate ;
-
     @Autowired
-    public Statistic statistic;
-
-    @Autowired
-    private DbCheck dbCheck;
-
+    private JdbcTemplate jdbcTemplate ;
 
     @Autowired
     private EntityManager entityManager;
@@ -35,10 +27,10 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         return entityManager.unwrap(Session.class);
     }
 
-    @Autowired
-    public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+//    @Autowired
+//    public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
+//        this.jdbcTemplate = jdbcTemplate;
+//    }
 
     @Override
     public void beforeJob(JobExecution jobExecution){
@@ -48,9 +40,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("****************************************************************");
 
         // Prepend the Tables
-        //jdbcTemplate.execute("Delete FROM month");
-        //jdbcTemplate.execute("Delete FROM station");
-        //jdbcTemplate.execute("Delete FROM weather");
+        jdbcTemplate.execute("Delete FROM month");
+        jdbcTemplate.execute("Delete FROM station");
+        jdbcTemplate.execute("Delete FROM weather");
         jdbcTemplate.execute("Delete FROM climate");
 
 
@@ -59,9 +51,6 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
    @Override
    public void afterJob(JobExecution jobExecution) {
-
-        // Add the last actual statistic Record to statistics
-       statistic.addActualToStatistics();
 
         if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("##########################################################");
@@ -75,12 +64,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
         }
 
-      //  dbCheck.checkDB();
-
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         log.info("!!!                     STATISTIC                            !!!");
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //statistic.printStatistics();
 
 
 

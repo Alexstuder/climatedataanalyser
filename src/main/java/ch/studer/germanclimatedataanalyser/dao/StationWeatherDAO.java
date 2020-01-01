@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.Station;
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 
 import java.util.List;

@@ -1,8 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
-import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
