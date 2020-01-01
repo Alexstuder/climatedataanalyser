@@ -3,7 +3,7 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.processor.WeatherProcessor;
 import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;

@@ -4,9 +4,7 @@ import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
 import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
-import ch.studer.germanclimatedataanalyser.common.Statistic;
-import ch.studer.germanclimatedataanalyser.common.StatisticImpl;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -35,11 +33,6 @@ public class TemperatureForMonthBatchConfiguration {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactoryImport;
-
-    @Bean
-    public Statistic statistics(){
-        return new StatisticImpl();
-    }
 
     @Value("${climate.path.temperature.input.file.pattern}")
     private String inputFilePattern;
@@ -139,9 +132,9 @@ public class TemperatureForMonthBatchConfiguration {
         return stepBuilderFactoryImport.get("import-temperature-records")
                 .<MonthFile, Month> chunk(10000)
                 .reader(monthFilesReader())
-                .listener(new StepProcessorListener(statistics()))
+                .listener(new StepProcessorListener())
                 .processor(temperaturProcessor())
-                .listener(new StepWriterListener(statistics()))
+                .listener(new StepWriterListener())
                 .writer(monthWriter())
                 .build()
                 ;

@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
 import org.slf4j.Logger;

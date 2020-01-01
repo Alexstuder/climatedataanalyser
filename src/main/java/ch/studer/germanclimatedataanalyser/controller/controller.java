@@ -26,7 +26,8 @@ public class controller {
           jobLauncher.run(job, jobParameters);
          }
 
-         //TODO change climateServideOlD to new climateService
+
+         // TODO Remove commented code .... when implemented some other REST
 //        @RequestMapping("/climateByStationId/{stationId}")
 //        String climateByStationId(@PathVariable String stationId) throws Exception {
 //            climateServiceOLD.getClimateAtStationId(stationId);

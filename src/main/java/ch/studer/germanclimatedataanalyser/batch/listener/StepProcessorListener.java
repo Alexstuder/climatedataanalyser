@@ -1,42 +1,21 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
-import ch.studer.germanclimatedataanalyser.common.Statistic;
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
-import ch.studer.germanclimatedataanalyser.model.StatisticRecord;
 import org.springframework.batch.core.ItemProcessListener;
 
 
 public class StepProcessorListener implements ItemProcessListener<MonthFile,Month> {
 
-    //TODO : Ask Tamas why is Autowired not working ? Get null on  statistic !
-    //@Autowired
-    private Statistic statistic;
 
-    public StepProcessorListener(Statistic statistic) {
+    public StepProcessorListener() {
 
-        this.statistic = statistic;
+
     }
 
 
     @Override
     public void beforeProcess(MonthFile monthFile) {
-
-        if (statistic.checkIsNewStationsID(monthFile.getStationsId())){
-
-            if (statistic.getActual().getStationsID() == 0 ) {
-                statistic.getActual().setStationsID(Integer.valueOf(monthFile.getStationsId().trim()));
-                statistic.getActual().setFirstDatum(monthFile.getMessDatumBeginn());
-            } else {
-                // Add Record to statistic
-                statistic.addActualToStatistics();
-                // Get a new actual
-                statistic.setActual(new StatisticRecord());
-
-            }
-        } else {
-        }
-
 
 
 
@@ -45,8 +24,7 @@ public class StepProcessorListener implements ItemProcessListener<MonthFile,Mont
     @Override
     public void afterProcess(MonthFile monthFile, Month result) {
 
-                // Set the Last MessDatumEnde
-                statistic.getActual().setLastDatum(monthFile.getMessDatumEnde());
+
 
     }
 

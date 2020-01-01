@@ -1,7 +1,7 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.dao.StationDAO;
-import ch.studer.germanclimatedataanalyser.model.Station;
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

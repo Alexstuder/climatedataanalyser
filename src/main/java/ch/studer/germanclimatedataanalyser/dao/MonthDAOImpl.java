@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 import org.hibernate.Session;
 import org.hibernate.jpa.QueryHints;
 import org.hibernate.query.Query;

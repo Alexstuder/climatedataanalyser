@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service;
 
-import ch.studer.germanclimatedataanalyser.model.Station;
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import javassist.NotFoundException;
 
 import java.util.List;

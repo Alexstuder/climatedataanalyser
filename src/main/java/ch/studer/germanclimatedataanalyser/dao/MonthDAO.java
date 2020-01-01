@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.Month;
+import ch.studer.germanclimatedataanalyser.model.database.Month;
 
 import java.util.List;
 
