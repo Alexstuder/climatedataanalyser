@@ -22,14 +22,13 @@ public class DataBaseController {
     Job job;
 
     @GetMapping("/batchImportStart")
-    public String handle() throws Exception{
+    public void handle() throws Exception{
         JobParameters jobParameters =
                 new JobParametersBuilder()
                         .addLong("time",System.currentTimeMillis())
                         .toJobParameters();
         jobLauncher.run(job, jobParameters);
 
-        return "Erfolgreich";
     }
 
 }
