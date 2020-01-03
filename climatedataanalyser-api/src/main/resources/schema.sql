@@ -18,12 +18,15 @@
 -- ##########################
 --#DROP  TABLE if exists month ;
 --#DROP  TABLE if exists station ;
+--#DROP  TABLE if exists weather ;
+--#DROP  TABLE if exists climate ;
+
 
 
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE if not exists `month` (
+CREATE TABLE IF NOT EXISTS `month` (
                          MONTH_ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
                          STATIONS_ID int NOT NULL,
                          MESS_DATUM_BEGINN DATE NOT NULL,
@@ -43,7 +46,7 @@ CREATE TABLE if not exists `month` (
                          MX_RS DECIMAL(7,4) DEFAULT NULL
 );
 
-CREATE TABLE if not exists `station`  (
+CREATE TABLE IF NOT EXISTS `station`  (
                         ID BIGINT auto_increment NOT NULL PRIMARY KEY ,
                         STATION_ID int NOT NULL,
                         DATE_BEGIN DATE NOT NULL,
@@ -56,8 +59,8 @@ CREATE TABLE if not exists `station`  (
 
 );
 
-CREATE TABLE if not exists `weather` (
-                        ID BIGINT auto_increment NOT NULL PRIMARY KEY
+CREATE TABLE IF NOT EXISTS `weather` (
+                        WEATHER_ID BIGINT auto_increment NOT NULL PRIMARY KEY
                         ,STATION_ID int NOT NULL
                         ,YEAR VARCHAR(4)        COMMENT 'Weather Temperature for the year : yyyy'
                         ,CALCULATED_ARTIFICIALLY BOOLEAN Not Null Comment 'Marks a record as calculated and not as delivered'
@@ -76,8 +79,8 @@ CREATE TABLE if not exists `weather` (
 
 );
 
-CREATE TABLE if not exists `climate` (
-                        ID BIGINT auto_increment NOT NULL PRIMARY KEY
+CREATE TABLE IF NOT EXISTS`climate` (
+                        CLIMATE_ID BIGINT auto_increment NOT NULL PRIMARY KEY
                         ,STATION_ID int NOT NULL
                         ,END_PERIOD VARCHAR(4) COMMENT 'Climate Data end Period : yyyy  --> 2018 : for a 30 Year Climate Period !'
                         ,START_PERIOD VARCHAR(4) COMMENT 'Climate Data start Period : yyyy  --> 1987'

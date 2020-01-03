@@ -39,7 +39,7 @@ public class StationWeatherImpl implements StationWeatherDAO{
 
 
         for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears){
-            save(stationWeatherPerYear);
+           save(stationWeatherPerYear);
         }
     }
 
