@@ -1,7 +1,6 @@
 package ch.studer.germanclimatedataanalyser.model.database;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name="WEATHER")
@@ -55,6 +54,10 @@ public class StationWeatherPerYear extends  StationTemperature{
         super.setDezember(stationWeatherPerYear.getDezember());
         this.year = stationWeatherPerYear.getYear();
         this.setCalculatedArtificially(false);
+    }
+
+    public int getWeatherId() {
+        return weatherId;
     }
 
     public String getYear() {
