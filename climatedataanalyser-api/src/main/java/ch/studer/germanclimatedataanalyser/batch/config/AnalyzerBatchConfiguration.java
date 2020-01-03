@@ -77,10 +77,10 @@ public class AnalyzerBatchConfiguration {
                .listener(listener)
 //               .start(downloadFiles())
 //               .next(unzipFiles())
-//               .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
-               .start(stationBatchConfiguration.importStations())
-//               .next(weatherBatchConfiguration.importWeatherRecords())
-//               .next(climateBatchConfiguration.importClimateRecords())
+               .start(temperatureForMonthBatchConfiguration.importTemperatureRecords())
+               .next(stationBatchConfiguration.importStations())
+               .next(weatherBatchConfiguration.importWeatherRecords())
+               .next(climateBatchConfiguration.importClimateRecords())
                .build()
                 ;
     }

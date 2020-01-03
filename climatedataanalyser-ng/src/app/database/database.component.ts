@@ -18,7 +18,7 @@ export class DatabaseComponent implements OnInit {
      this.apiService.loadDataBase().subscribe(
        value => {
 
-         alert("Juhu database is loading !")
+         alert("DataBase Successfully loaded !")
 
        },
        error => {
