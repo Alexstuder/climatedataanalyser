@@ -9,7 +9,12 @@ public interface ClimateService {
 
     public List<StationClimate> getClimateForStation(List<StationWeatherPerYear> stationWeatherPerYears);
 
+    public List<StationClimate> getClimateForBundesland(String bundesland);
+
+
+
     public void saveAllClimateAtStationId(List<StationClimate> stationClimates);
+
 
 
 }
