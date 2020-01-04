@@ -5,21 +5,28 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import ch.studer.germanclimatedataanalyser.service.ClimateService;
 import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
+import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+/*
+TODO : Dies hier ist kein richtiger Writer Test :
+  Umstellen , so das der Gruppenbruch im Writer getestet wird.
+  Der Test bleibt hier lediglich stehen , da neu Mockito5; und dieser hier funktioniert !
+ */
+@ExtendWith(MockitoExtension.class)
 class ClimateWriterTest {
 
     @Mock
@@ -46,8 +53,9 @@ class ClimateWriterTest {
 
     List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
 
-    @BeforeEach
+    @Before
     void setUp() {
+//        MockitoAnnotations.initMocks(this);
 
     }
 
@@ -110,7 +118,8 @@ class ClimateWriterTest {
         // Mock ClimateService
         // *********************
 
-        when(stationWeatherService.fillHoles(weatherWithHoles)).thenReturn(weatherComplete);
+        when(stationWeatherService.fillHoles(anyList())).thenReturn(weatherComplete);
+//        doReturn(weatherComplete).when(stationWeatherService.fillHoles(weatherWithHoles));
         when(climateService.getClimateForStation(weatherComplete)).thenReturn(getClimate(weatherComplete));
 
         // ************
