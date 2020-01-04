@@ -104,6 +104,11 @@ public class ClimateServiceImpl implements ClimateService {
     }
 
     @Override
+    public List<StationClimate> getClimateForBundesland(String bundesland) {
+        return this.stationClimateDAO.;
+    }
+
+    @Override
     public void saveAllClimateAtStationId(List<StationClimate> stationClimates) {
        this.stationClimateDAO.saveAll(stationClimates);
     }

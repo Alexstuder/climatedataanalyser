@@ -1,7 +1,10 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
+import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import javassist.NotFoundException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +41,25 @@ public class StationClimateImpl implements StationClimateDAO{
             save(stationClimate);
         }
 
+    }
+
+    @Override
+    public List<StationClimate> getClimateForBundesland(String bundesland) {
+        List<StationClimate>  climateForBundesland = null;
+
+        Session currentSession = getSession();
+
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationId = :stationID ORDER BY dateBegin ASC", Station.class)
+                .setParameter("stationID",stationID);
+
+        // execute and get result list
+        stations = theQuery.getResultList();
+
+        if(stations.size() == 0){
+            throw new NotFoundException("Station : "+ stationID + " not Found !");
+        }
+
+        // There is only one Station !
+        return climateForBundesland;
     }
 }
