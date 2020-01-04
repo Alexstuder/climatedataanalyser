@@ -37,6 +37,9 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
+    public List<String> getAllBundeslaender() throws NotFoundException { return stationDAO.getAllBundeslaenderOrderAsc();}
+
+    @Override
     public List<Station> getStationsFromBundesland(String bundesland) {
         return stationDAO.getStationsFromBundesland(bundesland);
     }

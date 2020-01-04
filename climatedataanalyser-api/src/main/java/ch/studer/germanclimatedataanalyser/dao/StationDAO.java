@@ -18,6 +18,8 @@ public interface StationDAO {
 
     public Station getStationByName(String stationName) throws NotFoundException;
 
+    public List<String> getAllBundeslaenderOrderAsc() throws NotFoundException;
+
 
     List<Station> getStationsFromBundesland(String bundesland);
 }

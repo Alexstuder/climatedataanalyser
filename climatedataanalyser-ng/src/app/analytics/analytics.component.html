@@ -1,1 +1,6 @@
-<p>analytics works!</p>
+<label for="Bundeslaender"></label>
+  <select [(ngModel)]="selected_bundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+<!--    <option value="" disabled selected>>select an option</option>-->
+    <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
+  </select>
+   {{selectedBundesland}}

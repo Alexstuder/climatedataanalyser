@@ -8,6 +8,7 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { DatabaseComponent } from './database/database.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

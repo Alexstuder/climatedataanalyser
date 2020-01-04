@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -91,6 +92,24 @@ public class StationDaoImpl implements StationDAO {
         }
         // there is only One Station!
         return stations.get(0);
+    }
+
+    @Override
+    public List<String> getAllBundeslaenderOrderAsc() throws NotFoundException {
+
+        List<String> bundeslaender = new ArrayList<String>();
+
+        Session currentSession = getSession();
+
+        /*
+        SELECT distinct(BUNDES_LAND) as Bundesland FROM climate.station
+               order by Bundesland asc;
+         */
+
+        Query<String> theQuery = currentSession.createQuery("SELECT DISTINCT(s.bundesLand) FROM Station s ORDER BY s.bundesLand ASC",String.class);
+         bundeslaender = theQuery.getResultList();
+
+        return bundeslaender;
     }
 
     @Override
