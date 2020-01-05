@@ -1,20 +1,20 @@
 package ch.studer.germanclimatedataanalyser.generate.test.data;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringBootTest
+// TODO remove @SpringBoot
+//@SpringBootTest
  public final class StationWeatherPerYearTestData {
 
     private static int period = 30;
 
     private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
-    public  final static  List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
+    public static  List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
 
         List<StationWeatherPerYear> weatherWithHoles = new ArrayList<StationWeatherPerYear>();
 

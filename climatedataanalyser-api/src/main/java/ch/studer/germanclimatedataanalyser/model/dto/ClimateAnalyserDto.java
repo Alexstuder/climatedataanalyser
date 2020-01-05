@@ -1,19 +1,50 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
-import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
-
 public class ClimateAnalyserDto {
 
-    String bundesland;
 
-    // Das Jahr, welches es zu untersuchen gilt
-    String Year;
+    private String year;
 
-    // Klima Daten für das Jahr mit den meisten Daten
-    TemperatureForMonths climateDataWithAllRecievedRecords ;
+    private String bundesland;
 
-    // Klima Daten für die nur noch heute übrig gebliebenen Stationen
-    TemperatureForMonths climateDataOnlyWithTheStationsExistingToday ;
+    private ClimateAnalyserOneTemp mostClimateAnalyseData;
 
+    private ClimateAnalyserOneTemp newstClimateAnalyseData;
 
+    public ClimateAnalyserDto(){
+        mostClimateAnalyseData = new ClimateAnalyserOneTemp();
+        newstClimateAnalyseData = new ClimateAnalyserOneTemp();
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setBundesland(String bundesland) {
+        this.bundesland = bundesland;
+    }
+
+    public void setMostClimateAnalyseData(ClimateAnalyserOneTemp mostClimateAnalyseData) {
+        this.mostClimateAnalyseData = mostClimateAnalyseData;
+    }
+
+    public void setNewstClimateAnalyseData(ClimateAnalyserOneTemp newstClimateAnalyseData) {
+        this.newstClimateAnalyseData = newstClimateAnalyseData;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getBundesland() {
+        return bundesland;
+    }
+
+    public ClimateAnalyserOneTemp getMostClimateAnalyseData() {
+        return mostClimateAnalyseData;
+    }
+
+    public ClimateAnalyserOneTemp getNewstClimateAnalyseData() {
+        return newstClimateAnalyseData;
+    }
 }
