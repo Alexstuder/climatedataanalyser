@@ -49,15 +49,11 @@ public class StationClimateImpl implements StationClimateDAO{
 
         Session currentSession = getSession();
 
-        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationId = :stationID ORDER BY dateBegin ASC", Station.class)
-                .setParameter("stationID",stationID);
+        Query<StationClimate> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.bundesLand = :bundesLand", StationClimate.class)
+                .setParameter("bundesLand",bundesland);
 
         // execute and get result list
-        stations = theQuery.getResultList();
-
-        if(stations.size() == 0){
-            throw new NotFoundException("Station : "+ stationID + " not Found !");
-        }
+        climateForBundesland = theQuery.getResultList();
 
         // There is only one Station !
         return climateForBundesland;
