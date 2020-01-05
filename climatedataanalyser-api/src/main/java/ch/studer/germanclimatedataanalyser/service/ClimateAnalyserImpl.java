@@ -12,8 +12,7 @@ public class ClimateAnalyserImpl implements ClimateAnalyserService{
     public ClimateAnalyserDto getClimateAnalyserForBundesland(String bundesland) {
         ClimateAnalyserDto climateAnalyserDto = new ClimateAnalyserDto();
 
-        climateService.g
-
+        climateService.getClimateForBundesland(bundesland);
 
 
         return climateAnalyserDto;
