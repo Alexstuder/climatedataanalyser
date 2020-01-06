@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../shared/api.service";
-import{Bundeslaender} from "../analytics/model/bundeslaender";
+import{Bundeslaender} from "./model/bundeslaender";
+import {ViewModelAnalytics} from "./model/view-model-analytics";
 
 
 @Component({
@@ -12,6 +13,7 @@ export class AnalyticsComponent implements OnInit {
 
   bundeslaender: Bundeslaender;
   selectedBundesland: string;
+  vievModelAnalytics: ViewModelAnalytics;
 
   constructor(private apiService: ApiService) { }
 
@@ -35,6 +37,15 @@ export class AnalyticsComponent implements OnInit {
   }
 
   onBundeslaenderDropDownListSelected(selectedBundesland:any){
+    this.apiService.getAnalyticsByBundesland(selectedBundesland).subscribe(
+      value => {
+
+        this.vievModelAnalytics = value;
+      },
+      error => {
+        alert("An error occurred ,while getting analytics by Bundesland: " + selectedBundesland);
+      }
+    );
      this.selectedBundesland = "The value "+ selectedBundesland+" was selected !";
 
   }

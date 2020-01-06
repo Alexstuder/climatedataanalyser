@@ -25,4 +25,7 @@ public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
     WeatherReader weatherReader() {return new WeatherReader();}
+
+    @Bean
+    ClimateAnalyserService climateAnalyserService() {return new ClimateAnalyserServiceImpl();}
 }

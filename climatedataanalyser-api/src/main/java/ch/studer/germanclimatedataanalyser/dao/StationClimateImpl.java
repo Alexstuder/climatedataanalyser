@@ -1,8 +1,6 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
-import javassist.NotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -49,7 +47,7 @@ public class StationClimateImpl implements StationClimateDAO{
 
         Session currentSession = getSession();
 
-        Query<StationClimate> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.bundesLand = :bundesLand", StationClimate.class)
+        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM Climate c WHERE c.bundesLand = :bundesLand", StationClimate.class)
                 .setParameter("bundesLand",bundesland);
 
         // execute and get result list

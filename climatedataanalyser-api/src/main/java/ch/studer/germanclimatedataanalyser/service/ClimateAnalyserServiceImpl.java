@@ -40,7 +40,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         //
         climateAnalyserDto.setMostClimateAnalyseData(getClimateAggregatedForSearchCriteriaYear(searchCriteria.getYearWithMostRecords(), climateForBundesland));
 
-        climateAnalyserDto.setNewstClimateAnalyseData(getClimateAggregatedForSearchCriteriaYearAndStationIds(searchCriteria, climateForBundesland));
+        climateAnalyserDto.setClimateAnalyseDataByStationId(getClimateAggregatedForSearchCriteriaYearAndStationIds(searchCriteria, climateForBundesland));
 
 
     }
