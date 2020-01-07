@@ -26,8 +26,9 @@ public class StationClimate extends  StationTemperature{
     private static final Logger log = LoggerFactory.getLogger(StationClimate.class);
 
 
-//    public StationClimate() {
-//    }
+    public StationClimate() {
+        super();
+    }
 
     public StationClimate(int stationId){
 
