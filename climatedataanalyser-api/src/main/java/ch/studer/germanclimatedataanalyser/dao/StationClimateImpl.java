@@ -47,7 +47,7 @@ public class StationClimateImpl implements StationClimateDAO{
 
         Session currentSession = getSession();
 
-        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM Climate c WHERE c.bundesLand = :bundesLand", StationClimate.class)
+        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM Climate as c , Station as s WHERE  c.stationId = s.stationId and s.bundesLand = :bundesLand", StationClimate.class)
                 .setParameter("bundesLand",bundesland);
 
         // execute and get result list
