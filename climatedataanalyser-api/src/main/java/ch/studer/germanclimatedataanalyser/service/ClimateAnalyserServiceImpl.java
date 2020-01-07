@@ -2,7 +2,7 @@ package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserOneTemp;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
 import ch.studer.germanclimatedataanalyser.model.helper.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,22 +45,22 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     }
 
-    private ClimateAnalyserOneTemp getClimateAggregatedForSearchCriteriaYearAndStationIds(SearchCriteria searchCriteria, List<StationClimate> climateForBundesland) {
-        ClimateAnalyserOneTemp climateAnalyserOneTemp = new ClimateAnalyserOneTemp();
+    private ClimateAnalyserTempDto getClimateAggregatedForSearchCriteriaYearAndStationIds(SearchCriteria searchCriteria, List<StationClimate> climateForBundesland) {
+        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
 
         int counter = 0 ;
         for (StationClimate sc : climateForBundesland) {
             if (sc.getEndPeriod().contains(searchCriteria.getYearWithMostRecords()) && searchCriteria.getStationId().contains(sc.getStationId())) {
 
-                 climateAnalyserOneTemp = getClimatAddition(climateAnalyserOneTemp,sc);
+                 climateAnalyserTempDto = getClimatAddition(climateAnalyserTempDto,sc);
                  counter++;
             }
         }
 
-        climateAnalyserOneTemp = getClimateDivision(climateAnalyserOneTemp,counter);
+        climateAnalyserTempDto = getClimateDivision(climateAnalyserTempDto,counter);
 
 
-        return climateAnalyserOneTemp;
+        return climateAnalyserTempDto;
     }
 
     private SearchCriteria getSearchCriteria(List<StationClimate> climateForBundesland) {
@@ -109,12 +109,12 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return searchCriteria;
     }
 
-    private ClimateAnalyserOneTemp getClimateAggregatedForSearchCriteriaYear(String year, List<StationClimate> climateForBundesland) {
+    private ClimateAnalyserTempDto getClimateAggregatedForSearchCriteriaYear(String year, List<StationClimate> climateForBundesland) {
 
-        ClimateAnalyserOneTemp climateAnalyserOneTemp = new ClimateAnalyserOneTemp();
-        List<ClimateAnalyserOneTemp> climateAnalyserOneTemps = new ArrayList<ClimateAnalyserOneTemp>();
+        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
+        List<ClimateAnalyserTempDto> climateAnalyserTempDtos = new ArrayList<ClimateAnalyserTempDto>();
         int counter = 0;
-        ClimateAnalyserOneTemp tempClimate = new ClimateAnalyserOneTemp();
+        ClimateAnalyserTempDto tempClimate = new ClimateAnalyserTempDto();
 
         for (StationClimate sc : climateForBundesland) {
             if (year.contains(sc.getEndPeriod())) {
@@ -131,7 +131,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return tempClimate;
     }
 
-    private ClimateAnalyserOneTemp getClimateDivision(ClimateAnalyserOneTemp tempClimate, int counter) {
+    private ClimateAnalyserTempDto getClimateDivision(ClimateAnalyserTempDto tempClimate, int counter) {
 
          // get Average by division temperature / years
                 tempClimate.setJanuar(tempClimate.getJanuar().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
@@ -150,7 +150,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return tempClimate;
     }
 
-    private ClimateAnalyserOneTemp getClimatAddition(ClimateAnalyserOneTemp tempClimate, StationClimate sc) {
+    private ClimateAnalyserTempDto getClimatAddition(ClimateAnalyserTempDto tempClimate, StationClimate sc) {
 
         tempClimate.setJanuar(tempClimate.getJanuar().add(sc.getJanuar()));
         tempClimate.setFebruar(tempClimate.getFebruar().add(sc.getFebruar()));

@@ -7,13 +7,13 @@ public class ClimateAnalyserDto {
 
     private String bundesland;
 
-    private ClimateAnalyserOneTemp mostClimateAnalyseData;
+    private ClimateAnalyserTempDto mostClimateAnalyseData;
 
-    private ClimateAnalyserOneTemp climateAnalyseDataByStationId;
+    private ClimateAnalyserTempDto climateAnalyseDataByStationId;
 
     public ClimateAnalyserDto(){
-        mostClimateAnalyseData = new ClimateAnalyserOneTemp();
-        climateAnalyseDataByStationId = new ClimateAnalyserOneTemp();
+        mostClimateAnalyseData = new ClimateAnalyserTempDto();
+        climateAnalyseDataByStationId = new ClimateAnalyserTempDto();
     }
 
     public void setYear(String year) {
@@ -24,11 +24,11 @@ public class ClimateAnalyserDto {
         this.bundesland = bundesland;
     }
 
-    public void setMostClimateAnalyseData(ClimateAnalyserOneTemp mostClimateAnalyseData) {
+    public void setMostClimateAnalyseData(ClimateAnalyserTempDto mostClimateAnalyseData) {
         this.mostClimateAnalyseData = mostClimateAnalyseData;
     }
 
-    public void setClimateAnalyseDataByStationId(ClimateAnalyserOneTemp climateAnalyseDataByStationId) {
+    public void setClimateAnalyseDataByStationId(ClimateAnalyserTempDto climateAnalyseDataByStationId) {
         this.climateAnalyseDataByStationId = climateAnalyseDataByStationId;
     }
 
@@ -40,11 +40,11 @@ public class ClimateAnalyserDto {
         return bundesland;
     }
 
-    public ClimateAnalyserOneTemp getMostClimateAnalyseData() {
+    public ClimateAnalyserTempDto getMostClimateAnalyseData() {
         return mostClimateAnalyseData;
     }
 
-    public ClimateAnalyserOneTemp getClimateAnalyseDataByStationId() {
+    public ClimateAnalyserTempDto getClimateAnalyseDataByStationId() {
         return climateAnalyseDataByStationId;
     }
 }
