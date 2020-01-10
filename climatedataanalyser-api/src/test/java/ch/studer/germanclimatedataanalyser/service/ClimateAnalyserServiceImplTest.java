@@ -41,33 +41,33 @@ class ClimateAnalyserServiceImplTest {
         //* Assert most ClimateAnalyseData
         Assertions.assertEquals(climateAnalyserDto.getYear(), "2017");
         Assertions.assertEquals(climateAnalyserDto.getBundesland(), "Berlin");
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getJanuar(), new BigDecimal("2.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getFebruar(), new BigDecimal("3.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getMaerz(), new BigDecimal("4.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getApril(), new BigDecimal("5.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getMai(), new BigDecimal("6.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getJuni(), new BigDecimal("7.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getJuli(), new BigDecimal("8.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getAugust(), new BigDecimal("9.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getSeptember(), new BigDecimal("10.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getOktober(), new BigDecimal("11.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getNovember(), new BigDecimal("12.000"));
-        Assertions.assertEquals(climateAnalyserDto.getMostClimateAnalyseData().getDezember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserDto.getOriginal().getDezember(), new BigDecimal("13.000"));
 
 
         // Assert Newest
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getJanuar(), new BigDecimal("3.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getFebruar(), new BigDecimal("4.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getMaerz(), new BigDecimal("5.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getApril(), new BigDecimal("6.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getMai(), new BigDecimal("7.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getJuni(), new BigDecimal("8.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getJuli(), new BigDecimal("9.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getAugust(), new BigDecimal("10.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getSeptember(), new BigDecimal("11.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getOktober(), new BigDecimal("12.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getNovember(), new BigDecimal("13.000"));
-        Assertions.assertEquals(climateAnalyserDto.getClimateAnalyseDataByStationId().getDezember(), new BigDecimal("14.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getJanuar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getFebruar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getMaerz(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getApril(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getMai(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getJuni(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getJuli(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getAugust(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getSeptember(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getOktober(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getNovember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateAnalyserDto.getCompare().getDezember(), new BigDecimal("14.000"));
 
     }
 

@@ -4,8 +4,8 @@ export interface ViewModelAnalytics {
 
   year:string;
   bundesland:string;
-  mostClimateAnalyserData:ClimateAnalyserOneTemp;
-  climateAnalyserDataByStationId:ClimateAnalyserOneTemp;
+  original:ClimateAnalyserOneTemp;
+  compare:ClimateAnalyserOneTemp;
 
 
 }
