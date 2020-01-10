@@ -26,7 +26,7 @@ export class AnalyticsComponent implements OnInit {
     this.apiService.initAnalytics().subscribe(
       value => {
         this.bundeslaender = value;
-        alert("Bundeslande :" + this.bundeslaender);
+        // alert("Bundeslande :" + this.bundeslaender);
       },
       error => {
         alert("An error occurred while init Analytics, trying to get all Bundeslaender from Backend !");

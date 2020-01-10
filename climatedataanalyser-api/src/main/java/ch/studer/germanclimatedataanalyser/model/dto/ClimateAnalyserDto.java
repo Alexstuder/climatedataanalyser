@@ -7,13 +7,13 @@ public class ClimateAnalyserDto {
 
     private String bundesland;
 
-    private ClimateAnalyserTempDto mostClimateAnalyseData;
+    private ClimateAnalyserTempDto original;
 
-    private ClimateAnalyserTempDto climateAnalyseDataByStationId;
+    private ClimateAnalyserTempDto compare;
 
     public ClimateAnalyserDto(){
-        mostClimateAnalyseData = new ClimateAnalyserTempDto();
-        climateAnalyseDataByStationId = new ClimateAnalyserTempDto();
+        original = new ClimateAnalyserTempDto();
+        compare = new ClimateAnalyserTempDto();
     }
 
     public void setYear(String year) {
@@ -24,12 +24,12 @@ public class ClimateAnalyserDto {
         this.bundesland = bundesland;
     }
 
-    public void setMostClimateAnalyseData(ClimateAnalyserTempDto mostClimateAnalyseData) {
-        this.mostClimateAnalyseData = mostClimateAnalyseData;
+    public void setOriginal(ClimateAnalyserTempDto original) {
+        this.original = original;
     }
 
-    public void setClimateAnalyseDataByStationId(ClimateAnalyserTempDto climateAnalyseDataByStationId) {
-        this.climateAnalyseDataByStationId = climateAnalyseDataByStationId;
+    public void setCompare(ClimateAnalyserTempDto compare) {
+        this.compare = compare;
     }
 
     public String getYear() {
@@ -40,11 +40,11 @@ public class ClimateAnalyserDto {
         return bundesland;
     }
 
-    public ClimateAnalyserTempDto getMostClimateAnalyseData() {
-        return mostClimateAnalyseData;
+    public ClimateAnalyserTempDto getOriginal() {
+        return original;
     }
 
-    public ClimateAnalyserTempDto getClimateAnalyseDataByStationId() {
-        return climateAnalyseDataByStationId;
+    public ClimateAnalyserTempDto getCompare() {
+        return compare;
     }
 }
