@@ -10,8 +10,8 @@ public abstract class StationTemperature extends TemperatureForMonths {
     private int stationId;
 
 
-//    public StationTemperature() {
-//    }
+    public StationTemperature() {
+    }
 
     public StationTemperature(int stationId){
 

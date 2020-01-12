@@ -20,8 +20,8 @@ public class StationWeatherPerYear extends  StationTemperature{
 
 
 
-//    public StationWeatherPerYear() {
-//    }
+    public StationWeatherPerYear() {
+    }
 
     public StationWeatherPerYear(int stationId){
 

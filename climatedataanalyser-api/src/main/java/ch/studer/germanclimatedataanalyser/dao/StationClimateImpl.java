@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.dao;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,21 @@ public class StationClimateImpl implements StationClimateDAO{
             save(stationClimate);
         }
 
+    }
+
+    @Override
+    public List<StationClimate> getClimateForBundesland(String bundesland) {
+        List<StationClimate>  climateForBundesland = null;
+
+        Session currentSession = getSession();
+
+        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId and s.bundesLand = :bundesLand", StationClimate.class)
+                .setParameter("bundesLand",bundesland);
+
+        // execute and get result list
+        climateForBundesland = theQuery.getResultList();
+
+        // There is only one Station !
+        return climateForBundesland;
     }
 }

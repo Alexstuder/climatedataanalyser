@@ -12,6 +12,7 @@
 	<artifactId>climatedataanalyser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GermanClimateDataAnalyser</name>
+	<packaging>war</packaging>
 	<description>Analyser for German Climate Data</description>
 
 	<properties>
@@ -79,12 +80,20 @@
 			<version>3.14.0</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
+		<!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>18.0.0</version>
+		</dependency>
+
+
+		<!-- Executable and self-hosted -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
     </dependencies>
 	<build>

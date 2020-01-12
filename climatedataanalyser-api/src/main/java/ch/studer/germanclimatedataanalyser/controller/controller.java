@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class controller {
-
-        @Autowired
-        JobLauncher jobLauncher;
-
-         @Autowired
-         Job job;
+//
+//        @Autowired
+//        JobLauncher jobLauncher;
+//
+//         @Autowired
+//         Job job;
 
 //         @RequestMapping("/batchImportStart")
 //         public void handle() throws Exception{

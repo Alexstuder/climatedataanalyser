@@ -11,4 +11,5 @@ public interface StationClimateDAO {
 
     public void saveAll(List<StationClimate> stationClimates);
 
+    public List<StationClimate> getClimateForBundesland(String bundesland);
 }

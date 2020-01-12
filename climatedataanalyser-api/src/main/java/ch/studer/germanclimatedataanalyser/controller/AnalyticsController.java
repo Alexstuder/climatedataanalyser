@@ -1,12 +1,11 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
 import ch.studer.germanclimatedataanalyser.model.dto.BundeslaenderDto;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserDto;
+import ch.studer.germanclimatedataanalyser.service.ClimateAnalyserService;
 import ch.studer.germanclimatedataanalyser.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class AnalyticsController {
     @Autowired
     StationService stationService;
 
+    @Autowired
+    ClimateAnalyserService climateAnalyserService;
+
     @GetMapping("/")
     public List<String> handle() throws Exception{
 //        List<String> bundeslaender = new ArrayList<String>();
@@ -28,6 +30,13 @@ public class AnalyticsController {
         return bundeslaenderDto.mapToDto(stationService.getAllBundeslaender());
 
     }
+
+    @GetMapping("/byBundesland/{bundesland}")
+        ClimateAnalyserDto climateByBundesland(@PathVariable String bundesland) {
+
+//            climateService.getClimateByBundesland(bundesland);
+            return this.climateAnalyserService.getClimateAnalyserForBundesland(bundesland);
+        }
 
 }
 
