@@ -1,6 +1,58 @@
 <label for="Bundeslaender"></label>
-  <select [(ngModel)]="selected_bundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+  <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
 <!--    <option value="" disabled selected>>select an option</option>-->
     <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
   </select>
-   {{selectedBundesland}}
+
+<div>{{selectedBundesland}}</div>
+<table class="table">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">{{vievModelAnalytics.year}}</th>
+    <th scope="col">Januar</th>
+    <th scope="col">Februar</th>
+    <th scope="col">März</th>
+    <th scope="col">April</th>
+    <th scope="col">Mai</th>
+    <th scope="col">Juni</th>
+    <th scope="col">Juli</th>
+    <th scope="col">August</th>
+    <th scope="col">September</th>
+    <th scope="col">Oktober</th>
+    <th scope="col">November</th>
+    <th scope="col">Dezember</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">Original : </th>
+    <td>{{vievModelAnalytics.original.januar}}</td>
+    <td>{{vievModelAnalytics.original.februar}}</td>
+    <td>{{vievModelAnalytics.original.maerz}}</td>
+    <td>{{vievModelAnalytics.original.april}}</td>
+    <td>{{vievModelAnalytics.original.mai}}</td>
+    <td>{{vievModelAnalytics.original.juni}}</td>
+    <td>{{vievModelAnalytics.original.juli}}</td>
+    <td>{{vievModelAnalytics.original.august}}</td>
+    <td>{{vievModelAnalytics.original.september}}</td>
+    <td>{{vievModelAnalytics.original.oktober}}</td>
+    <td>{{vievModelAnalytics.original.november}}</td>
+    <td>{{vievModelAnalytics.original.dezember}}</td>
+  </tr>
+  <tr>
+    <th scope="row">Compare:</th>
+    <td>{{vievModelAnalytics.compare.januar}}</td>
+    <td>{{vievModelAnalytics.compare.februar}}</td>
+    <td>{{vievModelAnalytics.compare.maerz}}</td>
+    <td>{{vievModelAnalytics.compare.april}}</td>
+    <td>{{vievModelAnalytics.compare.mai}}</td>
+    <td>{{vievModelAnalytics.compare.juni}}</td>
+    <td>{{vievModelAnalytics.compare.juli}}</td>
+    <td>{{vievModelAnalytics.compare.august}}</td>
+    <td>{{vievModelAnalytics.compare.september}}</td>
+    <td>{{vievModelAnalytics.compare.oktober}}</td>
+    <td>{{vievModelAnalytics.compare.november}}</td>
+    <td>{{vievModelAnalytics.compare.dezember}}</td>
+  </tr>
+  </tbody>
+</table>
