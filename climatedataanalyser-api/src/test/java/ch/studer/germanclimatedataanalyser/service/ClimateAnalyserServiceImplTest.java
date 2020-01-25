@@ -4,6 +4,7 @@ import ch.studer.germanclimatedataanalyser.generate.test.data.ClimateTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
+import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,56 +78,142 @@ class ClimateAnalyserServiceImplTest {
 
 
     @Test
-    void happyGPSRequestTest(){
+    void happyInputVerificationAndValidationTests(){
 
+        // **************************************************************
+        // Test : Bundesland exists
+        String existingBundesland = "Berlin";
+
+        //* Define Mock szenario
+        when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
+
+        //* Define Reuqest Parameter
         ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-        climateAnalyserRequestDto.setBundesland("Berlin");
+        climateAnalyserRequestDto.setBundesland(existingBundesland);
+
+        // Execute Test :
+        ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+        //* Assert most ClimateAnalyseData
+        Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
+
+        // **************************************************************
+        // Test : GPS Coordinates
+
+        //* Define Reuqest Parameter
+        // * Execute Test : GPS1 has no valid coordinates(positiv too big values)
+        double posValidLatitude = 90.00;
+        double posValidLongitude = 180.00;
+        double negValidLatitude = -90.00;
+        double negValidLongitude = -180.00;
+
+        climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+        climateAnalyserRequestDto.setGps1(new GpsPoint(posValidLatitude,negValidLongitude));
+        climateAnalyserRequestDto.setGps2(new GpsPoint(negValidLatitude,posValidLongitude));
+        climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+        climateAnalyserRequestDto.setBundesland(existingBundesland);
+
+        // Execute Test :
+        climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+        //* Assert most ClimateAnalyseData
+        Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
+
 
 
 
     }
 
  @Test
-    void errorNoGpsNoBundeslandSelected(){
+    void errorInputVerificationAndValidationTests(){
 
-        ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+            ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
 
-     // **************************************************************
-     // * Execute Test : No Bundesland and no Gps Coordinates entered
-     ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-     //* Assert most ClimateAnalyseData
-     Assertions.assertEquals("Neither a Bundesland nor GPS coordinates have been entered", climateAnalyserResponseDto.getErrorMsg());
+         // **************************************************************
+         // * Execute Test : No Bundesland and no Gps Coordinates entered
+         ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("Neither a Bundesland nor GPS coordinates have been entered", climateAnalyserResponseDto.getErrorMsg());
 
 
-     // ********************************************************
-     // * Execute Test : Bundesland and Gps Coordinates entered
-     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-     climateAnalyserRequestDto.setBundesland("Berlin");
-     climateAnalyserRequestDto.setGps1(new GpsPoint(0,0));
-     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-     //* Assert most ClimateAnalyseData
-     Assertions.assertEquals("A Bundesland was selected and GPS coordinates entered at the same time !", climateAnalyserResponseDto.getErrorMsg());
+         // ********************************************************
+         // * Execute Test : Bundesland and Gps Coordinates entered
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setBundesland("Berlin");
+         climateAnalyserRequestDto.setGps1(new GpsPoint(0,0));
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("A Bundesland was selected and GPS coordinates entered at the same time !", climateAnalyserResponseDto.getErrorMsg());
 
-     // ********************************************
-     // * Execute Test : Bundesland does not Exists
-     String notExistingBundesland = "Glattfelden";
+         // ********************************************
+         // * Execute Test : Bundesland does not Exists
+         String notExistingBundesland = "Glattfelden";
 
-     //* Define Mock szenario
-     when(stationService.bundeslandExists(notExistingBundesland)).thenReturn(false);
+         //* Define Mock szenario
+         when(stationService.bundeslandExists(notExistingBundesland)).thenReturn(false);
 
-     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-     climateAnalyserRequestDto.setBundesland(notExistingBundesland);
-     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-     //* Assert most ClimateAnalyseData
-     Assertions.assertEquals("Bundesland : " + notExistingBundesland + " doesn't exists !", climateAnalyserResponseDto.getErrorMsg());
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setBundesland(notExistingBundesland);
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("Bundesland : " + notExistingBundesland + " doesn't exists !", climateAnalyserResponseDto.getErrorMsg());
+
+         // ********************************************************
+         // * Execute Test : GPS1 has no valid coordinates(positiv too big values)
+         double invalidLatitude = 90.001;
+         double invalidLongitude = 180.001;
+         double validLatitude = 90.00;
+         double validLongitude = 180.00;
+
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
+         climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
+
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+
+         // ********************************************************
+         // * Execute Test : GPS2 has no valid coordinates (positiv too big values)
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
+         climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
+
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+
+         // ********************************************************
+         // * Execute Test : GPS1 has no valid coordinates
+         invalidLatitude = -90.001;
+         invalidLongitude = -180.001;
+         validLatitude = 90.00;
+         validLongitude = 180.00;
+
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
+         climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
+
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+
+         // ********************************************************
+         // * Execute Test : GPS2 has no valid coordinates
+         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+         climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
+         climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
+
+         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+         //* Assert most ClimateAnalyseData
+         Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+
 
 
     }
-
-    @Test
-    public void happyRequestTest(){
-
-    }
-
 
 }
