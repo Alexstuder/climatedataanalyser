@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
-public class ClimateAnalyserDto {
+public class ClimateAnalyserResponseDto {
 
 
     private String year;
@@ -11,9 +11,12 @@ public class ClimateAnalyserDto {
 
     private ClimateAnalyserTempDto compare;
 
-    public ClimateAnalyserDto(){
+    private String errorMsg;
+
+    public ClimateAnalyserResponseDto(){
         original = new ClimateAnalyserTempDto();
         compare = new ClimateAnalyserTempDto();
+        errorMsg = "";
     }
 
     public void setYear(String year) {
@@ -46,5 +49,11 @@ public class ClimateAnalyserDto {
 
     public ClimateAnalyserTempDto getCompare() {
         return compare;
+    }
+
+    public String getErrorMsg() {return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {this.errorMsg = errorMsg;
     }
 }

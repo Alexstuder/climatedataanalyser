@@ -44,5 +44,17 @@ public class StationServiceImpl implements StationService {
         return stationDAO.getStationsFromBundesland(bundesland);
     }
 
+    @Override
+    public boolean bundeslandExists(String bundesland) {
+        boolean status = false;
+
+        List<Station> stations = stationDAO.getStationsFromBundesland(bundesland);
+
+        if(stations.size() > 0){
+            status = true;
+        }
+        return status;
+    }
+
 
 }

@@ -19,4 +19,6 @@ public interface StationService {
 
 
     List<Station> getStationsFromBundesland(String bundesland);
+
+    boolean bundeslandExists(String bundesland);
 }
