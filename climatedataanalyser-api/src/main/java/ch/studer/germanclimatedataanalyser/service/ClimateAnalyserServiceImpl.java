@@ -77,13 +77,15 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
                 if(!climateAnalyserRequestDto.getGps1().isLatitudeValid() ||
                    !climateAnalyserRequestDto.getGps1().isLongitudeValid()) {
                      errorMsg = "GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + climateAnalyserRequestDto.getGps1().getLatitude() + " Longitude(-180,0,180)" + climateAnalyserRequestDto.getGps1().getLongitude();
-                }
+                } else {
 
-                // Proof if GPS Coordinates are valid
-                if(!climateAnalyserRequestDto.getGps2().isLongitudeValid() ||
-                   !climateAnalyserRequestDto.getGps2().isLatitudeValid()){
-                     errorMsg = "GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + climateAnalyserRequestDto.getGps2().getLatitude() + " Longitude(-180,0,180)" + climateAnalyserRequestDto.getGps2().getLongitude();
 
+                    // Proof if GPS Coordinates are valid
+                    if(!climateAnalyserRequestDto.getGps2().isLongitudeValid() ||
+                       !climateAnalyserRequestDto.getGps2().isLatitudeValid()){
+                         errorMsg = "GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + climateAnalyserRequestDto.getGps2().getLatitude() + " Longitude(-180,0,180)" + climateAnalyserRequestDto.getGps2().getLongitude();
+
+                    }
                 }
             }
         }

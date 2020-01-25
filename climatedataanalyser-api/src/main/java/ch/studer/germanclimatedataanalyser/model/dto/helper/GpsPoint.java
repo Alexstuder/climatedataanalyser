@@ -24,7 +24,7 @@ public class GpsPoint {
     public boolean isLongitudeValid(){
         boolean status = false ;
 
-        if(longitude > -180 && longitude < 180){
+        if(this.longitude >= -180 && this.longitude <= 180){
             status = true;
         }
 
@@ -34,7 +34,7 @@ public class GpsPoint {
     public boolean isLatitudeValid(){
         boolean status = false ;
 
-        if(longitude > -90 && longitude < 90){
+        if((this.latitude >= -90) && (this.latitude <= 90)){
             status = true;
         }
 

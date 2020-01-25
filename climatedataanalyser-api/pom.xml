@@ -11,8 +11,8 @@
 	<groupId>ch.studer</groupId>
 	<artifactId>climatedataanalyser</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>GermanClimateDataAnalyser</name>
 	<packaging>war</packaging>
+	<name>GermanClimateDataAnalyser</name>
 	<description>Analyser for German Climate Data</description>
 
 	<properties>
