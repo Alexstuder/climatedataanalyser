@@ -1,7 +1,8 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
 import ch.studer.germanclimatedataanalyser.model.dto.BundeslaenderDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserDto;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.service.ClimateAnalyserService;
 import ch.studer.germanclimatedataanalyser.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,18 @@ public class AnalyticsController {
     }
 
     @GetMapping("/byBundesland/{bundesland}")
-        ClimateAnalyserDto climateByBundesland(@PathVariable String bundesland) {
+    ClimateAnalyserResponseDto climateByBundesland(@PathVariable String bundesland) {
 
 //            climateService.getClimateByBundesland(bundesland);
             return this.climateAnalyserService.getClimateAnalyserForBundesland(bundesland);
         }
 
+    @GetMapping("/request/{}")
+    ClimateAnalyserResponseDto climateByBundesland(@PathVariable ClimateAnalyserRequestDto climateAnalyserRequestDto) {
+
+//            climateService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+        return this.climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+    }
 }
 
 
