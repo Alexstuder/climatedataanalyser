@@ -11,7 +11,7 @@ public class StationClimate extends  StationTemperature{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "CLIMATE_ID")
     private int climateId;
 
     // End date 'yyyy' -> 2018

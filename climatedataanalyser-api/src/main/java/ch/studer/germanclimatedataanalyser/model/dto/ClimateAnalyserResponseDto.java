@@ -1,11 +1,17 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
+import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
+
 public class ClimateAnalyserResponseDto {
 
 
     private String year;
 
     private String bundesland;
+
+    private GpsPoint gps1;
+
+    private GpsPoint gps2;
 
     private ClimateAnalyserTempDto original;
 
@@ -51,9 +57,15 @@ public class ClimateAnalyserResponseDto {
         return compare;
     }
 
-    public String getErrorMsg() {return errorMsg;
-    }
+    public GpsPoint getGps1() {return gps1;}
 
-    public void setErrorMsg(String errorMsg) {this.errorMsg = errorMsg;
-    }
+    public void setGps1(GpsPoint gps1) {this.gps1 = gps1;}
+
+    public GpsPoint getGps2() {return gps2;}
+
+    public void setGps2(GpsPoint gps2) {this.gps2 = gps2;}
+
+    public String getErrorMsg() {return errorMsg;}
+
+    public void setErrorMsg(String errorMsg) {this.errorMsg = errorMsg; }
 }

@@ -87,6 +87,11 @@ class ClimateAnalyserServiceImplTest {
         //* Define Mock szenario
         when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
 
+        //* Get some Test Data for climateService
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(0);
+        //* Define Mock szenario
+        when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+
         //* Define Reuqest Parameter
         ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
         climateAnalyserRequestDto.setBundesland(existingBundesland);
@@ -94,8 +99,42 @@ class ClimateAnalyserServiceImplTest {
         // Execute Test :
         ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
-        //* Assert most ClimateAnalyseData
+        //* Assert errorMSg has to be empty
         Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
+        Assertions.assertEquals(existingBundesland, climateAnalyserResponseDto.getBundesland());
+        //* Assert most ClimateAnalyseData
+        Assertions.assertEquals(climateAnalyserResponseDto.getYear(), "2017");
+        Assertions.assertEquals(climateAnalyserResponseDto.getBundesland(), "Berlin");
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getDezember(), new BigDecimal("13.000"));
+
+
+        // Assert Newest
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getJanuar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getFebruar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getMaerz(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getApril(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getMai(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getJuni(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getJuli(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getAugust(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getSeptember(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getOktober(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getNovember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getCompare().getDezember(), new BigDecimal("14.000"));
+
+
+
 
         // **************************************************************
         // Test : GPS Coordinates

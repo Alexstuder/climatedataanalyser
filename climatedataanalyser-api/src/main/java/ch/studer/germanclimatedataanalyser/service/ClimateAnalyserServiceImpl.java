@@ -23,6 +23,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
     StationService stationService;
 
     @Override
+    //TODO After complete implementation of the getClimateAnalyticsByClimateAnylyserRequest() Method ::: DELETE !
     public ClimateAnalyserResponseDto getClimateAnalyserForBundesland(String bundesland) {
         ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
 
@@ -39,16 +40,30 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
     public ClimateAnalyserResponseDto getClimateAnalyticsByClimateAnalyserRequest(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
         ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
 
-        String errorMsg = "";
+        // Proof input verification and validation
+        climateAnalyserResponseDto  = inputIsValid(climateAnalyserRequestDto);
 
-        errorMsg = inputIsValid(climateAnalyserRequestDto).isBlank() ? "" : inputIsValid(climateAnalyserRequestDto);
+        if (climateAnalyserResponseDto.getErrorMsg().isEmpty()) {
+
+            // Get ClimateDifference for Bundesland
+            if (!climateAnalyserResponseDto.getBundesland().isEmpty()) {
+                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserResponseDto.getBundesland()));
+
+            } else {
+                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserResponseDto.getGps1(),climateAnalyserResponseDto.getGps2()));
+
+            }
+        }
 
 
-        climateAnalyserResponseDto.setErrorMsg(errorMsg);
+
         return climateAnalyserResponseDto;
     }
 
-    private String inputIsValid(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
+    private ClimateAnalyserResponseDto inputIsValid(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
+
+
+        ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
 
         String errorMsg = "";
 
@@ -69,28 +84,39 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
                     // Proof if bundesland exists
                     if (!stationService.bundeslandExists(climateAnalyserRequestDto.getBundesland())) {
                         errorMsg = "Bundesland : " + climateAnalyserRequestDto.getBundesland() + " doesn't exists !";
+                    } else {
+                       //Proofed Bundesland put into ResponsDto
+                       climateAnalyserResponseDto.setBundesland(climateAnalyserRequestDto.getBundesland());
                     }
                 }
 
             }else{
-                // Proof if GPS Coordinates are valid
+                // Proof if GPS1 Coordinates are valid
                 if(!climateAnalyserRequestDto.getGps1().isLatitudeValid() ||
                    !climateAnalyserRequestDto.getGps1().isLongitudeValid()) {
                      errorMsg = "GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + climateAnalyserRequestDto.getGps1().getLatitude() + " Longitude(-180,0,180)" + climateAnalyserRequestDto.getGps1().getLongitude();
                 } else {
 
 
-                    // Proof if GPS Coordinates are valid
+                    // Proof if GPS2 Coordinates are valid
                     if(!climateAnalyserRequestDto.getGps2().isLongitudeValid() ||
                        !climateAnalyserRequestDto.getGps2().isLatitudeValid()){
                          errorMsg = "GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + climateAnalyserRequestDto.getGps2().getLatitude() + " Longitude(-180,0,180)" + climateAnalyserRequestDto.getGps2().getLongitude();
 
+                    } else {
+                        //Both GPS Coordinates are Valid
+                        climateAnalyserResponseDto.setGps1(climateAnalyserRequestDto.getGps1());
+                        climateAnalyserResponseDto.setGps2(climateAnalyserRequestDto.getGps2());
                     }
                 }
             }
         }
 
-        return errorMsg;
+        if (!errorMsg.isEmpty()){
+            climateAnalyserResponseDto.setErrorMsg(errorMsg);
+        }
+
+        return climateAnalyserResponseDto;
     }
 
     private boolean gpsCoordinatesAreBlank(GpsPoint gps1, GpsPoint gps2) {
@@ -103,18 +129,18 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return status;
     }
 
-    private void calculateDifferenceClimate(ClimateAnalyserResponseDto climateAnalyserResponseDto, List<StationClimate> climateForBundesland) {
+    private void calculateDifferenceClimate(ClimateAnalyserResponseDto climateAnalyserResponseDto, List<StationClimate> stationClimates) {
 
 
         // Get the two years, which are to compare
-        SearchCriteria searchCriteria = getSearchCriteria(climateForBundesland);
+        SearchCriteria searchCriteria = getSearchCriteria(stationClimates);
         climateAnalyserResponseDto.setYear(searchCriteria.getYearWithMostRecords());
 
 
         //
-        climateAnalyserResponseDto.setOriginal(getClimateAggregatedForSearchCriteriaYear(searchCriteria.getYearWithMostRecords(), climateForBundesland));
+        climateAnalyserResponseDto.setOriginal(getClimateAggregatedForSearchCriteriaYear(searchCriteria.getYearWithMostRecords(), stationClimates));
 
-        climateAnalyserResponseDto.setCompare(getClimateAggregatedForSearchCriteriaYearAndStationIds(searchCriteria, climateForBundesland));
+        climateAnalyserResponseDto.setCompare(getClimateAggregatedForSearchCriteriaYearAndStationIds(searchCriteria, stationClimates));
 
 
     }
@@ -137,7 +163,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return climateAnalyserTempDto;
     }
 
-    private SearchCriteria getSearchCriteria(List<StationClimate> climateForBundesland) {
+    private SearchCriteria getSearchCriteria(List<StationClimate> stationClimates) {
 
         SearchCriteria searchCriteria = new SearchCriteria();
 
@@ -147,12 +173,12 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         int counter = 0;
         int maxAmount = 0;
 
-        for (StationClimate sc : climateForBundesland) {
+        for (StationClimate sc : stationClimates) {
 
             actualYear = sc.getEndPeriod();
             if (!processedYears.contains(actualYear)) {
 
-                for (StationClimate counts : climateForBundesland) {
+                for (StationClimate counts : stationClimates) {
                     if (actualYear.contains(counts.getEndPeriod())) {
                         counter++;
                     }
@@ -173,7 +199,9 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             ;
 
         }
-        for (StationClimate sc : climateForBundesland) {
+
+        // Get all StationsId which deliver still (newestYear) data
+        for (StationClimate sc : stationClimates) {
             if (newestYear.contains(sc.getEndPeriod()) && !searchCriteria.getStationId().contains(sc.getStationId())) {
                 searchCriteria.getStationId().add(sc.getStationId());
             }
