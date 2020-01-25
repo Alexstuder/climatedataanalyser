@@ -39,10 +39,8 @@ public class AnalyticsController {
             return this.climateAnalyserService.getClimateAnalyserForBundesland(bundesland);
         }
 
-    @GetMapping("/request/{}")
-    ClimateAnalyserResponseDto climateByBundesland(@PathVariable ClimateAnalyserRequestDto climateAnalyserRequestDto) {
-
-//            climateService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+    @GetMapping("/request")
+    ClimateAnalyserResponseDto climateByClimateAnalyserRequest(@RequestBody ClimateAnalyserRequestDto climateAnalyserRequestDto) {
         return this.climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
     }
 }

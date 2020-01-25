@@ -3,10 +3,12 @@ package ch.studer.germanclimatedataanalyser.service;
 import ch.studer.germanclimatedataanalyser.dao.StationClimateDAO;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
+import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -111,5 +113,12 @@ public class ClimateServiceImpl implements ClimateService {
     @Override
     public void saveAllClimateAtStationId(List<StationClimate> stationClimates) {
        this.stationClimateDAO.saveAll(stationClimates);
+    }
+
+    @Override
+    @Transactional
+    public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
+
+        return this.stationClimateDAO.getClimateForGpsCoordinates(gps1,gps2);
     }
 }
