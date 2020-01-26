@@ -22,13 +22,6 @@ public class ClimateServiceImpl implements ClimateService {
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
 
-    // Inludes all Cimate Records for a Station
-    //ClimateOLDAtStation climateAtStation ;
-
-
-//    @Autowired
-//    StationWeatherService stationWeatherService;
-
     @Autowired
     StationClimateDAO stationClimateDAO;
 
@@ -106,11 +99,13 @@ public class ClimateServiceImpl implements ClimateService {
     }
 
     @Override
+    @Transactional
     public List<StationClimate> getClimateForBundesland(String bundesland) {
         return this.stationClimateDAO.getClimateForBundesland(bundesland);
     }
 
     @Override
+    @Transactional
     public void saveAllClimateAtStationId(List<StationClimate> stationClimates) {
        this.stationClimateDAO.saveAll(stationClimates);
     }
