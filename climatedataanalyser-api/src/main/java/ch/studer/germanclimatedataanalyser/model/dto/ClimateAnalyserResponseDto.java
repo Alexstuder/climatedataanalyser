@@ -5,7 +5,9 @@ import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 public class ClimateAnalyserResponseDto {
 
 
-    private String year;
+    private String originYear;
+
+    private String yearToCompare;
 
     private String bundesland;
 
@@ -20,30 +22,30 @@ public class ClimateAnalyserResponseDto {
     private String errorMsg;
 
     public ClimateAnalyserResponseDto(){
+
+        originYear="";
+        yearToCompare="";
+        bundesland="";
+        gps1 = new GpsPoint();
+        gps2 = new GpsPoint();
         original = new ClimateAnalyserTempDto();
         compare = new ClimateAnalyserTempDto();
         errorMsg = "";
     }
 
-    public void setYear(String year) {
-        this.year = year;
-    }
+    public void setYearToCompare(String yearToCompare) {this.yearToCompare = yearToCompare;}
 
-    public void setBundesland(String bundesland) {
-        this.bundesland = bundesland;
-    }
+    public void setOriginYear(String originYear) {this.originYear = originYear;}
 
-    public void setOriginal(ClimateAnalyserTempDto original) {
-        this.original = original;
-    }
+    public void setBundesland(String bundesland) {this.bundesland = bundesland;}
 
-    public void setCompare(ClimateAnalyserTempDto compare) {
-        this.compare = compare;
-    }
+    public void setOriginal(ClimateAnalyserTempDto original) {this.original = original;}
 
-    public String getYear() {
-        return year;
-    }
+    public void setCompare(ClimateAnalyserTempDto compare) {this.compare = compare;}
+
+    public String getOriginYear() {return originYear;}
+
+    public String getYearToCompare() {return yearToCompare;}
 
     public String getBundesland() {
         return bundesland;

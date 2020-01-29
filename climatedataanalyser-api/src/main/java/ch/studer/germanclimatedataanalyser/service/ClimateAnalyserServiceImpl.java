@@ -5,7 +5,6 @@ import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
-import ch.studer.germanclimatedataanalyser.model.helper.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -112,9 +111,31 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             }
         }
 
-        if (!errorMsg.isEmpty()){
-            climateAnalyserResponseDto.setErrorMsg(errorMsg);
+
+        // Proof if errorMsg is still empty
+        if (errorMsg.isEmpty()){
+
+            // Proof if the Years Field contain only Numbers
+            if (!climateAnalyserRequestDto.getYearOrigine().contains("[a-zA-Z]+")){
+
+                climateAnalyserResponseDto.setOriginYear(climateAnalyserRequestDto.getYearOrigine());
+
+                if (!climateAnalyserRequestDto.getYearToCompare().contains("[a-zA-Z]+")){
+                    climateAnalyserResponseDto.setYearToCompare(climateAnalyserRequestDto.getYearToCompare());
+                } else {
+                    errorMsg = "Only Numbers for year to compare are allowed !";
+                }
+
+            } else {
+                errorMsg = "Only Numbers for origin Year are allowed !";
+            }
+
         }
+
+
+        // If errorMsg is set or Empty put it into the response !
+        climateAnalyserResponseDto.setErrorMsg(errorMsg);
+
 
         return climateAnalyserResponseDto;
     }
@@ -132,25 +153,21 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
     private void calculateDifferenceClimate(ClimateAnalyserResponseDto climateAnalyserResponseDto, List<StationClimate> stationClimates) {
 
 
-        // Get the two years, which are to compare
-        SearchCriteria searchCriteria = getSearchCriteria(stationClimates);
-        climateAnalyserResponseDto.setYear(searchCriteria.getYearWithMostRecords());
+        climateAnalyserResponseDto.setOriginal(getClimateAggregatedForOrigineYear(climateAnalyserResponseDto.getOriginYear(), stationClimates));
 
-
-        //
-        climateAnalyserResponseDto.setOriginal(getClimateAggregatedForSearchCriteriaYear(searchCriteria.getYearWithMostRecords(), stationClimates));
-
-        climateAnalyserResponseDto.setCompare(getClimateAggregatedForSearchCriteriaYearAndStationIds(searchCriteria, stationClimates));
+        climateAnalyserResponseDto.setCompare(getClimateAggregatedForStationsFromYearToCompare(climateAnalyserResponseDto.getOriginYear(),climateAnalyserResponseDto.getYearToCompare(), stationClimates));
 
 
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForSearchCriteriaYearAndStationIds(SearchCriteria searchCriteria, List<StationClimate> climateForBundesland) {
+    private ClimateAnalyserTempDto getClimateAggregatedForStationsFromYearToCompare(String originYear, String yearToCompare, List<StationClimate> stationClimates) {
         ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
 
+        List<Integer> stationIds = getStationIdsForYearToCompare(yearToCompare,stationClimates);
+
         int counter = 0 ;
-        for (StationClimate sc : climateForBundesland) {
-            if (sc.getEndPeriod().contains(searchCriteria.getYearWithMostRecords()) && searchCriteria.getStationId().contains(sc.getStationId())) {
+        for (StationClimate sc : stationClimates) {
+            if (sc.getEndPeriod().contains(originYear) && stationIds.contains(sc.getStationId())) {
 
                  climateAnalyserTempDto = getClimatAddition(climateAnalyserTempDto,sc);
                  counter++;
@@ -163,55 +180,20 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return climateAnalyserTempDto;
     }
 
-    private SearchCriteria getSearchCriteria(List<StationClimate> stationClimates) {
+    private List<Integer> getStationIdsForYearToCompare(String yearToCompare, List<StationClimate> stationClimates) {
 
-        SearchCriteria searchCriteria = new SearchCriteria();
+      List<Integer> stationIds = new ArrayList<Integer>();
 
-        List<String> processedYears = new ArrayList<String>();
-        String actualYear;
-        String newestYear = "0";
-        int counter = 0;
-        int maxAmount = 0;
+         for(StationClimate stationClimate : stationClimates){
+             if(stationClimate.getEndPeriod().contentEquals(yearToCompare)){
+                 stationIds.add(stationClimate.getStationId());
+             }
+         }
 
-        for (StationClimate sc : stationClimates) {
-
-            actualYear = sc.getEndPeriod();
-            if (!processedYears.contains(actualYear)) {
-
-                for (StationClimate counts : stationClimates) {
-                    if (actualYear.contains(counts.getEndPeriod())) {
-                        counter++;
-                    }
-                }
-                if (counter > maxAmount) {
-                    maxAmount = counter;
-                    searchCriteria.setYearWithMostRecords(actualYear);
-                }
-                counter = 0;
-
-                if (Integer.valueOf(newestYear) < Integer.valueOf(actualYear)) {
-                    newestYear = actualYear;
-                }
-
-                // Add to years List as already processed
-                processedYears.add(sc.getEndPeriod());
-            }
-            ;
-
-        }
-
-        // Get all StationsId which deliver still (newestYear) data
-        for (StationClimate sc : stationClimates) {
-            if (newestYear.contains(sc.getEndPeriod()) && !searchCriteria.getStationId().contains(sc.getStationId())) {
-                searchCriteria.getStationId().add(sc.getStationId());
-            }
-        }
-
-
-        return searchCriteria;
+      return stationIds;
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForSearchCriteriaYear(String year, List<StationClimate> climateForBundesland) {
+    private ClimateAnalyserTempDto getClimateAggregatedForOrigineYear(String year, List<StationClimate> climateForBundesland) {
 
         ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
         List<ClimateAnalyserTempDto> climateAnalyserTempDtos = new ArrayList<ClimateAnalyserTempDto>();
