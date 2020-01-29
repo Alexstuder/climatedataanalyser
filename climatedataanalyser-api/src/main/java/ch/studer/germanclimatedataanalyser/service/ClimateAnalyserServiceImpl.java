@@ -163,6 +163,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
     private ClimateAnalyserTempDto getClimateAggregatedForStationsFromYearToCompare(String originYear, String yearToCompare, List<StationClimate> stationClimates) {
         ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
 
+        // Get all stationIds to the year to compare
         List<Integer> stationIds = getStationIdsForYearToCompare(yearToCompare,stationClimates);
 
         int counter = 0 ;
@@ -193,14 +194,12 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
       return stationIds;
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForOrigineYear(String year, List<StationClimate> climateForBundesland) {
+    private ClimateAnalyserTempDto getClimateAggregatedForOrigineYear(String year, List<StationClimate> stationClimates) {
 
-        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
-        List<ClimateAnalyserTempDto> climateAnalyserTempDtos = new ArrayList<ClimateAnalyserTempDto>();
         int counter = 0;
         ClimateAnalyserTempDto tempClimate = new ClimateAnalyserTempDto();
 
-        for (StationClimate sc : climateForBundesland) {
+        for (StationClimate sc : stationClimates) {
             if (year.contains(sc.getEndPeriod())) {
                 counter++;
 
