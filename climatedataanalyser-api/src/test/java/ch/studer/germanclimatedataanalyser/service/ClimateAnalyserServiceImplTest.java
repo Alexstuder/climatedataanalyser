@@ -44,7 +44,7 @@ class ClimateAnalyserServiceImplTest {
         ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyserForBundesland("Berlin");
 
         //* Assert most ClimateAnalyseData
-        Assertions.assertEquals(climateAnalyserResponseDto.getYear(), "2017");
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginYear(), "2017");
         Assertions.assertEquals(climateAnalyserResponseDto.getBundesland(), "Berlin");
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getFebruar(), new BigDecimal("3.000"));
@@ -103,7 +103,7 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
         Assertions.assertEquals(existingBundesland, climateAnalyserResponseDto.getBundesland());
         //* Assert most ClimateAnalyseData
-        Assertions.assertEquals(climateAnalyserResponseDto.getYear(), "2017");
+        Assertions.assertEquals(climateAnalyserResponseDto.getOriginYear(), "2017");
         Assertions.assertEquals(climateAnalyserResponseDto.getBundesland(), "Berlin");
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getFebruar(), new BigDecimal("3.000"));

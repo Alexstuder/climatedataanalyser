@@ -17,7 +17,7 @@ public class ClimateTestData {
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
         for (int stationId=1 ; stationId <=numberOfStations ; stationId++){
-              for (int year = 2014 + stationId ; year <= 2016+ stationId ; year++ ){
+              for (int year = 2014 ; year <= 2016+ stationId ; year++ ){
                   StationClimate stationClimate = new StationClimate(stationId);
                   stationClimate.setEndPeriod(Integer.toString(year));
                   stationClimate.setStartPeriod(Integer.toString(year-period));
