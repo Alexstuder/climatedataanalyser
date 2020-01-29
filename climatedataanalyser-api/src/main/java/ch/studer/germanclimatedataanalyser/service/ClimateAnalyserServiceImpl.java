@@ -46,11 +46,11 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         if (climateAnalyserResponseDto.getErrorMsg().isEmpty()) {
 
             // Get ClimateDifference for Bundesland
-            if (!climateAnalyserResponseDto.getBundesland().isEmpty()) {
-                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserResponseDto.getBundesland()));
+            if (!climateAnalyserRequestDto.getBundesland().isEmpty()) {
+                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland()));
 
             } else {
-                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserResponseDto.getGps1(),climateAnalyserResponseDto.getGps2()));
+                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2()));
 
             }
         }

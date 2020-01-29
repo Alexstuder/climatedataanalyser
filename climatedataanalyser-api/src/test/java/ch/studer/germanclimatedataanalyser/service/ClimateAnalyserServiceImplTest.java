@@ -34,7 +34,7 @@ class ClimateAnalyserServiceImplTest {
     void happyTest(){
 
         //* Get some Test Data for climateService
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(0);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(3);
 
 
         //* Define Mock szenario
@@ -88,7 +88,7 @@ class ClimateAnalyserServiceImplTest {
         when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
 
         //* Get some Test Data for climateService
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(0);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(3);
         //* Define Mock szenario
         when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
 

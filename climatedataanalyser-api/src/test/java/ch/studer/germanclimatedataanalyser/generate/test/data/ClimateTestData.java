@@ -12,11 +12,11 @@ public class ClimateTestData {
     private List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
 
-    public static List<StationClimate> getStationClimate(int tempbase){
+    public static List<StationClimate> getStationClimate(int numberOfStations){
 
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
-        for (int stationId=1 ; stationId <=3 ; stationId++){
+        for (int stationId=1 ; stationId <=numberOfStations ; stationId++){
               for (int year = 2014 + stationId ; year <= 2016+ stationId ; year++ ){
                   StationClimate stationClimate = new StationClimate(stationId);
                   stationClimate.setEndPeriod(Integer.toString(year));
