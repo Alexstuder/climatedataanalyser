@@ -38,8 +38,9 @@ class ClimateAnalyserServiceImplTest {
 
 
         //* Define Mock szenario
-      //  when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+        when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
         when(!stationService.bundeslandExists("Berlin")).thenReturn(true);
+
 
         ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
 
@@ -103,6 +104,8 @@ class ClimateAnalyserServiceImplTest {
         //* Define Reuqest Parameter
         ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
         climateAnalyserRequestDto.setBundesland(existingBundesland);
+        climateAnalyserRequestDto.setYearOrigine("2017");
+        climateAnalyserRequestDto.setYearToCompare("2019");
 
         // Execute Test :
         ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
@@ -159,6 +162,8 @@ class ClimateAnalyserServiceImplTest {
         climateAnalyserRequestDto.setGps2(new GpsPoint(negValidLatitude,posValidLongitude));
         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
         climateAnalyserRequestDto.setBundesland(existingBundesland);
+        climateAnalyserRequestDto.setYearOrigine("2017");
+        climateAnalyserRequestDto.setYearToCompare("2019");
 
         // Execute Test :
         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
@@ -260,7 +265,84 @@ class ClimateAnalyserServiceImplTest {
          Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
 
 
+     // ********************************************************
+     // * Execute Test : YearOrigine is not numeric
 
-    }
+     String existingBundesland = "Berlin";
+     when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(existingBundesland);
+     climateAnalyserRequestDto.setYearOrigine("notNumeric");
+
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("Only Numbers for origin Year are allowed !", climateAnalyserResponseDto.getErrorMsg());
+
+
+
+     // ********************************************************
+     // * Execute Test : YearOrigine is not numeric
+
+     existingBundesland = "Berlin";
+     when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(existingBundesland);
+     climateAnalyserRequestDto.setYearOrigine("2017");
+     climateAnalyserRequestDto.setYearToCompare("notNumeric");
+
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+
+     Assertions.assertEquals("Only Numbers for year to compare are allowed !", climateAnalyserResponseDto.getErrorMsg());
+
+     // ********************************************************
+     // * Execute Test : YearOrigine 2100 has no Climate Records
+
+     existingBundesland = "Berlin";
+     String year = "2100";
+
+     //* Get some Test Data for climateService
+     List<StationClimate> stationClimates = ClimateTestData.getStationClimate(3);
+     //* Define Mock szenario
+     when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+     when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
+
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(existingBundesland);
+     climateAnalyserRequestDto.setYearOrigine(year);
+     climateAnalyserRequestDto.setYearToCompare(year);
+
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+
+     Assertions.assertEquals("No climate data for the year: "+ year +" found !", climateAnalyserResponseDto.getErrorMsg());
+
+     // ********************************************************
+     // * Execute Test : YearToCompare dont exists in 2014
+
+     existingBundesland = "Berlin";
+     String yearOrigine = "2014";
+     String yearToCompare = "2100";
+
+     StationClimate stationClimateStationIdDontExistsInOrigine = new StationClimate();
+     stationClimateStationIdDontExistsInOrigine.setStationId(7777);
+     stationClimateStationIdDontExistsInOrigine.setEndPeriod(yearToCompare);
+     stationClimates.add(stationClimateStationIdDontExistsInOrigine);
+
+     when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+     when(stationService.bundeslandExists(existingBundesland)).thenReturn(true);
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(existingBundesland);
+     climateAnalyserRequestDto.setYearOrigine(yearOrigine);
+     climateAnalyserRequestDto.setYearToCompare(yearToCompare);
+
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+
+     Assertions.assertEquals("No StationId from the year "+ yearToCompare +" was found, which may already have existed in the year " + yearOrigine,  climateAnalyserResponseDto.getErrorMsg());
+
+
+ }
 
 }
