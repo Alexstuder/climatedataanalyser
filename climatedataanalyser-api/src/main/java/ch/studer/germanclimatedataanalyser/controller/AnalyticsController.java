@@ -32,13 +32,6 @@ public class AnalyticsController {
 
     }
 
-    @GetMapping("/byBundesland/{bundesland}")
-    ClimateAnalyserResponseDto climateByBundesland(@PathVariable String bundesland) {
-
-//            climateService.getClimateByBundesland(bundesland);
-            return this.climateAnalyserService.getClimateAnalyserForBundesland(bundesland);
-        }
-
     @GetMapping("/request")
     ClimateAnalyserResponseDto climateByClimateAnalyserRequest(@RequestBody ClimateAnalyserRequestDto climateAnalyserRequestDto) {
         return this.climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);

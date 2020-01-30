@@ -22,20 +22,6 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
     StationService stationService;
 
     @Override
-    //TODO After complete implementation of the getClimateAnalyticsByClimateAnylyserRequest() Method ::: DELETE !
-    public ClimateAnalyserResponseDto getClimateAnalyserForBundesland(String bundesland) {
-        ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
-
-
-        climateAnalyserResponseDto.setBundesland(bundesland);
-
-        calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(bundesland));
-
-        return climateAnalyserResponseDto;
-
-    }
-
-    @Override
     public ClimateAnalyserResponseDto getClimateAnalyticsByClimateAnalyserRequest(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
         ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
 
@@ -116,11 +102,13 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         if (errorMsg.isEmpty()){
 
             // Proof if the Years Field contain only Numbers
-            if (!climateAnalyserRequestDto.getYearOrigine().contains("[a-zA-Z]+")){
+
+            if (isNumeric(climateAnalyserRequestDto.getYearOrigine())){
 
                 climateAnalyserResponseDto.setOriginYear(climateAnalyserRequestDto.getYearOrigine());
 
-                if (!climateAnalyserRequestDto.getYearToCompare().contains("[a-zA-Z]+")){
+                if (isNumeric(climateAnalyserRequestDto.getYearToCompare())){
+//                if (!climateAnalyserRequestDto.getYearToCompare().contains("[a-zA-Z]+")){
                     climateAnalyserResponseDto.setYearToCompare(climateAnalyserRequestDto.getYearToCompare());
                 } else {
                     errorMsg = "Only Numbers for year to compare are allowed !";
@@ -152,11 +140,48 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     private void calculateDifferenceClimate(ClimateAnalyserResponseDto climateAnalyserResponseDto, List<StationClimate> stationClimates) {
 
+        ClimateAnalyserTempDto climateAnalyserOrigine = getClimateAggregatedForOrigineYear(climateAnalyserResponseDto.getOriginYear(), stationClimates);
 
-        climateAnalyserResponseDto.setOriginal(getClimateAggregatedForOrigineYear(climateAnalyserResponseDto.getOriginYear(), stationClimates));
+        //Proofe if Origine could be aggregated
+        if (isNotEmpty(climateAnalyserOrigine)){
 
-        climateAnalyserResponseDto.setCompare(getClimateAggregatedForStationsFromYearToCompare(climateAnalyserResponseDto.getOriginYear(),climateAnalyserResponseDto.getYearToCompare(), stationClimates));
+            climateAnalyserResponseDto.setOriginal(climateAnalyserOrigine);
 
+
+            // Proof if there are some stationId in the originYear which exist in the year to compare
+            ClimateAnalyserTempDto climateAnalyserCompare = getClimateAggregatedForStationsFromYearToCompare(climateAnalyserResponseDto.getOriginYear(),climateAnalyserResponseDto.getYearToCompare(), stationClimates);
+            if (isNotEmpty(climateAnalyserCompare)){
+
+            climateAnalyserResponseDto.setCompare(climateAnalyserCompare);
+            } else {
+                climateAnalyserResponseDto.setErrorMsg("No StationId from the year "+ climateAnalyserResponseDto.getYearToCompare() +" was found, which may already have existed in the year " + climateAnalyserResponseDto.getOriginYear());
+            }
+
+        } else {
+            climateAnalyserResponseDto.setErrorMsg("No climate data for the year: "+ climateAnalyserResponseDto.getOriginYear() +" found !");
+        }
+
+
+    }
+
+    private boolean isNotEmpty(ClimateAnalyserTempDto climateAnalyserTempDto) {
+
+        if(climateAnalyserTempDto.getJanuar().add(
+           climateAnalyserTempDto.getFebruar().add(
+           climateAnalyserTempDto.getMaerz().add(
+           climateAnalyserTempDto.getApril().add(
+           climateAnalyserTempDto.getMai().add(
+           climateAnalyserTempDto.getJuni().add(
+           climateAnalyserTempDto.getJuli().add(
+           climateAnalyserTempDto.getAugust().add(
+           climateAnalyserTempDto.getSeptember().add(
+           climateAnalyserTempDto.getOktober().add(
+           climateAnalyserTempDto.getNovember().add(
+           climateAnalyserTempDto.getDezember()))))))))))).equals(new BigDecimal("0"))){
+            return false;
+        } else {
+            return true ;
+        }
 
     }
 
@@ -175,7 +200,9 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             }
         }
 
-        climateAnalyserTempDto = getClimateDivision(climateAnalyserTempDto,counter);
+        if (counter>0){
+          climateAnalyserTempDto = getClimateDivision(climateAnalyserTempDto,counter);
+        }
 
 
         return climateAnalyserTempDto;
@@ -209,7 +236,9 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
         }
 
-        tempClimate = getClimateDivision(tempClimate,counter);
+        if (counter>0){
+          tempClimate = getClimateDivision(tempClimate,counter);
+        }
 
         return tempClimate;
     }
@@ -249,5 +278,15 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         tempClimate.setDezember(tempClimate.getDezember().add(sc.getDezember()));
 
         return tempClimate;
+    }
+
+
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
     }
 }
