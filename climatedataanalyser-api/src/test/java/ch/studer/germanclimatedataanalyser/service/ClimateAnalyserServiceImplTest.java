@@ -38,13 +38,21 @@ class ClimateAnalyserServiceImplTest {
 
 
         //* Define Mock szenario
-        when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+      //  when(climateService.getClimateForBundesland("Berlin")).thenReturn(stationClimates);
+        when(!stationService.bundeslandExists("Berlin")).thenReturn(true);
+
+        ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+
+        climateAnalyserRequestDto.setBundesland("Berlin");
+        climateAnalyserRequestDto.setYearOrigine("2017");
+        climateAnalyserRequestDto.setYearToCompare("2019");
+
 
         //* Execute Test
-        ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyserForBundesland("Berlin");
+        ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
         //* Assert most ClimateAnalyseData
-        Assertions.assertEquals(climateAnalyserResponseDto.getOriginYear(), "2017");
+        Assertions.assertEquals("2017",climateAnalyserResponseDto.getOriginYear());
         Assertions.assertEquals(climateAnalyserResponseDto.getBundesland(), "Berlin");
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getOriginal().getFebruar(), new BigDecimal("3.000"));
