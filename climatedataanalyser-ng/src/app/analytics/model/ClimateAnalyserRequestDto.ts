@@ -13,4 +13,5 @@ export interface ClimateAnalyserRequestDto {
   // following parameter : yearToCompare
   yearOrigine:string;
   yearToCompare:string;
+
 }

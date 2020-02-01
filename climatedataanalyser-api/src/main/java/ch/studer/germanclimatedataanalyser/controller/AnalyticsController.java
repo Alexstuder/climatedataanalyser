@@ -32,7 +32,7 @@ public class AnalyticsController {
 
     }
 
-    @GetMapping("/request")
+    @PostMapping("/request/")
     ClimateAnalyserResponseDto climateByClimateAnalyserRequest(@RequestBody ClimateAnalyserRequestDto climateAnalyserRequestDto) {
         return this.climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
     }

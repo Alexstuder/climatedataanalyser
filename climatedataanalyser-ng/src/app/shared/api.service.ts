@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpRequest} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpParams, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import{Bundeslaender} from "../analytics/model/bundeslaender";
-import {ViewModelAnalytics} from "../analytics/model/view-model-analytics";
-import {ClimateAnalyserRequestDto} from "../analytics/model/ClimateAnalyserRequestDto";
 import {GpsPoint} from "../analytics/model/GpsPoint";
+import {ClimateAnalyserResponseDto} from "../analytics/model/ClimateAnalyserResponseDto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class ApiService {
   private LOAD_DATABASE_URL=`${this.BASE_URL}\\database\\batchImportStart\\`;
   private ANALYTICS_INIT_URL=`${this.BASE_URL}\\analytics\\`;
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL=`${this.BASE_URL}\\analytics\\request\\`;
-  private ANALYTICS_BY_=`${this.BASE_URL}\\analytics\\byBundesland\\`;
 
   constructor(private http: HttpClient) { }
 
@@ -26,19 +24,11 @@ export class ApiService {
     return this.http.get<Bundeslaender>(this.ANALYTICS_INIT_URL);
   }
 
-  //getAnalyticsByBundesland(bundesland:string): Observable<ViewModelAnalytics>{
-  //  return this.http.get<ViewModelAnalytics>(this.ANALYTICS_BY_BUNDESLAND_URL + bundesland);
-  //}
-
-  getAnalyticsByRequest(bundesland:string,gps1:GpsPoint,gps2:GpsPoint,yearOrigine:string,yearToCompare:string): Observable<HttpEvent<ClimateAnalyserRequestDto>>{
+  getAnalyticsByRequest(bundesland:string,gps1:GpsPoint,gps2:GpsPoint,yearOrigine:string,yearToCompare:string): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
     const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland,gps1,gps2,yearOrigine,yearToCompare}, {
       reportProgress: true,
-      responseType: 'text'
+      responseType: 'json'
     });
-    return this.http.request(req);
+    return this.http.request<ClimateAnalyserResponseDto>(req);
   }
-
-
-
-
 }

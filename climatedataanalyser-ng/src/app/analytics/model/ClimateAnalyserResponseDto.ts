@@ -12,4 +12,5 @@ export interface ClimateAnalyserResponseDto {
   compare:ClimateAnalyserOneTemp;
   errorMsg:string;
 
+
 }
