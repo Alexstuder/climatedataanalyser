@@ -6,6 +6,16 @@
 
 <div>{{selectedBundesland}}</div>
 
+<p>
+  ErrorMsg : {{ climateAnalyserResponseDto.errorMsg}}
+</p>
+
+<div>
+  <input type="text" class="form-control" id="name"
+         required
+         [(ngModel)]="climateAnalyserRequest.gps1.latitude" name="Gps1 Latitude">
+</div>
+
 <table class="table">
   <thead class="thead-light">
   <tr>

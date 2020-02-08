@@ -16,10 +16,10 @@
 -- ##########################
 -- Drop Tables
 -- ##########################
---#DROP  TABLE if exists month ;
---#DROP  TABLE if exists station ;
---#DROP  TABLE if exists weather ;
---#DROP  TABLE if exists climate ;
+DROP  TABLE if exists month ;
+DROP  TABLE if exists station ;
+DROP  TABLE if exists weather ;
+DROP  TABLE if exists climate ;
 
 
 
