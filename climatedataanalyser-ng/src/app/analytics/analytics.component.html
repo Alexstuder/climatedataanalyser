@@ -1,9 +1,11 @@
+<div>
+
 <label for="Bundeslaender"></label>
   <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
 <!--    <option value="" disabled selected>>select an option</option>-->
     <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
   </select>
-
+</div>
 <div>{{selectedBundesland}}</div>
 
 <p>
@@ -11,9 +13,46 @@
 </p>
 
 <div>
-  <input type="text" class="form-control" id="name"
-         required
-         [(ngModel)]="climateAnalyserRequest.gps1.latitude" name="Gps1 Latitude">
+
+  <form [formGroup]="angForm">
+    <input type = "number"
+           name = "GPS1 Latitude"
+           placeholder = "GPS1 latitude"
+           formControlName="latitude"
+           #gps1lat>
+    <input type = "number"
+           name = "GPS1 Longitude"
+           placeholder = "GPS1 Longitude"
+           formControlName="longitude"
+           #gps1long>
+    <br/>
+    <input type = "number"
+           name = "GPS2 Latitude"
+           placeholder = "GPS2 latitude"
+           formControlName="latitude"
+           #gps2lat>
+    <input type = "number"
+           name = "GPS2 Longitude"
+           placeholder = "GPS2 Longitude"
+           formControlName="longitude"
+           #gps2long>
+    <br/>
+    <input type = "number"
+           name = "yearO"
+           placeholder = "Year origine"
+           formControlName="Year Orig"
+           #yearO>
+    <input type = "number"
+           name = "yearO"
+           placeholder = "Year to compare"
+           formControlName="Year Comp"
+           #yearC>
+    <br/>
+    <input type = "submit"
+           value = "submit"
+           (click) = "onClickSubmit(gps1lat.value, gps1long,gps2lat,gps2long,yearO,yearC)" >
+  </form>
+
 </div>
 
 <table class="table">

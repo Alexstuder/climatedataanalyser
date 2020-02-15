@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import{Bundeslaender} from "../analytics/model/bundeslaender";
 import {GpsPoint} from "../analytics/model/GpsPoint";
 import {ClimateAnalyserResponseDto} from "../analytics/model/ClimateAnalyserResponseDto";
+import {ClimateAnalyserRequest} from '../analytics/model/ClimateAnalyserRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ApiService {
   private LOAD_DATABASE_URL=`${this.BASE_URL}\\database\\batchImportStart\\`;
   private ANALYTICS_INIT_URL=`${this.BASE_URL}\\analytics\\`;
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL=`${this.BASE_URL}\\analytics\\request\\`;
+  private climateRequestDto: ClimateAnalyserRequest;
 
   constructor(private http: HttpClient) { }
 
@@ -24,7 +26,14 @@ export class ApiService {
     return this.http.get<Bundeslaender>(this.ANALYTICS_INIT_URL);
   }
 
-  getAnalyticsByRequest(bundesland:string,gps1:GpsPoint,gps2:GpsPoint,yearOrigine:string,yearToCompare:string): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
+  getAnalyticsByRequest(bundesland: string, gps1: GpsPoint, gps2: GpsPoint, yearOrigine: string, yearToCompare: string): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
+    const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland,gps1,gps2,yearOrigine,yearToCompare}, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.http.request<ClimateAnalyserResponseDto>(req);
+  }
+  getAnalyticsByRequest2(climateAnalyserRequestDto): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
     const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland,gps1,gps2,yearOrigine,yearToCompare}, {
       reportProgress: true,
       responseType: 'json'
