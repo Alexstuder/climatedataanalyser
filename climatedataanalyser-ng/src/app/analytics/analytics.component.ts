@@ -43,7 +43,7 @@ export class AnalyticsComponent implements OnInit {
       gps2lat: [0],
       gps2long: [0],
       yearO:[2017],
-      yearc:[2000]
+      yearC:[2000]
     });
   }
   onClickSubmit(gps1lat, gps1long, gps2lat, gps2long, yearO, yearC) {

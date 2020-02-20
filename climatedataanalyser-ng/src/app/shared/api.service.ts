@@ -27,14 +27,14 @@ export class ApiService {
   }
 
   getAnalyticsByRequest(bundesland: string, gps1: GpsPoint, gps2: GpsPoint, yearOrigine: string, yearToCompare: string): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
-    const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland,gps1,gps2,yearOrigine,yearToCompare}, {
+    const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland, gps1, gps2, yearOrigine, yearToCompare}, {
       reportProgress: true,
       responseType: 'json'
     });
     return this.http.request<ClimateAnalyserResponseDto>(req);
   }
   getAnalyticsByRequest2(climateAnalyserRequestDto): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
-    const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland,gps1,gps2,yearOrigine,yearToCompare}, {
+    const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {climateAnalyserRequestDto}, {
       reportProgress: true,
       responseType: 'json'
     });
