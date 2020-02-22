@@ -30,6 +30,7 @@ export class AnalyticsComponent implements OnInit {
   private fb: FormBuilder;
 
   angForm: FormGroup;
+  private climateAnalyserRequest: ClimateAnalyserRequest;
 
   constructor(private apiService: ApiService, fb: FormBuilder) {
     this.fb = fb;
@@ -42,20 +43,20 @@ export class AnalyticsComponent implements OnInit {
       gps1long: [0],
       gps2lat: [0],
       gps2long: [0],
-      yearO:[2017],
-      yearC:[2000]
+      yearO: ['2017'],
+      yearC: ['2000']
     });
   }
   onClickSubmit(gps1lat, gps1long, gps2lat, gps2long, yearO, yearC) {
 
-    this.climateAnalyserRequestDto.gps1.latitude = gps1lat;
-    this.climateAnalyserRequestDto.gps1.longitude = gps1long;
-    this.climateAnalyserRequestDto.gps2.latitude = gps2lat;
-    this.climateAnalyserRequestDto.gps2.longitude = gps2long;
-    this.climateAnalyserRequestDto.yearOrigine = yearO;
-    this.climateAnalyserRequestDto.yearToCompare = yearC;
+    this.climateAnalyserRequest = new ClimateAnalyserRequest(''
+                                  , new GpsPoint( gps1long, gps1lat)
+                                  , new GpsPoint( gps2long, gps2lat)
+                                  , yearO
+                                  , yearC);
 
-    this.apiService.getAnalyticsByRequest2(this.climateAnalyserRequestDto).subscribe(
+    this.apiService.getAnalyticsByRequest('', new GpsPoint( gps1long, gps1lat), new GpsPoint( gps2long, gps2lat), yearO, yearC).subscribe(
+   // this.apiService.getAnalyticsByRequest2(this.climateAnalyserRequest).subscribe(
 
       value => {
 

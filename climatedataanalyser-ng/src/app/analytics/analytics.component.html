@@ -8,45 +8,57 @@
 </div>
 <div>{{selectedBundesland}}</div>
 
-<!--<p>-->
-<!--  ErrorMsg : {{ climateAnalyserResponseDto.errorMsg}}-->
-<!--</p>-->
+<p>
+  ErrorMsg : {{ climateAnalyserResponseDto.errorMsg}}
+</p>
 
 <div>
 
   <form [formGroup]="angForm">
-    <input type = "number"
-           name = "GPS1 Latitude"
-           placeholder = "GPS1 latitude"
-           formControlName="gps1lat"
-           #gps1lat>
-    <input type = "number"
-           name = "GPS1 Longitude"
-           placeholder = "GPS1 Longitude"
-           formControlName="gps1long"
-           #gps1long>
+    <label>GPS1.Latitude   :
+      <input type = "number"
+             name = "GPS1 Latitude"
+             placeholder = "GPS1 latitude"
+             formControlName="gps1lat"
+             #gps1lat>
+    </label>
+    <label> GPS1.Longitute :
+      <input type = "number"
+             name = "GPS1 Longitude"
+             placeholder = "GPS1 Longitude"
+             formControlName="gps1long"
+             #gps1long>
+    </label>
     <br/>
-    <input type = "number"
-           name = "GPS2 Latitude"
-           placeholder = "GPS2 latitude"
-           formControlName="gps2lat"
-           #gps2lat>
-    <input type = "number"
-           name = "GPS2 Longitude"
-           placeholder = "GPS2 Longitude"
-           formControlName="gps2long"
-           #gps2long>
+    <label>GPS2.Latitude  :
+      <input type = "number"
+             name = "GPS2 Latitude"
+             placeholder = "GPS2 latitude"
+             formControlName="gps2lat"
+             #gps2lat>
+    </label>
+    <label> GPS2.Longitude :
+      <input type = "number"
+             name = "GPS2 Longitude"
+             placeholder = "GPS2 Longitude"
+             formControlName="gps2long"
+             #gps2long>
+    </label>
     <br/>
-    <input type = "number"
-           name = "yearO"
-           placeholder = "Year origine"
-           formControlName="yearO"
-           #yearO>
-    <input type = "number"
-           name = "yearO"
-           placeholder = "Year to compare"
-           formControlName="yearC"
-           #yearC>
+    <label>Origine Year    :
+      <input type = "string"
+             name = "yearO"
+             placeholder = "Year origine"
+             formControlName="yearO"
+             #yearO>
+    </label>
+    <label> Compare Year    :
+      <input type = "string"
+             name = "yearC"
+             placeholder = "Year to compare"
+             formControlName="yearC"
+             #yearC>
+    </label>
     <br/>
     <input type = "submit"
            value = "submit"
