@@ -8,13 +8,13 @@ export class ClimateAnalyserRequest {
   public yearOrigine: string;
   public yearToCompare: string;
 
-  constructor(
-    bundesland = '',
-    gps1 = new GpsPoint(),
-    gps2 = new GpsPoint(),
-    yearOrigine = '2000',
-    yearToCompare = '2017'
-    ) {
+  constructor(bundesland: string,gps1: GpsPoint,gps2:GpsPoint,yearO:string,yearC:string) {
+    this.bundesland = bundesland;
+    this.gps1 = gps1;
+    this.gps2=gps2;
+    this.yearOrigine=yearO;
+    this.yearToCompare=yearC;
+
   }
 }
 

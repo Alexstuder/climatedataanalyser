@@ -6,11 +6,9 @@ export class  GpsPoint {
   // breitengrad -90, 0 , 90
   latitude: number ;
 
-  constructor(
-     longitude = 0 ,
-     latitude = 0
-  ) {
-
+  constructor( long: number ,lat:number) {
+  this.longitude = long;
+  this.latitude = lat
   }
 
 }

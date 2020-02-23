@@ -33,7 +33,7 @@ export class ApiService {
     });
     return this.http.request<ClimateAnalyserResponseDto>(req);
   }
-  getAnalyticsByRequest2(climateAnalyserRequestDto): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
+  getAnalyticsByRequest2(climateAnalyserRequestDto: ClimateAnalyserRequest): Observable<HttpEvent<ClimateAnalyserResponseDto>>{
     const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {climateAnalyserRequestDto}, {
       reportProgress: true,
       responseType: 'json'
