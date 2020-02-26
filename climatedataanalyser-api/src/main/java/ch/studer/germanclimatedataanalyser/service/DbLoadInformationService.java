@@ -6,5 +6,7 @@ public interface DbLoadInformationService {
 
    public DbLoadResponseDto getDbLoadInformation();
 
+   public boolean isDbLoaded();
+
 
 }

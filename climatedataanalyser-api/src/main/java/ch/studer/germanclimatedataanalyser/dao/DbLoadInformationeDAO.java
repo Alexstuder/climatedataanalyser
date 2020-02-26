@@ -7,4 +7,6 @@ import java.util.List;
 public interface DbLoadInformationeDAO {
 
     public List<DbLoadRowMapper.JobExecutionInformation> getDbLoadInformation();
+
+    public int getMonthTableCount();
 }

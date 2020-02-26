@@ -40,4 +40,15 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
 
         return dbLoadInformation;
     }
+
+    @Override
+    public int getMonthTableCount() {
+
+        Integer counter;
+        counter = jdbcTemplate.queryForObject("SELECT count(*) FROM climate.month;",Integer.class);
+
+        return counter;
+    }
+
+
 }
