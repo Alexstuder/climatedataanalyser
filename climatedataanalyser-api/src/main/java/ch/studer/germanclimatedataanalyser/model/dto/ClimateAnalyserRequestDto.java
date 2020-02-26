@@ -19,7 +19,7 @@ public class ClimateAnalyserRequestDto {
 
     public ClimateAnalyserRequestDto() {
         // init every Request Parameter
-        this.bundesland = "";
+        this.bundesland = '';
         this.gps1 = new GpsPoint();
         this.gps2 = new GpsPoint();
         this.yearOrigine = "";
