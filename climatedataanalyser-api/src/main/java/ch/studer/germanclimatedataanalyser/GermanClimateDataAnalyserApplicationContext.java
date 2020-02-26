@@ -28,4 +28,7 @@ public class GermanClimateDataAnalyserApplicationContext {
 
     @Bean
     ClimateAnalyserService climateAnalyserService() {return new ClimateAnalyserServiceImpl();}
+
+    @Bean
+    DbLoadInformationService dbLoadInformationService() {return  new DbLoadInformationServiceImpl();}
 }

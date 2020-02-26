@@ -1,12 +1,40 @@
 <div class="container">
+
+
+
+  <p>
+  </p>
+  <p>
+    Last run : {{ dbLoadResponseDto.lastLoad}}
+    Status : {{ dbLoadResponseDto.status}}
+  </p>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let char of dbLoadResponseDto.dbLoadSteps ">
+        <td *ngFor="let col of columns">
+          {{char[col]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
   <!-- Note menu -->
   <div class="row" style="margin-top:12px;">
     <div class="col-md-4">
       <button type="button"
               (click)="loadDataBase()"
-              class="btn btn-info pull-left"
-              style="margin-left:12px;"><i class="text-success">Load DataBase</i>
+              class="btn btn-primary btn-lg"
+              style="margin-left:12px;">Load DataBase
       </button>
     </div>
-  </div>
+
 </div>

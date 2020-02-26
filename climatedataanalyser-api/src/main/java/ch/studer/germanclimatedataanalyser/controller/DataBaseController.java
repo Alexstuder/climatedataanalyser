@@ -1,14 +1,15 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
+import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
+import ch.studer.germanclimatedataanalyser.service.DbLoadInformationService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/database")
@@ -17,6 +18,9 @@ public class DataBaseController {
 
     @Autowired
     JobLauncher jobLauncher;
+
+    @Autowired
+    DbLoadInformationService dbLoadInformationService;
 
     @Autowired
     Job job;
@@ -29,6 +33,12 @@ public class DataBaseController {
                         .toJobParameters();
         jobLauncher.run(job, jobParameters);
 
+    }
+
+    @PostMapping("/")
+    DbLoadResponseDto dbLoadInformationRequest() {
+        DbLoadResponseDto r = this.dbLoadInformationService.getDbLoadInformation();
+        return r;
     }
 
 }
