@@ -19,6 +19,8 @@ public class ClimateAnalyserResponseDto {
 
     private ClimateAnalyserTempDto compare;
 
+    private ClimateHistoryDto climateHistoryDto;
+
     private String errorMsg;
 
     public ClimateAnalyserResponseDto(){
@@ -30,6 +32,7 @@ public class ClimateAnalyserResponseDto {
         gps2 = new GpsPoint();
         original = new ClimateAnalyserTempDto();
         compare = new ClimateAnalyserTempDto();
+        climateHistoryDto = new ClimateHistoryDto();
         errorMsg = "";
     }
 

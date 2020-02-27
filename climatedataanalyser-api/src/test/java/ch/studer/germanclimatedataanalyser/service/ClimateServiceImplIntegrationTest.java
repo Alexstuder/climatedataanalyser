@@ -51,7 +51,7 @@ class ClimateServiceImplIntegrationTest {
         jdbcTemplate.execute("DROP Table weather");
         jdbcTemplate.execute("DROP Table climate");
 */
-        List<StationClimate> stationClimates =  ClimateTestData.getStationClimate(20);
+        List<StationClimate> stationClimates =  ClimateTestData.getStationClimate(14,2016,20);
 
         climateService.saveAllClimateAtStationId(stationClimates);
         //ReflectionTestUtils.setField(climateService,"period",30);

@@ -28,6 +28,9 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         // Proof input verification and validation
         climateAnalyserResponseDto  = inputIsValid(climateAnalyserRequestDto);
 
+        // Get Climate data twice for a REgion
+        // first for a year
+        // second only for the station ,which existed on a special year !
         if (climateAnalyserResponseDto.getErrorMsg().isEmpty()) {
 
             // Get ClimateDifference for Bundesland
@@ -39,6 +42,10 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
             }
         }
+
+        //Get the climate history for a region
+
+
 
 
 
