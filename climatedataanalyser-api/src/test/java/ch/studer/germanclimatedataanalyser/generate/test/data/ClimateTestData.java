@@ -38,7 +38,35 @@ public class ClimateTestData {
         }
 
 
+      System.out.println("************************* start generating TestData ****************");
+      for(StationClimate stationClimate : stationClimates){
+          System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
+      }
+      System.out.println("************************* end generating TestData ****************");
         return  stationClimates;
     }
 
+    public List<StationClimate> removeClimates(String yearToRemove, int[] stationsIdsToRemove,List<StationClimate> stationClimatesList) {
+        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+
+        for(StationClimate stationClimate : stationClimatesList){
+            // TODO Hier : 3x2017 entfernen !!!!!
+            if (stationClimate.getEndPeriod().contentEquals(yearToRemove)){
+                for (int i : stationsIdsToRemove){
+                    if (stationClimate.getStationId() != i){
+                        stationClimates.add(stationClimate);
+                    } else {
+                        System.out.println("Removed Record : " + stationClimate.getEndPeriod() +" : " +stationClimate.getStationId());
+                    }
+                }
+            } else {
+                stationClimates.add(stationClimate);
+            }
+        }
+
+
+        return stationClimates;
+
+
+    }
 }

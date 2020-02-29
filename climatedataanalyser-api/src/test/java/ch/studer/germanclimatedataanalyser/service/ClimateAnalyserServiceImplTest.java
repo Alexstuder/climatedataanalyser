@@ -143,6 +143,47 @@ class ClimateAnalyserServiceImplTest {
         // Expected Periods : 1957-1928    x      x                               x        x
         // Expected Periods : 1927-1898    x                               x      x        x
 
+        //* Get a full stack of testData
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD,END_PERIOD,7);
+        System.out.println("************************* start after generating ****************");
+        for(StationClimate stationClimate : stationClimates){
+            System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
+        }
+        System.out.println("************************* start after generating ****************");
+
+        //Remove year and stationID from full stack testData
+        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+        // Expected Periods : 2017-1988    x      x       x        x
+        int[] stationIdToRemove = {5,6,7};
+        String yearToRemove = "2017";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+        System.out.println("************************* start after removing ****************");
+        for(StationClimate stationClimate : stationClimates){
+            System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
+        }
+        System.out.println("************************* start after removing ****************");
+//        //Remove year and stationID from full stack testData
+//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+//        // Expected Periods : 1987-1958    x      x       x                                x
+//        stationIdToRemove = new int[]{4, 5, 6};
+//        yearToRemove = "1987";
+//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+//
+//        //Remove year and stationID from full stack testData
+//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+//        // Expected Periods : 1957-1928    x      x                               x        x
+//        stationIdToRemove = new int[]{3, 4, 5};
+//        yearToRemove = "1957";
+//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+//
+//        //Remove year and stationID from full stack testData
+//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+//        // Expected Periods : 1927-1898    x                               x      x        x
+//        stationIdToRemove = new int[]{2, 3, 4};
+//        yearToRemove = "1927";
+//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+
+
         // Die konzeptionelle Frage stellt sich hier : Welcher Algorythmus kommt hier zur anwendung ?
         // 1. Es wird lediglich die Station, welche über alle Perioden existierte zur Berechnung herangezogen!
         // 2. Es wird das mittel aller zur Verfügung stehenden StationId berechnet ?
@@ -150,6 +191,86 @@ class ClimateAnalyserServiceImplTest {
         //    durchschnittlich vorhandenen Stationen Abweichen !
         // 4. Variante 1 mit zusätzlichen Statistischen Angaben(Anzahl Stationen ,durchschn. Höhe)
         // 5 . 1-3 Als Parameter auswählbar !
+        //* Define Mock szenario
+
+        when(climateService.getClimateForBundesland(EXISTING_BUNDESLAND)).thenReturn(stationClimates);
+
+        when(!stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
+
+
+        // Prepend RequestParameter
+        ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+
+        climateAnalyserRequestDto.setBundesland(EXISTING_BUNDESLAND);
+        climateAnalyserRequestDto.setYearOrigine(YEAR_ORIGINE);
+        climateAnalyserRequestDto.setYearToCompare(YEAR_ORIGINE);
+
+        //* Execute Test
+        ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+        //* Assert errorMSg has to be empty
+        Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
+        //* Assert most ClimateAnalyseData
+        // First Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getStartPeriod(), "1988");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getEndPeriod(), YEAR_ORIGINE);
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJanuar(), new BigDecimal("2.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getFebruar(), new BigDecimal("3.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getMaerz(), new BigDecimal("4.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getApril(), new BigDecimal("5.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getMai(), new BigDecimal("6.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJuni(), new BigDecimal("7.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJuli(), new BigDecimal("8.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getAugust(), new BigDecimal("9.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getSeptember(), new BigDecimal("10.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getOktober(), new BigDecimal("11.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getNovember(), new BigDecimal("12.500"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getDezember(), new BigDecimal("13.500"));
+        //Second Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getStartPeriod(), "1958");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getEndPeriod(), "1987");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJanuar(), new BigDecimal("3.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getFebruar(), new BigDecimal("4.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getMaerz(), new BigDecimal("5.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getApril(), new BigDecimal("6.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getMai(), new BigDecimal("7.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJuni(), new BigDecimal("8.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJuli(), new BigDecimal("9.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getAugust(), new BigDecimal("10.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getSeptember(), new BigDecimal("11.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getOktober(), new BigDecimal("12.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getNovember(), new BigDecimal("13.250"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getDezember(), new BigDecimal("14.250"));
+        //third Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getStartPeriod(), "1928");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getEndPeriod(), "1957");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getJanuar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getFebruar(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getMaerz(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getApril(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getMai(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getJuni(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getJuli(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getAugust(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getSeptember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getOktober(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getNovember(), new BigDecimal("14.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getDezember(), new BigDecimal("15.000"));
+        // forth Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getJanuar(), new BigDecimal("4.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getFebruar(), new BigDecimal("5.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getMaerz(), new BigDecimal("6.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getApril(), new BigDecimal("7.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getMai(), new BigDecimal("8.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getJuni(), new BigDecimal("9.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getJuli(), new BigDecimal("10.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getAugust(), new BigDecimal("11.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getSeptember(), new BigDecimal("12.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getOktober(), new BigDecimal("13.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getNovember(), new BigDecimal("14.750"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getDezember(), new BigDecimal("15.750"));
     }
 @Test
     void happyHistoryHoleTest(){
