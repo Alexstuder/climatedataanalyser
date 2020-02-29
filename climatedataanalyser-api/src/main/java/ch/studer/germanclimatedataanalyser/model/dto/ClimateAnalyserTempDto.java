@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
-import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 
 import java.math.BigDecimal;
 
@@ -135,21 +135,21 @@ public class ClimateAnalyserTempDto {
         this.dezember = dezember;
     }
 
-    public ClimateAnalyserTempDto mapFrom(StationClimate stationClimate) {
+    public ClimateAnalyserTempDto mapFrom(TemperatureForMonths temperatureForMonths) {
         ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
 
-        climateAnalyserTempDto.setJanuar(stationClimate.getJanuar());
-        climateAnalyserTempDto.setFebruar(stationClimate.getFebruar());
-        climateAnalyserTempDto.setMaerz(stationClimate.getMaerz());
-        climateAnalyserTempDto.setApril(stationClimate.getApril());
-        climateAnalyserTempDto.setMai(stationClimate.getMai());
-        climateAnalyserTempDto.setJuni(stationClimate.getJuni());
-        climateAnalyserTempDto.setJuli(stationClimate.getJuli());
-        climateAnalyserTempDto.setAugust(stationClimate.getAugust());
-        climateAnalyserTempDto.setSeptember(stationClimate.getSeptember());
-        climateAnalyserTempDto.setOktober(stationClimate.getOktober());
-        climateAnalyserTempDto.setNovember(stationClimate.getNovember());
-        climateAnalyserTempDto.setDezember(stationClimate.getDezember());
+        climateAnalyserTempDto.setJanuar(temperatureForMonths.getJanuar());
+        climateAnalyserTempDto.setFebruar(temperatureForMonths.getFebruar());
+        climateAnalyserTempDto.setMaerz(temperatureForMonths.getMaerz());
+        climateAnalyserTempDto.setApril(temperatureForMonths.getApril());
+        climateAnalyserTempDto.setMai(temperatureForMonths.getMai());
+        climateAnalyserTempDto.setJuni(temperatureForMonths.getJuni());
+        climateAnalyserTempDto.setJuli(temperatureForMonths.getJuli());
+        climateAnalyserTempDto.setAugust(temperatureForMonths.getAugust());
+        climateAnalyserTempDto.setSeptember(temperatureForMonths.getSeptember());
+        climateAnalyserTempDto.setOktober(temperatureForMonths.getOktober());
+        climateAnalyserTempDto.setNovember(temperatureForMonths.getNovember());
+        climateAnalyserTempDto.setDezember(temperatureForMonths.getDezember());
 
 
 

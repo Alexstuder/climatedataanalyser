@@ -1,26 +1,22 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
-import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
-
-import java.util.ArrayList;
-import java.util.List;
+import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 
 public class ClimateHistoryDto {
 
-    static int CLIMATE_PERIOD = 30 ;
     private String endPeriod;
-
     private String startPeriod;
-
     private ClimateAnalyserTempDto climates;
 
     public ClimateHistoryDto(){
+
+        endPeriod = "";
+        startPeriod="";
 
         // inits all MonthTemp with 0 ;
         climates = new ClimateAnalyserTempDto() ;
 
     }
-
 
     public String getEndPeriod() {
         return endPeriod;
@@ -46,52 +42,21 @@ public class ClimateHistoryDto {
         this.climates = climates;
     }
 
-    public List<ClimateHistoryDto> getClimateHistory(String originYear, List<StationClimate> stationClimates) {
 
-        //Build the ClimateHistoryDtos
-        List<ClimateHistoryDto> climateHistoryDtos = new ArrayList<ClimateHistoryDto>();
-        //Just to Collect all Records and get the average temperature
-        List<StationClimate> tmpClimateHistory ;
+    public void setClimatesMapFrom(TemperatureForMonths temperatureForMonth) {
+        this.getClimates().setJanuar(temperatureForMonth.getJanuar());
+        this.getClimates().setFebruar(temperatureForMonth.getFebruar());
+        this.getClimates().setMaerz(temperatureForMonth.getMaerz());
+        this.getClimates().setApril(temperatureForMonth.getApril());
+        this.getClimates().setMai(temperatureForMonth.getMai());
+        this.getClimates().setJuni(temperatureForMonth.getJuni());
+        this.getClimates().setJuli(temperatureForMonth.getJuli());
+        this.getClimates().setAugust(temperatureForMonth.getAugust());
+        this.getClimates().setSeptember(temperatureForMonth.getSeptember());
+        this.getClimates().setOktober(temperatureForMonth.getOktober());
+        this.getClimates().setNovember(temperatureForMonth.getNovember());
+        this.getClimates().setDezember(temperatureForMonth.getDezember());
 
-        int noResult = 0 ;
-        int formerSize = 0 ;
-        int year = Integer.valueOf(originYear);
-
-        // Just to make sure that we didnt hit just a hole ! Do it 5 times !
-        // anyway 5 x 30 year = 1870 ; before this date we should not care about climate history
-        while(noResult <= 5){
-
-            tmpClimateHistory = new ArrayList<StationClimate>();
-            for (StationClimate stationClimate : stationClimates){
-                if (stationClimate.getEndPeriod().contentEquals(String.valueOf(year))){
-                    tmpClimateHistory.add(stationClimate);
-                }
-            }
-            if (tmpClimateHistory.size()>0){
-                climateHistoryDtos.add(new ClimateHistoryDto().mapFrom(new StationClimate().getAverage(tmpClimateHistory)));
-            }
-
-
-            //check if there was noResult in this run !
-            if (formerSize == tmpClimateHistory.size()){
-                noResult++;
-            }
-            //store the actual Size in formerSize
-            formerSize = tmpClimateHistory.size();
-            year = year - CLIMATE_PERIOD ;
-
-        }
-        return climateHistoryDtos;
     }
 
-    private ClimateHistoryDto mapFrom(StationClimate stationClimate) {
-        ClimateHistoryDto climateHistoryDto = new ClimateHistoryDto();
-
-        climateHistoryDto.setEndPeriod(stationClimate.getEndPeriod());
-        climateHistoryDto.setStartPeriod(stationClimate.getStartPeriod());
-        climateHistoryDto.setClimates(new ClimateAnalyserTempDto().mapFrom(stationClimate));
-
-
-        return climateHistoryDto;
-    }
 }

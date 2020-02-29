@@ -32,7 +32,7 @@ class ClimateAnalyserServiceImplTest {
     private static String EXISTING_BUNDESLAND = "Bundesland";
     private static String YEAR_ORIGINE = "2017";
     private static String YEAR_TO_COMPARE = "2019";
-    private static int BEGIN_PERIOD = 1897;
+    private static int BEGIN_PERIOD = 1898;
     private static int END_PERIOD = 2017;
 
     @Test
@@ -42,10 +42,13 @@ class ClimateAnalyserServiceImplTest {
         //* Get some Test Data for climateService
         List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD,END_PERIOD,3);
 
-        // Expected Periods : 2017-1986
-        // Expected Periods : 1987-1956
-        // Expected Periods : 1957-1926
-        // Expected Periods : 1927-1896
+        //Folgender Test : Es existieren 3 StationsId , alles Jahre vorhanden
+        // Station Id       :          :   1  :   2   :   3
+        // Expected Periods : 2017-1988    x      x       x
+        // Expected Periods : 1987-1958    x      x       x
+        // Expected Periods : 1957-1928    x      x       x
+        // Expected Periods : 1927-1898    x      x       x
+
 
         //* Define Mock szenario
         when(climateService.getClimateForBundesland(EXISTING_BUNDESLAND)).thenReturn(stationClimates);
@@ -70,7 +73,7 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(EXISTING_BUNDESLAND, climateAnalyserResponseDto.getBundesland());
         // First Period
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getStartPeriod(), "1988");
-        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getStartPeriod(), "2017");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getEndPeriod(), YEAR_ORIGINE);
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getFebruar(), new BigDecimal("3.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getMaerz(), new BigDecimal("4.000"));
@@ -85,7 +88,7 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getDezember(), new BigDecimal("13.000"));
         //Second Period
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getStartPeriod(), "1958");
-        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getStartPeriod(), "1987");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getEndPeriod(), "1987");
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getFebruar(), new BigDecimal("3.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getMaerz(), new BigDecimal("4.000"));
@@ -100,7 +103,7 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getDezember(), new BigDecimal("13.000"));
         //third Period
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getStartPeriod(), "1928");
-        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getStartPeriod(), "1957");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getEndPeriod(), "1957");
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getFebruar(), new BigDecimal("3.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getMaerz(), new BigDecimal("4.000"));
@@ -114,8 +117,8 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getNovember(), new BigDecimal("12.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(2).getClimates().getDezember(), new BigDecimal("13.000"));
         // forth Period
-        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getStartPeriod(), "1927");
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getEndPeriod(), "1927");
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getJanuar(), new BigDecimal("2.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getFebruar(), new BigDecimal("3.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getMaerz(), new BigDecimal("4.000"));
@@ -132,7 +135,7 @@ class ClimateAnalyserServiceImplTest {
     }
 
     @Test
-    void happyHistoryTest2(){
+    void happyHistoryPermutationTest(){
         //Folgender Test : Es existieren 7 StationsId , in jeder Periode fehlt eine Station
         // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
         // Expected Periods : 2017-1988    x      x       x        x
@@ -147,6 +150,16 @@ class ClimateAnalyserServiceImplTest {
         //    durchschnittlich vorhandenen Stationen Abweichen !
         // 4. Variante 1 mit zusätzlichen Statistischen Angaben(Anzahl Stationen ,durchschn. Höhe)
         // 5 . 1-3 Als Parameter auswählbar !
+    }
+@Test
+    void happyHistoryHoleTest(){
+        //Folgender Test : Es existiert eine grosse Lücke zwischen den Perioden
+        // Station Id       :          :   1  :   2   :   3   :
+        // Expected Periods : 2017-1988    x      x       x
+        // Expected Periods : 1987-1958
+        // Expected Periods : 1957-1928
+        // Expected Periods : 1927-1898    x      x       x
+
     }
 
     @Test

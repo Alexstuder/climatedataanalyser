@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ClimateTestData {
 
-    private static int period = 30;
+    private static int period = 29;
     private List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
 

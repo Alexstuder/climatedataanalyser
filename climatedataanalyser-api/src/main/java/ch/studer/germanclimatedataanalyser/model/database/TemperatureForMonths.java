@@ -3,9 +3,11 @@ package ch.studer.germanclimatedataanalyser.model.database;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 
 @MappedSuperclass
-public abstract class TemperatureForMonths {
+public  class TemperatureForMonths {
 
     @Column(name="JANUAR")
     private BigDecimal januar;
@@ -62,6 +64,62 @@ public abstract class TemperatureForMonths {
         this.setOktober(NULL_TEMPERATURE);
         this.setNovember(NULL_TEMPERATURE);
         this.setDezember(NULL_TEMPERATURE);
+    }
+
+    private void initWithZero(){
+        this.setJanuar(BigDecimal.ZERO);
+        this.setFebruar(BigDecimal.ZERO);
+        this.setMaerz(BigDecimal.ZERO);
+        this.setApril(BigDecimal.ZERO);
+        this.setMai(BigDecimal.ZERO);
+        this.setJuni(BigDecimal.ZERO);
+        this.setJuli(BigDecimal.ZERO);
+        this.setAugust(BigDecimal.ZERO);
+        this.setSeptember(BigDecimal.ZERO);
+        this.setOktober(BigDecimal.ZERO);
+        this.setNovember(BigDecimal.ZERO);
+        this.setDezember(BigDecimal.ZERO);
+    }
+
+
+    public TemperatureForMonths getAverage(List<TemperatureForMonths> temperatureForMonthsList){
+        TemperatureForMonths averageTemperature = new TemperatureForMonths();
+        averageTemperature.initWithZero();
+
+        for (TemperatureForMonths temperatureForMonths : temperatureForMonthsList){
+
+            averageTemperature.setJanuar(averageTemperature.getJanuar().add(temperatureForMonths.getJanuar()));
+            averageTemperature.setFebruar(averageTemperature.getFebruar().add(temperatureForMonths.getFebruar()));
+            averageTemperature.setMaerz(averageTemperature.getMaerz().add(temperatureForMonths.getMaerz()));
+            averageTemperature.setApril(averageTemperature.getApril().add(temperatureForMonths.getApril()));
+            averageTemperature.setMai(averageTemperature.getMai().add(temperatureForMonths.getMai()));
+            averageTemperature.setJuni(averageTemperature.getJuni().add(temperatureForMonths.getJuni()));
+            averageTemperature.setJuli(averageTemperature.getJuli().add(temperatureForMonths.getJuli()));
+            averageTemperature.setAugust(averageTemperature.getAugust().add(temperatureForMonths.getAugust()));
+            averageTemperature.setSeptember(averageTemperature.getSeptember().add(temperatureForMonths.getSeptember()));
+            averageTemperature.setOktober(averageTemperature.getOktober().add(temperatureForMonths.getOktober()));
+            averageTemperature.setNovember(averageTemperature.getNovember().add(temperatureForMonths.getNovember()));
+            averageTemperature.setDezember(averageTemperature.getDezember().add(temperatureForMonths.getDezember()));
+
+
+        }
+
+        // get Average by division temperature / ListSize
+        averageTemperature.setJanuar(averageTemperature.getJanuar().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setFebruar(averageTemperature.getFebruar().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setMaerz(averageTemperature.getMaerz().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setApril(averageTemperature.getApril().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setMai(averageTemperature.getMai().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setJuni(averageTemperature.getJuni().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setJuli(averageTemperature.getJuli().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setAugust(averageTemperature.getAugust().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setSeptember(averageTemperature.getSeptember().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setOktober(averageTemperature.getOktober().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setNovember(averageTemperature.getNovember().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+        averageTemperature.setDezember(averageTemperature.getDezember().divide(BigDecimal.valueOf(temperatureForMonthsList.size()), 3, RoundingMode.HALF_DOWN));
+
+
+        return averageTemperature;
     }
 
 // Getter and Setter

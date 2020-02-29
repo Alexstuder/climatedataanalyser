@@ -4,7 +4,6 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateHistoryDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -48,7 +47,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             calculateDifferenceClimate(climateAnalyserResponseDto, stationClimates);
 
             //Get the climate history for a region
-            climateAnalyserResponseDto.setClimateHistoryDtos(new ClimateHistoryDto().getClimateHistory(climateAnalyserResponseDto.getOriginYear(),stationClimates));
+            climateAnalyserResponseDto.setClimateHistoryDtos(new ClimateHistoryAnalyserServiceImpl().getClimateHistoryData (climateAnalyserResponseDto.getOriginYear(),stationClimates));
         }
 
 
@@ -259,6 +258,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     private ClimateAnalyserTempDto getClimateDivision(ClimateAnalyserTempDto tempClimate, int counter) {
 
+        //TODO Remove Code : Same is in TemperatureForMonth
          // get Average by division temperature / years
                 tempClimate.setJanuar(tempClimate.getJanuar().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
                 tempClimate.setFebruar(tempClimate.getFebruar().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
@@ -278,6 +278,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     private ClimateAnalyserTempDto getClimatAddition(ClimateAnalyserTempDto tempClimate, StationClimate sc) {
 
+        //TODO Remove Code : Same is in TemperatureForMonth
         tempClimate.setJanuar(tempClimate.getJanuar().add(sc.getJanuar()));
         tempClimate.setFebruar(tempClimate.getFebruar().add(sc.getFebruar()));
         tempClimate.setMaerz(tempClimate.getMaerz().add(sc.getMaerz()));
