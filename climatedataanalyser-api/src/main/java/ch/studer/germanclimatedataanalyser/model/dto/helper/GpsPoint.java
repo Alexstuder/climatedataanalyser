@@ -2,12 +2,18 @@ package ch.studer.germanclimatedataanalyser.model.dto.helper;
 
 public class GpsPoint {
 
+
     // längengrad  -180 , 0 , 180
     private double longitude ;
+
 
     // breitengrad -90, 0 , 90
     private double latitude ;
 
+    private final static double MAX_LONGITUDE = 180.00 ;
+    private final static double MIN_LONGITUDE = -180.00 ;
+    private final static double MAX_LATITUDE = 90.00;
+    private final static double MIN_LATITUDE = -90.00;
     private final static double NULL = 1000;
     public GpsPoint(){
 
@@ -24,7 +30,7 @@ public class GpsPoint {
     public boolean isLongitudeValid(){
         boolean status = false ;
 
-        if(this.longitude >= -180 && this.longitude <= 180){
+        if(this.longitude >= MIN_LONGITUDE && this.longitude <= MAX_LONGITUDE){
             status = true;
         }
 
@@ -34,7 +40,7 @@ public class GpsPoint {
     public boolean isLatitudeValid(){
         boolean status = false ;
 
-        if((this.latitude >= -90) && (this.latitude <= 90)){
+        if((this.latitude >= MIN_LATITUDE) && (this.latitude <= MAX_LATITUDE)){
             status = true;
         }
 

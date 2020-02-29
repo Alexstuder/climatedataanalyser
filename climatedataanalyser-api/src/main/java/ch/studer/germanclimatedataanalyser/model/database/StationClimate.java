@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="CLIMATE")
@@ -37,6 +38,16 @@ public class StationClimate extends  StationTemperature{
         this.startPeriod      = null;
 
     };
+
+    public StationClimate getAverage(List<StationClimate> stationClimateList){
+        StationClimate stationClimate = new StationClimate();
+
+         //TODO Implement average calculation !
+
+
+
+        return stationClimate;
+    }
 
     public int getClimateId() {
         return climateId;

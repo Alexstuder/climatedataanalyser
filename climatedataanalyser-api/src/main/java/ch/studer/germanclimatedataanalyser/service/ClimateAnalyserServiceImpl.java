@@ -4,6 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
+import ch.studer.germanclimatedataanalyser.model.dto.ClimateHistoryDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,23 +28,29 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
         // Proof input verification and validation
         climateAnalyserResponseDto  = inputIsValid(climateAnalyserRequestDto);
+        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
-        // Get Climate data twice for a REgion
+        // Get Climate data twice for a Region
         // first for a year
-        // second only for the station ,which existed on a special year !
+        // second only for the station ,which existed on a special(userInput) year !
         if (climateAnalyserResponseDto.getErrorMsg().isEmpty()) {
 
             // Get ClimateDifference for Bundesland
             if (!climateAnalyserRequestDto.getBundesland().isEmpty()) {
-                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland()));
+                //calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland()));
+                stationClimates = climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland());
 
             } else {
-                calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2()));
+                //calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2()));
+                stationClimates = climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2());
 
             }
+            calculateDifferenceClimate(climateAnalyserResponseDto, stationClimates);
+
+            //Get the climate history for a region
+            climateAnalyserResponseDto.setClimateHistoryDtos(new ClimateHistoryDto().getClimateHistory(climateAnalyserResponseDto.getOriginYear(),stationClimates));
         }
 
-        //Get the climate history for a region
 
 
 

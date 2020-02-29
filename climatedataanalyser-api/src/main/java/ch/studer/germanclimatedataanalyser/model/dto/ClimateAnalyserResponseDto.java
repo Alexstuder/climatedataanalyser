@@ -2,6 +2,9 @@ package ch.studer.germanclimatedataanalyser.model.dto;
 
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClimateAnalyserResponseDto {
 
 
@@ -19,7 +22,7 @@ public class ClimateAnalyserResponseDto {
 
     private ClimateAnalyserTempDto compare;
 
-    private ClimateHistoryDto climateHistoryDto;
+    private List<ClimateHistoryDto> climateHistoryDtos;
 
     private String errorMsg;
 
@@ -32,7 +35,7 @@ public class ClimateAnalyserResponseDto {
         gps2 = new GpsPoint();
         original = new ClimateAnalyserTempDto();
         compare = new ClimateAnalyserTempDto();
-        climateHistoryDto = new ClimateHistoryDto();
+        climateHistoryDtos = new ArrayList<ClimateHistoryDto>();
         errorMsg = "";
     }
 
@@ -73,4 +76,12 @@ public class ClimateAnalyserResponseDto {
     public String getErrorMsg() {return errorMsg;}
 
     public void setErrorMsg(String errorMsg) {this.errorMsg = errorMsg; }
+
+    public List<ClimateHistoryDto> getClimateHistoryDtos() {
+        return climateHistoryDtos;
+    }
+
+    public void setClimateHistoryDtos(List<ClimateHistoryDto> climateHistoryDtos) {
+        this.climateHistoryDtos = climateHistoryDtos;
+    }
 }

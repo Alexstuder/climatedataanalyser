@@ -1,5 +1,7 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
+import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+
 import java.math.BigDecimal;
 
 /*
@@ -131,5 +133,27 @@ public class ClimateAnalyserTempDto {
 
     public void setDezember(BigDecimal dezember) {
         this.dezember = dezember;
+    }
+
+    public ClimateAnalyserTempDto mapFrom(StationClimate stationClimate) {
+        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
+
+        climateAnalyserTempDto.setJanuar(stationClimate.getJanuar());
+        climateAnalyserTempDto.setFebruar(stationClimate.getFebruar());
+        climateAnalyserTempDto.setMaerz(stationClimate.getMaerz());
+        climateAnalyserTempDto.setApril(stationClimate.getApril());
+        climateAnalyserTempDto.setMai(stationClimate.getMai());
+        climateAnalyserTempDto.setJuni(stationClimate.getJuni());
+        climateAnalyserTempDto.setJuli(stationClimate.getJuli());
+        climateAnalyserTempDto.setAugust(stationClimate.getAugust());
+        climateAnalyserTempDto.setSeptember(stationClimate.getSeptember());
+        climateAnalyserTempDto.setOktober(stationClimate.getOktober());
+        climateAnalyserTempDto.setNovember(stationClimate.getNovember());
+        climateAnalyserTempDto.setDezember(stationClimate.getDezember());
+
+
+
+
+        return climateAnalyserTempDto;
     }
 }
