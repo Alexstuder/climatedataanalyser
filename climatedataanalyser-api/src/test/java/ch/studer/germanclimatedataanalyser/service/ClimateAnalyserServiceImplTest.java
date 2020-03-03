@@ -132,6 +132,10 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getNovember(), new BigDecimal("12.000"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getDezember(), new BigDecimal("13.000"));
 
+
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),4);
+
+
     }
 
     @Test
@@ -145,11 +149,6 @@ class ClimateAnalyserServiceImplTest {
 
         //* Get a full stack of testData
         List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD,END_PERIOD,7);
-        System.out.println("************************* start after generating ****************");
-        for(StationClimate stationClimate : stationClimates){
-            System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
-        }
-        System.out.println("************************* start after generating ****************");
 
         //Remove year and stationID from full stack testData
         // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
@@ -157,31 +156,27 @@ class ClimateAnalyserServiceImplTest {
         int[] stationIdToRemove = {5,6,7};
         String yearToRemove = "2017";
         stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
-        System.out.println("************************* start after removing ****************");
-        for(StationClimate stationClimate : stationClimates){
-            System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
-        }
-        System.out.println("************************* start after removing ****************");
-//        //Remove year and stationID from full stack testData
-//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
-//        // Expected Periods : 1987-1958    x      x       x                                x
-//        stationIdToRemove = new int[]{4, 5, 6};
-//        yearToRemove = "1987";
-//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
-//
-//        //Remove year and stationID from full stack testData
-//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
-//        // Expected Periods : 1957-1928    x      x                               x        x
-//        stationIdToRemove = new int[]{3, 4, 5};
-//        yearToRemove = "1957";
-//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
-//
-//        //Remove year and stationID from full stack testData
-//        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
-//        // Expected Periods : 1927-1898    x                               x      x        x
-//        stationIdToRemove = new int[]{2, 3, 4};
-//        yearToRemove = "1927";
-//        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+
+        //Remove year and stationID from full stack testData
+        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+        // Expected Periods : 1987-1958    x      x       x                                x
+        stationIdToRemove = new int[]{4, 5, 6};
+        yearToRemove = "1987";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+
+        //Remove year and stationID from full stack testData
+        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+        // Expected Periods : 1957-1928    x      x                               x        x
+        stationIdToRemove = new int[]{3, 4, 5};
+        yearToRemove = "1957";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+
+        //Remove year and stationID from full stack testData
+        // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
+        // Expected Periods : 1927-1898    x                               x      x        x
+        stationIdToRemove = new int[]{2, 3, 4};
+        yearToRemove = "1927";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
 
 
         // Die konzeptionelle Frage stellt sich hier : Welcher Algorythmus kommt hier zur anwendung ?
@@ -271,6 +266,10 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getOktober(), new BigDecimal("13.750"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getNovember(), new BigDecimal("14.750"));
         Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(3).getClimates().getDezember(), new BigDecimal("15.750"));
+
+
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),4);
+
     }
 @Test
     void happyHistoryHoleTest(){
@@ -280,6 +279,68 @@ class ClimateAnalyserServiceImplTest {
         // Expected Periods : 1987-1958
         // Expected Periods : 1957-1928
         // Expected Periods : 1927-1898    x      x       x
+        //* Get a full stack of testData
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD,END_PERIOD,3);
+
+        // Remove   Periods : 1987-1958
+        int[] stationIdToRemove = {1,2,3};
+        String yearToRemove = "1987";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{1, 2, 3};
+        yearToRemove = "1957";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove,stationIdToRemove,stationClimates);
+        when(climateService.getClimateForBundesland(EXISTING_BUNDESLAND)).thenReturn(stationClimates);
+
+        when(!stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
+
+
+        // Prepend RequestParameter
+        ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+
+        climateAnalyserRequestDto.setBundesland(EXISTING_BUNDESLAND);
+        climateAnalyserRequestDto.setYearOrigine(YEAR_ORIGINE);
+        climateAnalyserRequestDto.setYearToCompare(YEAR_ORIGINE);
+
+        //* Execute Test
+        ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+        //* Assert errorMSg has to be empty
+        Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
+        //* Assert most ClimateAnalyseData
+        // First Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getStartPeriod(), "1988");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getEndPeriod(), YEAR_ORIGINE);
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(0).getClimates().getDezember(), new BigDecimal("13.000"));
+        //Second Period
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().get(1).getClimates().getDezember(), new BigDecimal("13.000"));
+
+        Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),2);
 
     }
 
@@ -347,6 +408,7 @@ class ClimateAnalyserServiceImplTest {
 
 
 
+
         // **************************************************************
         // Test : GPS Coordinates
 
@@ -372,97 +434,103 @@ class ClimateAnalyserServiceImplTest {
         Assertions.assertEquals("", climateAnalyserResponseDto.getErrorMsg());
 
 
-
-
     }
 
  @Test
     void errorInputVerificationAndValidationTests(){
 
-            ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
 
-         // **************************************************************
-         // * Execute Test : No Bundesland and no Gps Coordinates entered
-         ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("Neither a Bundesland nor GPS coordinates have been entered", climateAnalyserResponseDto.getErrorMsg());
+     // **************************************************************
+     // * Execute Test : No Bundesland and no Gps Coordinates entered
+     ClimateAnalyserResponseDto climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("Neither a Bundesland nor GPS coordinates have been entered", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
 
-         // ********************************************************
-         // * Execute Test : Bundesland and Gps Coordinates entered
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setBundesland(EXISTING_BUNDESLAND);
-         climateAnalyserRequestDto.setGps1(new GpsPoint(0,0));
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("A Bundesland was selected and GPS coordinates entered at the same time !", climateAnalyserResponseDto.getErrorMsg());
+     // ********************************************************
+     // * Execute Test : Bundesland and Gps Coordinates entered
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(EXISTING_BUNDESLAND);
+     climateAnalyserRequestDto.setGps1(new GpsPoint(0,0));
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("A Bundesland was selected and GPS coordinates entered at the same time !", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
-         // ********************************************
-         // * Execute Test : Bundesland does not Exists
-         final String NOT_EXISTING_BUNDESLAND = "Glattfelden";
 
-         //* Define Mock szenario
-         when(stationService.bundeslandExists(NOT_EXISTING_BUNDESLAND)).thenReturn(false);
+     // ********************************************
+     // * Execute Test : Bundesland does not Exists
+     final String NOT_EXISTING_BUNDESLAND = "Glattfelden";
 
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setBundesland(NOT_EXISTING_BUNDESLAND);
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("Bundesland : " + NOT_EXISTING_BUNDESLAND + " doesn't exists !", climateAnalyserResponseDto.getErrorMsg());
+     //* Define Mock szenario
+     when(stationService.bundeslandExists(NOT_EXISTING_BUNDESLAND)).thenReturn(false);
 
-         // ********************************************************
-         // * Execute Test : GPS1 has no valid coordinates(positiv too big values)
-         double invalidLatitude = 90.001;
-         double invalidLongitude = 180.001;
-         double validLatitude = 90.00;
-         double validLongitude = 180.00;
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setBundesland(NOT_EXISTING_BUNDESLAND);
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("Bundesland : " + NOT_EXISTING_BUNDESLAND + " doesn't exists !", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
-         climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
+     // ********************************************************
+     // * Execute Test : GPS1 has no valid coordinates(positiv too big values)
+     double invalidLatitude = 90.001;
+     double invalidLongitude = 180.001;
+     double validLatitude = 90.00;
+     double validLongitude = 180.00;
 
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
+     climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
 
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
-         // ********************************************************
-         // * Execute Test : GPS2 has no valid coordinates (positiv too big values)
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
-         climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     // ********************************************************
+     // * Execute Test : GPS2 has no valid coordinates (positiv too big values)
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
+     climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
 
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
-         // ********************************************************
-         // * Execute Test : GPS1 has no valid coordinates
-         invalidLatitude = -90.001;
-         invalidLongitude = -180.001;
-         validLatitude = 90.00;
-         validLongitude = 180.00;
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
-         climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
+     // ********************************************************
+     // * Execute Test : GPS1 has no valid coordinates
+     invalidLatitude = -90.001;
+     invalidLongitude = -180.001;
+     validLatitude = 90.00;
+     validLongitude = 180.00;
 
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setGps1(new GpsPoint(invalidLatitude,invalidLongitude));
+     climateAnalyserRequestDto.setGps2(new GpsPoint(validLatitude,validLongitude));
 
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
-         // ********************************************************
-         // * Execute Test : GPS2 has no valid coordinates
-         climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-         climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
-         climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("GPS1 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
-         climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+     // ********************************************************
+     // * Execute Test : GPS2 has no valid coordinates
+     climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+     climateAnalyserRequestDto.setGps1(new GpsPoint(validLatitude,validLongitude));
+     climateAnalyserRequestDto.setGps2(new GpsPoint(invalidLatitude,invalidLongitude));
 
-         //* Assert most ClimateAnalyseData
-         Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     climateAnalyserResponseDto = climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+
+     //* Assert most ClimateAnalyseData
+     Assertions.assertEquals("GPS2 Coordinates are not valid ! : Latitude (-90, 0,90) :" + invalidLatitude + " Longitude(-180,0,180)" + invalidLongitude , climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
 
      // ********************************************************
@@ -477,6 +545,7 @@ class ClimateAnalyserServiceImplTest {
 
      //* Assert most ClimateAnalyseData
      Assertions.assertEquals("Only Numbers for origin Year are allowed !", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
 
 
@@ -493,6 +562,7 @@ class ClimateAnalyserServiceImplTest {
 
 
      Assertions.assertEquals("Only Numbers for year to compare are allowed !", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
      // ********************************************************
      // * Execute Test : YearOrigine 2100 has no Climate Records
@@ -514,6 +584,7 @@ class ClimateAnalyserServiceImplTest {
 
 
      Assertions.assertEquals("No climate data for the year: "+ NO_YEAR +" found !", climateAnalyserResponseDto.getErrorMsg());
+     Assertions.assertEquals(climateAnalyserResponseDto.getClimateHistoryDtos().size(),0);
 
      // ********************************************************
      // * Execute Test : YearToCompare dont exists in 2014
@@ -536,8 +607,6 @@ class ClimateAnalyserServiceImplTest {
 
 
      Assertions.assertEquals("No StationId from the year "+ yearToCompare +" was found, which may already have existed in the year " + YEAR_ORIGINE,  climateAnalyserResponseDto.getErrorMsg());
-
-
  }
 
 }

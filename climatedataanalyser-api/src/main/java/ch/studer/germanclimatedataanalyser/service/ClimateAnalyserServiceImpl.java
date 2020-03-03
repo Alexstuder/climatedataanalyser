@@ -28,12 +28,6 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         // Proof input verification and validation
         climateAnalyserResponseDto  = inputIsValid(climateAnalyserRequestDto);
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
-        System.out.println("************************* start init service ****************");
-        for(StationClimate stationClimate : stationClimates){
-            System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
-        }
-        System.out.println("************************* end init service ****************");
-
 
         // Get Climate data twice for a Region
         // first for a year
@@ -42,16 +36,8 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
             // Get ClimateDifference for Bundesland
             if (!climateAnalyserRequestDto.getBundesland().isEmpty()) {
-                //calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland()));
                 stationClimates = climateService.getClimateForBundesland(climateAnalyserRequestDto.getBundesland());
-                System.out.println("************************* start climateserive ****************");
-                for(StationClimate stationClimate : stationClimates){
-                    System.out.println(stationClimate.getEndPeriod()+ " : "+stationClimate.getStationId());
-                }
-                System.out.println("************************* end climateservice ****************");
-
             } else {
-                //calculateDifferenceClimate(climateAnalyserResponseDto, climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2()));
                 stationClimates = climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2());
 
             }
@@ -61,12 +47,6 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             //Get the climate history for a region
             climateAnalyserResponseDto.setClimateHistoryDtos(new ClimateHistoryAnalyserServiceImpl().getClimateHistoryData (climateAnalyserResponseDto.getOriginYear(),stationClimates));
         }
-
-
-
-
-
-
         return climateAnalyserResponseDto;
     }
 
