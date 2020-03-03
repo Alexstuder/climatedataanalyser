@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ClimateHistoryAnalyserService {
 
-    public List<ClimateHistoryDto> getClimateHistoryData(String originYear, List<StationClimate> stationClimates);
+    public List<ClimateHistoryDto> getClimateHistoryAverageData(String originYear, List<StationClimate> stationClimates);
+    public List<ClimateHistoryDto> getClimateHistoryEveryStationExistsData(String originYear, List<StationClimate> stationClimates);
 
 
 

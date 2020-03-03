@@ -22,7 +22,7 @@ public class ClimateAnalyserResponseDto {
 
     private ClimateAnalyserTempDto compare;
 
-    private List<ClimateHistoryDto> climateHistoryDtos;
+    private List<ClimateHistoryDto> climateHistoryAverageDtos;
 
     private String errorMsg;
 
@@ -35,7 +35,7 @@ public class ClimateAnalyserResponseDto {
         gps2 = new GpsPoint();
         original = new ClimateAnalyserTempDto();
         compare = new ClimateAnalyserTempDto();
-        climateHistoryDtos = new ArrayList<ClimateHistoryDto>();
+        climateHistoryAverageDtos = new ArrayList<ClimateHistoryDto>();
         errorMsg = "";
     }
 
@@ -77,11 +77,11 @@ public class ClimateAnalyserResponseDto {
 
     public void setErrorMsg(String errorMsg) {this.errorMsg = errorMsg; }
 
-    public List<ClimateHistoryDto> getClimateHistoryDtos() {
-        return climateHistoryDtos;
+    public List<ClimateHistoryDto> getClimateHistoryAverageDtos() {
+        return climateHistoryAverageDtos;
     }
 
-    public void setClimateHistoryDtos(List<ClimateHistoryDto> climateHistoryDtos) {
-        this.climateHistoryDtos = climateHistoryDtos;
+    public void setClimateHistoryAverageDtos(List<ClimateHistoryDto> climateHistoryAverageDtos) {
+        this.climateHistoryAverageDtos = climateHistoryAverageDtos;
     }
 }

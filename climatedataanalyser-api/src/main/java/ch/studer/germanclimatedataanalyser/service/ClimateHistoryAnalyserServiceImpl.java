@@ -10,7 +10,7 @@ import java.util.List;
 public class ClimateHistoryAnalyserServiceImpl implements ClimateHistoryAnalyserService {
 
     @Override
-    public List<ClimateHistoryDto> getClimateHistoryData(String originYear, List<StationClimate> stationClimates) {
+    public List<ClimateHistoryDto> getClimateHistoryAverageData(String originYear, List<StationClimate> stationClimates) {
         //Build the ClimateHistoryDtos
         List<ClimateHistoryDto> climateHistoryDtos = new ArrayList<ClimateHistoryDto>();
         //Just for collecting  all Records and calculate the average temperature
@@ -52,5 +52,10 @@ public class ClimateHistoryAnalyserServiceImpl implements ClimateHistoryAnalyser
 
         }
         return climateHistoryDtos;
+    }
+
+    @Override
+    public List<ClimateHistoryDto> getClimateHistoryEveryStationExistsData(String originYear, List<StationClimate> stationClimates) {
+        return null;
     }
 }

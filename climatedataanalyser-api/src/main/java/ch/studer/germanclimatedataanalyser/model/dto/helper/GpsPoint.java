@@ -57,8 +57,6 @@ public class GpsPoint {
 
         return status;
     }
-
-
     public double getLongitude() {
         return longitude;
     }

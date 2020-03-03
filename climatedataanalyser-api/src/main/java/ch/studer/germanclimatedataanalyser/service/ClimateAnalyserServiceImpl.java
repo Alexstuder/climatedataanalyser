@@ -1,14 +1,12 @@
 package ch.studer.germanclimatedataanalyser.service;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
-import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
 
         // Proof input verification and validation
-        climateAnalyserResponseDto  = inputIsValid(climateAnalyserRequestDto);
+        climateAnalyserResponseDto  = isInputValid(climateAnalyserRequestDto);
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
         // Get Climate data twice for a Region
@@ -41,16 +39,18 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
                 stationClimates = climateService.getClimateForGpsCoordinates(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2());
 
             }
-            calculateDifferenceClimate(climateAnalyserResponseDto, stationClimates);
 
+            //calculateDifferenceClimate(climateAnalyserResponseDto, stationClimates);
+
+            climateAnalyserResponseDto = calculateDifferenceClimate(climateAnalyserResponseDto, stationClimates);
 
             //Get the climate history for a region
-            climateAnalyserResponseDto.setClimateHistoryDtos(new ClimateHistoryAnalyserServiceImpl().getClimateHistoryData (climateAnalyserResponseDto.getOriginYear(),stationClimates));
+            climateAnalyserResponseDto.setClimateHistoryAverageDtos(new ClimateHistoryAnalyserServiceImpl().getClimateHistoryAverageData(climateAnalyserResponseDto.getOriginYear(),stationClimates));
         }
         return climateAnalyserResponseDto;
     }
 
-    private ClimateAnalyserResponseDto inputIsValid(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
+    private ClimateAnalyserResponseDto isInputValid(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
 
 
         ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
@@ -60,7 +60,8 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
         // Proof if bundesland and GPS Coordinates are Blank
         if(climateAnalyserRequestDto.getBundesland().isBlank() &&
-            gpsCoordinatesAreBlank(climateAnalyserRequestDto.getGps1(),climateAnalyserRequestDto.getGps2())){
+                (climateAnalyserRequestDto.getGps1().isGpsNull()||
+                 climateAnalyserRequestDto.getGps2().isGpsNull())){
             errorMsg="Neither a Bundesland nor GPS coordinates have been entered";
         } else {
 
@@ -124,69 +125,39 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             }
 
         }
-
-
         // If errorMsg is set or Empty put it into the response !
         climateAnalyserResponseDto.setErrorMsg(errorMsg);
-
 
         return climateAnalyserResponseDto;
     }
 
-    private boolean gpsCoordinatesAreBlank(GpsPoint gps1, GpsPoint gps2) {
-        boolean status = false;
+    private ClimateAnalyserResponseDto calculateDifferenceClimate(ClimateAnalyserResponseDto thisclimateAnalyserResponseDto, List<StationClimate> stationClimates) {
 
-        if(gps1.isGpsNull() || gps2.isGpsNull()){
-            status = true;
-        }
-
-        return status;
-    }
-
-    private void calculateDifferenceClimate(ClimateAnalyserResponseDto climateAnalyserResponseDto, List<StationClimate> stationClimates) {
-
-        ClimateAnalyserTempDto climateAnalyserOrigine = getClimateAggregatedForOrigineYear(climateAnalyserResponseDto.getOriginYear(), stationClimates);
+        ClimateAnalyserTempDto climateAnalyserOrigin = getClimateAggregatedForOriginYear(thisclimateAnalyserResponseDto.getOriginYear(), stationClimates);
 
         //Proofe if Origine could be aggregated
-        if (isNotEmpty(climateAnalyserOrigine)){
+//        if (isNotEmpty(climateAnalyserOrigin)){
+        if (climateAnalyserOrigin.isNotZero()){
 
-            climateAnalyserResponseDto.setOriginal(climateAnalyserOrigine);
+            thisclimateAnalyserResponseDto.setOriginal(climateAnalyserOrigin);
+//            climateAnalyserResponseDto.setOriginal(climateAnalyserOrigin);
 
 
             // Proof if there are some stationId in the originYear which exist in the year to compare
-            ClimateAnalyserTempDto climateAnalyserCompare = getClimateAggregatedForStationsFromYearToCompare(climateAnalyserResponseDto.getOriginYear(),climateAnalyserResponseDto.getYearToCompare(), stationClimates);
-            if (isNotEmpty(climateAnalyserCompare)){
+            ClimateAnalyserTempDto climateAnalyserCompare = getClimateAggregatedForStationsFromYearToCompare(thisclimateAnalyserResponseDto.getOriginYear(),thisclimateAnalyserResponseDto.getYearToCompare(), stationClimates);
+            if (climateAnalyserCompare.isNotZero()){
 
-            climateAnalyserResponseDto.setCompare(climateAnalyserCompare);
+            thisclimateAnalyserResponseDto.setCompare(climateAnalyserCompare);
+//            climateAnalyserResponseDto.setCompare(climateAnalyserCompare);
             } else {
-                climateAnalyserResponseDto.setErrorMsg("No StationId from the year "+ climateAnalyserResponseDto.getYearToCompare() +" was found, which may already have existed in the year " + climateAnalyserResponseDto.getOriginYear());
+                thisclimateAnalyserResponseDto.setErrorMsg("No StationId from the year "+ thisclimateAnalyserResponseDto.getYearToCompare() +" was found, which may already have existed in the year " + thisclimateAnalyserResponseDto.getOriginYear());
             }
 
         } else {
-            climateAnalyserResponseDto.setErrorMsg("No climate data for the year: "+ climateAnalyserResponseDto.getOriginYear() +" found !");
+            thisclimateAnalyserResponseDto.setErrorMsg("No climate data for the year: "+ thisclimateAnalyserResponseDto.getOriginYear() +" found !");
         }
 
-
-    }
-
-    private boolean isNotEmpty(ClimateAnalyserTempDto climateAnalyserTempDto) {
-
-        if(climateAnalyserTempDto.getJanuar().add(
-           climateAnalyserTempDto.getFebruar().add(
-           climateAnalyserTempDto.getMaerz().add(
-           climateAnalyserTempDto.getApril().add(
-           climateAnalyserTempDto.getMai().add(
-           climateAnalyserTempDto.getJuni().add(
-           climateAnalyserTempDto.getJuli().add(
-           climateAnalyserTempDto.getAugust().add(
-           climateAnalyserTempDto.getSeptember().add(
-           climateAnalyserTempDto.getOktober().add(
-           climateAnalyserTempDto.getNovember().add(
-           climateAnalyserTempDto.getDezember()))))))))))).equals(new BigDecimal("0"))){
-            return false;
-        } else {
-            return true ;
-        }
+        return thisclimateAnalyserResponseDto;
 
     }
 
@@ -195,18 +166,15 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
         // Get all stationIds to the year to compare
         List<Integer> stationIds = getStationIdsForYearToCompare(yearToCompare,stationClimates);
+        List<TemperatureForMonths> tmpTemperatureForMonths = new ArrayList<TemperatureForMonths>();
 
-        int counter = 0 ;
         for (StationClimate sc : stationClimates) {
             if (sc.getEndPeriod().contains(originYear) && stationIds.contains(sc.getStationId())) {
-
-                 climateAnalyserTempDto = getClimatAddition(climateAnalyserTempDto,sc);
-                 counter++;
+                 tmpTemperatureForMonths.add(sc.getTemperatureForMonths());
             }
         }
-
-        if (counter>0){
-          climateAnalyserTempDto = getClimateDivision(climateAnalyserTempDto,counter);
+        if (tmpTemperatureForMonths.size()>0){
+          climateAnalyserTempDto = new ClimateAnalyserTempDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
         }
 
 
@@ -226,68 +194,22 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
       return stationIds;
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForOrigineYear(String year, List<StationClimate> stationClimates) {
+    private ClimateAnalyserTempDto getClimateAggregatedForOriginYear(String year, List<StationClimate> stationClimates) {
 
-        int counter = 0;
         ClimateAnalyserTempDto tempClimate = new ClimateAnalyserTempDto();
+        List<TemperatureForMonths> tmpTemperatureForMonths = new ArrayList<TemperatureForMonths>();
 
         for (StationClimate sc : stationClimates) {
             if (year.contains(sc.getEndPeriod())) {
-                counter++;
-
-                tempClimate = getClimatAddition(tempClimate, sc);
-
+                tmpTemperatureForMonths.add(sc.getTemperatureForMonths());
             }
-
+        }
+        if (tmpTemperatureForMonths.size()>0){
+          tempClimate = new ClimateAnalyserTempDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
         }
 
-        if (counter>0){
-          tempClimate = getClimateDivision(tempClimate,counter);
-        }
-
         return tempClimate;
     }
-
-    private ClimateAnalyserTempDto getClimateDivision(ClimateAnalyserTempDto tempClimate, int counter) {
-
-        //TODO Remove Code : Same is in TemperatureForMonth
-         // get Average by division temperature / years
-                tempClimate.setJanuar(tempClimate.getJanuar().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setFebruar(tempClimate.getFebruar().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setMaerz(tempClimate.getMaerz().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setApril(tempClimate.getApril().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setMai(tempClimate.getMai().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setJuni(tempClimate.getJuni().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setJuli(tempClimate.getJuli().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setAugust(tempClimate.getAugust().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setSeptember(tempClimate.getSeptember().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setOktober(tempClimate.getOktober().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setNovember(tempClimate.getNovember().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-                tempClimate.setDezember(tempClimate.getDezember().divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_DOWN));
-
-        return tempClimate;
-    }
-
-    private ClimateAnalyserTempDto getClimatAddition(ClimateAnalyserTempDto tempClimate, StationClimate sc) {
-
-        //TODO Remove Code : Same is in TemperatureForMonth
-        tempClimate.setJanuar(tempClimate.getJanuar().add(sc.getJanuar()));
-        tempClimate.setFebruar(tempClimate.getFebruar().add(sc.getFebruar()));
-        tempClimate.setMaerz(tempClimate.getMaerz().add(sc.getMaerz()));
-        tempClimate.setApril(tempClimate.getApril().add(sc.getApril()));
-        tempClimate.setMai(tempClimate.getMai().add(sc.getMai()));
-        tempClimate.setJuni(tempClimate.getJuni().add(sc.getJuni()));
-        tempClimate.setJuli(tempClimate.getJuli().add(sc.getJuli()));
-        tempClimate.setAugust(tempClimate.getAugust().add(sc.getAugust()));
-        tempClimate.setSeptember(tempClimate.getSeptember().add(sc.getSeptember()));
-        tempClimate.setOktober(tempClimate.getOktober().add(sc.getOktober()));
-        tempClimate.setNovember(tempClimate.getNovember().add(sc.getNovember()));
-        tempClimate.setDezember(tempClimate.getDezember().add(sc.getDezember()));
-
-        return tempClimate;
-    }
-
-
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);

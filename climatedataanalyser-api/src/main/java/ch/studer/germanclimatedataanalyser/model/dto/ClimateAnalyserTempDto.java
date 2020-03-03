@@ -156,4 +156,23 @@ public class ClimateAnalyserTempDto {
 
         return climateAnalyserTempDto;
     }
+
+    public boolean isNotZero(){
+        boolean status = false;
+
+        return !this.getJanuar().add(
+                this.getFebruar().add(
+                this.getMaerz().add(
+                this.getApril().add(
+                this.getMai().add(
+                this.getJuni().add(
+                this.getJuli().add(
+                this.getAugust().add(
+                this.getSeptember().add(
+                this.getOktober().add(
+                this.getNovember().add(
+                this.getDezember()))))))))))).equals(new BigDecimal("0"));
+
+
+    }
 }
