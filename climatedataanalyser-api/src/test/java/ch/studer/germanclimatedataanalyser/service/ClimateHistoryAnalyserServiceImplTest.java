@@ -295,24 +295,194 @@ class ClimateHistoryAnalyserServiceImplTest {
     // 5. Jede zweite Station ist in allen Periode vorhanden und jeder zweiten wiederum fehlt eine Periode
 
     @Test
-    void getClimateHistoryEveryStationExistsData() {
+    void happyFirstInEveryPeriod() {
 
 
         // 1. Die erste Station ist als einzige in allen Perioden vorhanden
         // Station Id       :          :   1  :   2   :   3   :    4     :   5     :     6
-        // Expected Periods : 2017-1988    x
+        // Expected Periods : 2017-1988    x      x       x        x         x           x
         // Expected Periods : 1987-1958    x
         // Expected Periods : 1957-1928    x
         // Expected Periods : 1927-1898    x
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
 
+        // Remove   Periods : 1987-1958
+        int[] stationIdToRemove = new int[]{2, 3, 4, 5, 6};
+        String yearToRemove = "1987";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{2, 3, 4, 5, 6};
+        yearToRemove = "1957";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{2, 3, 4, 5, 6};
+        yearToRemove = "1927";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        //* Execute Test
+        List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
+
+        // First Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getStartPeriod(), "1988");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getEndPeriod(), ORIGIN_YEAR);
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getDezember(), new BigDecimal("13.000"));
+        //Second Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getStartPeriod(), "1958");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getEndPeriod(), "1987");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getDezember(), new BigDecimal("13.000"));
+        // Third Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getStartPeriod(), "1928");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getEndPeriod(), "1957");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getDezember(), new BigDecimal("13.000"));
+        //Forth Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getDezember(), new BigDecimal("13.000"));
+
+        Assertions.assertEquals(climateHistoryAverageDtos.size(), 4);
+
+    }
+
+    @Test
+    void happyLastInEveryPeriod() {
         // 2. Die letzte Station ist als einzige in allen Perioden vorhanden
         // Station Id       :          :   1  :   2   :   3   :    4     :   5     :     6
-        // Expected Periods : 2017-1988                                                  x
+        // Expected Periods : 2017-1988    x      x       x        x         x           x
         // Expected Periods : 1987-1958                                                  x
         // Expected Periods : 1957-1928                                                  x
         // Expected Periods : 1927-1898                                                  x
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
 
+        // Remove   Periods : 1987-1958
+        int[] stationIdToRemove = new int[]{1,2, 3, 4, 5};
+        String yearToRemove = "1987";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
 
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{1,2, 3, 4, 5};
+        yearToRemove = "1957";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{1,2, 3, 4, 5};
+        yearToRemove = "1927";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        //* Execute Test
+        List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
+
+        // First Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getStartPeriod(), "1988");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getEndPeriod(), ORIGIN_YEAR);
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getDezember(), new BigDecimal("13.000"));
+        //Second Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getStartPeriod(), "1958");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getEndPeriod(), "1987");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getDezember(), new BigDecimal("13.000"));
+        // Third Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getStartPeriod(), "1928");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getEndPeriod(), "1957");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getDezember(), new BigDecimal("13.000"));
+        //Forth Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJanuar(), new BigDecimal("2.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getFebruar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMaerz(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getApril(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMai(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuni(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuli(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getAugust(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getSeptember(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getOktober(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getNovember(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getDezember(), new BigDecimal("13.000"));
+
+        Assertions.assertEquals(climateHistoryAverageDtos.size(), 4);
+
+    }
+    @Test
+    void happyAllInEveryPeriod(){
         // 3. Alle Stationen sind in allen Perioden vorhanden
         // Station Id       :          :   1  :   2   :   3   :    4     :   5     :     6
         // Expected Periods : 2017-1988    x      x       x        x         x           x
@@ -320,21 +490,210 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1957-1928    x      x       x        x         x           x
         // Expected Periods : 1927-1898    x      x       x        x         x           x
 
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+
+        //* Execute Test
+        List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
+
+        // First Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getStartPeriod(), "1988");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getEndPeriod(), ORIGIN_YEAR);
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJanuar(), new BigDecimal("3.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getFebruar(), new BigDecimal("4.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMaerz(), new BigDecimal("5.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getApril(), new BigDecimal("6.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMai(), new BigDecimal("7.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuni(), new BigDecimal("8.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuli(), new BigDecimal("9.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getAugust(), new BigDecimal("10.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getSeptember(), new BigDecimal("11.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getOktober(), new BigDecimal("12.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getNovember(), new BigDecimal("13.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getDezember(), new BigDecimal("14.500"));
+        //Second Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getStartPeriod(), "1958");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getEndPeriod(), "1987");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJanuar(), new BigDecimal("3.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getFebruar(), new BigDecimal("4.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMaerz(), new BigDecimal("5.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getApril(), new BigDecimal("6.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMai(), new BigDecimal("7.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuni(), new BigDecimal("8.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuli(), new BigDecimal("9.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getAugust(), new BigDecimal("10.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getSeptember(), new BigDecimal("11.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getOktober(), new BigDecimal("12.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getNovember(), new BigDecimal("13.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getDezember(), new BigDecimal("14.500"));
+        // Third Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getStartPeriod(), "1928");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getEndPeriod(), "1957");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJanuar(), new BigDecimal("3.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getFebruar(), new BigDecimal("4.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMaerz(), new BigDecimal("5.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getApril(), new BigDecimal("6.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMai(), new BigDecimal("7.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuni(), new BigDecimal("8.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuli(), new BigDecimal("9.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getAugust(), new BigDecimal("10.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getSeptember(), new BigDecimal("11.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getOktober(), new BigDecimal("12.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getNovember(), new BigDecimal("13.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getDezember(), new BigDecimal("14.500"));
+        //Forth Period
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getStartPeriod(), "1898");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJanuar(), new BigDecimal("3.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getFebruar(), new BigDecimal("4.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMaerz(), new BigDecimal("5.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getApril(), new BigDecimal("6.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMai(), new BigDecimal("7.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuni(), new BigDecimal("8.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuli(), new BigDecimal("9.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getAugust(), new BigDecimal("10.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getSeptember(), new BigDecimal("11.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getOktober(), new BigDecimal("12.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getNovember(), new BigDecimal("13.500"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getDezember(), new BigDecimal("14.500"));
+
+        Assertions.assertEquals(climateHistoryAverageDtos.size(), 4);
+    }
+
+    @Test
+    void happyNoStationsInEveryPeriod(){
         // 4. Jeder Station fehlt eine Periode = keine Daten werden hier geliefert !
         // Station Id       :          :   1  :   2   :   3   :    4
         // Expected Periods : 2017-1988           x       x        x
         // Expected Periods : 1987-1958    x              x        x
         // Expected Periods : 1957-1928    x      x                x
         // Expected Periods : 1927-1898    x      x       x
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 4);
 
-        // 5. Jede zweite Station ist in allen Periode vorhanden und jeder zweiten wiederum fehlt eine Periode
-        // Station Id       :          :   1  :   2   :   3   :    4     :   5     :     6
-        // Expected Periods : 2017-1988    x      x       x        x         x           x
-        // Expected Periods : 1987-1958    x              x        x         x           x
-        // Expected Periods : 1957-1928    x      x       x                  x           x
-        // Expected Periods : 1927-1898    x      x       x        x         x
+        // Remove   Periods : 1987-1958
+        int[] stationIdToRemove = new int[]{1};
+        String yearToRemove = "2017";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
 
+        // Remove   Periods : 1987-1958
+        stationIdToRemove = new int[]{2};
+        yearToRemove = "1987";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{3};
+        yearToRemove = "1957";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        // Remove   Periods : 1957-1928
+        stationIdToRemove = new int[]{4};
+        yearToRemove = "1927";
+        stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+        //* Execute Test
+        List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
+
+
+        Assertions.assertEquals(climateHistoryAverageDtos.size(), 0);
+
+    }
+
+    @Test
+    void happyEverySecondInEveryPeriod(){
+    // 5. Jede zweite Station ist in allen Periode vorhanden und jeder zweiten wiederum fehlt eine Periode
+    // Station Id       :          :   1  :   2   :   3   :    4     :   5     :     6
+    // Expected Periods : 2017-1988    x      x       x        x         x           x
+    // Expected Periods : 1987-1958    x              x        x         x           x
+    // Expected Periods : 1957-1928    x      x       x                  x           x
+    // Expected Periods : 1927-1898    x      x       x        x         x
+
+    List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+
+
+    // Remove   Periods : 1987-1958
+    int[] stationIdToRemove = new int[]{2};
+    String yearToRemove = "1987";
+    stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+    // Remove   Periods : 1957-1928
+    stationIdToRemove = new int[]{4};
+    yearToRemove = "1957";
+    stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+    // Remove   Periods : 1957-1928
+    stationIdToRemove = new int[]{6};
+    yearToRemove = "1927";
+    stationClimates = new ClimateTestData().removeClimates(yearToRemove, stationIdToRemove, stationClimates);
+
+    //* Execute Test
+    List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
+
+    // First Period
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getStartPeriod(), "1988");
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getEndPeriod(), ORIGIN_YEAR);
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJanuar(), new BigDecimal("3.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getFebruar(), new BigDecimal("4.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMaerz(), new BigDecimal("5.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getApril(), new BigDecimal("6.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getMai(), new BigDecimal("7.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuni(), new BigDecimal("8.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getJuli(), new BigDecimal("9.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getAugust(), new BigDecimal("10.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getSeptember(), new BigDecimal("11.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getOktober(), new BigDecimal("12.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getNovember(), new BigDecimal("13.000"));
+    Assertions.assertEquals(climateHistoryAverageDtos.get(0).getClimates().getDezember(), new BigDecimal("14.000"));
+    //Second Period
+    Assertions.assertEquals(climateHistoryAverageDtos.get(1).getStartPeriod(), "1958");
+    Assertions.assertEquals(climateHistoryAverageDtos.get(1).getEndPeriod(), "1987");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJanuar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getFebruar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMaerz(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getApril(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getMai(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuni(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getJuli(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getAugust(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getSeptember(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getOktober(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getNovember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(1).getClimates().getDezember(), new BigDecimal("14.000"));
+    // Third Period
+    Assertions.assertEquals(climateHistoryAverageDtos.get(2).getStartPeriod(), "1928");
+    Assertions.assertEquals(climateHistoryAverageDtos.get(2).getEndPeriod(), "1957");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJanuar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getFebruar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMaerz(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getApril(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getMai(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuni(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getJuli(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getAugust(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getSeptember(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getOktober(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getNovember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(2).getClimates().getDezember(), new BigDecimal("14.000"));
+    //Forth Period
+    Assertions.assertEquals(climateHistoryAverageDtos.get(3).getStartPeriod(), "1898");
+    Assertions.assertEquals(climateHistoryAverageDtos.get(3).getEndPeriod(), "1927");
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJanuar(), new BigDecimal("3.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getFebruar(), new BigDecimal("4.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMaerz(), new BigDecimal("5.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getApril(), new BigDecimal("6.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getMai(), new BigDecimal("7.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuni(), new BigDecimal("8.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getJuli(), new BigDecimal("9.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getAugust(), new BigDecimal("10.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getSeptember(), new BigDecimal("11.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getOktober(), new BigDecimal("12.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getNovember(), new BigDecimal("13.000"));
+        Assertions.assertEquals(climateHistoryAverageDtos.get(3).getClimates().getDezember(), new BigDecimal("14.000"));
+
+    Assertions.assertEquals(climateHistoryAverageDtos.size(), 4);
 
 
     }
+
+
+
+
 }
