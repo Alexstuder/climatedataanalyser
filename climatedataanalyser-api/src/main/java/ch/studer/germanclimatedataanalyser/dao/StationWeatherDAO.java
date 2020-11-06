@@ -8,10 +8,10 @@ import java.util.List;
 public interface StationWeatherDAO {
 
 
-    public void save(StationWeatherPerYear stationWeatherPerYear);
+    void save(StationWeatherPerYear stationWeatherPerYear);
 
-    public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears);
+    void saveAll(List<StationWeatherPerYear> stationWeatherPerYears);
 
-    public List<Station> StationWeatherDAO(Station station);
+    List<Station> StationWeatherDAO(Station station);
 
 }

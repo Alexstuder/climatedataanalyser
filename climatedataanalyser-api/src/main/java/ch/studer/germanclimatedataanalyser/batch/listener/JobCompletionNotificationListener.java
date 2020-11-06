@@ -18,7 +18,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
     @Autowired
-    private JdbcTemplate jdbcTemplate ;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private EntityManager entityManager;
@@ -33,7 +33,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 //    }
 
     @Override
-    public void beforeJob(JobExecution jobExecution){
+    public void beforeJob(JobExecution jobExecution) {
 
         log.info("****************************************************************");
         log.info("!!!                      JOB START                           !!!");
@@ -46,13 +46,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         jdbcTemplate.execute("Delete FROM climate");
 
 
-
     }
 
-   @Override
-   public void afterJob(JobExecution jobExecution) {
+    @Override
+    public void afterJob(JobExecution jobExecution) {
 
-        if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
+        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("##########################################################");
             log.info("!!!          JOB FINISHED! SUCCESSFULLY                !!!");
             log.info("##########################################################");
@@ -69,16 +68,11 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
 
+        log.info("****************************************************************");
+        log.info("!!!          JOB ENDE                                        !!!");
+        log.info("****************************************************************");
 
-
-       log.info("****************************************************************");
-       log.info("!!!          JOB ENDE                                        !!!");
-       log.info("****************************************************************");
-
-   }
-
-
-
+    }
 
 
 }

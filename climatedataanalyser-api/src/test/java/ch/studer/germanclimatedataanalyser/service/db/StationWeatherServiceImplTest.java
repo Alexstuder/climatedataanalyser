@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
@@ -19,20 +19,19 @@ class StationWeatherServiceImplTest {
 
 
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherServiceImplTest.class);
-        // Set Test variable
+    // Set Test variable
 
-        private int range = 4 ;
-        private int period = 30 ;
-        private String value = "-999.0000";
+    private final int range = 4;
+    private final int period = 30;
+    private final String value = "-999.0000";
 
-        @BeforeEach
+    @BeforeEach
     void setUp() {
 
-        ReflectionTestUtils.setField(stationWeatherService,"NULL_TEMPERATURE_INIT",value);
-        ReflectionTestUtils.setField(stationWeatherService,"period",period);
-        ReflectionTestUtils.setField(stationWeatherService,"range",range);
+        ReflectionTestUtils.setField(stationWeatherService, "NULL_TEMPERATURE_INIT", value);
+        ReflectionTestUtils.setField(stationWeatherService, "period", period);
+        ReflectionTestUtils.setField(stationWeatherService, "range", range);
     }
-
 
 
     // Tests : complete 1 test records without anual gaps
@@ -46,7 +45,7 @@ class StationWeatherServiceImplTest {
         List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
 
         // Get First a complete set of 30 weather records (without annual gap and without NULL_TEMPERATURE)
-        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
+        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018", 1, false);
 
         // Get the 30 complete records and put some NULL_TEMPERATURES into
         List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
@@ -59,8 +58,8 @@ class StationWeatherServiceImplTest {
         // SetUp  : Just process a List with 1 StationId (group by prepended by ClimateWriter)
         List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearList);
 
-        int index= 0;
-        for(StationWeatherPerYear test: testList){
+        int index = 0;
+        for (StationWeatherPerYear test : testList) {
 
             Assertions.assertEquals(0, test.getJanuar().compareTo(weatherComplete.get(index).getJanuar()));
             Assertions.assertEquals(0, test.getFebruar().compareTo(weatherComplete.get(index).getFebruar()));
@@ -75,19 +74,19 @@ class StationWeatherServiceImplTest {
             Assertions.assertEquals(0, test.getNovember().compareTo(weatherComplete.get(index).getNovember()));
             Assertions.assertEquals(0, test.getDezember().compareTo(weatherComplete.get(index).getDezember()));
 
-           index++;
+            index++;
         }
     }
 
     @Test
-    void fillHolesWithToMuchNullValues(){
+    void fillHolesWithToMuchNullValues() {
 
         List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
 
-        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019",2,true);
+        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019", 2, true);
 
-        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989",2,false));
-        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959",2,true));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989", 2, false));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959", 2, true));
 
 
         // remove random record between 1989 and 1960 !
@@ -99,10 +98,10 @@ class StationWeatherServiceImplTest {
         List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearsWithHoles);
 
         // calculate size !
-        int size = period +(2 * range);
+        int size = period + (2 * range);
         Assertions.assertEquals(testList.size(), size);
 
-        for(StationWeatherPerYear stationWeatherPerYear : testList){
+        for (StationWeatherPerYear stationWeatherPerYear : testList) {
             Assertions.assertEquals(0, stationWeatherPerYear.getJanuar().compareTo(new BigDecimal("-1.111")), "Januar is not Equal");
             Assertions.assertEquals(0, stationWeatherPerYear.getFebruar().compareTo(new BigDecimal("-2.222")), "Februar is not Equal");
             Assertions.assertEquals(0, stationWeatherPerYear.getMaerz().compareTo(new BigDecimal("3.333")), "Marz is not Equal");

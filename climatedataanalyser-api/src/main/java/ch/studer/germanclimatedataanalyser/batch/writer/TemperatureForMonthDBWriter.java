@@ -1,7 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.writer;
 
 import ch.studer.germanclimatedataanalyser.model.database.Month;
-import ch.studer.germanclimatedataanalyser.service.MonthService;
+import ch.studer.germanclimatedataanalyser.service.db.MonthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
@@ -21,14 +21,13 @@ public class TemperatureForMonthDBWriter implements ItemWriter<Month> {
     @Autowired
     private MonthService monthService;
 
-    public TemperatureForMonthDBWriter(){
+    public TemperatureForMonthDBWriter() {
     }
 
     @Override
     public void write(List<? extends Month> months) throws Exception {
 
         monthService.saveAllMonth(months);
-
 
 
     }

@@ -14,10 +14,8 @@ public class BundeslaenderDto implements Bundeslaender {
         bundeslaenderDto.addAll(bundeslaenderDbo);
 
 
-
         return bundeslaenderDto;
     }
-
 
 
 }

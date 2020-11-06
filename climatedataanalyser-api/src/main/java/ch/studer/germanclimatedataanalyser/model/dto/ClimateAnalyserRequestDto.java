@@ -8,7 +8,7 @@ public class ClimateAnalyserRequestDto {
     private String bundesland;
 
     // Defines the GPS Coordinates
-    private GpsPoint gps1 ;
+    private GpsPoint gps1;
     private GpsPoint gps2;
 
 

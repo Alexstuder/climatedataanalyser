@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.model.database.Station;
 import javassist.NotFoundException;
@@ -9,13 +9,13 @@ public interface StationService {
 
     void saveAllStation(List<? extends Station> stations);
 
-    public Station getStation(int stationId) throws NotFoundException;
+    Station getStation(int stationId) throws NotFoundException;
 
-    public Station getStation(String stationName) throws NotFoundException;
+    Station getStation(String stationName) throws NotFoundException;
 
-    public List<Station> getAllStations() ;
+    List<Station> getAllStations();
 
-    public List<String> getAllBundeslaender() throws NotFoundException;
+    List<String> getAllBundeslaender() throws NotFoundException;
 
 
     List<Station> getStationsFromBundesland(String bundesland);

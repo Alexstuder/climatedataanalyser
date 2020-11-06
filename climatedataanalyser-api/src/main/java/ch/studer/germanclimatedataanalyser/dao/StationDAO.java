@@ -8,17 +8,17 @@ import java.util.List;
 public interface StationDAO {
 
 
-    public void save(Station station);
+    void save(Station station);
 
-    public void saveAll(List<? extends Station> stations);
+    void saveAll(List<? extends Station> stations);
 
-    public Station getStationsBy(int stationID) throws NotFoundException;
+    Station getStationsBy(int stationID) throws NotFoundException;
 
-    public List<Station> getAllStations();
+    List<Station> getAllStations();
 
-    public Station getStationByName(String stationName) throws NotFoundException;
+    Station getStationByName(String stationName) throws NotFoundException;
 
-    public List<String> getAllBundeslaenderOrderAsc() throws NotFoundException;
+    List<String> getAllBundeslaenderOrderAsc() throws NotFoundException;
 
 
     List<Station> getStationsFromBundesland(String bundesland);

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class ClimateFtpDataDownloader implements Tasklet {
@@ -34,17 +36,15 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private String ftpServer;
 
     @Value("${climate.ftp.server.directory}")
-    private String remoteDirectory ;
+    private String remoteDirectory;
 
     @Value("${climate.ftp.server.user}")
-    private String ftpUser ;
+    private String ftpUser;
 
     @Value("${climate.ftp.server.pwd}")
-    private String ftpPwd ;
+    private String ftpPwd;
 
-    private FTPClient ftpConnection ;
-
-
+    private FTPClient ftpConnection;
 
 
     @Override
@@ -56,16 +56,16 @@ public class ClimateFtpDataDownloader implements Tasklet {
             ftpConnection.setFileType(FTP.BINARY_FILE_TYPE);
             ftpConnection.enterLocalPassiveMode();
             ftpConnection.changeWorkingDirectory(remoteDirectory);
-        log.info("Connected " +ftpConnection.getStatus());
+            log.info("Connected " + ftpConnection.getStatus());
 
 
-        FTPFile[] ftpFiles =list(ftpConnection);
-        downloadFTPFiles(ftpFiles,remoteDirectory);
+            FTPFile[] ftpFiles = list(ftpConnection);
+            downloadFTPFiles(ftpFiles, remoteDirectory);
 
-        ftpConnection.logout();
-        ftpConnection.disconnect();
-        } catch (Exception e ) {
-            throw new RuntimeException("Error Connecting FTP Server : "+e);
+            ftpConnection.logout();
+            ftpConnection.disconnect();
+        } catch (Exception e) {
+            throw new RuntimeException("Error Connecting FTP Server : " + e);
         }
         log.info("#################   Ende Download from the Weather Server   ############");
 
@@ -75,29 +75,28 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private FTPClient getFTPConection(String ftpUser, String ftpPwd) throws IOException {
 
         FTPClient ftpClient = new FTPClient();
-        String[]  filenameList;
+        String[] filenameList;
         FTPFile[] ftpFiles;
 
         try {
-            ftpClient.connect( ftpServer);
-            ftpClient.login( ftpUser, ftpPwd );
+            ftpClient.connect(ftpServer);
+            ftpClient.login(ftpUser, ftpPwd);
 
-            } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Connection to FTP Server Failed : " + e);
         }
-        return  ftpClient;
-
+        return ftpClient;
 
 
     }
 
     private void downloadFTPFiles(FTPFile[] ftpFiles, String remoteDirectory) throws IOException {
 
-        int counter = 0 ;
+        int counter = 0;
         File directory = null;
-        log.info("Start Download  : "+LocalDateTime.now().toString());
+        log.info("Start Download  : " + LocalDateTime.now().toString());
         try {
-          directory = getDirectory(ftpDataFolderName);
+            directory = getDirectory(ftpDataFolderName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,31 +106,30 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         for (FTPFile ftpFile : ftpFiles) {
 
-        FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() +"/"+ftpFile.getName());
-        try {
-            ftpConnection.retrieveFile(ftpFile.getName(), out);
-            log.debug("File {}",ftpFile," downloaded !" );
-        } catch ( Exception e) {
+            FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() + "/" + ftpFile.getName());
+            try {
+                ftpConnection.retrieveFile(ftpFile.getName(), out);
+                log.debug("File {}", ftpFile, " downloaded !");
+            } catch (Exception e) {
 
-            throw new RuntimeException("Error in Download File : "+e);
-        }
-        out.close();
+                throw new RuntimeException("Error in Download File : " + e);
+            }
+            out.close();
 
-        if(ftpConnection.getReplyCode()==550){
-            throw new RuntimeException("FTP Download Error : " + ftpConnection.getReplyString());
-        }
-         counter++;
+            if (ftpConnection.getReplyCode() == 550) {
+                throw new RuntimeException("FTP Download Error : " + ftpConnection.getReplyString());
+            }
+            counter++;
 
         }
         log.info("*************************************************");
 
         log.info(counter + " Files downloaded !");
-        log.info("End Download  : "+LocalDateTime.now().toString());
+        log.info("End Download  : " + LocalDateTime.now().toString());
     }
 
-    public  FTPFile[] list( FTPClient ftpConnection ) throws IOException
-    {
-        String[]  filenameList;
+    public FTPFile[] list(FTPClient ftpConnection) throws IOException {
+        String[] filenameList;
         FTPFile[] ftpFiles;
 
         try {
@@ -142,12 +140,12 @@ public class ClimateFtpDataDownloader implements Tasklet {
                 System.out.println(file.getName());
             }*/
         } catch (Exception e) {
-            throw  new RuntimeException("Runtime Exeption in list FTP Files : " + e.getMessage());
+            throw new RuntimeException("Runtime Exeption in list FTP Files : " + e.getMessage());
 
             //ftpClient.logout();
         } finally {
             System.out.println("Finaly in List arrived !");
-          //  ftpClient.disconnect();
+            //  ftpClient.disconnect();
         }
 
         return ftpFiles;
@@ -158,10 +156,10 @@ public class ClimateFtpDataDownloader implements Tasklet {
         allContent = directory.listFiles();
 
         // First check , if directory is empty
-        if (allContent != null){
-            for (File file : allContent){
+        if (allContent != null) {
+            for (File file : allContent) {
                 // delete all files and subdir
-                if (file.isDirectory()){
+                if (file.isDirectory()) {
                     deleteDirectoryFiles(file);
                 } else {
                     file.delete();
@@ -177,14 +175,14 @@ public class ClimateFtpDataDownloader implements Tasklet {
         Resource resource = null;
 
         try {
-            resources = applicationContext.getResources("classpath*:/"+directoryName);
+            resources = applicationContext.getResources("classpath*:/" + directoryName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (Resource directory : resources){
-            if (directory.getFilename().equals(directoryName)){
+        for (Resource directory : resources) {
+            if (directory.getFilename().equals(directoryName)) {
                 resource = directory;
-            };
+            }
         }
         return resource.getFile();
     }

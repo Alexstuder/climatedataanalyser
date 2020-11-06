@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.dao.MonthDAO;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
@@ -24,7 +24,7 @@ public class MonthServiceImpl implements MonthService {
     @Override
     @Transactional
     public int getCountOnDb(int stationsID) {
-         return monthDAO.getCountOnDb(stationsID);
+        return monthDAO.getCountOnDb(stationsID);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class StationDaoImpl implements StationDAO {
     @Override
     public void saveAll(List<? extends Station> stations) {
 
-        for(Station station : stations){
+        for (Station station : stations) {
             this.save(station);
         }
     }
@@ -47,13 +47,13 @@ public class StationDaoImpl implements StationDAO {
         Session currentSession = getSession();
 
         Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationId = :stationID ORDER BY dateBegin ASC", Station.class)
-                .setParameter("stationID",stationID);
+                .setParameter("stationID", stationID);
 
         // execute and get result list
         stations = theQuery.getResultList();
 
-        if(stations.size() == 0){
-            throw new NotFoundException("Station : "+ stationID + " not Found !");
+        if (stations.size() == 0) {
+            throw new NotFoundException("Station : " + stationID + " not Found !");
         }
 
         // There is only one Station !
@@ -82,13 +82,13 @@ public class StationDaoImpl implements StationDAO {
 
         Session currentSession = getSession();
 
-        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationName = :stationName",Station.class)
-                .setParameter("stationName",stationName);
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.stationName = :stationName", Station.class)
+                .setParameter("stationName", stationName);
 
         stations = theQuery.getResultList();
 
-        if(stations.size() == 0){
-            throw new NotFoundException("Station : "+ stationName + " not Found !");
+        if (stations.size() == 0) {
+            throw new NotFoundException("Station : " + stationName + " not Found !");
         }
         // there is only One Station!
         return stations.get(0);
@@ -106,8 +106,8 @@ public class StationDaoImpl implements StationDAO {
                order by Bundesland asc;
          */
 
-        Query<String> theQuery = currentSession.createQuery("SELECT DISTINCT(s.bundesLand) FROM Station s ORDER BY s.bundesLand ASC",String.class);
-         bundeslaender = theQuery.getResultList();
+        Query<String> theQuery = currentSession.createQuery("SELECT DISTINCT(s.bundesLand) FROM Station s ORDER BY s.bundesLand ASC", String.class);
+        bundeslaender = theQuery.getResultList();
 
         return bundeslaender;
     }
@@ -118,8 +118,8 @@ public class StationDaoImpl implements StationDAO {
 
         Session currentSession = getSession();
 
-        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.bundesLand = :bundesland",Station.class)
-                .setParameter("bundesland",bundesland);
+        Query<Station> theQuery = currentSession.createQuery("SELECT s FROM Station s WHERE s.bundesLand = :bundesland", Station.class)
+                .setParameter("bundesland", bundesland);
 
         stations = theQuery.getResultList();
 

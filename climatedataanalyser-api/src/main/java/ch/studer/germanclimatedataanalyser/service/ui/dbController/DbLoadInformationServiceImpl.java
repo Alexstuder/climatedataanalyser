@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.ui.dbController;
 
 import ch.studer.germanclimatedataanalyser.dao.DbLoadInformationeDAO;
 import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
@@ -14,8 +14,7 @@ public class DbLoadInformationServiceImpl implements DbLoadInformationService {
     public DbLoadResponseDto getDbLoadInformation() {
 
         //List<DbLoadRowMapper.JobExecutionInformation> data = dbLoadInformationeDAO.getDbLoadInformation();
-        DbLoadResponseDto dbLoadResponseDto = new DbLoadResponseDto(dbLoadInformationeDAO.getDbLoadInformation(),isDbLoaded());
-
+        DbLoadResponseDto dbLoadResponseDto = new DbLoadResponseDto(dbLoadInformationeDAO.getDbLoadInformation(), isDbLoaded());
 
 
         return dbLoadResponseDto;
@@ -26,7 +25,7 @@ public class DbLoadInformationServiceImpl implements DbLoadInformationService {
         boolean status = false;
 
 
-        if (dbLoadInformationeDAO.getMonthTableCount()>0){
+        if (dbLoadInformationeDAO.getMonthTableCount() > 0) {
             status = true;
         }
 

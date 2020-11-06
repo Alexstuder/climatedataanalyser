@@ -3,8 +3,8 @@ package ch.studer.germanclimatedataanalyser.batch.writer;
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
-import ch.studer.germanclimatedataanalyser.service.ClimateService;
-import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
+import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
+import ch.studer.germanclimatedataanalyser.service.db.StationWeatherService;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,6 @@ class ClimateWriterTest {
     ClimateWriter climateWriter;
 
 
-
     private final static String START_DATE = "2018";
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
@@ -49,7 +48,7 @@ class ClimateWriterTest {
     private static BigDecimal NULL_TEMPERATURE;
 
 
-    private static final int stationId = 1 ;
+    private static final int stationId = 1;
 
     List<StationWeatherPerYear> stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
 
@@ -59,19 +58,19 @@ class ClimateWriterTest {
 
     }
 
-    private List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate,int stationId) {
+    private List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate, int stationId) {
         List<StationWeatherPerYear> l = new ArrayList<>();
 
         int start = Integer.valueOf(startDate);
 
-        for(int i = start; i > start-period ;i-- ){
-            l.add(getStationWeatherPerYear(i,stationId));
+        for (int i = start; i > start - period; i--) {
+            l.add(getStationWeatherPerYear(i, stationId));
         }
 
         return l;
     }
 
-    private StationWeatherPerYear getStationWeatherPerYear(int i,int stationId) {
+    private StationWeatherPerYear getStationWeatherPerYear(int i, int stationId) {
 
         StationWeatherPerYear s = new StationWeatherPerYear(stationId);
         s.setYear(String.valueOf(i));
@@ -90,7 +89,6 @@ class ClimateWriterTest {
         s.setDezember(new BigDecimal(-12.12));
 
 
-
         return s;
     }
 
@@ -101,17 +99,15 @@ class ClimateWriterTest {
         // Build TestRecords
         // ******************
         stationWeatherPerYearList = new ArrayList<StationWeatherPerYear>();
-        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
+        List<StationWeatherPerYear> weatherComplete = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018", 1, false);
         stationWeatherPerYearList.addAll(weatherComplete);
         List<StationWeatherPerYear> weatherWithHoles = StationWeatherPerYearTestData.getHoles(weatherComplete);
         stationWeatherPerYearList.addAll(weatherWithHoles);
 
-        List<StationWeatherPerYear> weatherComplete2 = StationWeatherPerYearTestData.getStationWeatherPerYearList("2017",2,false );
+        List<StationWeatherPerYear> weatherComplete2 = StationWeatherPerYearTestData.getStationWeatherPerYearList("2017", 2, false);
         stationWeatherPerYearList.addAll(weatherComplete2);
         List<StationWeatherPerYear> weatherWithHoles2 = StationWeatherPerYearTestData.getHoles(weatherComplete2);
         stationWeatherPerYearList.addAll(weatherWithHoles2);
-
-
 
 
         // *********************
@@ -146,7 +142,7 @@ class ClimateWriterTest {
         return stationClimates;
     }
 
- private StationClimate getClimateRecord(int stationId) {
+    private StationClimate getClimateRecord(int stationId) {
 
         StationClimate c = new StationClimate(stationId);
         c.setJanuar(new BigDecimal(1));
@@ -171,28 +167,42 @@ class ClimateWriterTest {
         List<StationWeatherPerYear> weatherWithHoles = new ArrayList<StationWeatherPerYear>();
 
         int i = 0;
-        for(StationWeatherPerYear s : weatherComplete){
-           i++;
-           StationWeatherPerYear n = new StationWeatherPerYear(s.getStationID());
-           if (i != 1) n.setJanuar(s.getJanuar());else n.setJanuar(NULL_TEMPERATURE);
-           if (i != 2) n.setFebruar(s.getFebruar());else n.setFebruar(NULL_TEMPERATURE);
-           if (i != 3) n.setMaerz(s.getMaerz());else n.setMaerz(NULL_TEMPERATURE);
-           if (i != 4) n.setApril(s.getApril());else n.setApril(NULL_TEMPERATURE);
-           if (i != 5) n.setMai(s.getMai());else n.setMai(NULL_TEMPERATURE);
-           if (i != 6) n.setJuni(s.getJuni());else n.setJuni(NULL_TEMPERATURE);
-           if (i != 7) n.setJuli(s.getJuli());else n.setJuli(NULL_TEMPERATURE);
-           if (i != 8) n.setAugust(s.getAugust());else n.setAugust(NULL_TEMPERATURE);
-           if (i != 9) n.setSeptember(s.getSeptember());else n.setSeptember(NULL_TEMPERATURE);
-           if (i != 10) n.setOktober(s.getOktober());else n.setOktober(NULL_TEMPERATURE);
-           if (i != 11) n.setNovember(s.getNovember());else n.setNovember(NULL_TEMPERATURE);
-           if (i != 12) n.setDezember(s.getDezember());else {n.setDezember(NULL_TEMPERATURE);i=0;}
+        for (StationWeatherPerYear s : weatherComplete) {
+            i++;
+            StationWeatherPerYear n = new StationWeatherPerYear(s.getStationID());
+            if (i != 1) n.setJanuar(s.getJanuar());
+            else n.setJanuar(NULL_TEMPERATURE);
+            if (i != 2) n.setFebruar(s.getFebruar());
+            else n.setFebruar(NULL_TEMPERATURE);
+            if (i != 3) n.setMaerz(s.getMaerz());
+            else n.setMaerz(NULL_TEMPERATURE);
+            if (i != 4) n.setApril(s.getApril());
+            else n.setApril(NULL_TEMPERATURE);
+            if (i != 5) n.setMai(s.getMai());
+            else n.setMai(NULL_TEMPERATURE);
+            if (i != 6) n.setJuni(s.getJuni());
+            else n.setJuni(NULL_TEMPERATURE);
+            if (i != 7) n.setJuli(s.getJuli());
+            else n.setJuli(NULL_TEMPERATURE);
+            if (i != 8) n.setAugust(s.getAugust());
+            else n.setAugust(NULL_TEMPERATURE);
+            if (i != 9) n.setSeptember(s.getSeptember());
+            else n.setSeptember(NULL_TEMPERATURE);
+            if (i != 10) n.setOktober(s.getOktober());
+            else n.setOktober(NULL_TEMPERATURE);
+            if (i != 11) n.setNovember(s.getNovember());
+            else n.setNovember(NULL_TEMPERATURE);
+            if (i != 12) n.setDezember(s.getDezember());
+            else {
+                n.setDezember(NULL_TEMPERATURE);
+                i = 0;
+            }
 
-         weatherWithHoles.add(n);
+            weatherWithHoles.add(n);
         }
 
 
-
-        return  weatherWithHoles;
+        return weatherWithHoles;
     }
 
 }

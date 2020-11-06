@@ -7,48 +7,48 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @MappedSuperclass
-public  class TemperatureForMonths {
+public class TemperatureForMonths {
 
-    @Column(name="JANUAR")
+    @Column(name = "JANUAR")
     private BigDecimal januar;
 
-    @Column(name="FEBRUAR")
+    @Column(name = "FEBRUAR")
     private BigDecimal februar;
 
-    @Column(name="MAERZ")
+    @Column(name = "MAERZ")
     private BigDecimal maerz;
 
-    @Column(name="APRIL")
+    @Column(name = "APRIL")
     private BigDecimal april;
 
-    @Column(name="MAI")
+    @Column(name = "MAI")
     private BigDecimal mai;
 
-    @Column(name="JUNI")
+    @Column(name = "JUNI")
     private BigDecimal juni;
 
-    @Column(name="JULI")
+    @Column(name = "JULI")
     private BigDecimal juli;
 
-    @Column(name="AUGUST")
+    @Column(name = "AUGUST")
     private BigDecimal august;
 
-    @Column(name="SEPTEMBER")
+    @Column(name = "SEPTEMBER")
     private BigDecimal september;
 
-    @Column(name="OKTOBER")
+    @Column(name = "OKTOBER")
     private BigDecimal oktober;
 
-    @Column(name="NOVEMBER")
+    @Column(name = "NOVEMBER")
     private BigDecimal november;
 
-    @Column(name="DEZEMBER")
-    private  BigDecimal dezember;
+    @Column(name = "DEZEMBER")
+    private BigDecimal dezember;
 
     // TODO : the NULL Value should be given trough the application.properties !
     //TODO Inject NULL_TEMPERATURE How ?? it's an abstaract class !?
     // TODO How to inject a BigDecimal !
-    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
+    private static final BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public TemperatureForMonths() {
 
@@ -66,7 +66,7 @@ public  class TemperatureForMonths {
         this.setDezember(NULL_TEMPERATURE);
     }
 
-    private void initWithZero(){
+    private void initWithZero() {
         this.setJanuar(BigDecimal.ZERO);
         this.setFebruar(BigDecimal.ZERO);
         this.setMaerz(BigDecimal.ZERO);
@@ -82,11 +82,11 @@ public  class TemperatureForMonths {
     }
 
 
-    public TemperatureForMonths getAverage(List<TemperatureForMonths> temperatureForMonthsList){
+    public TemperatureForMonths getAverage(List<TemperatureForMonths> temperatureForMonthsList) {
         TemperatureForMonths averageTemperature = new TemperatureForMonths();
         averageTemperature.initWithZero();
 
-        for (TemperatureForMonths temperatureForMonths : temperatureForMonthsList){
+        for (TemperatureForMonths temperatureForMonths : temperatureForMonthsList) {
 
             averageTemperature.setJanuar(averageTemperature.getJanuar().add(temperatureForMonths.getJanuar()));
             averageTemperature.setFebruar(averageTemperature.getFebruar().add(temperatureForMonths.getFebruar()));
@@ -124,7 +124,7 @@ public  class TemperatureForMonths {
 
 // Getter and Setter
 
-    public TemperatureForMonths getTemperatureForMonths(){
+    public TemperatureForMonths getTemperatureForMonths() {
         return this;
     }
 

@@ -16,12 +16,11 @@ import java.util.List;
 public class controller {
 
 
-
     private static final Logger LOG = LoggerFactory.getLogger(controller.class);
 
 
     @GetMapping("/")
-    public List<String> handle() throws Exception{
+    public List<String> handle() throws Exception {
         List<String> status = new ArrayList<String>();
 
         LOG.debug("Server is Running !");
@@ -46,7 +45,7 @@ public class controller {
 //         }
 
 
-         // TODO Remove commented code .... when implemented some other REST
+    // TODO Remove commented code .... when implemented some other REST
 //        @RequestMapping("/climateByStationId/{stationId}")
 //        String climateByStationId(@PathVariable String stationId) throws Exception {
 //            climateServiceOLD.getClimateAtStationId(stationId);

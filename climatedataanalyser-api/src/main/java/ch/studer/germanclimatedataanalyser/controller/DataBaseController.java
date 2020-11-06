@@ -1,9 +1,7 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
-import ch.studer.germanclimatedataanalyser.service.DbLoadInformationService;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -26,10 +24,10 @@ public class DataBaseController {
     Job job;
 
     @GetMapping("/batchImportStart")
-    public void handle() throws Exception{
+    public void handle() throws Exception {
         JobParameters jobParameters =
                 new JobParametersBuilder()
-                        .addLong("time",System.currentTimeMillis())
+                        .addLong("time", System.currentTimeMillis())
                         .toJobParameters();
         jobLauncher.run(job, jobParameters);
 

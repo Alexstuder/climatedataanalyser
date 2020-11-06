@@ -55,26 +55,26 @@ public class StationBatchConfiguration {
     public FixedLengthTokenizer stationTokenizer() {
         FixedLengthTokenizer tokenizer = new FixedLengthTokenizer();
 
-        tokenizer.setNames("stationsId", "dateBegin", "dateEnd", "stationHigh","geoLatitude","geoLength","stationName","bundesLand");
-        tokenizer.setColumns(new Range(1,5),
-                new Range(6,14),
-                new Range(15,23),
-                new Range(24,38),
-                new Range(39,50),
-                new Range(51,60),
-                new Range(61,102),
-                new Range(103,200)
+        tokenizer.setNames("stationsId", "dateBegin", "dateEnd", "stationHigh", "geoLatitude", "geoLength", "stationName", "bundesLand");
+        tokenizer.setColumns(new Range(1, 5),
+                new Range(6, 14),
+                new Range(15, 23),
+                new Range(24, 38),
+                new Range(39, 50),
+                new Range(51, 60),
+                new Range(61, 102),
+                new Range(103, 200)
         );
         return tokenizer;
     }
+
     @Bean
     @StepScope
-    public FlatFileItemReader<StationFile> readerStation()
-    {
+    public FlatFileItemReader<StationFile> readerStation() {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources(CLASSPATH+"/"+FtpDirectory+"/"+stationFileName);
+            inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -109,9 +109,9 @@ public class StationBatchConfiguration {
 
     @Transactional
     @Bean
-    public Step importStations(){
+    public Step importStations() {
         return stepBuilderFactoryImport.get("import-station-records")
-                .<StationFile, Station> chunk(100)
+                .<StationFile, Station>chunk(100)
                 .reader(readerStation())
                 //.listener(new StepProcessorListener(statistics()))
                 .processor(stationProcessor())

@@ -3,8 +3,8 @@ package ch.studer.germanclimatedataanalyser.controller;
 import ch.studer.germanclimatedataanalyser.model.dto.BundeslaenderDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
-import ch.studer.germanclimatedataanalyser.service.ClimateAnalyserService;
-import ch.studer.germanclimatedataanalyser.service.StationService;
+import ch.studer.germanclimatedataanalyser.service.db.StationService;
+import ch.studer.germanclimatedataanalyser.service.ui.analytics.ClimateAnalyserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class AnalyticsController {
     ClimateAnalyserService climateAnalyserService;
 
     @GetMapping("/")
-    public List<String> handle() throws Exception{
+    public List<String> handle() throws Exception {
 //        List<String> bundeslaender = new ArrayList<String>();
 //        bundeslaender.add("Zürich");
         BundeslaenderDto bundeslaenderDto = new BundeslaenderDto();

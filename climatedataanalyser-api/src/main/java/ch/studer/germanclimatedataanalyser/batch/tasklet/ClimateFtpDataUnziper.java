@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 
-public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
+public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -42,7 +44,6 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataUnziper.class);
 
 
-
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
@@ -50,8 +51,8 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         deleteDirectoryFiles(getDirectory(unzipOutputFolderName));
         deleteDirectoryFiles(getDirectory(inputFolderName));
 
-       // allZipFiles = getAllZipFiles();
-        allZipFiles = getAllFilesFromDirectory(ftpDataFolderName,"*.zip");
+        // allZipFiles = getAllZipFiles();
+        allZipFiles = getAllFilesFromDirectory(ftpDataFolderName, "*.zip");
 
         // Unzip all Zip Data from FTP download
         for (Resource resource : allZipFiles) {
@@ -64,21 +65,21 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
 
     private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) throws IOException {
 
-       Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName,inputFilePattern);
+        Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName, inputFilePattern);
 
-       for (Resource resource : resources){
-           try {
-               //Get the Files
-               File inputFile = new File(inputDirectory.getPath().toString() +"/"+resource.getFile().getName());
-               File outputFile = new File(outputDirectory.getPath().toString()+"/"+resource.getFile().getName());
+        for (Resource resource : resources) {
+            try {
+                //Get the Files
+                File inputFile = new File(inputDirectory.getPath() + "/" + resource.getFile().getName());
+                File outputFile = new File(outputDirectory.getPath() + "/" + resource.getFile().getName());
 
-               //Copy
-               Files.copy(inputFile.toPath(),outputFile.toPath() );
-               log.debug("Unziped File  :" + outputFile.toPath());
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }
+                //Copy
+                Files.copy(inputFile.toPath(), outputFile.toPath());
+                log.debug("Unziped File  :" + outputFile.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -87,7 +88,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] files = new Resource[0];
         {
             try {
-                files = applicationContext.getResources(CLASSPATH+"/"+ directory+"/"+classifier);
+                files = applicationContext.getResources(CLASSPATH + "/" + directory + "/" + classifier);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,10 +101,10 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         allContent = directory.listFiles();
 
         // First check , if directory is empty
-        if (allContent != null){
-            for (File file : allContent){
+        if (allContent != null) {
+            for (File file : allContent) {
                 // delete all files and subdir
-                if (file.isDirectory()){
+                if (file.isDirectory()) {
                     deleteDirectoryFiles(file);
                 } else {
                     file.delete();
@@ -118,24 +119,24 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] resources = new Resource[0];
         Resource resource = null;
         try {
-            resources = applicationContext.getResources(CLASSPATH+"/"+directoryName);
-            Resource[] rootPath = applicationContext.getResources(CLASSPATH+"/");
+            resources = applicationContext.getResources(CLASSPATH + "/" + directoryName);
+            Resource[] rootPath = applicationContext.getResources(CLASSPATH + "/");
             //mkdir if directory does not exist ;
             if (resources.length == 0) {
                 log.info("Directory is 0");
-                File tempFile = new File(rootPath[0].getFile().getPath()+"/" + directoryName);
+                File tempFile = new File(rootPath[0].getFile().getPath() + "/" + directoryName);
                 tempFile.mkdir();
-                resources = applicationContext.getResources(CLASSPATH+"/"+directoryName);
+                resources = applicationContext.getResources(CLASSPATH + "/" + directoryName);
 
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-       for (Resource directory : resources){
-            if (directory.getFilename().equals(directoryName)){
+        for (Resource directory : resources) {
+            if (directory.getFilename().equals(directoryName)) {
                 resource = directory;
-            };
+            }
         }
         return resource.getFile();
     }
@@ -145,7 +146,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean{
         Resource[] zipFiles = new Resource[0];
         {
             try {
-                zipFiles = applicationContext.getResources(CLASSPATH+"/"+ftpDataFolderName+"/"+"*.zip");
+                zipFiles = applicationContext.getResources(CLASSPATH + "/" + ftpDataFolderName + "/" + "*.zip");
             } catch (IOException e) {
                 e.printStackTrace();
             }

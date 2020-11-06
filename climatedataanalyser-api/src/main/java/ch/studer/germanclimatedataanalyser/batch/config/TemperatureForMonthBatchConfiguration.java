@@ -44,14 +44,13 @@ public class TemperatureForMonthBatchConfiguration {
 
     @Bean
     @StepScope
-    public MultiResourceItemReader<MonthFile> monthFilesReader()
-    {
+    public MultiResourceItemReader<MonthFile> monthFilesReader() {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
             //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
             //.getResources("classpath*:/"+ directory+"/"+classifier);
-            inputResources = patternResolver.getResources(CLASSPATH+"/"+ inputDirectory+"/"+ inputFilePattern);
+            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,11 +61,10 @@ public class TemperatureForMonthBatchConfiguration {
         return resourceItemReader;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Bean
     @StepScope
-    public FlatFileItemReader<MonthFile> reader()
-    {
+    public FlatFileItemReader<MonthFile> reader() {
         //Create reader instance
         FlatFileItemReader<MonthFile> reader = new FlatFileItemReader<MonthFile>();
 
@@ -82,7 +80,7 @@ public class TemperatureForMonthBatchConfiguration {
 
                     {
 
-                        setNames(new String[]{"stationsId"
+                        setNames("stationsId"
                                 , "messDatumBeginn"
                                 , "messDatumEnde"
                                 , "qn4"
@@ -98,7 +96,7 @@ public class TemperatureForMonthBatchConfiguration {
                                 , "qn6"
                                 , "moRr"
                                 , "mxRs"
-                                , "eor"});
+                                , "eor");
                         setDelimiter(";");
                     }
                 });
@@ -128,9 +126,9 @@ public class TemperatureForMonthBatchConfiguration {
 
     @Transactional
     @Bean
-    public Step importTemperatureRecords(){
+    public Step importTemperatureRecords() {
         return stepBuilderFactoryImport.get("import-temperature-records")
-                .<MonthFile, Month> chunk(10000)
+                .<MonthFile, Month>chunk(10000)
                 .reader(monthFilesReader())
                 .listener(new StepProcessorListener())
                 .processor(temperaturProcessor())
@@ -139,7 +137,6 @@ public class TemperatureForMonthBatchConfiguration {
                 .build()
                 ;
     }
-
 
 
 }

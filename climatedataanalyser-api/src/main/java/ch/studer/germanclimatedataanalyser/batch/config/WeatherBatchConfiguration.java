@@ -23,7 +23,6 @@ public class WeatherBatchConfiguration {
     private StepBuilderFactory stepBuilderFactoryImport;
 
 
-
     @Autowired
     private MonthReader monthReader;
 
@@ -35,17 +34,17 @@ public class WeatherBatchConfiguration {
 
     @Bean
     @StepScope
-    public WeatherWriter weatherWriter(){
+    public WeatherWriter weatherWriter() {
         return new WeatherWriter();
     }
 
     @Transactional
     @Bean("importWeatherRecords")
-    public Step importWeatherRecords(){
+    public Step importWeatherRecords() {
         return stepBuilderFactoryImport.get("import-weather-records")
-                .<Month, Month> chunk(5000)
+                .<Month, Month>chunk(5000)
                 //.reader(temperatureFromDbReader())
-                .reader(monthReader.getMonthFromDbReader() )
+                .reader(monthReader.getMonthFromDbReader())
                 //.listener(new StepProcessorListener(statistics()))
                 .processor(weatherProcessor())
                 //.listener(new StepWriterListener(statistics()))

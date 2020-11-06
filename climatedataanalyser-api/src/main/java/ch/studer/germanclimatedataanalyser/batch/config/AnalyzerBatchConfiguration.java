@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Configuration
 @EnableBatchProcessing
-@Import({WeatherBatchConfiguration.class,StationBatchConfiguration.class})
+@Import({WeatherBatchConfiguration.class, StationBatchConfiguration.class})
 public class AnalyzerBatchConfiguration {
 
     @Autowired
@@ -43,18 +43,20 @@ public class AnalyzerBatchConfiguration {
     @Bean
     public ClimateFtpDataDownloader download() {
 
-        return new ClimateFtpDataDownloader(); }
+        return new ClimateFtpDataDownloader();
+    }
 
     @Transactional
     @Bean
-    public Step downloadFiles(){
+    public Step downloadFiles() {
         return stepBuilderFactoryImport.get("download")
                 .tasklet(download())
                 .build();
     }
+
     // # Second Tasklet : Unzip the Files and move to the next folder
     @Bean
-    public ClimateFtpDataUnziper unziper(){
+    public ClimateFtpDataUnziper unziper() {
         return new ClimateFtpDataUnziper();
     }
 
@@ -71,17 +73,17 @@ public class AnalyzerBatchConfiguration {
     // ##################################################################################
 
     @Bean
-    public Job importGermanClimateDataJob(JobCompletionNotificationListener listener){
+    public Job importGermanClimateDataJob(JobCompletionNotificationListener listener) {
         return jobBuilderFactoryImport.get("importGermanClimateDataJob")
-               .incrementer(new RunIdIncrementer())
-               .listener(listener)
-               .start(downloadFiles())
-               .next(unzipFiles())
-               .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
-               .next(stationBatchConfiguration.importStations())
-               .next(weatherBatchConfiguration.importWeatherRecords())
-               .next(climateBatchConfiguration.importClimateRecords())
-               .build()
+                .incrementer(new RunIdIncrementer())
+                .listener(listener)
+                .start(downloadFiles())
+                .next(unzipFiles())
+                .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
+                .next(stationBatchConfiguration.importStations())
+                .next(weatherBatchConfiguration.importWeatherRecords())
+                .next(climateBatchConfiguration.importClimateRecords())
+                .build()
                 ;
     }
 }

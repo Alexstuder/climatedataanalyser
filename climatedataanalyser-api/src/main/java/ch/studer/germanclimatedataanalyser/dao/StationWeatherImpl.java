@@ -12,17 +12,16 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
-public class StationWeatherImpl implements StationWeatherDAO{
+public class StationWeatherImpl implements StationWeatherDAO {
 
     @Autowired
-    private  EntityManager entityManager;
+    private EntityManager entityManager;
 
     private Session getSession() {
         return entityManager.unwrap(Session.class);
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(StationWeatherImpl.class);
-
 
 
     @Override
@@ -38,8 +37,8 @@ public class StationWeatherImpl implements StationWeatherDAO{
     public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
 
 
-        for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears){
-           save(stationWeatherPerYear);
+        for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears) {
+            save(stationWeatherPerYear);
         }
     }
 

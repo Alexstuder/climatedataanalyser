@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.model.dto;
 
-import ch.studer.germanclimatedataanalyser.service.DbLoadRowMapper;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadRowMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,40 +12,40 @@ public class DbLoadResponseDto {
     private String status;
     private List<DbLoadStep> dbLoadSteps = new ArrayList<DbLoadStep>();
 
-    public DbLoadResponseDto(List<DbLoadRowMapper.JobExecutionInformation> dbLoadInformation,boolean isDbLoaded) {
-        this.mapToDbLoadResponsDto(dbLoadInformation,isDbLoaded);
+    public DbLoadResponseDto(List<DbLoadRowMapper.JobExecutionInformation> dbLoadInformation, boolean isDbLoaded) {
+        this.mapToDbLoadResponsDto(dbLoadInformation, isDbLoaded);
 
     }
 
 
-    public void mapToDbLoadResponsDto(List<DbLoadRowMapper.JobExecutionInformation> jobExecutionInformations, boolean isDbLoaded){
-        this.isDbLoaded=getTextForIsDbLoaded(isDbLoaded);
+    public void mapToDbLoadResponsDto(List<DbLoadRowMapper.JobExecutionInformation> jobExecutionInformations, boolean isDbLoaded) {
+        this.isDbLoaded = getTextForIsDbLoaded(isDbLoaded);
         this.lastLoad = jobExecutionInformations.get(0).endTime;
         this.status = jobExecutionInformations.get(0).status;
 
 
-        for(DbLoadRowMapper.JobExecutionInformation jobExecutionInformation:jobExecutionInformations){
-           DbLoadStep dbLoadStep = new DbLoadStep(
+        for (DbLoadRowMapper.JobExecutionInformation jobExecutionInformation : jobExecutionInformations) {
+            DbLoadStep dbLoadStep = new DbLoadStep(
                     jobExecutionInformation.getStepName()
-                   ,jobExecutionInformation.getStartTime()
-                   ,jobExecutionInformation.getStepEndTime()
-                   ,jobExecutionInformation.getReadCount()
-                   ,jobExecutionInformation.getWriteCount()
-                   ,jobExecutionInformation.getStepStatus()
-           );
-           dbLoadSteps.add(dbLoadStep);
+                    , jobExecutionInformation.getStartTime()
+                    , jobExecutionInformation.getStepEndTime()
+                    , jobExecutionInformation.getReadCount()
+                    , jobExecutionInformation.getWriteCount()
+                    , jobExecutionInformation.getStepStatus()
+            );
+            dbLoadSteps.add(dbLoadStep);
 
         }
     }
 
     private String getTextForIsDbLoaded(boolean isDbLoaded) {
-        String text="";
+        String text = "";
 
-        if(isDbLoaded){
-            text="DB is loaded!";
+        if (isDbLoaded) {
+            text = "DB is loaded!";
         } else {
 
-            text="DB is not loaded!";
+            text = "DB is not loaded!";
         }
 
 

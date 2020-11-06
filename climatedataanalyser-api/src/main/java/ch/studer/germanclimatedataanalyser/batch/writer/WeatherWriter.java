@@ -2,7 +2,7 @@ package ch.studer.germanclimatedataanalyser.batch.writer;
 
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
-import ch.studer.germanclimatedataanalyser.service.StationWeatherService;
+import ch.studer.germanclimatedataanalyser.service.db.StationWeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemWriter;
@@ -33,10 +33,10 @@ public class WeatherWriter implements ItemWriter<Month> {
         // get first StationTemperature Record
         stationWeatherPerYear = new StationWeatherPerYear(Integer.valueOf(list.get(0).getStationsId()));
 
-        for (Month m : list){
+        for (Month m : list) {
             // check if last station ID = new StationID
 
-            if (!processingEndDate.contentEquals((actualEndDate))){
+            if (!processingEndDate.contentEquals((actualEndDate))) {
 
                 stationWeatherPerYear.setYear(processingEndDate);
                 write.add(stationWeatherPerYear);
@@ -44,20 +44,19 @@ public class WeatherWriter implements ItemWriter<Month> {
                 processingEndDate = getActualYear(m.getMessDatumEnde().toString());
             }
 
-           normalise(m);
-           actualEndDate = getActualYear(m.getMessDatumEnde().toString());
+            normalise(m);
+            actualEndDate = getActualYear(m.getMessDatumEnde().toString());
 
         }
 
         stationWeatherService.saveAll(write);
 
 
-
     }
 
     private void normalise(Month m) {
 
-        switch (getActualMonth(m.getMessDatumEnde().toString())){
+        switch (getActualMonth(m.getMessDatumEnde().toString())) {
             case "12":
                 stationWeatherPerYear.setDezember(m.getMoTt());
                 break;
@@ -100,9 +99,13 @@ public class WeatherWriter implements ItemWriter<Month> {
         }
 
 
+    }
 
+    private String getActualMonth(String messDatumEnde) {
+        return messDatumEnde.substring(5, 7);
     }
-    private String getActualMonth(String messDatumEnde) {return messDatumEnde.toString().substring(5,7);
+
+    private String getActualYear(String messDatumEnde) {
+        return messDatumEnde.substring(0, 4);
     }
-    private String getActualYear(String messDatumEnde) {return messDatumEnde.toString().substring(0,4);}
 }

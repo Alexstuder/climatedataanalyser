@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.generate.test.data.ClimateTestData;
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationTestData;
@@ -7,6 +7,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
+import ch.studer.germanclimatedataanalyser.service.ui.analytics.ClimateAnalyserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,24 +26,25 @@ import java.util.List;
 //@DataJpaTest
 @SpringBootTest
 //@AutoConfigureTestEntityManager
-@TestPropertySource(locations="classpath:test-it.properties")
+@TestPropertySource(locations = "classpath:test-it.properties")
 @Sql({"classpath:H2Schema.sql"})
 class ClimateServiceImplIntegrationTest {
 
     @Autowired
-    ClimateService climateService ;
+    ClimateService climateService;
 
     @Autowired
     StationService stationService;
 
 
-     @Autowired
+    @Autowired
     ClimateAnalyserService climateAnalyserService;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate ;
+    private JdbcTemplate jdbcTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(ClimateServiceImplIntegrationTest.class);
+
     @BeforeEach
     void setUp() {
         // Prepend the Tables
@@ -51,7 +53,7 @@ class ClimateServiceImplIntegrationTest {
         jdbcTemplate.execute("DROP Table weather");
         jdbcTemplate.execute("DROP Table climate");
 */
-        List<StationClimate> stationClimates =  ClimateTestData.getStationClimate(14,2016,20);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(14, 2016, 20);
 
         climateService.saveAllClimateAtStationId(stationClimates);
         //ReflectionTestUtils.setField(climateService,"period",30);
@@ -64,36 +66,36 @@ class ClimateServiceImplIntegrationTest {
     @Test
     void getClimateByGps() {
 
-        GpsPoint gps1 = new GpsPoint(49,9);
-        GpsPoint gps2 = new GpsPoint(38,20);
-       List<StationClimate> stationClimates = climateService.getClimateForGpsCoordinates(gps1,gps2);
+        GpsPoint gps1 = new GpsPoint(49, 9);
+        GpsPoint gps2 = new GpsPoint(38, 20);
+        List<StationClimate> stationClimates = climateService.getClimateForGpsCoordinates(gps1, gps2);
 
-       ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
-       climateAnalyserRequestDto.setBundesland("");
-       climateAnalyserRequestDto.setYearOrigine("2017");
-       climateAnalyserRequestDto.setYearToCompare("2024");
+        ClimateAnalyserRequestDto climateAnalyserRequestDto = new ClimateAnalyserRequestDto();
+        climateAnalyserRequestDto.setBundesland("");
+        climateAnalyserRequestDto.setYearOrigine("2017");
+        climateAnalyserRequestDto.setYearToCompare("2024");
 
-       climateAnalyserRequestDto.setGps1(gps1);
-       climateAnalyserRequestDto.setGps2(gps2);
+        climateAnalyserRequestDto.setGps1(gps1);
+        climateAnalyserRequestDto.setGps2(gps2);
 
-        ClimateAnalyserResponseDto climateAnalyserResponseDto  =
-       climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
+        ClimateAnalyserResponseDto climateAnalyserResponseDto =
+                climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
 
         Assertions.assertTrue(climateAnalyserResponseDto.getErrorMsg().isEmpty());
 
         // Assertion the OriginYear
-        Assertions.assertEquals( new BigDecimal("6.500"), climateAnalyserResponseDto.getOriginal().getJanuar());
-        Assertions.assertEquals( new BigDecimal("7.500"), climateAnalyserResponseDto.getOriginal().getFebruar());
-        Assertions.assertEquals( new BigDecimal("8.500"), climateAnalyserResponseDto.getOriginal().getMaerz());
-        Assertions.assertEquals( new BigDecimal("9.500"), climateAnalyserResponseDto.getOriginal().getApril());
-        Assertions.assertEquals( new BigDecimal("10.500"), climateAnalyserResponseDto.getOriginal().getMai());
-        Assertions.assertEquals( new BigDecimal("11.500"), climateAnalyserResponseDto.getOriginal().getJuni());
-        Assertions.assertEquals( new BigDecimal("12.500"), climateAnalyserResponseDto.getOriginal().getJuli());
-        Assertions.assertEquals( new BigDecimal("13.500"), climateAnalyserResponseDto.getOriginal().getAugust());
-        Assertions.assertEquals( new BigDecimal("14.500"), climateAnalyserResponseDto.getOriginal().getSeptember());
-        Assertions.assertEquals( new BigDecimal("15.500"), climateAnalyserResponseDto.getOriginal().getOktober());
-        Assertions.assertEquals( new BigDecimal("16.500"), climateAnalyserResponseDto.getOriginal().getNovember());
-        Assertions.assertEquals( new BigDecimal("17.500"), climateAnalyserResponseDto.getOriginal().getDezember());
+        Assertions.assertEquals(new BigDecimal("6.500"), climateAnalyserResponseDto.getOriginal().getJanuar());
+        Assertions.assertEquals(new BigDecimal("7.500"), climateAnalyserResponseDto.getOriginal().getFebruar());
+        Assertions.assertEquals(new BigDecimal("8.500"), climateAnalyserResponseDto.getOriginal().getMaerz());
+        Assertions.assertEquals(new BigDecimal("9.500"), climateAnalyserResponseDto.getOriginal().getApril());
+        Assertions.assertEquals(new BigDecimal("10.500"), climateAnalyserResponseDto.getOriginal().getMai());
+        Assertions.assertEquals(new BigDecimal("11.500"), climateAnalyserResponseDto.getOriginal().getJuni());
+        Assertions.assertEquals(new BigDecimal("12.500"), climateAnalyserResponseDto.getOriginal().getJuli());
+        Assertions.assertEquals(new BigDecimal("13.500"), climateAnalyserResponseDto.getOriginal().getAugust());
+        Assertions.assertEquals(new BigDecimal("14.500"), climateAnalyserResponseDto.getOriginal().getSeptember());
+        Assertions.assertEquals(new BigDecimal("15.500"), climateAnalyserResponseDto.getOriginal().getOktober());
+        Assertions.assertEquals(new BigDecimal("16.500"), climateAnalyserResponseDto.getOriginal().getNovember());
+        Assertions.assertEquals(new BigDecimal("17.500"), climateAnalyserResponseDto.getOriginal().getDezember());
 
         // Assertion the StationIds from the year to compare
         Assertions.assertEquals(new BigDecimal("9.500"), climateAnalyserResponseDto.getCompare().getJanuar());

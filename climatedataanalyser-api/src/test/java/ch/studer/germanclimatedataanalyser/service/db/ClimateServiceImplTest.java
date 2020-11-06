@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.generate.test.data.StationWeatherPerYearTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
@@ -19,10 +19,11 @@ class ClimateServiceImplTest {
     ClimateServiceImpl climateService = new ClimateServiceImpl();
 
     private static final Logger LOG = LoggerFactory.getLogger(ClimateServiceImplTest.class);
+
     @BeforeEach
     void setUp() {
 
-        ReflectionTestUtils.setField(climateService,"period",30);
+        ReflectionTestUtils.setField(climateService, "period", 30);
     }
 
     @Test
@@ -30,7 +31,7 @@ class ClimateServiceImplTest {
 
         // Build 29 StationWeather records to get 0 climate record as result
 
-        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
+        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018", 1, false);
 
         // remove any random Record
         stationWeatherPerYearList.remove(15);
@@ -42,18 +43,18 @@ class ClimateServiceImplTest {
         Assertions.assertEquals(0, stationClimates.size());
     }
 
- @Test
+    @Test
     void get1ClimateRecordForStation() {
 
         // Build 30 StationWeather records to get 1 climate record as result
 
-        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
+        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018", 1, false);
 
         List<StationClimate> stationClimates = climateService.getClimateForStation(stationWeatherPerYearList);
 
 
-     Assertions.assertEquals(1, stationClimates.size());
-        for (StationClimate stationClimate : stationClimates){
+        Assertions.assertEquals(1, stationClimates.size());
+        for (StationClimate stationClimate : stationClimates) {
             Assertions.assertEquals(0, stationClimate.getJanuar().compareTo(new BigDecimal("-1.111")));
             Assertions.assertEquals(0, stationClimate.getFebruar().compareTo(new BigDecimal("-2.222")));
             Assertions.assertEquals(0, stationClimate.getMaerz().compareTo(new BigDecimal("3.333")));
@@ -74,21 +75,21 @@ class ClimateServiceImplTest {
 
         // Build 31 StationWeather Records to get 2 Climate Records as Result
 
-        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018",1,false);
-        stationWeatherPerYearList.add(StationWeatherPerYearTestData.getStationWeatherPerYearTestData("1988",1));
+        List<StationWeatherPerYear> stationWeatherPerYearList = StationWeatherPerYearTestData.getStationWeatherPerYearList("2018", 1, false);
+        stationWeatherPerYearList.add(StationWeatherPerYearTestData.getStationWeatherPerYearTestData("1988", 1));
 
         List<StationClimate> stationClimates = climateService.getClimateForStation(stationWeatherPerYearList);
 
 
         Assertions.assertEquals(2, stationClimates.size());
-        for (StationClimate stationClimate : stationClimates){
+        for (StationClimate stationClimate : stationClimates) {
             Assertions.assertEquals(0, stationClimate.getJanuar().compareTo(new BigDecimal("-1.111")));
             Assertions.assertEquals(0, stationClimate.getFebruar().compareTo(new BigDecimal("-2.222")));
             Assertions.assertEquals(0, stationClimate.getMaerz().compareTo(new BigDecimal("3.333")));
             Assertions.assertEquals(0, stationClimate.getApril().compareTo(new BigDecimal("4.444")));
             Assertions.assertEquals(0, stationClimate.getMai().compareTo(new BigDecimal("5.555")));
             Assertions.assertEquals(0, stationClimate.getJuni().compareTo(new BigDecimal("6.666")));
-            Assertions.assertEquals(0,stationClimate.getJuli().compareTo(new BigDecimal("7.777")));
+            Assertions.assertEquals(0, stationClimate.getJuli().compareTo(new BigDecimal("7.777")));
             Assertions.assertEquals(0, stationClimate.getAugust().compareTo(new BigDecimal("8.888")));
             Assertions.assertEquals(0, stationClimate.getSeptember().compareTo(new BigDecimal("9.999")));
             Assertions.assertEquals(0, stationClimate.getOktober().compareTo(new BigDecimal("10.100")));
