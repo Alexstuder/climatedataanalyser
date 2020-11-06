@@ -33,7 +33,7 @@ public class DataBaseController {
 
     }
 
-    @PostMapping("/")
+    @GetMapping("/")
     DbLoadResponseDto dbLoadInformationRequest() {
         DbLoadResponseDto r = this.dbLoadInformationService.getDbLoadInformation();
         return r;

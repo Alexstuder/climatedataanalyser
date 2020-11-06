@@ -30,7 +30,7 @@ export class ApiService {
     return this.http.get<Bundeslaender>(this.ANALYTICS_INIT_URL);
   }
   initDbLoad(): Observable<HttpEvent<DbLoadResponseDto>> {
-    const req = new HttpRequest('POST', this.LOAD_DATABASE_DATA_URL, {}, {
+    const req = new HttpRequest('GET', this.LOAD_DATABASE_DATA_URL, {}, {
       reportProgress: true,
       responseType: 'json'
     });
