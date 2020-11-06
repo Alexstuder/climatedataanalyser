@@ -3,7 +3,6 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.processor.ClimateProcessor;
 import ch.studer.germanclimatedataanalyser.batch.reader.WeatherReader;
 import ch.studer.germanclimatedataanalyser.batch.writer.ClimateWriter;
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -24,7 +23,6 @@ public class ClimateBatchConfiguration {
     private StepBuilderFactory stepBuilderFactoryImport;
 
 
-
     @Autowired
     private WeatherReader weatherReader;
 
@@ -36,17 +34,17 @@ public class ClimateBatchConfiguration {
 
     @Bean
     @StepScope
-    public ClimateWriter climateWriter(){
+    public ClimateWriter climateWriter() {
         return new ClimateWriter();
     }
 
     @Transactional
     @Bean("importClimateRecords")
-    public Step importClimateRecords(){
+    public Step importClimateRecords() {
         return stepBuilderFactoryImport.get("importClimateRecords")
-                .<StationWeatherPerYear, StationWeatherPerYear> chunk(5000)
+                .<StationWeatherPerYear, StationWeatherPerYear>chunk(5000)
                 //.reader(temperatureFromDbReader())
-                .reader(weatherReader.getWeatherFromDbReader() )
+                .reader(weatherReader.getWeatherFromDbReader())
                 //.listener(new StepProcessorListener(statistics()))
                 .processor(climateProcessor())
                 //.listener(new StepWriterListener(statistics()))

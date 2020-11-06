@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.batch.reader;
 
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
@@ -16,7 +15,7 @@ public class WeatherReader {
     @Autowired
     DataSource dataSource;
 
-    public JdbcCursorItemReader<StationWeatherPerYear> getWeatherFromDbReader(){
+    public JdbcCursorItemReader<StationWeatherPerYear> getWeatherFromDbReader() {
         return new JdbcCursorItemReaderBuilder<StationWeatherPerYear>()
                 .dataSource(this.dataSource)
                 .name("weatherReader")
@@ -46,19 +45,19 @@ public class WeatherReader {
 class StationWeatherRowMapper implements RowMapper<StationWeatherPerYear> {
 
     final String STATION_ID = "STATION_ID";
-    final String YEAR       = "YEAR";
-    final String JANUAR     = "JANUAR";
-    final String FEBRUAR    = "FEBRUAR";
-    final String MAERZ      = "MAERZ";
-    final String APRIL      = "APRIL";
-    final String MAI        = "MAI";
-    final String JUNI       = "JUNI";
-    final String JULI       = "JULI";
-    final String AUGUST     = "AUGUST";
-    final String SEPTEMBER  = "SEPTEMBER";
-    final String OKTOBER    = "OKTOBER";
-    final String NOVEMBER   = "NOVEMBER";
-    final String DEZEMBER   = "DEZEMBER";
+    final String YEAR = "YEAR";
+    final String JANUAR = "JANUAR";
+    final String FEBRUAR = "FEBRUAR";
+    final String MAERZ = "MAERZ";
+    final String APRIL = "APRIL";
+    final String MAI = "MAI";
+    final String JUNI = "JUNI";
+    final String JULI = "JULI";
+    final String AUGUST = "AUGUST";
+    final String SEPTEMBER = "SEPTEMBER";
+    final String OKTOBER = "OKTOBER";
+    final String NOVEMBER = "NOVEMBER";
+    final String DEZEMBER = "DEZEMBER";
 
     @Override
     public StationWeatherPerYear mapRow(ResultSet resultSet, int i) throws SQLException {

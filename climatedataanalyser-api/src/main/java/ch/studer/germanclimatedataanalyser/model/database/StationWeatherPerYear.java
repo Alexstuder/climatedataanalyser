@@ -3,40 +3,39 @@ package ch.studer.germanclimatedataanalyser.model.database;
 import javax.persistence.*;
 
 @Entity
-@Table(name="WEATHER")
-public class StationWeatherPerYear extends  StationTemperature{
+@Table(name = "WEATHER")
+public class StationWeatherPerYear extends StationTemperature {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WEATHER_ID")
     private int weatherId;
 
-    @Column(name="YEAR")
+    @Column(name = "YEAR")
     private String year;
 
-    @Column(name="CALCULATED_ARTIFICIALLY")
+    @Column(name = "CALCULATED_ARTIFICIALLY")
     private boolean calculatedArtificially;
-
-
 
 
     public StationWeatherPerYear() {
     }
 
-    public StationWeatherPerYear(int stationId){
+    public StationWeatherPerYear(int stationId) {
 
         super(stationId);
-        this.year      = null;
-        this.calculatedArtificially = false ;
+        this.year = null;
+        this.calculatedArtificially = false;
 
-    };
-    public StationWeatherPerYear(int stationId,String year){
+    }
+
+    public StationWeatherPerYear(int stationId, String year) {
 
         super(stationId);
-        this.year      = year;
-        this.calculatedArtificially = false ;
+        this.year = year;
+        this.calculatedArtificially = false;
 
-    };
+    }
 
     public StationWeatherPerYear(StationWeatherPerYear stationWeatherPerYear) {
         super(stationWeatherPerYear.getStationID());
@@ -64,7 +63,8 @@ public class StationWeatherPerYear extends  StationTemperature{
         return year;
     }
 
-    public int getStationID() {return super.getStationId();
+    public int getStationID() {
+        return super.getStationId();
     }
 
     public void setWeatherId(int weatherId) {

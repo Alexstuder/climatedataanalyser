@@ -15,7 +15,7 @@ public class MonthReader {
     @Autowired
     DataSource dataSource;
 
-    public JdbcCursorItemReader<Month> getMonthFromDbReader(){
+    public JdbcCursorItemReader<Month> getMonthFromDbReader() {
         return new JdbcCursorItemReaderBuilder<Month>()
                 .dataSource(this.dataSource)
                 .name("weatherReader")
@@ -43,6 +43,7 @@ public class MonthReader {
     }
 
 }
+
 class MonthRowMapper implements RowMapper<Month> {
 
     final String STATIONS_ID = "STATIONS_ID";

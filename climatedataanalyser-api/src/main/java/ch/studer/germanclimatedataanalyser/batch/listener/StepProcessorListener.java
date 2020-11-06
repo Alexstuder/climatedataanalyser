@@ -5,7 +5,7 @@ import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
 import org.springframework.batch.core.ItemProcessListener;
 
 
-public class StepProcessorListener implements ItemProcessListener<MonthFile,Month> {
+public class StepProcessorListener implements ItemProcessListener<MonthFile, Month> {
 
 
     public StepProcessorListener() {
@@ -18,12 +18,10 @@ public class StepProcessorListener implements ItemProcessListener<MonthFile,Mont
     public void beforeProcess(MonthFile monthFile) {
 
 
-
     }
 
     @Override
     public void afterProcess(MonthFile monthFile, Month result) {
-
 
 
     }

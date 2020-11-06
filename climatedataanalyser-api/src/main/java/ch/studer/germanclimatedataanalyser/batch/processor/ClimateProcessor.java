@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.batch.processor;
 
-import ch.studer.germanclimatedataanalyser.model.database.StationTemperature;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.springframework.batch.item.ItemProcessor;
 

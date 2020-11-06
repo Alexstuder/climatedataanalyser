@@ -14,10 +14,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public class StationClimateImpl implements StationClimateDAO{
+public class StationClimateImpl implements StationClimateDAO {
 
     @Autowired
-    private  EntityManager entityManager;
+    private EntityManager entityManager;
 
     private Session getSession() {
         return entityManager.unwrap(Session.class);
@@ -37,7 +37,7 @@ public class StationClimateImpl implements StationClimateDAO{
     @Override
     public void saveAll(List<StationClimate> stationClimates) {
 
-        for(StationClimate stationClimate : stationClimates){
+        for (StationClimate stationClimate : stationClimates) {
             save(stationClimate);
         }
 
@@ -45,12 +45,12 @@ public class StationClimateImpl implements StationClimateDAO{
 
     @Override
     public List<StationClimate> getClimateForBundesland(String bundesland) {
-        List<StationClimate>  climateForBundesland = null;
+        List<StationClimate> climateForBundesland = null;
 
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId and s.bundesLand = :bundesLand", StationClimate.class)
-                .setParameter("bundesLand",bundesland);
+                .setParameter("bundesLand", bundesland);
 
         // execute and get result list
         climateForBundesland = theQuery.getResultList();
@@ -61,16 +61,16 @@ public class StationClimateImpl implements StationClimateDAO{
 
     @Override
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
-        List<StationClimate>  climateForGpsCoordinates = null;
+        List<StationClimate> climateForGpsCoordinates = null;
 
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
                 "and ((s.geoLatitude BETWEEN :gps2Latitude AND :gps1Latitude) and ( s.geoLength BETWEEN :gps1Longitude AND :gps2Longitude))", StationClimate.class)
                 .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
-                .setParameter("gps1Longitude",BigDecimal.valueOf(gps1.getLongitude()))
-                .setParameter("gps2Latitude",BigDecimal.valueOf(gps2.getLatitude()))
-                .setParameter("gps2Longitude",BigDecimal.valueOf(gps2.getLongitude()));
+                .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
+                .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
+                .setParameter("gps2Longitude", BigDecimal.valueOf(gps2.getLongitude()));
 
         // execute and get result list
         climateForGpsCoordinates = theQuery.getResultList();

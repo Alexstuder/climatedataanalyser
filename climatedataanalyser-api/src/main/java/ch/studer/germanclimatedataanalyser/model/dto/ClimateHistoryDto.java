@@ -8,13 +8,13 @@ public class ClimateHistoryDto {
     private String startPeriod;
     private ClimateAnalyserTempDto climates;
 
-    public ClimateHistoryDto(){
+    public ClimateHistoryDto() {
 
         endPeriod = "";
-        startPeriod="";
+        startPeriod = "";
 
         // inits all MonthTemp with 0 ;
-        climates = new ClimateAnalyserTempDto() ;
+        climates = new ClimateAnalyserTempDto();
 
     }
 

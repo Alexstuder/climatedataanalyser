@@ -1,9 +1,9 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.ui.analytics;
 
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
 
 public interface ClimateAnalyserService {
 
-    public ClimateAnalyserResponseDto getClimateAnalyticsByClimateAnalyserRequest(ClimateAnalyserRequestDto climateAnalyserRequestDto);
+    ClimateAnalyserResponseDto getClimateAnalyticsByClimateAnalyserRequest(ClimateAnalyserRequestDto climateAnalyserRequestDto);
 }

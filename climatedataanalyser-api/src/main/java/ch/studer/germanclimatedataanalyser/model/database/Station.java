@@ -6,42 +6,43 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table(name="STATION")
+@Table(name = "STATION")
 public class Station {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int Id;
 
-    @Column(name="STATION_ID")
+    @Column(name = "STATION_ID")
     private int stationId;
 
-    @Column(name="DATE_BEGIN")
+    @Column(name = "DATE_BEGIN")
     private Date dateBegin;
 
-    @Column(name="DATE_End")
+    @Column(name = "DATE_End")
     private Date dateEnd;
 
-    @Column(name="STATION_HIGH")
+    @Column(name = "STATION_HIGH")
     private BigDecimal stationHigh;
 
-    @Column(name="GEO_LATITUDE")
+    @Column(name = "GEO_LATITUDE")
     private BigDecimal geoLatitude;
 
-    @Column(name="GEO_LENGTH")
+    @Column(name = "GEO_LENGTH")
     private BigDecimal geoLength;
 
-    @Column(name="STATION_NAME")
+    @Column(name = "STATION_NAME")
     private String stationName;
 
-    @Column(name="BUNDES_LAND")
+    @Column(name = "BUNDES_LAND")
     private String bundesLand;
 
 
-    public Station(){
+    public Station() {
 
     }
+
     public Station(int stationId, Date dateBegin, Date dateEnd, BigDecimal stationHigh, BigDecimal geoLatitude, BigDecimal geoLength, String stationName, String bundesLand) {
         this.stationId = stationId;
         this.dateBegin = dateBegin;

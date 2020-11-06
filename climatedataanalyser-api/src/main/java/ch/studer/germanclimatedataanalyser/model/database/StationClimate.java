@@ -6,20 +6,20 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 
 @Entity
-@Table(name="CLIMATE")
-public class StationClimate extends  StationTemperature{
+@Table(name = "CLIMATE")
+public class StationClimate extends StationTemperature {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CLIMATE_ID")
     private int climateId;
 
     // End date 'yyyy' -> 2018
-    @Column(name="END_PERIOD")
+    @Column(name = "END_PERIOD")
     private String endPeriod;
 
     // Start date 'yyyy' -> 1988
-    @Column(name="START_PERIOD")
+    @Column(name = "START_PERIOD")
     private String startPeriod;
 
 
@@ -30,13 +30,13 @@ public class StationClimate extends  StationTemperature{
         super();
     }
 
-    public StationClimate(int stationId){
+    public StationClimate(int stationId) {
 
         super(stationId);
-        this.endPeriod      = null;
-        this.startPeriod      = null;
+        this.endPeriod = null;
+        this.startPeriod = null;
 
-    };
+    }
 
     public int getClimateId() {
         return climateId;

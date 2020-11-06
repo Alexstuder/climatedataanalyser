@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface MonthDAO {
 
-    public void save(Month month);
+    void save(Month month);
 
-    public void saveAll(List<? extends Month> months);
+    void saveAll(List<? extends Month> months);
 
     int getCountOnDb(int stationsId);
 

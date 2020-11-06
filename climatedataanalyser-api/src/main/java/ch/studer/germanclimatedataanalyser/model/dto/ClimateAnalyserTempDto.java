@@ -20,11 +20,10 @@ public class ClimateAnalyserTempDto {
     private BigDecimal september;
     private BigDecimal oktober;
     private BigDecimal november;
-    private  BigDecimal dezember;
+    private BigDecimal dezember;
 
 
-
-    public ClimateAnalyserTempDto(){
+    public ClimateAnalyserTempDto() {
         setJanuar(new BigDecimal("0"));
         setFebruar(new BigDecimal("0"));
         setMaerz(new BigDecimal("0"));
@@ -152,26 +151,24 @@ public class ClimateAnalyserTempDto {
         climateAnalyserTempDto.setDezember(temperatureForMonths.getDezember());
 
 
-
-
         return climateAnalyserTempDto;
     }
 
-    public boolean isNotZero(){
+    public boolean isNotZero() {
         boolean status = false;
 
         return !this.getJanuar().add(
                 this.getFebruar().add(
-                this.getMaerz().add(
-                this.getApril().add(
-                this.getMai().add(
-                this.getJuni().add(
-                this.getJuli().add(
-                this.getAugust().add(
-                this.getSeptember().add(
-                this.getOktober().add(
-                this.getNovember().add(
-                this.getDezember()))))))))))).equals(new BigDecimal("0"));
+                        this.getMaerz().add(
+                                this.getApril().add(
+                                        this.getMai().add(
+                                                this.getJuni().add(
+                                                        this.getJuli().add(
+                                                                this.getAugust().add(
+                                                                        this.getSeptember().add(
+                                                                                this.getOktober().add(
+                                                                                        this.getNovember().add(
+                                                                                                this.getDezember()))))))))))).equals(new BigDecimal("0"));
 
 
     }

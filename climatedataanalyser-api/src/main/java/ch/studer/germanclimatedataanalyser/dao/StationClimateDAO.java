@@ -8,11 +8,11 @@ import java.util.List;
 public interface StationClimateDAO {
 
 
-    public void save(StationClimate stationClimate);
+    void save(StationClimate stationClimate);
 
-    public void saveAll(List<StationClimate> stationClimates);
+    void saveAll(List<StationClimate> stationClimates);
 
-    public List<StationClimate> getClimateForBundesland(String bundesland);
+    List<StationClimate> getClimateForBundesland(String bundesland);
 
-    public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2);
+    List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2);
 }

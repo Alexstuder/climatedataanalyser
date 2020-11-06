@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.service;
+package ch.studer.germanclimatedataanalyser.service.db;
 
 import ch.studer.germanclimatedataanalyser.dao.StationDAO;
 import ch.studer.germanclimatedataanalyser.model.database.Station;
@@ -24,7 +24,9 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    public Station getStation(int stationId) throws NotFoundException {return stationDAO.getStationsBy(stationId);}
+    public Station getStation(int stationId) throws NotFoundException {
+        return stationDAO.getStationsBy(stationId);
+    }
 
     @Override
     public Station getStation(String stationName) throws NotFoundException {
@@ -37,7 +39,9 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<String> getAllBundeslaender() throws NotFoundException { return stationDAO.getAllBundeslaenderOrderAsc();}
+    public List<String> getAllBundeslaender() throws NotFoundException {
+        return stationDAO.getAllBundeslaenderOrderAsc();
+    }
 
     @Override
     public List<Station> getStationsFromBundesland(String bundesland) {
@@ -50,7 +54,7 @@ public class StationServiceImpl implements StationService {
 
         List<Station> stations = stationDAO.getStationsFromBundesland(bundesland);
 
-        if(stations.size() > 0){
+        if (stations.size() > 0) {
             status = true;
         }
         return status;

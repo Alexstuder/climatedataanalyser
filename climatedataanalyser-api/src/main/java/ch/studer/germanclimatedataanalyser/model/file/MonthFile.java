@@ -5,27 +5,27 @@ import java.io.Serializable;
 public class MonthFile implements Serializable {
 
     //private static final long serialVersionUID = -6402068923614583448L ;
-  private String stationsId;
-  private String messDatumBeginn;
-  private String messDatumEnde;
-  private String qn4;
-  private String moN;
-  private String moTt;
-  private String moTx;
-  private String moTn;
-  private String moFk;
-  private String mxTx;
-  private String mxFx;
-  private String mxTn;
-  private String moSdS;
-  private String qn6;
-  private String moRr;
-  private String mxRs;
-  private String eor;
+    private String stationsId;
+    private String messDatumBeginn;
+    private String messDatumEnde;
+    private String qn4;
+    private String moN;
+    private String moTt;
+    private String moTx;
+    private String moTn;
+    private String moFk;
+    private String mxTx;
+    private String mxFx;
+    private String mxTn;
+    private String moSdS;
+    private String qn6;
+    private String moRr;
+    private String mxRs;
+    private String eor;
 
-  public MonthFile(){
+    public MonthFile() {
 
-  }
+    }
 
     public MonthFile(String stationsId
             , String messDatumBeginn
@@ -43,7 +43,7 @@ public class MonthFile implements Serializable {
             , String qn6
             , String moRr
             , String mxRs
-            , String eor ) {
+            , String eor) {
         this.stationsId = stationsId;
         this.messDatumBeginn = messDatumBeginn;
         this.messDatumEnde = messDatumEnde;
@@ -199,7 +199,7 @@ public class MonthFile implements Serializable {
         this.eor = eor;
     }
 
-      @Override
+    @Override
     public String toString() {
         return "MonthFile{" +
                 "stationsId='" + stationsId + '\'' +

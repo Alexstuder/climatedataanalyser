@@ -6,67 +6,67 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 @Entity
-@Table(name="MONTH")
+@Table(name = "MONTH")
 public class Month implements Serializable {
 
     //private static final long serialVersionUID = -6402068923614583448L ;
 
-  @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
-  @Column(name="MONTH_ID")
-  private int monthId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MONTH_ID")
+    private int monthId;
 
-  @Column(name="STATIONS_ID")
-  private int stationsId;
+    @Column(name = "STATIONS_ID")
+    private int stationsId;
 
-  @Column(name="MESS_DATUM_BEGINN")
-  private Date messDatumBeginn;
+    @Column(name = "MESS_DATUM_BEGINN")
+    private Date messDatumBeginn;
 
-  @Column(name="MESS_DATUM_ENDE")
-  private Date messDatumEnde;
+    @Column(name = "MESS_DATUM_ENDE")
+    private Date messDatumEnde;
 
-  @Column(name="QN_4")
-  private int qn4;
+    @Column(name = "QN_4")
+    private int qn4;
 
-  @Column(name="MO_N")
-  private BigDecimal moN;
+    @Column(name = "MO_N")
+    private BigDecimal moN;
 
-  @Column(name="MO_TT")
-  private BigDecimal moTt;
+    @Column(name = "MO_TT")
+    private BigDecimal moTt;
 
-  @Column(name="MO_TX")
-  private BigDecimal moTx;
+    @Column(name = "MO_TX")
+    private BigDecimal moTx;
 
-  @Column(name="MO_TN")
-  private BigDecimal moTn;
+    @Column(name = "MO_TN")
+    private BigDecimal moTn;
 
-  @Column(name="MO_FK")
-  private BigDecimal moFk;
+    @Column(name = "MO_FK")
+    private BigDecimal moFk;
 
-  @Column(name="MX_TX")
-  private BigDecimal mxTx;
+    @Column(name = "MX_TX")
+    private BigDecimal mxTx;
 
-  @Column(name="MX_FX")
-  private BigDecimal mxFx;
+    @Column(name = "MX_FX")
+    private BigDecimal mxFx;
 
-  @Column(name="MX_TN")
-  private BigDecimal mxTn;
+    @Column(name = "MX_TN")
+    private BigDecimal mxTn;
 
-  @Column(name="MO_SD_S")
-  private BigDecimal moSdS;
+    @Column(name = "MO_SD_S")
+    private BigDecimal moSdS;
 
-  @Column(name="QN_6")
-  private int qn6;
+    @Column(name = "QN_6")
+    private int qn6;
 
-  @Column(name="MO_RR")
-  private BigDecimal moRr;
+    @Column(name = "MO_RR")
+    private BigDecimal moRr;
 
-  @Column(name="MX_RS")
-  private BigDecimal mxRs;
+    @Column(name = "MX_RS")
+    private BigDecimal mxRs;
 
-  public Month(){
+    public Month() {
 
-  }
+    }
 
     public Month(int stationsId, Date messDatumBeginn, Date messDatumEnde, int qn4, BigDecimal moN, BigDecimal moTt, BigDecimal moTx, BigDecimal moTn, BigDecimal moFk, BigDecimal mxTx, BigDecimal mxFx, BigDecimal mxTn, BigDecimal moSdS, int qn6, BigDecimal moRr, BigDecimal mxRs) {
         this.stationsId = stationsId;

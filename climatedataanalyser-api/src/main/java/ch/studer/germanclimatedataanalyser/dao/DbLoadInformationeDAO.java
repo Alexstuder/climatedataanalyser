@@ -1,12 +1,12 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.service.DbLoadRowMapper;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadRowMapper;
 
 import java.util.List;
 
 public interface DbLoadInformationeDAO {
 
-    public List<DbLoadRowMapper.JobExecutionInformation> getDbLoadInformation();
+    List<DbLoadRowMapper.JobExecutionInformation> getDbLoadInformation();
 
-    public int getMonthTableCount();
+    int getMonthTableCount();
 }

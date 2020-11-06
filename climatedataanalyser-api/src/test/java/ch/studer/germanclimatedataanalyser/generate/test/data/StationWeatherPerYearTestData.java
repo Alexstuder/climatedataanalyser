@@ -8,13 +8,13 @@ import java.util.List;
 
 // TODO remove @SpringBoot
 //@SpringBootTest
- public final class StationWeatherPerYearTestData {
+public final class StationWeatherPerYearTestData {
 
-    private static int period = 30;
+    private static final int period = 30;
 
-    private static BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
+    private static final BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
-    public static  List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
+    public static List<StationWeatherPerYear> getHoles(List<StationWeatherPerYear> weatherComplete) {
 
         List<StationWeatherPerYear> weatherWithHoles = new ArrayList<StationWeatherPerYear>();
 
@@ -58,20 +58,20 @@ import java.util.List;
         return weatherWithHoles;
     }
 
-    public static List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate,int stationId,boolean nullValues) {
+    public static List<StationWeatherPerYear> getStationWeatherPerYearList(String startDate, int stationId, boolean nullValues) {
         List<StationWeatherPerYear> l = new ArrayList<>();
 
         int start = Integer.valueOf(startDate);
 
-        if (nullValues){
-            for(int i = start; i > start-period ;i-- ){
-                l.add(new StationWeatherPerYear(stationId,String.valueOf(i)));
-                      //  getStationWeatherPerYearNull(i,stationId));
+        if (nullValues) {
+            for (int i = start; i > start - period; i--) {
+                l.add(new StationWeatherPerYear(stationId, String.valueOf(i)));
+                //  getStationWeatherPerYearNull(i,stationId));
             }
         } else {
 
-            for(int i = start; i > start-period ;i-- ){
-                l.add(getStationWeatherPerYearTestData(String.valueOf(i),stationId));
+            for (int i = start; i > start - period; i--) {
+                l.add(getStationWeatherPerYearTestData(String.valueOf(i), stationId));
             }
         }
 

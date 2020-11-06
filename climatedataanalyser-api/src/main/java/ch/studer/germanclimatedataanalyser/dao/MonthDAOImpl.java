@@ -17,7 +17,7 @@ public class MonthDAOImpl implements MonthDAO {
     @Autowired
     private EntityManager entityManager;
 
-    private List<Month> months = null ;
+    private final List<Month> months = null;
 
     private Session getSession() {
         return entityManager.unwrap(Session.class);
@@ -39,8 +39,7 @@ public class MonthDAOImpl implements MonthDAO {
         // get the current hibernate session
         Session currentSession = getSession();
 
-        for (Month month : months)
-        {
+        for (Month month : months) {
             currentSession.saveOrUpdate(month);
         }
 
@@ -49,18 +48,18 @@ public class MonthDAOImpl implements MonthDAO {
     @Override
     public int getCountOnDb(int stationsID) {
 
-        int countOnDb = 0 ;
+        int countOnDb = 0;
 
-           Session currentSession = getSession();
+        Session currentSession = getSession();
 
-           Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID", Month.class)
-                                                 .setParameter("stationsID",stationsID);
+        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID", Month.class)
+                .setParameter("stationsID", stationsID);
 
 
-           // execute and get result list
-           List<Month> newmonths = theQuery.getResultList();
+        // execute and get result list
+        List<Month> newmonths = theQuery.getResultList();
 
-           countOnDb = newmonths.size();
+        countOnDb = newmonths.size();
 
         return countOnDb;
     }
@@ -73,7 +72,7 @@ public class MonthDAOImpl implements MonthDAO {
         Session currentSession = getSession();
 
         Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID ORDER BY messDatumBeginn ASC", Month.class)
-                .setParameter("stationsID",stationsID);
+                .setParameter("stationsID", stationsID);
 
         // execute and get result list
         months = theQuery.getResultList();
@@ -88,7 +87,7 @@ public class MonthDAOImpl implements MonthDAO {
         Session currentSession = getSession();
 
         Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID AND m.moTt <> -999 ORDER BY messDatumBeginn DESC", Month.class)
-                .setParameter("stationsID",stationsId);
+                .setParameter("stationsID", stationsId);
 
         // execute and get result list
         months = theQuery.getResultList();

@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class StationFile implements Serializable {
 
     //private static final long serialVersionUID = -6402068923614583448L ;
-  private String stationsId;
-  private String dateBegin;
-  private String dateEnd;
-  private String stationHigh;
-  private String geoLatitude;
-  private String geoLength;
-  private String stationName;
-  private String bundesLand;
+    private String stationsId;
+    private String dateBegin;
+    private String dateEnd;
+    private String stationHigh;
+    private String geoLatitude;
+    private String geoLength;
+    private String stationName;
+    private String bundesLand;
 
     public StationFile(String stationsId, String dateBegin, String dateEnd, String stationHigh, String geoLatitude, String geoLength, String stationName, String bundesLand) {
         this.stationsId = stationsId;
@@ -24,7 +24,8 @@ public class StationFile implements Serializable {
         this.stationName = stationName;
         this.bundesLand = bundesLand;
     }
-    public StationFile(){
+
+    public StationFile() {
     }
 
     public String getStationsId() {
