@@ -49,7 +49,7 @@ public class GpsPoint {
         return status;
     }
 
-    // Both have to be <>1000 to bie valid or not NULL
+    // Both have to be <>1000 to be valid or not NULL
     public boolean isGpsNull() {
         boolean status = false;
 

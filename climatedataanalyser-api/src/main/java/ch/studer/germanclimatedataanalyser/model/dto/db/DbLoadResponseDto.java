@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.model.dto;
+package ch.studer.germanclimatedataanalyser.model.dto.db;
 
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadRowMapper;
 

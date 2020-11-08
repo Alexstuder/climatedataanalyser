@@ -6,7 +6,7 @@ public class ClimateHistoryDto {
 
     private String endPeriod;
     private String startPeriod;
-    private ClimateAnalyserTempDto climates;
+    private TemperatureForMonthDto climates;
 
     public ClimateHistoryDto() {
 
@@ -14,7 +14,7 @@ public class ClimateHistoryDto {
         startPeriod = "";
 
         // inits all MonthTemp with 0 ;
-        climates = new ClimateAnalyserTempDto();
+        climates = new TemperatureForMonthDto();
 
     }
 
@@ -34,11 +34,11 @@ public class ClimateHistoryDto {
         this.startPeriod = startPeriod;
     }
 
-    public ClimateAnalyserTempDto getClimates() {
+    public TemperatureForMonthDto getClimates() {
         return climates;
     }
 
-    public void setClimates(ClimateAnalyserTempDto climates) {
+    public void setClimates(TemperatureForMonthDto climates) {
         this.climates = climates;
     }
 

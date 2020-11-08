@@ -1,7 +1,7 @@
 package ch.studer.germanclimatedataanalyser.service.ui.dbController;
 
 import ch.studer.germanclimatedataanalyser.dao.DbLoadInformationeDAO;
-import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
+import ch.studer.germanclimatedataanalyser.model.dto.db.DbLoadResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DbLoadInformationServiceImpl implements DbLoadInformationService {

@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
-import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
+import ch.studer.germanclimatedataanalyser.model.dto.db.DbLoadResponseDto;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationService;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
