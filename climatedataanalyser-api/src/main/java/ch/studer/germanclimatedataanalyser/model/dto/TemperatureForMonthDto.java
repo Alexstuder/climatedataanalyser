@@ -5,9 +5,8 @@ import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 import java.math.BigDecimal;
 
 /*
-This is just a wrapper class to get an instance from a abstract class
  */
-public class ClimateAnalyserTempDto {
+public class TemperatureForMonthDto {
 
     private BigDecimal januar;
     private BigDecimal februar;
@@ -23,7 +22,7 @@ public class ClimateAnalyserTempDto {
     private BigDecimal dezember;
 
 
-    public ClimateAnalyserTempDto() {
+    public TemperatureForMonthDto() {
         setJanuar(new BigDecimal("0"));
         setFebruar(new BigDecimal("0"));
         setMaerz(new BigDecimal("0"));
@@ -134,24 +133,24 @@ public class ClimateAnalyserTempDto {
         this.dezember = dezember;
     }
 
-    public ClimateAnalyserTempDto mapFrom(TemperatureForMonths temperatureForMonths) {
-        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
+    public TemperatureForMonthDto mapFrom(TemperatureForMonths temperatureForMonths) {
+        TemperatureForMonthDto temperatureForMonthDto = new TemperatureForMonthDto();
 
-        climateAnalyserTempDto.setJanuar(temperatureForMonths.getJanuar());
-        climateAnalyserTempDto.setFebruar(temperatureForMonths.getFebruar());
-        climateAnalyserTempDto.setMaerz(temperatureForMonths.getMaerz());
-        climateAnalyserTempDto.setApril(temperatureForMonths.getApril());
-        climateAnalyserTempDto.setMai(temperatureForMonths.getMai());
-        climateAnalyserTempDto.setJuni(temperatureForMonths.getJuni());
-        climateAnalyserTempDto.setJuli(temperatureForMonths.getJuli());
-        climateAnalyserTempDto.setAugust(temperatureForMonths.getAugust());
-        climateAnalyserTempDto.setSeptember(temperatureForMonths.getSeptember());
-        climateAnalyserTempDto.setOktober(temperatureForMonths.getOktober());
-        climateAnalyserTempDto.setNovember(temperatureForMonths.getNovember());
-        climateAnalyserTempDto.setDezember(temperatureForMonths.getDezember());
+        temperatureForMonthDto.setJanuar(temperatureForMonths.getJanuar());
+        temperatureForMonthDto.setFebruar(temperatureForMonths.getFebruar());
+        temperatureForMonthDto.setMaerz(temperatureForMonths.getMaerz());
+        temperatureForMonthDto.setApril(temperatureForMonths.getApril());
+        temperatureForMonthDto.setMai(temperatureForMonths.getMai());
+        temperatureForMonthDto.setJuni(temperatureForMonths.getJuni());
+        temperatureForMonthDto.setJuli(temperatureForMonths.getJuli());
+        temperatureForMonthDto.setAugust(temperatureForMonths.getAugust());
+        temperatureForMonthDto.setSeptember(temperatureForMonths.getSeptember());
+        temperatureForMonthDto.setOktober(temperatureForMonths.getOktober());
+        temperatureForMonthDto.setNovember(temperatureForMonths.getNovember());
+        temperatureForMonthDto.setDezember(temperatureForMonths.getDezember());
 
 
-        return climateAnalyserTempDto;
+        return temperatureForMonthDto;
     }
 
     public boolean isNotZero() {

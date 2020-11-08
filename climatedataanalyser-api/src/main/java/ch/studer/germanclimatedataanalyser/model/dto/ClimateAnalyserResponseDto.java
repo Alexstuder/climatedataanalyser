@@ -18,9 +18,9 @@ public class ClimateAnalyserResponseDto {
 
     private GpsPoint gps2;
 
-    private ClimateAnalyserTempDto original;
+    private TemperatureForMonthDto original;
 
-    private ClimateAnalyserTempDto compare;
+    private TemperatureForMonthDto compare;
 
     private List<ClimateHistoryDto> climateHistoryAverageDtos;
 
@@ -33,8 +33,8 @@ public class ClimateAnalyserResponseDto {
         bundesland = "";
         gps1 = new GpsPoint();
         gps2 = new GpsPoint();
-        original = new ClimateAnalyserTempDto();
-        compare = new ClimateAnalyserTempDto();
+        original = new TemperatureForMonthDto();
+        compare = new TemperatureForMonthDto();
         climateHistoryAverageDtos = new ArrayList<ClimateHistoryDto>();
         errorMsg = "";
     }
@@ -51,11 +51,11 @@ public class ClimateAnalyserResponseDto {
         this.bundesland = bundesland;
     }
 
-    public void setOriginal(ClimateAnalyserTempDto original) {
+    public void setOriginal(TemperatureForMonthDto original) {
         this.original = original;
     }
 
-    public void setCompare(ClimateAnalyserTempDto compare) {
+    public void setCompare(TemperatureForMonthDto compare) {
         this.compare = compare;
     }
 
@@ -71,11 +71,11 @@ public class ClimateAnalyserResponseDto {
         return bundesland;
     }
 
-    public ClimateAnalyserTempDto getOriginal() {
+    public TemperatureForMonthDto getOriginal() {
         return original;
     }
 
-    public ClimateAnalyserTempDto getCompare() {
+    public TemperatureForMonthDto getCompare() {
         return compare;
     }
 

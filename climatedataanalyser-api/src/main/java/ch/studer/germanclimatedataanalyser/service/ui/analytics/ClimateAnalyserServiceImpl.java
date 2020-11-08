@@ -4,7 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
 import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserTempDto;
+import ch.studer.germanclimatedataanalyser.model.dto.TemperatureForMonthDto;
 import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
 import ch.studer.germanclimatedataanalyser.service.db.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +135,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     private ClimateAnalyserResponseDto calculateDifferenceClimate(ClimateAnalyserResponseDto thisclimateAnalyserResponseDto, List<StationClimate> stationClimates) {
 
-        ClimateAnalyserTempDto climateAnalyserOrigin = getClimateAggregatedForOriginYear(thisclimateAnalyserResponseDto.getOriginYear(), stationClimates);
+        TemperatureForMonthDto climateAnalyserOrigin = getClimateAggregatedForOriginYear(thisclimateAnalyserResponseDto.getOriginYear(), stationClimates);
 
         //Proofe if Origine could be aggregated
 //        if (isNotEmpty(climateAnalyserOrigin)){
@@ -146,7 +146,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
 
             // Proof if there are some stationId in the originYear which exist in the year to compare
-            ClimateAnalyserTempDto climateAnalyserCompare = getClimateAggregatedForStationsFromYearToCompare(thisclimateAnalyserResponseDto.getOriginYear(), thisclimateAnalyserResponseDto.getYearToCompare(), stationClimates);
+            TemperatureForMonthDto climateAnalyserCompare = getClimateAggregatedForStationsFromYearToCompare(thisclimateAnalyserResponseDto.getOriginYear(), thisclimateAnalyserResponseDto.getYearToCompare(), stationClimates);
             if (climateAnalyserCompare.isNotZero()) {
 
                 thisclimateAnalyserResponseDto.setCompare(climateAnalyserCompare);
@@ -163,8 +163,8 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForStationsFromYearToCompare(String originYear, String yearToCompare, List<StationClimate> stationClimates) {
-        ClimateAnalyserTempDto climateAnalyserTempDto = new ClimateAnalyserTempDto();
+    private TemperatureForMonthDto getClimateAggregatedForStationsFromYearToCompare(String originYear, String yearToCompare, List<StationClimate> stationClimates) {
+        TemperatureForMonthDto temperatureForMonthDto = new TemperatureForMonthDto();
 
         // Get all stationIds to the year to compare
         List<Integer> stationIds = getStationIdsForYearToCompare(yearToCompare, stationClimates);
@@ -176,11 +176,11 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             }
         }
         if (tmpTemperatureForMonths.size() > 0) {
-            climateAnalyserTempDto = new ClimateAnalyserTempDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
+            temperatureForMonthDto = new TemperatureForMonthDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
         }
 
 
-        return climateAnalyserTempDto;
+        return temperatureForMonthDto;
     }
 
     private List<Integer> getStationIdsForYearToCompare(String yearToCompare, List<StationClimate> stationClimates) {
@@ -196,9 +196,9 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
         return stationIds;
     }
 
-    private ClimateAnalyserTempDto getClimateAggregatedForOriginYear(String year, List<StationClimate> stationClimates) {
+    private TemperatureForMonthDto getClimateAggregatedForOriginYear(String year, List<StationClimate> stationClimates) {
 
-        ClimateAnalyserTempDto tempClimate = new ClimateAnalyserTempDto();
+        TemperatureForMonthDto tempClimate = new TemperatureForMonthDto();
         List<TemperatureForMonths> tmpTemperatureForMonths = new ArrayList<TemperatureForMonths>();
 
         for (StationClimate sc : stationClimates) {
@@ -207,7 +207,7 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
             }
         }
         if (tmpTemperatureForMonths.size() > 0) {
-            tempClimate = new ClimateAnalyserTempDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
+            tempClimate = new TemperatureForMonthDto().mapFrom(new TemperatureForMonths().getAverage(tmpTemperatureForMonths));
         }
 
         return tempClimate;

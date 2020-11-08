@@ -1,6 +1,6 @@
 package ch.studer.germanclimatedataanalyser.service.ui.dbController;
 
-import ch.studer.germanclimatedataanalyser.model.dto.DbLoadResponseDto;
+import ch.studer.germanclimatedataanalyser.model.dto.db.DbLoadResponseDto;
 
 public interface DbLoadInformationService {
 
