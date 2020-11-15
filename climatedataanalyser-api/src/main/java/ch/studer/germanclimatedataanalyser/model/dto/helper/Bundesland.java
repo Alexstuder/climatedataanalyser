@@ -10,8 +10,8 @@ public class Bundesland {
 
     String name;
 
-    public Bundesland(String name) {
-        this.name = name.stripLeading().stripTrailing();
+    public Bundesland() {
+        this.name = "";
     }
 
     public boolean exists() {
@@ -27,7 +27,7 @@ public class Bundesland {
         return "";
     }
 
-    public void setName(String name){this.name = name;}
+    public void setName(String name){this.name = name.stripLeading().stripTrailing();}
     public String getName() {
         return name;
     }

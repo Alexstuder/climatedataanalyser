@@ -79,7 +79,7 @@ class StationWeatherServiceImplTest {
     }
 
     @Test
-    void fillHolesWithToMuchNullValues() {
+    void fillHolesWithToMuchNullValuesAtTheBeginingAndEnd() {
 
         List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
 
@@ -99,6 +99,51 @@ class StationWeatherServiceImplTest {
 
         // calculate size !
         int size = period + (2 * range);
+        Assertions.assertEquals(testList.size(), size);
+
+        for (StationWeatherPerYear stationWeatherPerYear : testList) {
+            Assertions.assertEquals(0, stationWeatherPerYear.getJanuar().compareTo(new BigDecimal("-1.111")), "Januar is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getFebruar().compareTo(new BigDecimal("-2.222")), "Februar is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getMaerz().compareTo(new BigDecimal("3.333")), "Marz is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getApril().compareTo(new BigDecimal("4.444")), "April is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getMai().compareTo(new BigDecimal("5.555")), "Mai is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getJuni().compareTo(new BigDecimal("6.666")), "June is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getJuli().compareTo(new BigDecimal("7.777")), "Juli is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getAugust().compareTo(new BigDecimal("8.888")), "August is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getSeptember().compareTo(new BigDecimal("9.999")), "September is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getOktober().compareTo(new BigDecimal("10.100")), "October is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getNovember().compareTo(new BigDecimal("-11.111")), "November is not Equal");
+            Assertions.assertEquals(0, stationWeatherPerYear.getDezember().compareTo(new BigDecimal("-12.120")), "December is not Equal");
+
+        }
+
+    }
+
+    @Test
+    void fillHolesWithToMuchNullValuesInTheMiddle() {
+
+        //TODO  Insert the right TestData
+
+        List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
+
+        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019", 2, false);
+
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989", 2, true));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959", 2, false));
+
+
+        // remove random record between 1989 and 1960 !
+        //TODO Remove all not needed Records
+        stationWeatherPerYearsWithHoles.remove(20);
+
+
+        // Test the Service :
+        // SetUp  : Just process a List with 1 StationId (group by prepended)
+        List<StationWeatherPerYear> testList = stationWeatherService.fillHoles(stationWeatherPerYearsWithHoles);
+
+        // calculate size !
+        int size = period + (2 * range);
+        //TODO implement assertions
         Assertions.assertEquals(testList.size(), size);
 
         for (StationWeatherPerYear stationWeatherPerYear : testList) {

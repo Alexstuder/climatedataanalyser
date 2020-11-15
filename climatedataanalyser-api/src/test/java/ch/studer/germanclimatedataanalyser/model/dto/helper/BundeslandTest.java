@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 
@@ -23,40 +22,45 @@ class BundeslandTest {
     StationService stationService;
 
     @InjectMocks
-    Bundesland bundesland = new Bundesland(EXISTING_BUNDESLAND);
+    Bundesland bundesland = new Bundesland();
+
 
     @InjectMocks
-    Bundesland non_existing_bundesland = new Bundesland(NON_EXISTING_BUNDESLAND);
+    Bundesland non_existing_bundesland = new Bundesland();
 
     @Test
     void exists() {
         //* Define Mock szenario
         when(stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
+        bundesland.setName(EXISTING_BUNDESLAND);
         Assertions.assertTrue(bundesland.exists());
     }
 
     @Test
     void not_exists() {
-        //* Define Mock szenario
         when(stationService.bundeslandExists(NON_EXISTING_BUNDESLAND)).thenReturn(false);
+        non_existing_bundesland.setName(NON_EXISTING_BUNDESLAND);
         Assertions.assertFalse(non_existing_bundesland.exists());
     }
 
     @Test
     void proof() {
-        //* Define Mock szenario
         when(stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
-        Assertions.assertEquals("",bundesland.proof());
+        bundesland.setName(EXISTING_BUNDESLAND);
+        Assertions.assertEquals("", bundesland.proof());
 
-        //* Define Mock szenario
+        non_existing_bundesland.setName(NON_EXISTING_BUNDESLAND);
         when(stationService.bundeslandExists(NON_EXISTING_BUNDESLAND)).thenReturn(false);
-        Assertions.assertEquals(NON_EXISTING_BUNDESLAND + " Bundesland doesn't exist!",non_existing_bundesland.proof());
+        Assertions.assertEquals(NON_EXISTING_BUNDESLAND + " Bundesland doesn't exist!", non_existing_bundesland.proof());
 
     }
-    @Test
-    void getName(){
 
+    @Test
+    void getName() {
         // Proof if leading and trailing blanks are trimmed
+        bundesland.setName(EXISTING_BUNDESLAND);
+        non_existing_bundesland.setName(NON_EXISTING_BUNDESLAND);
+
         Assertions.assertTrue(bundesland.getName().contentEquals(EXISTING_BUNDESLAND));
         Assertions.assertTrue(non_existing_bundesland.getName().contentEquals(NON_EXISTING_BUNDESLAND));
     }

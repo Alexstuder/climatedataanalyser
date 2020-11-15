@@ -12,7 +12,7 @@ public class ClimateTestData {
     private final List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
 
-    public static List<StationClimate> getStationClimate(int beginYear, int endYear, int numberOfStations) {
+    public static List<StationClimate> getStationClimateOrderByStationIdAndBeginYear(int beginYear, int endYear, int numberOfStations) {
 
         List<StationClimate> stationClimates = new ArrayList<StationClimate>();
 
@@ -54,7 +54,7 @@ public class ClimateTestData {
             }
         }
 
-        // Remove the climateSTations
+        // Remove the climateStations
         for (StationClimate toRemove : stationClimatesToRemove) {
             stationClimatesList.remove(toRemove);
         }
@@ -62,5 +62,34 @@ public class ClimateTestData {
         return stationClimatesList;
 
 
+    }
+
+    public static List<StationClimate> getStationClimateOrderByBeginYearAndStationId(int beginYear, int endYear, int numberOfStations) {
+
+        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+
+        for (int year = beginYear; year <= endYear; year++) {
+            int stationId = 0;
+            while (stationId++ < numberOfStations) {
+                StationClimate stationClimate = new StationClimate(stationId);
+                stationClimate.setEndPeriod(Integer.toString(year));
+                stationClimate.setStartPeriod(Integer.toString(year - period));
+                stationClimate.setJanuar(new BigDecimal(stationId));
+                stationClimate.setFebruar(new BigDecimal(stationId + 1));
+                stationClimate.setMaerz(new BigDecimal(stationId + 2));
+                stationClimate.setApril(new BigDecimal(stationId + 3));
+                stationClimate.setMai(new BigDecimal(stationId + 4));
+                stationClimate.setJuni(new BigDecimal(stationId + 5));
+                stationClimate.setJuli(new BigDecimal(stationId + 6));
+                stationClimate.setAugust(new BigDecimal(stationId + 7));
+                stationClimate.setSeptember(new BigDecimal(stationId + 8));
+                stationClimate.setOktober(new BigDecimal(stationId + 9));
+                stationClimate.setNovember(new BigDecimal(stationId + 10));
+                stationClimate.setDezember(new BigDecimal(stationId + 11));
+                stationClimates.add(stationClimate);
+            }
+        }
+
+        return stationClimates;
     }
 }

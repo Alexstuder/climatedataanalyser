@@ -15,4 +15,6 @@ public interface StationClimateDAO {
     List<StationClimate> getClimateForBundesland(String bundesland);
 
     List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2);
+
+    List<StationClimate> getClimateForGpsCoordinatesOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2);
 }

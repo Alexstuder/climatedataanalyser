@@ -43,7 +43,7 @@ class ClimateAnalyserServiceImplTest {
         when(stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
 
         //* Get some Test Data for climateService
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(2014, 2016, 3);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(2014, 2016, 3);
         //* Define Mock szenario
         when(climateService.getClimateForBundesland(EXISTING_BUNDESLAND)).thenReturn(stationClimates);
 
@@ -251,7 +251,7 @@ class ClimateAnalyserServiceImplTest {
         String NO_YEAR = "2100";
 
         //* Get some Test Data for climateService
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(2014, 2016, 3);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(2014, 2016, 3);
         //* Define Mock szenario
         when(climateService.getClimateForBundesland(EXISTING_BUNDESLAND)).thenReturn(stationClimates);
         when(stationService.bundeslandExists(EXISTING_BUNDESLAND)).thenReturn(true);
