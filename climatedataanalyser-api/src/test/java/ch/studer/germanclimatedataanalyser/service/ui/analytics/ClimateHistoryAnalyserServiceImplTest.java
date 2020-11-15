@@ -18,7 +18,7 @@ class ClimateHistoryAnalyserServiceImplTest {
     void getClimateHistoryAverageData() {
 
         //* Get some Test Data for climateService
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 3);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 3);
 
         //Folgender Test : Es existieren 3 StationsId , alle Jahre vorhanden
         // Station Id       :          :   1  :   2   :   3
@@ -105,7 +105,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1927-1898    x                               x      x        x
 
         //* Get a full stack of testData
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 7);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 7);
 
         //Remove year and stationID from full stack testData
         // Station Id       :          :   1  :   2   :   3   :    4   :   5   :  6   :    7
@@ -225,7 +225,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1957-1928
         // Expected Periods : 1927-1898    x      x       x
         //* Get a full stack of testData
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 3);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 3);
 
         // Remove   Periods : 1987-1958
         int[] stationIdToRemove = {1, 2, 3};
@@ -302,7 +302,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1987-1958    x
         // Expected Periods : 1957-1928    x
         // Expected Periods : 1927-1898    x
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 6);
 
         // Remove   Periods : 1987-1958
         int[] stationIdToRemove = new int[]{2, 3, 4, 5, 6};
@@ -395,7 +395,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1987-1958                                                  x
         // Expected Periods : 1957-1928                                                  x
         // Expected Periods : 1927-1898                                                  x
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 6);
 
         // Remove   Periods : 1987-1958
         int[] stationIdToRemove = new int[]{1, 2, 3, 4, 5};
@@ -489,7 +489,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1957-1928    x      x       x        x         x           x
         // Expected Periods : 1927-1898    x      x       x        x         x           x
 
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 6);
 
         //* Execute Test
         List<ClimateHistoryDto> climateHistoryAverageDtos = new ClimateHistoryAnalyserServiceImpl().getClimateHistoryEveryStationExistsData(ORIGIN_YEAR, stationClimates);
@@ -566,7 +566,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1987-1958    x              x        x
         // Expected Periods : 1957-1928    x      x                x
         // Expected Periods : 1927-1898    x      x       x
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 4);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 4);
 
         // Remove   Periods : 1987-1958
         int[] stationIdToRemove = new int[]{1};
@@ -605,7 +605,7 @@ class ClimateHistoryAnalyserServiceImplTest {
         // Expected Periods : 1957-1928    x      x       x                  x           x
         // Expected Periods : 1927-1898    x      x       x        x         x
 
-        List<StationClimate> stationClimates = ClimateTestData.getStationClimate(BEGIN_PERIOD, END_PERIOD, 6);
+        List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(BEGIN_PERIOD, END_PERIOD, 6);
 
 
         // Remove   Periods : 1987-1958

@@ -42,9 +42,11 @@ public class ClimateServiceImpl implements ClimateService {
 
                 StationClimate stationClimate = new StationClimate(stationWeatherPerYears.get(start).getStationID());
                 stationClimate.setEndPeriod(stationWeatherPerYears.get(start).getYear());
+                //TODO : Make shure : EndPeriod - StartPeriod = 30 Years !
                 stationClimate.setStartPeriod(stationWeatherPerYears.get(end - 1).getYear());
 
                 // Cause we don't start with NULL ,we have to init with zero !
+                //TODO implement an init method in StationClimate
                 stationClimate.setJanuar(new BigDecimal(0));
                 stationClimate.setFebruar(new BigDecimal(0));
                 stationClimate.setMaerz(new BigDecimal(0));

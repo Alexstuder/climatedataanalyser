@@ -2,9 +2,12 @@ package ch.studer.germanclimatedataanalyser;
 
 import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.reader.WeatherReader;
+import ch.studer.germanclimatedataanalyser.model.dto.helper.Bundesland;
 import ch.studer.germanclimatedataanalyser.service.db.*;
 import ch.studer.germanclimatedataanalyser.service.ui.analytics.ClimateAnalyserService;
 import ch.studer.germanclimatedataanalyser.service.ui.analytics.ClimateAnalyserServiceImpl;
+import ch.studer.germanclimatedataanalyser.service.ui.climateRecords.ClimateRecordService;
+import ch.studer.germanclimatedataanalyser.service.ui.climateRecords.ClimateRecordServiceImpl;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationService;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -47,4 +50,10 @@ public class GermanClimateDataAnalyserApplicationContext {
     DbLoadInformationService dbLoadInformationService() {
         return new DbLoadInformationServiceImpl();
     }
+
+    @Bean
+    ClimateRecordService climateRecordService() {return new ClimateRecordServiceImpl();}
+
+    @Bean
+    Bundesland bundesland() {return new Bundesland();}
 }
