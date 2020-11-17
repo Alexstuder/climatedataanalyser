@@ -48,6 +48,10 @@ public class TemperatureForMonths {
     // TODO : the NULL Value should be given trough the application.properties !
     //TODO Inject NULL_TEMPERATURE How ?? it's an abstaract class !?
     // TODO How to inject a BigDecimal !
+
+    //@Value("#{new Integer('${climate.temperature.big.decimal.null.value}')}")
+    //private static BigDecimal NULL_TEMPERATURE;
+
     private static final BigDecimal NULL_TEMPERATURE = new BigDecimal("-999.0000");
 
     public TemperatureForMonths() {

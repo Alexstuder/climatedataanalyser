@@ -21,11 +21,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
-/*
-TODO : Dies hier ist kein richtiger Writer Test :
-  Umstellen , so das der Gruppenbruch im Writer getestet wird.
-  Der Test bleibt hier lediglich stehen , da neu Mockito5; und dieser hier funktioniert !
- */
 @ExtendWith(MockitoExtension.class)
 class ClimateWriterTest {
 
@@ -132,7 +127,6 @@ class ClimateWriterTest {
         }
 
         Assertions.assertNull(exception);
-        // TODO Mockito Write Assertion to proof , if the CAll to DB was right !? ..but how ??
     }
 
     private List<StationClimate> getClimate(List<StationWeatherPerYear> weatherComplete) {

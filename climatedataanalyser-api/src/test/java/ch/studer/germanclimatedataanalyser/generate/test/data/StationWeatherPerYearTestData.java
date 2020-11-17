@@ -6,8 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO remove @SpringBoot
-//@SpringBootTest
+
 public final class StationWeatherPerYearTestData {
 
     private static final int period = 30;
