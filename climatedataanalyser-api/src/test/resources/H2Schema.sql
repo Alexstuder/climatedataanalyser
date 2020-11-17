@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `weather`
 
 CREATE TABLE IF NOT EXISTS `climate`
 (
-    CLIMATE_ID   BIGINT auto_increment NOT NULL PRIMARY KEY,
+    CLIMATE_ID   BIGINT NOT NULL ,
     STATION_ID   int                   NOT NULL,
     END_PERIOD   VARCHAR(4) COMMENT 'Climate Data end Period : yyyy  --> 2018 : for a 30 Year Climate Period !',
     START_PERIOD VARCHAR(4) COMMENT 'Climate Data start Period : yyyy  --> 1987',

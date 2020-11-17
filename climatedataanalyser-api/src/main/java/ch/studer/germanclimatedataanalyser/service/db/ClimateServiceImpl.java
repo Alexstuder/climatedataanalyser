@@ -22,6 +22,7 @@ public class ClimateServiceImpl implements ClimateService {
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
 
+
     @Autowired
     StationClimateDAO stationClimateDAO;
 
@@ -36,17 +37,15 @@ public class ClimateServiceImpl implements ClimateService {
         int start = 0;
         int end = start + period;
 
-        for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears) {
+        while (end <= stationWeatherPerYears.size()) {
 
-            if (end <= stationWeatherPerYears.size()) {
+            if (Integer.parseInt(stationWeatherPerYears.get(start).getYear()) - Integer.parseInt(stationWeatherPerYears.get(end - 1).getYear()) == period-1 ) {
 
                 StationClimate stationClimate = new StationClimate(stationWeatherPerYears.get(start).getStationID());
                 stationClimate.setEndPeriod(stationWeatherPerYears.get(start).getYear());
-                //TODO : Make shure : EndPeriod - StartPeriod = 30 Years !
                 stationClimate.setStartPeriod(stationWeatherPerYears.get(end - 1).getYear());
 
                 // Cause we don't start with NULL ,we have to init with zero !
-                //TODO implement an init method in StationClimate
                 stationClimate.setJanuar(new BigDecimal(0));
                 stationClimate.setFebruar(new BigDecimal(0));
                 stationClimate.setMaerz(new BigDecimal(0));
@@ -91,11 +90,11 @@ public class ClimateServiceImpl implements ClimateService {
                 stationClimate.setNovember(stationClimate.getNovember().divide(BigDecimal.valueOf(period), 3, RoundingMode.HALF_DOWN));
                 stationClimate.setDezember(stationClimate.getDezember().divide(BigDecimal.valueOf(period), 3, RoundingMode.HALF_DOWN));
                 stationClimates.add(stationClimate);
-                start++;
-                end = start + period;
             }
-        }
+            start++;
+            end = start + period;
 
+        }
 
         return stationClimates;
     }
@@ -112,10 +111,17 @@ public class ClimateServiceImpl implements ClimateService {
         this.stationClimateDAO.saveAll(stationClimates);
     }
 
+
+    @Override
+    @Transactional
+    public List<StationClimate> getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations(GpsPoint gps1, GpsPoint gps2, String fromYear) {
+        return this.stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(gps1, gps2, fromYear);
+    }
+
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
 
-        return this.stationClimateDAO.getClimateForGpsCoordinates(gps1, gps2);
+        return this.stationClimateDAO.getClimateForGpsCoordinatesOrderByYearAndStationId(gps1, gps2);
     }
 }

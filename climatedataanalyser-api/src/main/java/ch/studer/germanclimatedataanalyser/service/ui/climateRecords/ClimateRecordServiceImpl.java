@@ -46,6 +46,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             calculatedClimateRecords.add(climateRecords.get(i));
             calculatedClimateRecords.add(getDiff(climateRecords.get(i), climateRecords.get(i++)));
 
+
         }
 
 

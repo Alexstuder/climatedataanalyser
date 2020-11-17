@@ -17,4 +17,6 @@ public interface StationClimateDAO {
     List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2);
 
     List<StationClimate> getClimateForGpsCoordinatesOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2);
+
+    List<StationClimate> getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2,String yearFrom);
 }
