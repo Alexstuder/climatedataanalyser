@@ -28,8 +28,8 @@ class ClimateRecordServiceImplTest {
     private static final String GPS_LAT_VALID = "90.0";
     private static final String GPS_LONG_NOT_VALID = "-180.1";
     private static final String GPS_LONG_VALID = "180.0";
-    private static final String YEAR_FROM_VALID = "1990";
-    private static final String YEAR_FROM_VALID_STRIP = " 1990 ";
+    private static final String YEAR_FROM_VALID = "1960";
+    private static final String YEAR_FROM_VALID_STRIP = " 1960 ";
     private static final String YEAR_FROM_NOT_VALID = "not_valid";
     private static final String YEAR_FROM_NOT_A_NUMBER = "nonr";
     private static final String YEAR_DISTANCE_NOT_VALID = "not_valid";

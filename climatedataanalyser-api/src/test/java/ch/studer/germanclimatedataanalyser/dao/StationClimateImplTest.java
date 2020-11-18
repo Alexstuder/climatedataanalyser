@@ -14,7 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.List;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:H2Schema.sql","classpath:climates.sql","classpath:stations.sql"})
+@Sql({"classpath:StationClimate/H2Schema.sql","classpath:StationClimate/climates.sql", "classpath:StationClimate/stations.sql"})
 
 class StationClimateImplTest {
 
@@ -27,18 +27,22 @@ class StationClimateImplTest {
     @Test
     void getClimateForGpsCoordinatesFromYearOrderByYearAndStationId() {
 
-        GpsPoint gpsPoint1 = new GpsPoint(49.7667d,7.5959d);
-        GpsPoint gpsPoint2 = new GpsPoint(47.5590d,10.2674d);
-        String fromYear = "1990";
+        GpsPoint gpsPoint1 = new GpsPoint(20d,10d);
+        GpsPoint gpsPoint2 = new GpsPoint(10d,20d);
+        String fromYear = "1961";
 
         List<StationClimate> stationClimateList = climateService.getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations(gpsPoint1,gpsPoint2,fromYear);
+        int index = 1 ;
         for(StationClimate stationClimate : stationClimateList){
 
-        LOG.debug("StationClimate :  {}" ,stationClimate.getStationId());
+            if(stationClimate.getStationId()==index){
+                index++;
+            } else {
+              LOG.debug("SQL getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations : retounierte falsche Records !! " );
+
+            }
+
         }
-        LOG.debug("stationCLimateList.size {}" ,stationClimateList.get(800));
-
-
 
     }
 }

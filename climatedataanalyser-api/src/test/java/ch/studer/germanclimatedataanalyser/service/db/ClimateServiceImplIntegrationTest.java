@@ -27,7 +27,7 @@ import java.util.List;
 @SpringBootTest
 //@AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:H2Schema.sql"})
+@Sql({"classpath:schema.sql"})
 class ClimateServiceImplIntegrationTest {
 
     @Autowired

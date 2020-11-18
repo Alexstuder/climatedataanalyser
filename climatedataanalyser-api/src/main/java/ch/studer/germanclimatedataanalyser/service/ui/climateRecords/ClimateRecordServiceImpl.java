@@ -72,8 +72,8 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             this.bundesland.setName(bundesland);
             this.Gps1 = new GpsPoint(Double.parseDouble(gps1Lat), Double.parseDouble(gps1Long));
             this.Gps2 = new GpsPoint(Double.parseDouble(gps2Lat), Double.parseDouble(gps2Long));
-            this.year = yearFrom;
-            this.distanceYear = Integer.parseInt(distanceYear);
+            this.year = yearFrom.trim();
+            this.distanceYear = Integer.parseInt(distanceYear.trim());
 
             // ****************************************************************
             // get all Bundesland ClimateRecords from yearFrom
@@ -128,7 +128,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             } else {
                 // Get the next current year , just add the input parameter distanceYear to the current year
                 if (currentYear < Integer.parseInt(stationClimatesIn.get(currentIndex).getStartPeriod())) {
-                    currentYear = currentYear + Integer.parseInt(distanceYear);
+                    currentYear = currentYear + Integer.parseInt(distanceYear.trim());
                 }
             }
             currentIndex++;
@@ -222,7 +222,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
         //Proof distanceYear
         try {
-            this.distanceYear = Integer.parseInt(distanceYear.strip());
+            this.distanceYear = Integer.parseInt(distanceYear.trim());
         } catch (NumberFormatException e) {
             return distanceYear + " is not a valid number !";
         }

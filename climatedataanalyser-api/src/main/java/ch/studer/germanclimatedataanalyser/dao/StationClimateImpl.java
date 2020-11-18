@@ -106,7 +106,7 @@ public class StationClimateImpl implements StationClimateDAO {
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                " AND ((s.geoLatitude BETWEEN :gps2Latitude AND :gps1Latitude) AND ( s.geoLength BETWEEN :gps1Longitude AND :gps2Longitude))" +
+                " AND ((s.geoLatitude <= :gps1Latitude AND s.geoLength >= :gps1Longitude) AND ( s.geoLength >= :gps2Latitude AND s.geoLength <= :gps2Longitude))" +
                 " AND c.startPeriod >= :yearFrom" +
                 " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
                 .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
