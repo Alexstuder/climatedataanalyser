@@ -126,10 +126,10 @@ class StationWeatherServiceImplTest {
 
         List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
 
-        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019", 2, false);
+        List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019", 2, true);
 
-        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989", 2, true));
-        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959", 2, false));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989", 2, false));
+        stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959", 2, true));
 
 
         // remove random record between 1989 and 1960 !
