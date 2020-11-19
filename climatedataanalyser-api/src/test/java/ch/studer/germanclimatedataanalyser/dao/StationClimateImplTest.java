@@ -38,9 +38,30 @@ class StationClimateImplTest {
             if(stationClimate.getStationId()==index){
                 index++;
             } else {
-              LOG.debug("SQL getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations : retounierte falsche Records !! " );
+              LOG.debug("SQL getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations : retournierte falsche Records !! " );
 
             }
+
+        }
+
+    }
+    @Test
+    void getClimateForBundeslandFromYearOrderByYearAndStationId() {
+
+        final String bundesland = "Baden-Württemberg";
+        String fromYear = "1961";
+
+        List<StationClimate> stationClimateList = climateService.getClimateForBundeslandFromYearOrderedByFromYearAndStations(bundesland,fromYear);
+        int index = 1 ;
+        for(StationClimate stationClimate : stationClimateList){
+
+            if(stationClimate.getStationId()==index){
+                index++;
+            } else {
+                LOG.debug("SQL getClimateForBundeslandFromYearOrderedByFromYearAndStations : retournierte falsche Records !! " );
+
+            }
+           // LOG.debug("index " , stationClimateList.get(800) );
 
         }
 

@@ -17,4 +17,6 @@ public interface ClimateService {
     List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2);
 
     List<StationClimate> getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations(GpsPoint gps1, GpsPoint gps2,String fromYear);
+
+    List<StationClimate> getClimateForBundeslandFromYearOrderedByFromYearAndStations(String bundesland,String fromYear);
 }

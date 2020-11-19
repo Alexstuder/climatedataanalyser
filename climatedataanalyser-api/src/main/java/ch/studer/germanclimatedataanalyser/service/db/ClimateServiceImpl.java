@@ -118,6 +118,13 @@ public class ClimateServiceImpl implements ClimateService {
         return this.stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(gps1, gps2, fromYear);
     }
 
+
+    @Override
+    @Transactional
+    public List<StationClimate> getClimateForBundeslandFromYearOrderedByFromYearAndStations(String bundesland, String fromYear) {
+        return this.stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, fromYear);
+    }
+
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {

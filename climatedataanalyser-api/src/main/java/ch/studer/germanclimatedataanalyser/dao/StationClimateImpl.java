@@ -79,6 +79,7 @@ public class StationClimateImpl implements StationClimateDAO {
         return climateForGpsCoordinates;
     }
 
+    //TODO needed any more ?
     @Override
     public List<StationClimate> getClimateForGpsCoordinatesOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2) {
         List<StationClimate> climateForGpsCoordinates = null;
@@ -113,6 +114,26 @@ public class StationClimateImpl implements StationClimateDAO {
                 .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
                 .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
                 .setParameter("gps2Longitude", BigDecimal.valueOf(gps2.getLongitude()))
+                .setParameter("yearFrom", yearFrom);
+
+        // execute and get result list
+        climateForGpsCoordinates = theQuery.getResultList();
+
+        // There is only one Station !
+        return climateForGpsCoordinates;
+    }
+
+    @Override
+    public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String yearFrom) {
+        List<StationClimate> climateForGpsCoordinates = null;
+
+        Session currentSession = getSession();
+
+        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
+                " AND s.bundesLand = :bundesLand " +
+                " AND c.startPeriod >= :yearFrom" +
+                " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
+                .setParameter("bundesLand", bundesland)
                 .setParameter("yearFrom", yearFrom);
 
         // execute and get result list
