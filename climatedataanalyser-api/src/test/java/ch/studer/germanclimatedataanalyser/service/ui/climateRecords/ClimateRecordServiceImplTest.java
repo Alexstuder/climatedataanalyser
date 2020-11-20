@@ -5,6 +5,7 @@ import ch.studer.germanclimatedataanalyser.generate.test.data.ClimateTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.Bundesland;
+import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 
@@ -247,14 +254,81 @@ class ClimateRecordServiceImplTest {
         String long2 = "5.56";
         String yearFrom = "1938";
         String yearDistance = "5";
+        GpsPoint gpsPoint1 = new GpsPoint(Double.parseDouble(lat1),Double.parseDouble(long1));
+        GpsPoint gpsPoint2 = new GpsPoint(Double.parseDouble(lat2),Double.parseDouble(long2));
 
-        // get test List<ClimateRecords> as readed from Table
+        // TestResult :
+        // Happy Test !
         List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 2002, 5);
 
         // execute getClimateRecords and recife List<ClimateRecords> with calculated diff between the records from DB
         when(bundeslandProofer.proof()).thenReturn("");
-        when(stationClimateDAO.getClimateForBundesland(bundesland)).thenReturn(stationClimates);
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland,yearFrom)).thenReturn(stationClimates);
         ClimateRecordsDto climateRecordsDto = climateRecordService.getClimateRecords(bundesland, lat1, long1, lat2, long2, yearFrom, yearDistance);
+        Assertions.assertTrue(climateRecordsDto.getErrorMsg().isEmpty());
+
+
+
+        // TestResult :
+        // no ClimateRecords found for your search criteria : for Bundesland !
+        List<StationClimate> emptyStationClimates = new ArrayList<>();
+        when(bundeslandProofer.proof()).thenReturn("");
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland,yearFrom)).thenReturn(emptyStationClimates);
+        climateRecordsDto = climateRecordService.getClimateRecords(bundesland, lat1, long1, lat2, long2, yearFrom, yearDistance);
+        Assertions.assertEquals("There are no climateRecords for your search criteria !",climateRecordsDto.getErrorMsg());
+
+
+        // TestResult :
+        // no ClimateRecords found for your search criteria : for GPS Coordinates!
+       // when(bundeslandProofer.proof()).thenReturn("");
+        when(stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(any(GpsPoint.class),any(GpsPoint.class),eq(yearFrom))).thenReturn(emptyStationClimates);
+        climateRecordsDto = climateRecordService.getClimateRecords("", lat1, long1, lat2, long2, yearFrom, yearDistance);
+        Assertions.assertEquals("There are no climateRecords for your search criteria !",climateRecordsDto.getErrorMsg());
+
+
+    }
+
+    @Test
+    void getStationClimatesFromYearWithDistance(){
+
+    }
+
+    @Test
+    void getRelevantYears(){
+
+
+        // Test Motivation
+        //          arguments
+        //                  Start,  distanceYear    ,finishYear
+        // get 0            not possible
+        // get 1            1900,   5               ,1900
+        // exactly          1900,   5               ,1910
+        // one more         1900,   5               ,1911
+
+        List<Integer> relevantYears;
+        List<Integer> expected = Arrays.asList(1900);
+        ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
+        try {
+            Method method = ClimateRecordServiceImpl.class
+                    .getDeclaredMethod("getRelevantYears", int.class, int.class, int.class);
+            method.setAccessible(true);
+            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1900);
+
+            expected = Arrays.asList(1900,1905,1910);
+            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1910);
+            Assertions.assertEquals(expected,relevantYears);
+
+            expected = Arrays.asList(1900,1905,1910,1911);
+            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1911);
+            Assertions.assertEquals(expected,relevantYears);
+
+
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
 
 
     }

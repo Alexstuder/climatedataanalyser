@@ -1,13 +1,10 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
 
-import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecord;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.service.ui.climateRecords.ClimateRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/climateRecords")

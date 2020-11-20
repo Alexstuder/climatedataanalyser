@@ -27,7 +27,10 @@ public class Bundesland {
         return "";
     }
 
-    public void setName(String name){this.name = name.stripLeading().stripTrailing();}
+    public void setName(String name) {
+        this.name = name.stripLeading().stripTrailing();
+    }
+
     public String getName() {
         return name;
     }

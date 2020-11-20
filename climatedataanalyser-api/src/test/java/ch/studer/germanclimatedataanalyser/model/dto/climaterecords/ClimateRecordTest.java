@@ -3,8 +3,6 @@ package ch.studer.germanclimatedataanalyser.model.dto.climaterecords;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ClimateRecordTest {
 
     @Test
@@ -14,7 +12,7 @@ class ClimateRecordTest {
         ClimateRecord climateRecord = new ClimateRecord();
 
         climateRecord.setHeaderAsDifference();
-        Assertions.assertEquals(EXPECTED_DIFF,climateRecord.getHeader());
+        Assertions.assertEquals(EXPECTED_DIFF, climateRecord.getHeader());
 
     }
 
@@ -25,8 +23,8 @@ class ClimateRecordTest {
         final String EXPECTED_YEAR = YEAR_FROM + " - " + YEAR_TO;
 
         ClimateRecord climateRecord = new ClimateRecord();
-        climateRecord.setHeaderYearToYear("1990","2020");
-        Assertions.assertEquals(EXPECTED_YEAR,climateRecord.getHeader());
+        climateRecord.setHeaderYearToYear("1990", "2020");
+        Assertions.assertEquals(EXPECTED_YEAR, climateRecord.getHeader());
 
     }
 }

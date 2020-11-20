@@ -1,10 +1,9 @@
 package ch.studer.germanclimatedataanalyser.controller;
 
 
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserRequestDto;
-import ch.studer.germanclimatedataanalyser.model.dto.ClimateAnalyserResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/comparedStations")
