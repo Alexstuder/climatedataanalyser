@@ -39,7 +39,7 @@ public class ClimateServiceImpl implements ClimateService {
 
         while (end <= stationWeatherPerYears.size()) {
 
-            if (Integer.parseInt(stationWeatherPerYears.get(start).getYear()) - Integer.parseInt(stationWeatherPerYears.get(end - 1).getYear()) == period-1 ) {
+            if (Integer.parseInt(stationWeatherPerYears.get(start).getYear()) - Integer.parseInt(stationWeatherPerYears.get(end - 1).getYear()) == period - 1) {
 
                 StationClimate stationClimate = new StationClimate(stationWeatherPerYears.get(start).getStationID());
                 stationClimate.setEndPeriod(stationWeatherPerYears.get(start).getYear());

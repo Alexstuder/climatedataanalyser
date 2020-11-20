@@ -52,8 +52,12 @@ public class GermanClimateDataAnalyserApplicationContext {
     }
 
     @Bean
-    ClimateRecordService climateRecordService() {return new ClimateRecordServiceImpl();}
+    ClimateRecordService climateRecordService() {
+        return new ClimateRecordServiceImpl();
+    }
 
     @Bean
-    Bundesland bundesland() {return new Bundesland();}
+    Bundesland bundesland() {
+        return new Bundesland();
+    }
 }

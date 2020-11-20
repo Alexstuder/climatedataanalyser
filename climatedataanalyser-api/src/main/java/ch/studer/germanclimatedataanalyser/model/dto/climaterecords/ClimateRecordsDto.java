@@ -9,9 +9,9 @@ public class ClimateRecordsDto {
 
     private String errorMsg;
 
-    public ClimateRecordsDto(){
-        climateRecordList= new ArrayList<ClimateRecord>();
-        errorMsg="";
+    public ClimateRecordsDto() {
+        climateRecordList = new ArrayList<ClimateRecord>();
+        errorMsg = "";
     }
 
 
