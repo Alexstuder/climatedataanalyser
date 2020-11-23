@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.service.ui.climateRecords;
 
 import ch.studer.germanclimatedataanalyser.dao.StationClimateDAO;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import ch.studer.germanclimatedataanalyser.model.database.TemperatureForMonths;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecord;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.Bundesland;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ClimateRecordServiceImpl implements ClimateRecordService {
 
@@ -84,16 +87,51 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             // ***************************************************************************
             // Agregate alle Stations in StationClimates to 1 ClimateRecord / year
             // ***************************************************************************
-
+            List<ClimateRecord> averagedClimateRecords = getAverageClimatePerYear(relevantYearsStationClimates);
 
             // ***************************************************
             // Calculate the difference between each ClimateRecord
-
             // ***************************************************
 
         }
 
         return climateRecordsDto;
+    }
+
+    private List<ClimateRecord> getAverageClimatePerYear(List<StationClimate> relevantYearsStationClimates) {
+        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
+        List<TemperatureForMonths> collectTemperatureForMonth = new ArrayList<TemperatureForMonths>();
+        ClimateRecord climateRecord;
+
+        String startPeriod ;
+        String endPeriod ;
+
+        Map<String, List<StationClimate>> collect = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
+
+        for(String key : collect.keySet()){
+            for (StationClimate stationClimates : collect.get(key)){
+                collectTemperatureForMonth.add(stationClimates.getTemperatureForMonths());
+            }
+
+
+            //Build the climateRecord
+            climateRecord = new ClimateRecord();
+            // Get start and end Period to build the header of the ClimatRecord
+            startPeriod = collect.get(key).get(0).getStartPeriod();
+            endPeriod = collect.get(key).get(0).getEndPeriod();
+            climateRecord.setHeaderYearToYear(startPeriod,endPeriod);
+
+            // Get the average temperature
+            climateRecord.mapAndSetFrom(TemperatureForMonths.getAverage(collectTemperatureForMonth));
+
+            climateRecords.add(climateRecord);
+
+            //get a fresh TemperatreForMonth List
+            collectTemperatureForMonth = new ArrayList<TemperatureForMonths>();
+
+        }
+
+        return climateRecords;
     }
 
 
@@ -163,7 +201,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
 
     /**
-     * Get the climateRecords remove alle records between so you get the min. distance of @Input distanceYear
+     * Get the climateRecords remove all records between startPeriod and EndPeriod so you get the min. distance of @Input distanceYear
      * <p>
      * it is expected that the @Input stationClimates starts from the index(0) and is sorted in ascending order
      */
@@ -172,34 +210,33 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         List<StationClimate> stationClimatesRe = new ArrayList<StationClimate>();
 
         int currentYear = Integer.valueOf(stationClimatesIn.get(0).getStartPeriod());
-        int finishYear = Integer.valueOf(stationClimatesIn.get(stationClimatesIn.size()).getStartPeriod());
-        List<Integer> relevantYears = getRelevantYears(currentYear, distanceYear, finishYear);
+        int finishYear = Integer.valueOf(stationClimatesIn.get(stationClimatesIn.size() - 1).getStartPeriod());
+        List<String> relevantYears = getRelevantYears(currentYear, distanceYear, finishYear);
 
-
-        for (StationClimate stationClimate : stationClimatesIn) {
-
-
-        }
+        stationClimatesRe = stationClimatesIn.stream()
+                .filter(stationClimate -> String.valueOf(relevantYears).contains(stationClimate.getStartPeriod()))
+                .collect(Collectors.toList());
 
 
         return stationClimatesRe;
     }
 
-    private List<Integer> getRelevantYears(int startYear, int distanceYear, int finishYear) {
-        List<Integer> relevantYears = new ArrayList<Integer>();
+
+    private List<String> getRelevantYears(int startYear, int distanceYear, int finishYear) {
+        List<String> relevantYears = new ArrayList<String>();
 
         int currentYear = startYear;
 
         // Add first relevant Year
-        relevantYears.add(currentYear);
+        relevantYears.add(String.valueOf(currentYear));
         while (currentYear + distanceYear < finishYear) {
 
             currentYear = currentYear + distanceYear;
-            relevantYears.add(currentYear);
+            relevantYears.add(String.valueOf(currentYear));
         }
 
         if (currentYear != finishYear) {
-            relevantYears.add(finishYear);
+            relevantYears.add(String.valueOf(finishYear));
         }
 
         return relevantYears;

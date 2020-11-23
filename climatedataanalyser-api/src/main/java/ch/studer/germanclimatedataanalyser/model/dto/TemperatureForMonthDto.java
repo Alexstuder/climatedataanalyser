@@ -152,6 +152,23 @@ public class TemperatureForMonthDto {
 
         return temperatureForMonthDto;
     }
+    public void mapAndSetFrom(TemperatureForMonths temperatureForMonths) {
+        TemperatureForMonthDto temperatureForMonthDto = new TemperatureForMonthDto();
+
+        this.setJanuar(temperatureForMonths.getJanuar());
+        this.setFebruar(temperatureForMonths.getFebruar());
+        this.setMaerz(temperatureForMonths.getMaerz());
+        this.setApril(temperatureForMonths.getApril());
+        this.setMai(temperatureForMonths.getMai());
+        this.setJuni(temperatureForMonths.getJuni());
+        this.setJuli(temperatureForMonths.getJuli());
+        this.setAugust(temperatureForMonths.getAugust());
+        this.setSeptember(temperatureForMonths.getSeptember());
+        this.setOktober(temperatureForMonths.getOktober());
+        this.setNovember(temperatureForMonths.getNovember());
+        this.setDezember(temperatureForMonths.getDezember());
+
+    }
 
     public boolean isNotZero() {
         boolean status = false;

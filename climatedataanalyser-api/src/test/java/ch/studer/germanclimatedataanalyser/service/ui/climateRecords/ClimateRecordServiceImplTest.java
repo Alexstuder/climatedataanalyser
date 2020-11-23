@@ -3,6 +3,7 @@ package ch.studer.germanclimatedataanalyser.service.ui.climateRecords;
 import ch.studer.germanclimatedataanalyser.dao.StationClimateDAO;
 import ch.studer.germanclimatedataanalyser.generate.test.data.ClimateTestData;
 import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
+import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecord;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.Bundesland;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
@@ -78,7 +79,7 @@ class ClimateRecordServiceImplTest {
 
         //* Valid Bundesland
         when(bundeslandProofer.proof()).thenReturn("");
-        when(stationClimateDAO.getClimateForBundesland(BUNDESLAND)).thenReturn(stationClimates);
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(BUNDESLAND, YEAR_FROM_VALID)).thenReturn(stationClimates);
         climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
@@ -218,6 +219,7 @@ class ClimateRecordServiceImplTest {
 
         //* Strip Year From : valid
         when(bundeslandProofer.proof()).thenReturn("");
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(BUNDESLAND, YEAR_FROM_VALID_STRIP)).thenReturn(stationClimates);
         climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
@@ -225,7 +227,6 @@ class ClimateRecordServiceImplTest {
                 , GPS_LONG_VALID
                 , YEAR_FROM_VALID_STRIP
                 , YEAR_DISTANCE_VALID);
-
         Assertions.assertEquals("", climateRecordsDto.getErrorMsg());
 
         //* Strip Year Distance : valid
@@ -254,8 +255,8 @@ class ClimateRecordServiceImplTest {
         String long2 = "5.56";
         String yearFrom = "1938";
         String yearDistance = "5";
-        GpsPoint gpsPoint1 = new GpsPoint(Double.parseDouble(lat1),Double.parseDouble(long1));
-        GpsPoint gpsPoint2 = new GpsPoint(Double.parseDouble(lat2),Double.parseDouble(long2));
+        GpsPoint gpsPoint1 = new GpsPoint(Double.parseDouble(lat1), Double.parseDouble(long1));
+        GpsPoint gpsPoint2 = new GpsPoint(Double.parseDouble(lat2), Double.parseDouble(long2));
 
         // TestResult :
         // Happy Test !
@@ -263,38 +264,88 @@ class ClimateRecordServiceImplTest {
 
         // execute getClimateRecords and recife List<ClimateRecords> with calculated diff between the records from DB
         when(bundeslandProofer.proof()).thenReturn("");
-        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland,yearFrom)).thenReturn(stationClimates);
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, yearFrom)).thenReturn(stationClimates);
         ClimateRecordsDto climateRecordsDto = climateRecordService.getClimateRecords(bundesland, lat1, long1, lat2, long2, yearFrom, yearDistance);
         Assertions.assertTrue(climateRecordsDto.getErrorMsg().isEmpty());
-
 
 
         // TestResult :
         // no ClimateRecords found for your search criteria : for Bundesland !
         List<StationClimate> emptyStationClimates = new ArrayList<>();
         when(bundeslandProofer.proof()).thenReturn("");
-        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland,yearFrom)).thenReturn(emptyStationClimates);
+        when(stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, yearFrom)).thenReturn(emptyStationClimates);
         climateRecordsDto = climateRecordService.getClimateRecords(bundesland, lat1, long1, lat2, long2, yearFrom, yearDistance);
-        Assertions.assertEquals("There are no climateRecords for your search criteria !",climateRecordsDto.getErrorMsg());
+        Assertions.assertEquals("There are no climateRecords for your search criteria !", climateRecordsDto.getErrorMsg());
 
 
         // TestResult :
         // no ClimateRecords found for your search criteria : for GPS Coordinates!
-       // when(bundeslandProofer.proof()).thenReturn("");
-        when(stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(any(GpsPoint.class),any(GpsPoint.class),eq(yearFrom))).thenReturn(emptyStationClimates);
+        // when(bundeslandProofer.proof()).thenReturn("");
+        when(stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(any(GpsPoint.class), any(GpsPoint.class), eq(yearFrom))).thenReturn(emptyStationClimates);
         climateRecordsDto = climateRecordService.getClimateRecords("", lat1, long1, lat2, long2, yearFrom, yearDistance);
-        Assertions.assertEquals("There are no climateRecords for your search criteria !",climateRecordsDto.getErrorMsg());
+        Assertions.assertEquals("There are no climateRecords for your search criteria !", climateRecordsDto.getErrorMsg());
 
 
     }
 
     @Test
-    void getStationClimatesFromYearWithDistance(){
+    void getStationClimatesFromYearWithDistance() {
+
+
+        ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
+        // get test List<ClimateRecords> as readed from Table
+        try {
+            Method method = ClimateRecordServiceImpl.class.getDeclaredMethod("getStationClimatesFromYearWithDistance", int.class, List.class);
+            method.setAccessible(true);
+
+            // STart Test with one Station
+            // Expected Tests return 1 , hit exactly highes position , one more and one under
+            List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1900, 1);
+            List<StationClimate> stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(1, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1910, 1);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(3, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1911, 1);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(4, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1909, 1);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(3, stationClimatesRe.size());
+
+            // Repeate all tests with 5 Station
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1900, 5);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(5, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1910, 5);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(15, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1911, 5);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(20, stationClimatesRe.size());
+
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1909, 5);
+            stationClimatesRe = (List<StationClimate>) method.invoke(climateRecordService, 5, stationClimates);
+            Assertions.assertEquals(15, stationClimatesRe.size());
+
+
+
+
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     @Test
-    void getRelevantYears(){
+    void getRelevantYears() {
 
 
         // Test Motivation
@@ -305,23 +356,47 @@ class ClimateRecordServiceImplTest {
         // exactly          1900,   5               ,1910
         // one more         1900,   5               ,1911
 
-        List<Integer> relevantYears;
-        List<Integer> expected = Arrays.asList(1900);
+        List<String> relevantYears;
+        List<String> expected = Arrays.asList("1900");
         ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
         try {
             Method method = ClimateRecordServiceImpl.class
                     .getDeclaredMethod("getRelevantYears", int.class, int.class, int.class);
             method.setAccessible(true);
-            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1900);
+            relevantYears = (List<String>) method.invoke(climateRecordService, 1900, 5, 1900);
 
-            expected = Arrays.asList(1900,1905,1910);
-            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1910);
-            Assertions.assertEquals(expected,relevantYears);
+            expected = Arrays.asList("1900", "1905", "1910");
+            relevantYears = (List<String>) method.invoke(climateRecordService, 1900, 5, 1910);
+            Assertions.assertEquals(expected, relevantYears);
 
-            expected = Arrays.asList(1900,1905,1910,1911);
-            relevantYears = (List<Integer>) method.invoke(climateRecordService,1900,5,1911);
-            Assertions.assertEquals(expected,relevantYears);
+            expected = Arrays.asList("1900", "1905", "1910", "1911");
+            relevantYears = (List<String>) method.invoke(climateRecordService, 1900, 5, 1911);
+            Assertions.assertEquals(expected, relevantYears);
 
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    @Test
+    void getAverageClimatePerYear() {
+
+
+        // Test Motivation
+
+        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
+        List<StationClimate>  stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 2020, 5);
+        ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
+
+        try {
+            Method method = ClimateRecordServiceImpl.class
+                    .getDeclaredMethod("getAverageClimatePerYear", List.class);
+            method.setAccessible(true);
+            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService,stationClimates);
 
 
 
@@ -330,6 +405,6 @@ class ClimateRecordServiceImplTest {
         }
 
 
-
     }
+
 }
