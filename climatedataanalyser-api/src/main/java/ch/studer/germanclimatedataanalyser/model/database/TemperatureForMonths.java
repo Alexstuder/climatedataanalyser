@@ -86,7 +86,7 @@ public class TemperatureForMonths {
     }
 
 
-    public TemperatureForMonths getAverage(List<TemperatureForMonths> temperatureForMonthsList) {
+    public static TemperatureForMonths getAverage(List<TemperatureForMonths> temperatureForMonthsList) {
         TemperatureForMonths averageTemperature = new TemperatureForMonths();
         averageTemperature.initWithZero();
 
