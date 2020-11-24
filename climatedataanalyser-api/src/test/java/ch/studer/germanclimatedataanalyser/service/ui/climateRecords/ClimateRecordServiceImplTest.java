@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -334,9 +335,6 @@ class ClimateRecordServiceImplTest {
             Assertions.assertEquals(15, stationClimatesRe.size());
 
 
-
-
-
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -387,17 +385,40 @@ class ClimateRecordServiceImplTest {
 
 
         // Test Motivation
+        // 1 Set of records = one set with year 1900
+        // Set with more records = 1900 - 19010
 
         List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
-        List<StationClimate>  stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 2020, 5);
-        ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
 
         try {
-            Method method = ClimateRecordServiceImpl.class
-                    .getDeclaredMethod("getAverageClimatePerYear", List.class);
+            //Prepare TestData
+            List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1910, 5);
+            //Prepare private Methode for testing
+            ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
+            Method method = ClimateRecordServiceImpl.class.getDeclaredMethod("getAverageClimatePerYear", List.class);
             method.setAccessible(true);
-            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService,stationClimates);
 
+            // start Test
+            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService, stationClimates);
+
+            // Assertions
+            Assertions.assertEquals(11, climateRecords.size());
+            //Just assert the first Record
+            Assertions.assertEquals(new BigDecimal("3.000"), climateRecords.get(0).getJanuar());
+            Assertions.assertEquals("1877 - 1906", climateRecords.get(0).getHeader());
+
+
+            //Prepare TestData
+            stationClimates = ClimateTestData.getStationClimateOrderByBeginYearAndStationId(1900, 1900, 5);
+
+            // start Test
+            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService, stationClimates);
+
+            // Assertions
+            Assertions.assertEquals(1, climateRecords.size());
+            //Just assert the first Record
+            Assertions.assertEquals(new BigDecimal("3.000"), climateRecords.get(0).getJanuar());
+            Assertions.assertEquals("1871 - 1900", climateRecords.get(0).getHeader());
 
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

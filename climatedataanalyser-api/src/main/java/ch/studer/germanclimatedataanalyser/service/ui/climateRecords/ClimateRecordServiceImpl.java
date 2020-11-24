@@ -92,6 +92,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             // ***************************************************
             // Calculate the difference between each ClimateRecord
             // ***************************************************
+           // climateRecordsDto.setClimateRecordList(getDifferences(averagedClimateRecords));
 
         }
 
@@ -103,13 +104,13 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         List<TemperatureForMonths> collectTemperatureForMonth = new ArrayList<TemperatureForMonths>();
         ClimateRecord climateRecord;
 
-        String startPeriod ;
-        String endPeriod ;
+        String startPeriod;
+        String endPeriod;
 
-        Map<String, List<StationClimate>> collect = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
+        Map<String, List<StationClimate>> stationClimatesGroupeByStartPeriod = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
 
-        for(String key : collect.keySet()){
-            for (StationClimate stationClimates : collect.get(key)){
+        for (String key : stationClimatesGroupeByStartPeriod.keySet()) {
+            for (StationClimate stationClimates : stationClimatesGroupeByStartPeriod.get(key)) {
                 collectTemperatureForMonth.add(stationClimates.getTemperatureForMonths());
             }
 
@@ -117,9 +118,9 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             //Build the climateRecord
             climateRecord = new ClimateRecord();
             // Get start and end Period to build the header of the ClimatRecord
-            startPeriod = collect.get(key).get(0).getStartPeriod();
-            endPeriod = collect.get(key).get(0).getEndPeriod();
-            climateRecord.setHeaderYearToYear(startPeriod,endPeriod);
+            startPeriod = stationClimatesGroupeByStartPeriod.get(key).get(0).getStartPeriod();
+            endPeriod = stationClimatesGroupeByStartPeriod.get(key).get(0).getEndPeriod();
+            climateRecord.setHeaderYearToYear(startPeriod, endPeriod);
 
             // Get the average temperature
             climateRecord.mapAndSetFrom(TemperatureForMonths.getAverage(collectTemperatureForMonth));
@@ -252,9 +253,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             calculatedClimateRecords.add(climateRecords.get(i));
             calculatedClimateRecords.add(getDiff(climateRecords.get(i), climateRecords.get(i++)));
 
-
         }
-
 
         return calculatedClimateRecords;
     }
