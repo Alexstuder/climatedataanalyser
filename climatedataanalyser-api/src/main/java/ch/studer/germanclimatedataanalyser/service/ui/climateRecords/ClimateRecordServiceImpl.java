@@ -92,7 +92,11 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             // ***************************************************
             // Calculate the difference between each ClimateRecord
             // ***************************************************
-           // climateRecordsDto.setClimateRecordList(getDifferences(averagedClimateRecords));
+            if (averagedClimateRecords.size()!=1){
+                climateRecordsDto.setClimateRecordList(getDifferences(averagedClimateRecords));
+            } else {
+                climateRecordsDto.setClimateRecordList(averagedClimateRecords);
+            }
 
         }
 
@@ -244,7 +248,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
     }
 
 
-    private Collection<? extends ClimateRecord> getDifferences(List<ClimateRecord> climateRecords) {
+    private List<ClimateRecord> getDifferences(List<ClimateRecord> climateRecords) {
 
         List<ClimateRecord> calculatedClimateRecords = new ArrayList<ClimateRecord>();
         int currentIndex = 0;

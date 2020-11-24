@@ -383,7 +383,6 @@ class ClimateRecordServiceImplTest {
     @Test
     void getAverageClimatePerYear() {
 
-
         // Test Motivation
         // 1 Set of records = one set with year 1900
         // Set with more records = 1900 - 19010
@@ -427,5 +426,96 @@ class ClimateRecordServiceImplTest {
 
 
     }
+
+    @Test
+    void getDifference() {
+
+        //Test scope
+        //Input has min 2 Records
+        // 1 Records has lower temperature as 2
+        // 2 has higher temperature as 3 !
+
+        List<ClimateRecord> climateRecords = getTestDataForDifference();
+        //Prepare private Methode for testing
+        ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
+        Method method = null;
+
+        try {
+            method = ClimateRecordServiceImpl.class.getDeclaredMethod("getDifferences", List.class);
+            method.setAccessible(true);
+
+            // start Test
+            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService, climateRecords);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        // Assertions
+        Assertions.assertEquals(11, climateRecords.size());
+
+
+    }
+
+    private List<ClimateRecord> getTestDataForDifference() {
+        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
+
+        //Record 1 lower the Record2
+        ClimateRecord climateRecord1 = new ClimateRecord();
+        climateRecord1.setHeaderYearToYear("1900", "1929");
+        climateRecord1.setJanuar(new BigDecimal("1"));
+        climateRecord1.setFebruar(new BigDecimal("2"));
+        climateRecord1.setMaerz(new BigDecimal("3"));
+        climateRecord1.setApril(new BigDecimal("4"));
+        climateRecord1.setMai(new BigDecimal("5"));
+        climateRecord1.setJuni(new BigDecimal("6"));
+        climateRecord1.setJuli(new BigDecimal("7"));
+        climateRecord1.setAugust(new BigDecimal("8"));
+        climateRecord1.setSeptember(new BigDecimal("9"));
+        climateRecord1.setOktober(new BigDecimal("10"));
+        climateRecord1.setNovember(new BigDecimal("11"));
+        climateRecord1.setDezember(new BigDecimal("12"));
+
+        //Record 1 lower the Record2 and Record 2 is higher than Record3
+        ClimateRecord climateRecord2 = new ClimateRecord();
+        climateRecord2.setHeaderYearToYear("1901", "1930");
+        climateRecord2.setJanuar(new BigDecimal("11"));
+        climateRecord2.setFebruar(new BigDecimal("12"));
+        climateRecord2.setMaerz(new BigDecimal("13"));
+        climateRecord2.setApril(new BigDecimal("14"));
+        climateRecord2.setMai(new BigDecimal("15"));
+        climateRecord2.setJuni(new BigDecimal("16"));
+        climateRecord2.setJuli(new BigDecimal("17"));
+        climateRecord2.setAugust(new BigDecimal("18"));
+        climateRecord2.setSeptember(new BigDecimal("19"));
+        climateRecord2.setOktober(new BigDecimal("20"));
+        climateRecord2.setNovember(new BigDecimal("21"));
+        climateRecord2.setDezember(new BigDecimal("22"));
+
+
+        //Record 1 lower the Record2
+        ClimateRecord climateRecord3 = new ClimateRecord();
+        climateRecord3.setHeaderYearToYear("1902", "1931");
+        climateRecord3.setJanuar(new BigDecimal("1"));
+        climateRecord3.setFebruar(new BigDecimal("2"));
+        climateRecord3.setMaerz(new BigDecimal("3"));
+        climateRecord3.setApril(new BigDecimal("4"));
+        climateRecord3.setMai(new BigDecimal("5"));
+        climateRecord3.setJuni(new BigDecimal("6"));
+        climateRecord3.setJuli(new BigDecimal("7"));
+        climateRecord3.setAugust(new BigDecimal("8"));
+        climateRecord3.setSeptember(new BigDecimal("9"));
+        climateRecord3.setOktober(new BigDecimal("10"));
+        climateRecord3.setNovember(new BigDecimal("11"));
+        climateRecord3.setDezember(new BigDecimal("12"));
+
+        climateRecords.add(climateRecord1);
+        climateRecords.add(climateRecord2);
+        climateRecords.add(climateRecord3);
+
+
+        return climateRecords;
+    }
+
 
 }
