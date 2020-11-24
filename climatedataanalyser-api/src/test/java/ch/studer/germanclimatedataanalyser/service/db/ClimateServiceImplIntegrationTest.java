@@ -15,17 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-//@RunWith(SpringRunner.class)
-//@DataJpaTest
 @SpringBootTest
-//@AutoConfigureTestEntityManager
 @TestPropertySource(locations = "classpath:test-it.properties")
 @Sql({"classpath:schema.sql"})
 class ClimateServiceImplIntegrationTest {
@@ -40,19 +36,12 @@ class ClimateServiceImplIntegrationTest {
     @Autowired
     ClimateAnalyserService climateAnalyserService;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(ClimateServiceImplIntegrationTest.class);
 
     @BeforeEach
     void setUp() {
-        // Prepend the Tables
-    /*    jdbcTemplate.execute("DROP Table station");
-        jdbcTemplate.execute("DROP Table month");
-        jdbcTemplate.execute("DROP Table weather");
-        jdbcTemplate.execute("DROP Table climate");
-*/
+
         List<StationClimate> stationClimates = ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(14, 2016, 20);
 
         climateService.saveAllClimateAtStationId(stationClimates);

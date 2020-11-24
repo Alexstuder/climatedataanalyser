@@ -10,7 +10,7 @@ public interface ClimateRecordService {
             , String gps2Lat
             , String gps2Long
             , String yearFrom
-            , String yearTo
+            , String distanceYear
     );
 
 }
