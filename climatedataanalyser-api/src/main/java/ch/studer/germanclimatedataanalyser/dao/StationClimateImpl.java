@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -124,6 +125,7 @@ public class StationClimateImpl implements StationClimateDAO {
     }
 
     @Override
+    @Transactional
     public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String yearFrom) {
         List<StationClimate> climateForGpsCoordinates = null;
 
