@@ -1,15 +1,25 @@
 package ch.studer.germanclimatedataanalyser.service.ui.climateRecords;
 
+import ch.studer.germanclimatedataanalyser.generate.test.data.ClimateTestData;
+import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
+import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:ClimateRecordService/H2Schema.sql","classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
+//@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 //@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 
 public class ClimateRecordsServiceIntegrationTest {
@@ -21,9 +31,43 @@ public class ClimateRecordsServiceIntegrationTest {
     @Autowired
     ClimateRecordService climateRecordService;
 
+    @Autowired
+    ClimateService climateService;
+
+    @Before
+    void setup() {
+
+        // Stations 1-5 = Valid / Station 6-9 = notValid
+        // YearFrom 1880 - 1930
+
+        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+        StationClimate stationClimate = new StationClimate();
+        stationClimate.setEndPeriod("1900");
+        stationClimate.setEndPeriod("1929");
+        stationClimate.setJanuar(new BigDecimal("1"));
+        stationClimate.setFebruar(new BigDecimal("1"));
+        stationClimate.setMaerz(new BigDecimal("1"));
+        stationClimate.setApril(new BigDecimal("1"));
+        stationClimate.setMai(new BigDecimal("1"));
+        stationClimate.setJuni(new BigDecimal("1"));
+        stationClimate.setJuli(new BigDecimal("1"));
+        stationClimate.setAugust(new BigDecimal("1"));
+        stationClimate.setSeptember(new BigDecimal("1"));
+        stationClimate.setOktober(new BigDecimal("1"));
+        stationClimate.setNovember(new BigDecimal("1"));
+        stationClimate.setDezember(new BigDecimal("1"));
+
+       stationClimates.add(stationClimate);
+
+        climateService.saveAllClimateAtStationId(ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(1880, 1930,9));
+
+    }
+
 
     @Test
     void testClimateRecordServiceWithBundesland() {
+
+        setup();
 
         final String BUNDESLAND = "Baden-Württemberg";
         final String GPS_LAT_1 = "0";
@@ -34,7 +78,7 @@ public class ClimateRecordsServiceIntegrationTest {
         final String YEAR_DISTANCE = "1";
 
         ClimateRecordsDto climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND, GPS_LAT_1, GPS_LONG_1, GPS_LAT_2, GPS_LONG_2, YEAR_FROM, YEAR_DISTANCE);
-       // climateRecordsDto.getClimateRecordList().get(99999);
+        // climateRecordsDto.getClimateRecordList().get(99999);
 
     }
 
