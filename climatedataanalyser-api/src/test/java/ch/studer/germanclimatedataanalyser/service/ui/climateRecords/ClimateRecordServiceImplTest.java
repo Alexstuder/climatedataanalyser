@@ -436,6 +436,7 @@ class ClimateRecordServiceImplTest {
         // 2 has higher temperature as 3 !
 
         List<ClimateRecord> climateRecords = getTestDataForDifference();
+        List<ClimateRecord> climateRecordsExpect = new ArrayList<ClimateRecord>();
         //Prepare private Methode for testing
         ClimateRecordServiceImpl climateRecordService = new ClimateRecordServiceImpl();
         Method method = null;
@@ -445,14 +446,91 @@ class ClimateRecordServiceImplTest {
             method.setAccessible(true);
 
             // start Test
-            climateRecords = (List<ClimateRecord>) method.invoke(climateRecordService, climateRecords);
+            climateRecordsExpect = (List<ClimateRecord>) method.invoke(climateRecordService, climateRecords);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
 
+        // Assertions Size
+        Assertions.assertEquals(5, climateRecordsExpect.size());
+        // Assertions First record
+        Assertions.assertEquals("1900 - 1929", climateRecordsExpect.get(0).getHeader());
+        Assertions.assertEquals(new BigDecimal(1), climateRecordsExpect.get(0).getJanuar());
+        Assertions.assertEquals(new BigDecimal(2), climateRecordsExpect.get(0).getFebruar());
+        Assertions.assertEquals(new BigDecimal(3), climateRecordsExpect.get(0).getMaerz());
+        Assertions.assertEquals(new BigDecimal(4), climateRecordsExpect.get(0).getApril());
+        Assertions.assertEquals(new BigDecimal(5), climateRecordsExpect.get(0).getMai());
+        Assertions.assertEquals(new BigDecimal(6), climateRecordsExpect.get(0).getJuni());
+        Assertions.assertEquals(new BigDecimal(7), climateRecordsExpect.get(0).getJuli());
+        Assertions.assertEquals(new BigDecimal(8), climateRecordsExpect.get(0).getAugust());
+        Assertions.assertEquals(new BigDecimal(9), climateRecordsExpect.get(0).getSeptember());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(0).getOktober());
+        Assertions.assertEquals(new BigDecimal(11), climateRecordsExpect.get(0).getNovember());
+        Assertions.assertEquals(new BigDecimal(12), climateRecordsExpect.get(0).getDezember());
+
+
         // Assertions
-        Assertions.assertEquals(11, climateRecords.size());
+        Assertions.assertEquals("diff.", climateRecordsExpect.get(1).getHeader());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getJanuar());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getFebruar());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getMaerz());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getApril());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getMai());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getJuni());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getJuli());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getAugust());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getSeptember());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getOktober());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getNovember());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(1).getDezember());
+
+        // Assertions third record
+        Assertions.assertEquals("1901 - 1930", climateRecordsExpect.get(2).getHeader());
+        Assertions.assertEquals(new BigDecimal(11), climateRecordsExpect.get(2).getJanuar());
+        Assertions.assertEquals(new BigDecimal(12), climateRecordsExpect.get(2).getFebruar());
+        Assertions.assertEquals(new BigDecimal(13), climateRecordsExpect.get(2).getMaerz());
+        Assertions.assertEquals(new BigDecimal(14), climateRecordsExpect.get(2).getApril());
+        Assertions.assertEquals(new BigDecimal(15), climateRecordsExpect.get(2).getMai());
+        Assertions.assertEquals(new BigDecimal(16), climateRecordsExpect.get(2).getJuni());
+        Assertions.assertEquals(new BigDecimal(17), climateRecordsExpect.get(2).getJuli());
+        Assertions.assertEquals(new BigDecimal(18), climateRecordsExpect.get(2).getAugust());
+        Assertions.assertEquals(new BigDecimal(19), climateRecordsExpect.get(2).getSeptember());
+        Assertions.assertEquals(new BigDecimal(20), climateRecordsExpect.get(2).getOktober());
+        Assertions.assertEquals(new BigDecimal(21), climateRecordsExpect.get(2).getNovember());
+        Assertions.assertEquals(new BigDecimal(22), climateRecordsExpect.get(2).getDezember());
+
+
+
+        Assertions.assertEquals("diff.", climateRecordsExpect.get(3).getHeader());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getJanuar());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getFebruar());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getMaerz());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getApril());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getMai());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getJuni());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getJuli());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getAugust());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getSeptember());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getOktober());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getNovember());
+        Assertions.assertEquals(new BigDecimal(-10), climateRecordsExpect.get(3).getDezember());
+
+        // Assertions third record
+        Assertions.assertEquals("1902 - 1931", climateRecordsExpect.get(4).getHeader());
+        Assertions.assertEquals(new BigDecimal(1), climateRecordsExpect.get(4).getJanuar());
+        Assertions.assertEquals(new BigDecimal(2), climateRecordsExpect.get(4).getFebruar());
+        Assertions.assertEquals(new BigDecimal(3), climateRecordsExpect.get(4).getMaerz());
+        Assertions.assertEquals(new BigDecimal(4), climateRecordsExpect.get(4).getApril());
+        Assertions.assertEquals(new BigDecimal(5), climateRecordsExpect.get(4).getMai());
+        Assertions.assertEquals(new BigDecimal(6), climateRecordsExpect.get(4).getJuni());
+        Assertions.assertEquals(new BigDecimal(7), climateRecordsExpect.get(4).getJuli());
+        Assertions.assertEquals(new BigDecimal(8), climateRecordsExpect.get(4).getAugust());
+        Assertions.assertEquals(new BigDecimal(9), climateRecordsExpect.get(4).getSeptember());
+        Assertions.assertEquals(new BigDecimal(10), climateRecordsExpect.get(4).getOktober());
+        Assertions.assertEquals(new BigDecimal(11), climateRecordsExpect.get(4).getNovember());
+        Assertions.assertEquals(new BigDecimal(12), climateRecordsExpect.get(4).getDezember());
+
 
 
     }
