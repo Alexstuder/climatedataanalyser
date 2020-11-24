@@ -252,12 +252,15 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
         List<ClimateRecord> calculatedClimateRecords = new ArrayList<ClimateRecord>();
         int currentIndex = 0;
-        for (int i = 0; i < climateRecords.size(); ) {
+        for (int i = 0; i < climateRecords.size()-1;i++ ) {
             //persist the record
             calculatedClimateRecords.add(climateRecords.get(i));
-            calculatedClimateRecords.add(getDiff(climateRecords.get(i), climateRecords.get(i++)));
+            calculatedClimateRecords.add(getDiff(climateRecords.get(i), climateRecords.get(i + 1)));
 
         }
+
+        // Add Last Record without Diff Calculation
+        calculatedClimateRecords.add(climateRecords.get(climateRecords.size()-1));
 
         return calculatedClimateRecords;
     }
@@ -268,6 +271,17 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         returnClimateRecord.setHeaderAsDifference();
         ;
         returnClimateRecord.setJanuar(second.getJanuar().subtract(first.getJanuar()));
+        returnClimateRecord.setFebruar(second.getFebruar().subtract(first.getFebruar()));
+        returnClimateRecord.setMaerz(second.getMaerz().subtract(first.getMaerz()));
+        returnClimateRecord.setApril(second.getApril().subtract(first.getApril()));
+        returnClimateRecord.setMai(second.getMai().subtract(first.getMai()));
+        returnClimateRecord.setJuni(second.getJuni().subtract(first.getJuni()));
+        returnClimateRecord.setJuli(second.getJuli().subtract(first.getJuli()));
+        returnClimateRecord.setAugust(second.getAugust().subtract(first.getAugust()));
+        returnClimateRecord.setSeptember(second.getSeptember().subtract(first.getSeptember()));
+        returnClimateRecord.setOktober(second.getOktober().subtract(first.getOktober()));
+        returnClimateRecord.setNovember(second.getNovember().subtract(first.getNovember()));
+        returnClimateRecord.setDezember(second.getDezember().subtract(first.getDezember()));
 
 
         return returnClimateRecord;
