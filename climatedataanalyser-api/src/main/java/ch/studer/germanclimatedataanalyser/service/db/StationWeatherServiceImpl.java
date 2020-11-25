@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -57,6 +58,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     private BigDecimal NULL_TEMPERATURE;
 
     @Override
+    @Transactional
     public void saveAll(List<StationWeatherPerYear> stationWeatherPerYears) {
         stationWeatherDAO.saveAll(stationWeatherPerYears);
     }
@@ -73,14 +75,13 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
 
         // calculate for every null (-999.000) an average temperature
-        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = calculateHoles(completed);
 
-        return stationWeatherPerYearsFilledHoles;
+        return calculateHoles(completed);
     }
 
     private List<StationWeatherPerYear> calculateHoles(List<StationWeatherPerYear> completed) {
 
-        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<StationWeatherPerYear>();
+        List<StationWeatherPerYear> stationWeatherPerYearsFilledHoles = new ArrayList<>();
 
         for (int i = 0; i < completed.size(); i++) {
 

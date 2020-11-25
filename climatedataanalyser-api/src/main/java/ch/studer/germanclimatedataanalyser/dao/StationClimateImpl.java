@@ -27,6 +27,7 @@ public class StationClimateImpl implements StationClimateDAO {
     private static final Logger LOG = LoggerFactory.getLogger(StationClimateImpl.class);
 
     @Override
+    @Transactional
     public void save(StationClimate stationClimate) {
 
         Session currentSession = getSession();
@@ -36,6 +37,7 @@ public class StationClimateImpl implements StationClimateDAO {
     }
 
     @Override
+    @Transactional
     public void saveAll(List<StationClimate> stationClimates) {
 
         for (StationClimate stationClimate : stationClimates) {
@@ -45,6 +47,7 @@ public class StationClimateImpl implements StationClimateDAO {
     }
 
     @Override
+    @Transactional
     public List<StationClimate> getClimateForBundesland(String bundesland) {
         List<StationClimate> climateForBundesland = null;
 
@@ -61,6 +64,7 @@ public class StationClimateImpl implements StationClimateDAO {
     }
 
     @Override
+    @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
         List<StationClimate> climateForGpsCoordinates = null;
 
@@ -82,6 +86,7 @@ public class StationClimateImpl implements StationClimateDAO {
 
     //TODO needed any more ?
     @Override
+    @Transactional
     public List<StationClimate> getClimateForGpsCoordinatesOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2) {
         List<StationClimate> climateForGpsCoordinates = null;
 
@@ -101,7 +106,9 @@ public class StationClimateImpl implements StationClimateDAO {
         return climateForGpsCoordinates;
     }
 
+
     @Override
+    @Transactional
     public List<StationClimate> getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2, String yearFrom) {
         List<StationClimate> climateForGpsCoordinates = null;
 

@@ -32,6 +32,7 @@ class ClimateRecordServiceImplTest {
 
     private static final String NOT_A_BUNDESLAND = "not_a_Bundesland";
     private static final String BUNDESLAND = "valid_Bundesland";
+    private static final String BUNDESLAND_EMPTY = "";
     private static final String GPS_WRONG_FORMAT = "wrong format";
     private static final String GPS_LAT_NOT_VALID = "90.1";
     private static final String GPS_LAT_VALID = "90.0";
@@ -93,7 +94,7 @@ class ClimateRecordServiceImplTest {
 
         //* Not a valid gps1Lat number format
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_WRONG_FORMAT
                 , GPS_LONG_VALID
                 , GPS_LAT_VALID
@@ -104,7 +105,7 @@ class ClimateRecordServiceImplTest {
         Assertions.assertEquals("wrong format or 180.0 has not a valid coordinate format !", climateRecordsDto.getErrorMsg());
         //* Not a valid gps1Long number format
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_WRONG_FORMAT
                 , GPS_LAT_VALID
@@ -116,7 +117,7 @@ class ClimateRecordServiceImplTest {
 
         //* Not a valid gps1Lat number format
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
                 , GPS_WRONG_FORMAT
@@ -127,7 +128,7 @@ class ClimateRecordServiceImplTest {
         Assertions.assertEquals("wrong format or 180.0 has not a valid coordinate format !", climateRecordsDto.getErrorMsg());
         //* Not a valid gps1Long number format
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
                 , GPS_LAT_VALID
@@ -139,7 +140,7 @@ class ClimateRecordServiceImplTest {
 
         //* Not a valid gps1Lat coordinate
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_NOT_VALID
                 , GPS_LONG_VALID
                 , GPS_LAT_VALID
@@ -150,7 +151,7 @@ class ClimateRecordServiceImplTest {
         Assertions.assertEquals("90.1 is not a valid latitude !(min : -90 / max : 90)", climateRecordsDto.getErrorMsg());
         //* Not a valid gps1Long coordinate
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_LONG_NOT_VALID
                 , GPS_LAT_VALID
@@ -161,7 +162,7 @@ class ClimateRecordServiceImplTest {
         Assertions.assertEquals(GPS_LONG_NOT_VALID + " is not a valid longitude !(min : -180 / max : 180)", climateRecordsDto.getErrorMsg());
 //* Not a valid gps2Lat coordinate
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
                 , GPS_LAT_NOT_VALID
@@ -172,7 +173,7 @@ class ClimateRecordServiceImplTest {
         Assertions.assertEquals("90.1 is not a valid latitude !(min : -90 / max : 90)", climateRecordsDto.getErrorMsg());
         //* Not a valid gps2Long coordinate
         when(bundeslandProofer.proof()).thenReturn("");
-        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND_EMPTY
                 , GPS_LAT_VALID
                 , GPS_LONG_VALID
                 , GPS_LAT_VALID

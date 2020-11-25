@@ -65,7 +65,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             // ****************************************************************
             // get all Bundesland ClimateRecords from yearFrom
             // ****************************************************************
-            List<StationClimate> allStationClimates = new ArrayList<StationClimate>();
+            List<StationClimate> allStationClimates;
 
             if (this.bundesland.getName().isEmpty()) {
                 allStationClimates = stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(Gps1, Gps2, yearFrom);
@@ -76,7 +76,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             // ***************************************************************************
             // Remove all years between yearFrom + distanceYear
             // ***************************************************************************
-            List<StationClimate> relevantYearsStationClimates = new ArrayList<StationClimate>();
+            List<StationClimate> relevantYearsStationClimates;
 
             if (allStationClimates.isEmpty()) {
                 climateRecordsDto.setErrorMsg("There are no climateRecords for your search criteria !");
@@ -105,8 +105,8 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
     }
 
     private List<ClimateRecord> getAverageClimatePerYear(List<StationClimate> relevantYearsStationClimates) {
-        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
-        List<TemperatureForMonths> collectTemperatureForMonth = new ArrayList<TemperatureForMonths>();
+        List<ClimateRecord> climateRecords = new ArrayList<>();
+        List<TemperatureForMonths> collectTemperatureForMonth = new ArrayList<>();
         ClimateRecord climateRecord;
 
         String startPeriod;
@@ -115,7 +115,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
         //Group by
         Map<String, List<StationClimate>> stationClimatesGroupeByStartPeriod = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
-       //get in right order
+        //get in right order
         Map<String, List<StationClimate>> stationClimatesGroupedAndOrdered = new LinkedHashMap<>();
         stationClimatesGroupeByStartPeriod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(x -> stationClimatesGroupedAndOrdered.put(x.getKey(), x.getValue()));
 
@@ -138,7 +138,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             climateRecords.add(climateRecord);
 
             //get a fresh TemperatreForMonth List
-            collectTemperatureForMonth = new ArrayList<TemperatureForMonths>();
+            collectTemperatureForMonth = new ArrayList<>();
 
         }
 
@@ -153,40 +153,46 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         final String NOT_VALID_LAT_COORDINATE = " is not a valid latitude !(min : -90 / max : 90)";
         final String NOT_VALID_LONG_COORDINATE = " is not a valid longitude !(min : -180 / max : 180)";
 
-        //proof Bundesland
-        bundeslandProofer.setName(bundesland);
-        errorMsg = bundeslandProofer.proof();
+        if (!bundesland.isBlank()) {
 
-        if (!errorMsg.equals("")) {
-            return errorMsg;
-        }
-        //proof GPS1
-        try {
-            this.Gps1 = new GpsPoint(Double.parseDouble(gps1Lat), Double.parseDouble(gps1Long));
-        } catch (NumberFormatException e) {
-            return gps1Lat + " or " + gps1Long + NOT_VALID_COORDINATE_FORMAT;
-        }
-        //Proof GPS2
-        try {
+            //proof Bundesland
+            bundeslandProofer.setName(bundesland);
+            errorMsg = bundeslandProofer.proof();
 
-            this.Gps2 = new GpsPoint(Double.parseDouble(gps2Lat), Double.parseDouble(gps2Long));
-        } catch (NumberFormatException e) {
-            return gps2Lat + " or " + gps2Long + NOT_VALID_COORDINATE_FORMAT;
-        }
-        //proof if GPS have valid coordinates
-        if (!this.Gps1.isLatitudeValid()) {
-            return this.Gps1.getLatitude() + NOT_VALID_LAT_COORDINATE;
-        }
-        if (!this.Gps1.isLongitudeValid()) {
-            return this.Gps1.getLongitude() + NOT_VALID_LONG_COORDINATE;
-        }
-        if (!this.Gps2.isLatitudeValid()) {
-            return this.Gps2.getLatitude() + NOT_VALID_LAT_COORDINATE;
-        }
-        if (!this.Gps2.isLongitudeValid()) {
-            return this.Gps2.getLongitude() + NOT_VALID_LONG_COORDINATE;
-        }
+            if (!errorMsg.equals("")) {
+                return errorMsg;
+            }
+        } else {
 
+
+            //proof GPS1
+            try {
+                this.Gps1 = new GpsPoint(Double.parseDouble(gps1Lat), Double.parseDouble(gps1Long));
+            } catch (NumberFormatException e) {
+                return gps1Lat + " or " + gps1Long + NOT_VALID_COORDINATE_FORMAT;
+            }
+            //Proof GPS2
+            try {
+
+                this.Gps2 = new GpsPoint(Double.parseDouble(gps2Lat), Double.parseDouble(gps2Long));
+            } catch (NumberFormatException e) {
+                return gps2Lat + " or " + gps2Long + NOT_VALID_COORDINATE_FORMAT;
+            }
+            //proof if GPS have valid coordinates
+            if (!this.Gps1.isLatitudeValid()) {
+                return this.Gps1.getLatitude() + NOT_VALID_LAT_COORDINATE;
+            }
+            if (!this.Gps1.isLongitudeValid()) {
+                return this.Gps1.getLongitude() + NOT_VALID_LONG_COORDINATE;
+            }
+            if (!this.Gps2.isLatitudeValid()) {
+                return this.Gps2.getLatitude() + NOT_VALID_LAT_COORDINATE;
+            }
+            if (!this.Gps2.isLongitudeValid()) {
+                return this.Gps2.getLongitude() + NOT_VALID_LONG_COORDINATE;
+            }
+
+        }
 
         //Proof YearTo
         if (yearFrom.strip().length() == 4) {
@@ -218,10 +224,10 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
      */
     private List<StationClimate> getStationClimatesFromYearWithDistance(int distanceYear, List<StationClimate> stationClimatesIn) {
 
-        List<StationClimate> stationClimatesRe = new ArrayList<StationClimate>();
+        List<StationClimate> stationClimatesRe = new ArrayList<>();
 
-        int currentYear = Integer.valueOf(stationClimatesIn.get(0).getStartPeriod());
-        int finishYear = Integer.valueOf(stationClimatesIn.get(stationClimatesIn.size() - 1).getStartPeriod());
+        int currentYear = Integer.parseInt(stationClimatesIn.get(0).getStartPeriod());
+        int finishYear = Integer.parseInt(stationClimatesIn.get(stationClimatesIn.size() - 1).getStartPeriod());
         List<String> relevantYears = getRelevantYears(currentYear, distanceYear, finishYear);
 
         stationClimatesRe = stationClimatesIn.stream()
@@ -234,7 +240,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
 
     private List<String> getRelevantYears(int startYear, int distanceYear, int finishYear) {
-        List<String> relevantYears = new ArrayList<String>();
+        List<String> relevantYears = new ArrayList<>();
 
         int currentYear = startYear;
 
@@ -256,7 +262,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
     private List<ClimateRecord> getDifferences(List<ClimateRecord> climateRecords) {
 
-        List<ClimateRecord> calculatedClimateRecords = new ArrayList<ClimateRecord>();
+        List<ClimateRecord> calculatedClimateRecords = new ArrayList<>();
         int currentIndex = 0;
         for (int i = 0; i < climateRecords.size() - 1; i++) {
             //persist the record
@@ -275,7 +281,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
     private ClimateRecord getDiff(ClimateRecord first, ClimateRecord second) {
         ClimateRecord returnClimateRecord = new ClimateRecord();
         returnClimateRecord.setHeaderAsDifference();
-        ;
+
         returnClimateRecord.setJanuar(second.getJanuar().subtract(first.getJanuar()));
         returnClimateRecord.setFebruar(second.getFebruar().subtract(first.getFebruar()));
         returnClimateRecord.setMaerz(second.getMaerz().subtract(first.getMaerz()));
@@ -301,7 +307,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
      */
 
     private List<ClimateRecord> getClimateRecordsDto(List<StationClimate> stationClimates) {
-        List<ClimateRecord> climateRecords = new ArrayList<ClimateRecord>();
+        List<ClimateRecord> climateRecords = new ArrayList<>();
 
         String currentIndex = year;
         for (StationClimate stationClimate : stationClimates) {
