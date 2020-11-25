@@ -14,8 +14,8 @@ public class MonthServiceImpl implements MonthService {
     @Autowired
     private MonthDAO monthDAO;
 
-    @Transactional
     @Override
+    @Transactional
     public void saveAllMonth(List<? extends Month> months) {
 
         monthDAO.saveAll(months);
@@ -34,12 +34,14 @@ public class MonthServiceImpl implements MonthService {
     }
 
     @Override
+    @Transactional
     public List<Month> getMonthsByIdOrderDesc(int stationsId) {
 
         return monthDAO.getMonthsByIdOrderDesc(stationsId);
     }
 
     @Override
+    @Transactional
     public List<Integer> getAllStationId() {
 
         return monthDAO.getAllStationID();

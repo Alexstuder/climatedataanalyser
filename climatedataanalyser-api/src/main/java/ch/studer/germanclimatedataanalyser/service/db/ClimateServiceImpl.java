@@ -31,8 +31,9 @@ public class ClimateServiceImpl implements ClimateService {
 
 
     @Override
+    @Transactional
     public List<StationClimate> getClimateForStation(List<StationWeatherPerYear> stationWeatherPerYears) {
-        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+        List<StationClimate> stationClimates = new ArrayList<>();
 
         int start = 0;
         int end = start + period;
@@ -125,10 +126,13 @@ public class ClimateServiceImpl implements ClimateService {
         return this.stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, fromYear);
     }
 
+
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
 
         return this.stationClimateDAO.getClimateForGpsCoordinatesOrderByYearAndStationId(gps1, gps2);
     }
+
+
 }
