@@ -10,7 +10,7 @@ import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -81,21 +81,22 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             if (allStationClimates.isEmpty()) {
                 climateRecordsDto.setErrorMsg("There are no climateRecords for your search criteria !");
             } else {
+
                 relevantYearsStationClimates = getStationClimatesFromYearWithDistance(this.getDistanceYear(), allStationClimates);
-            }
 
-            // ***************************************************************************
-            // Agregate alle Stations in StationClimates to 1 ClimateRecord / year
-            // ***************************************************************************
-            List<ClimateRecord> averagedClimateRecords = getAverageClimatePerYear(relevantYearsStationClimates);
+                // ***************************************************************************
+                // Agregate alle Stations in StationClimates to 1 ClimateRecord / year
+                // ***************************************************************************
+                List<ClimateRecord> averagedClimateRecords = getAverageClimatePerYear(relevantYearsStationClimates);
 
-            // ***************************************************
-            // Calculate the difference between each ClimateRecord
-            // ***************************************************
-            if (averagedClimateRecords.size()!=1){
-                climateRecordsDto.setClimateRecordList(getDifferences(averagedClimateRecords));
-            } else {
-                climateRecordsDto.setClimateRecordList(averagedClimateRecords);
+                // ***************************************************
+                // Calculate the difference between each ClimateRecord
+                // ***************************************************
+                if (averagedClimateRecords.size() != 1) {
+                    climateRecordsDto.setClimateRecordList(getDifferences(averagedClimateRecords));
+                } else {
+                    climateRecordsDto.setClimateRecordList(averagedClimateRecords);
+                }
             }
 
         }
@@ -111,10 +112,15 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         String startPeriod;
         String endPeriod;
 
-        Map<String, List<StationClimate>> stationClimatesGroupeByStartPeriod = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
 
-        for (String key : stationClimatesGroupeByStartPeriod.keySet()) {
-            for (StationClimate stationClimates : stationClimatesGroupeByStartPeriod.get(key)) {
+        //Group by
+        Map<String, List<StationClimate>> stationClimatesGroupeByStartPeriod = relevantYearsStationClimates.stream().collect(Collectors.groupingBy(StationClimate::getStartPeriod));
+       //get in right order
+        Map<String, List<StationClimate>> stationClimatesGroupedAndOrdered = new LinkedHashMap<>();
+        stationClimatesGroupeByStartPeriod.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(x -> stationClimatesGroupedAndOrdered.put(x.getKey(), x.getValue()));
+
+        for (String key : stationClimatesGroupedAndOrdered.keySet()) {
+            for (StationClimate stationClimates : stationClimatesGroupedAndOrdered.get(key)) {
                 collectTemperatureForMonth.add(stationClimates.getTemperatureForMonths());
             }
 
@@ -252,7 +258,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
 
         List<ClimateRecord> calculatedClimateRecords = new ArrayList<ClimateRecord>();
         int currentIndex = 0;
-        for (int i = 0; i < climateRecords.size()-1;i++ ) {
+        for (int i = 0; i < climateRecords.size() - 1; i++) {
             //persist the record
             calculatedClimateRecords.add(climateRecords.get(i));
             calculatedClimateRecords.add(getDiff(climateRecords.get(i), climateRecords.get(i + 1)));
@@ -260,7 +266,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
         }
 
         // Add Last Record without Diff Calculation
-        calculatedClimateRecords.add(climateRecords.get(climateRecords.size()-1));
+        calculatedClimateRecords.add(climateRecords.get(climateRecords.size() - 1));
 
         return calculatedClimateRecords;
     }

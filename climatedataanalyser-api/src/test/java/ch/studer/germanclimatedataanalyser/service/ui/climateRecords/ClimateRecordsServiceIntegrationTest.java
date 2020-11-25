@@ -5,11 +5,9 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -19,13 +17,17 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-//@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
+@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 //@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 
 public class ClimateRecordsServiceIntegrationTest {
-    // Test Scopr
-    // 1 Happy Test with Bundesland
-    // 1 Happy Test with GPS Coordinates
+    // Test Scope
+
+    // 1 Happy Test with Bundesland and some Records calculated with diff.
+    // 1 Happy Test with Bundesland and only one Record calculated without diff. first record on table
+
+    // 1 Happy Test with GPS Coordinates and some Records calculated with diff.
+    // 1 Happy Test with GPS Coordinates only one Record calculated without diff. last record on table
 
 
     @Autowired
@@ -59,7 +61,7 @@ public class ClimateRecordsServiceIntegrationTest {
 
        stationClimates.add(stationClimate);
 
-        climateService.saveAllClimateAtStationId(ClimateTestData.getStationClimateOrderByStationIdAndBeginYear(1880, 1930,9));
+        climateService.saveAllClimateAtStationId(ClimateTestData.getStationClimateOrderByStationIdAndBeginYearRemoveLater(1879, 2020,10));
 
     }
 
@@ -67,7 +69,7 @@ public class ClimateRecordsServiceIntegrationTest {
     @Test
     void testClimateRecordServiceWithBundesland() {
 
-        setup();
+        //setup();
 
         final String BUNDESLAND = "Baden-Württemberg";
         final String GPS_LAT_1 = "0";
@@ -75,10 +77,11 @@ public class ClimateRecordsServiceIntegrationTest {
         final String GPS_LAT_2 = "0";
         final String GPS_LONG_2 = "0";
         final String YEAR_FROM = "1960";
-        final String YEAR_DISTANCE = "1";
+        final String YEAR_DISTANCE = "5";
 
         ClimateRecordsDto climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND, GPS_LAT_1, GPS_LONG_1, GPS_LAT_2, GPS_LONG_2, YEAR_FROM, YEAR_DISTANCE);
-        // climateRecordsDto.getClimateRecordList().get(99999);
+        climateRecordsDto = climateRecordService.getClimateRecords(BUNDESLAND, GPS_LAT_1, GPS_LONG_1, GPS_LAT_2, GPS_LONG_2, YEAR_FROM, YEAR_DISTANCE);
+       // climateRecordsDto.getClimateRecordList().size();
 
     }
 
