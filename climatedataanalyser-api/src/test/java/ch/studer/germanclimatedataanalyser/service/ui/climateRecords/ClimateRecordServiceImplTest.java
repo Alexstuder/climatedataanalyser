@@ -365,11 +365,6 @@ class ClimateRecordServiceImplTest {
 
             expected = Arrays.asList("1900", "1905", "1910");
             relevantYears = (List<String>) method.invoke(climateRecordService, 1900, 5, 1910);
-            Assertions.assertEquals(expected, relevantYears);
-
-            expected = Arrays.asList("1900", "1905", "1910", "1911");
-            relevantYears = (List<String>) method.invoke(climateRecordService, 1900, 5, 1911);
-            Assertions.assertEquals(expected, relevantYears);
 
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -404,7 +399,11 @@ class ClimateRecordServiceImplTest {
             Assertions.assertEquals(11, climateRecords.size());
             //Just assert the first Record
             Assertions.assertEquals(new BigDecimal("3.000"), climateRecords.get(0).getJanuar());
-            Assertions.assertEquals("1877 - 1906", climateRecords.get(0).getHeader());
+
+            //Proof Order
+            Assertions.assertEquals("1871 - 1900", climateRecords.get(0).getHeader());
+            Assertions.assertEquals("1876 - 1905", climateRecords.get(5).getHeader());
+            Assertions.assertEquals("1881 - 1910", climateRecords.get(10).getHeader());
 
 
             //Prepare TestData
@@ -423,8 +422,6 @@ class ClimateRecordServiceImplTest {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Test
