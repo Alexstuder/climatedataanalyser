@@ -23,11 +23,11 @@ class StationWeatherServiceImplTest {
 
     private final int range = 4;
     private final int period = 30;
-    private final String value = "-999.0000";
 
     @BeforeEach
     void setUp() {
 
+        String value = "-999.0000";
         ReflectionTestUtils.setField(stationWeatherService, "NULL_TEMPERATURE_INIT", value);
         ReflectionTestUtils.setField(stationWeatherService, "period", period);
         ReflectionTestUtils.setField(stationWeatherService, "range", range);

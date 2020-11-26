@@ -20,7 +20,7 @@ public class controller {
 
 
     @GetMapping("/")
-    public List<String> handle() throws Exception {
+    public List<String> handle() {
         List<String> status = new ArrayList<String>();
 
         LOG.debug("Server is Running !");

@@ -70,11 +70,8 @@ public class ClimateHistoryAnalyserServiceImpl implements ClimateHistoryAnalyser
         // Alle Records aus StationClimates sammeln, welche auch in der Liste der oben angefertigten StationId List existieren
         // **************************************************************
 
-        List<ClimateHistoryDto> climateHistoryDtos = getClimateHistoryEveryStationExistsInStationList(originYear, stationClimates, stationList);
-
-
         // Liste aller climateHistoryDtos zurückgeben
-        return climateHistoryDtos;
+        return getClimateHistoryEveryStationExistsInStationList(originYear, stationClimates, stationList);
     }
 
     private List<Integer> getStationIdExistsInEveryPeriod(String originYear, List<StationClimate> stationClimates) {

@@ -23,6 +23,7 @@ public class ClimateServiceImpl implements ClimateService {
     int period;
 
 
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     StationClimateDAO stationClimateDAO;
 
@@ -131,7 +132,7 @@ public class ClimateServiceImpl implements ClimateService {
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
 
-        return this.stationClimateDAO.getClimateForGpsCoordinatesOrderByYearAndStationId(gps1, gps2);
+        return this.stationClimateDAO.getClimateForGpsCoordinates(gps1, gps2);
     }
 
 

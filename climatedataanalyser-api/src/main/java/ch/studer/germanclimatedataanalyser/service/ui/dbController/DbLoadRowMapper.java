@@ -23,7 +23,7 @@ public class DbLoadRowMapper implements RowMapper<DbLoadRowMapper.JobExecutionIn
         return jobExecutionInformation;
     }
 
-    public class JobExecutionInformation {
+    public static class JobExecutionInformation {
 
         public String endTime;
         public String status;

@@ -20,8 +20,7 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
 
     @Override
     public List<DbLoadRowMapper.JobExecutionInformation> getDbLoadInformation() {
-
-        List<DbLoadRowMapper.JobExecutionInformation> dbLoadInformation = jdbcTemplate.query(
+        return  jdbcTemplate.query(
                 "SELECT j.End_Time\n" +
                         "      ,j.Status\n" +
                         "      ,s.Step_Name\n" +
@@ -37,8 +36,6 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
                         "where j.Job_execution_id = s.job_execution_id \n" +
                         "and j.job_execution_id = (select max(JOB_EXECUTION_ID) from climate.batch_job_execution)\n" +
                         "order by s.step_execution_id;", new DbLoadRowMapper());
-
-        return dbLoadInformation;
     }
 
     @Override

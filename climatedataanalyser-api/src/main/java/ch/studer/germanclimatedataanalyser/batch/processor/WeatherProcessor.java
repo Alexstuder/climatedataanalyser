@@ -12,7 +12,7 @@ public class WeatherProcessor implements ItemProcessor<Month, Month> {
 
 
     @Override
-    public Month process(Month raw) throws Exception {
+    public Month process(Month raw) {
 
         // At this time ; there is no difference between in and output record !
 

@@ -30,34 +30,16 @@ public class GpsPoint {
     }
 
     public boolean isLongitudeValid() {
-        boolean status = false;
-
-        if (this.longitude >= MIN_LONGITUDE && this.longitude <= MAX_LONGITUDE) {
-            status = true;
-        }
-
-        return status;
+        return this.longitude >= MIN_LONGITUDE && this.longitude <= MAX_LONGITUDE;
     }
 
     public boolean isLatitudeValid() {
-        boolean status = false;
-
-        if ((this.latitude >= MIN_LATITUDE) && (this.latitude <= MAX_LATITUDE)) {
-            status = true;
-        }
-
-        return status;
+        return (this.latitude >= MIN_LATITUDE) && (this.latitude <= MAX_LATITUDE);
     }
 
     // Both have to be <>1000 to be valid or not NULL
     public boolean isGpsNull() {
-        boolean status = false;
-
-        if (longitude == NULL || latitude == NULL) {
-            status = true;
-        }
-
-        return status;
+        return (longitude == NULL || latitude == NULL);
     }
 
     public double getLongitude() {

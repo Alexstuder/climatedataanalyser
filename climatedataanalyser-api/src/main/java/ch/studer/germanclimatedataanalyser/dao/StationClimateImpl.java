@@ -63,31 +63,12 @@ public class StationClimateImpl implements StationClimateDAO {
         return climateForBundesland;
     }
 
-    @Override
-    @Transactional
-    public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
-        List<StationClimate> climateForGpsCoordinates = null;
 
-        Session currentSession = getSession();
-
-        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                "and ((s.geoLatitude BETWEEN :gps2Latitude AND :gps1Latitude) and ( s.geoLength BETWEEN :gps1Longitude AND :gps2Longitude))", StationClimate.class)
-                .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
-                .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
-                .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
-                .setParameter("gps2Longitude", BigDecimal.valueOf(gps2.getLongitude()));
-
-        // execute and get result list
-        climateForGpsCoordinates = theQuery.getResultList();
-
-        // There is only one Station !
-        return climateForGpsCoordinates;
-    }
 
     //TODO needed any more ?
     @Override
     @Transactional
-    public List<StationClimate> getClimateForGpsCoordinatesOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2) {
+    public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
         List<StationClimate> climateForGpsCoordinates = null;
 
         Session currentSession = getSession();
