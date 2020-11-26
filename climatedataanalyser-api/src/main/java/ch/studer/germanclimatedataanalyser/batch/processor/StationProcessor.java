@@ -15,7 +15,7 @@ public class StationProcessor implements ItemProcessor<StationFile, Station> {
     private static final Logger log = LoggerFactory.getLogger(StationProcessor.class);
 
     @Override
-    public Station process(StationFile stationFile) throws Exception {
+    public Station process(StationFile stationFile){
 
         final int stationsId = Integer.valueOf(stationFile.getStationsId());
         final Date dateBegin = getDate(stationFile.getDateBegin());

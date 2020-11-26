@@ -27,7 +27,7 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
     private static final Logger LOG = LoggerFactory.getLogger(ClimateWriter.class);
 
     @Override
-    public void write(List<? extends StationWeatherPerYear> list) throws Exception {
+    public void write(List<? extends StationWeatherPerYear> list) {
 
         if (list.size() > 0) {
 

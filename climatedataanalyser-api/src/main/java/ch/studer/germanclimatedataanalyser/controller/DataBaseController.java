@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
 @RequestMapping("/api/database")
 @CrossOrigin
@@ -38,8 +39,7 @@ public class DataBaseController {
 
     @GetMapping("/")
     DbLoadResponseDto dbLoadInformationRequest() {
-        DbLoadResponseDto r = this.dbLoadInformationService.getDbLoadInformation();
-        return r;
+        return this.dbLoadInformationService.getDbLoadInformation();
     }
 
 }

@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
-
     @Autowired
     ClimateService climateService;
 

@@ -22,7 +22,7 @@ public class WeatherWriter implements ItemWriter<Month> {
 
 
     @Override
-    public void write(List<? extends Month> list) throws Exception {
+    public void write(List<? extends Month> list) {
 
 
         List<StationWeatherPerYear> write = new ArrayList<StationWeatherPerYear>();

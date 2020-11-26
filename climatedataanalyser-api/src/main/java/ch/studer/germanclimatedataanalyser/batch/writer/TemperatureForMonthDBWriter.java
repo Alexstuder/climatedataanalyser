@@ -25,7 +25,7 @@ public class TemperatureForMonthDBWriter implements ItemWriter<Month> {
     }
 
     @Override
-    public void write(List<? extends Month> months) throws Exception {
+    public void write(List<? extends Month> months) {
 
         monthService.saveAllMonth(months);
 

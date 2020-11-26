@@ -5,7 +5,7 @@ import org.springframework.batch.item.ItemProcessor;
 
 public class ClimateProcessor implements ItemProcessor<StationWeatherPerYear, StationWeatherPerYear> {
     @Override
-    public StationWeatherPerYear process(StationWeatherPerYear stationWeatherPerYear) throws Exception {
+    public StationWeatherPerYear process(StationWeatherPerYear stationWeatherPerYear) {
         // till now, there is nothing to convert !
         return stationWeatherPerYear;
     }

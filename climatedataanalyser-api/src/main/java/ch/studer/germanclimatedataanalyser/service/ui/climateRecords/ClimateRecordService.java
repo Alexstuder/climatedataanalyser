@@ -4,7 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecor
 
 public interface ClimateRecordService {
 
-    public ClimateRecordsDto getClimateRecords(String bundesland
+    ClimateRecordsDto getClimateRecords(String bundesland
             , String gps1Lat
             , String gps1Long
             , String gps2Lat

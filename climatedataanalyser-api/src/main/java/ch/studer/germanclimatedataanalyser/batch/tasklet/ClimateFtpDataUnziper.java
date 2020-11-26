@@ -39,8 +39,6 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     //private Resource unzipOutputFolder;
 
-    private Resource[] allZipFiles;
-
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataUnziper.class);
 
 
@@ -48,11 +46,11 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         // Empty both Directory
-        deleteDirectoryFiles(getDirectory(unzipOutputFolderName));
-        deleteDirectoryFiles(getDirectory(inputFolderName));
+        DirectoryUtility.deleteDirectoryFiles(getDirectory(unzipOutputFolderName));
+        DirectoryUtility.deleteDirectoryFiles(getDirectory(inputFolderName));
 
         // allZipFiles = getAllZipFiles();
-        allZipFiles = getAllFilesFromDirectory(ftpDataFolderName, "*.zip");
+        Resource[] allZipFiles = getAllFilesFromDirectory(ftpDataFolderName, "*.zip");
 
         // Unzip all Zip Data from FTP download
         for (Resource resource : allZipFiles) {
@@ -63,7 +61,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         return RepeatStatus.FINISHED;
     }
 
-    private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) throws IOException {
+    private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) {
 
         Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName, inputFilePattern);
 
@@ -96,7 +94,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         return files;
     }
 
-    private void deleteDirectoryFiles(File directory) throws IOException {
+/*    private void deleteDirectoryFiles(File directory) throws IOException {
         File[] allContent = null;
         allContent = directory.listFiles();
 
@@ -113,7 +111,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         }
         // Make dir
         directory.mkdir();
-    }
+    }*/
 
     private File getDirectory(String directoryName) throws IOException {
         Resource[] resources = new Resource[0];
@@ -141,7 +139,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         return resource.getFile();
     }
 
-    public Resource[] getAllZipFiles() throws IOException {
+    public Resource[] getAllZipFiles() {
 
         Resource[] zipFiles = new Resource[0];
         {
@@ -156,6 +154,6 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
     }
 }

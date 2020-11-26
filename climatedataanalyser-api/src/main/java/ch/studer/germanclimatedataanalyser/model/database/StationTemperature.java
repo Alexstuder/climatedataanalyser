@@ -28,7 +28,4 @@ public abstract class StationTemperature extends TemperatureForMonths {
         this.stationId = stationId;
     }
 
-    public TemperatureForMonths getTemperatureForMonths() {
-        return super.getTemperatureForMonths();
-    }
 }

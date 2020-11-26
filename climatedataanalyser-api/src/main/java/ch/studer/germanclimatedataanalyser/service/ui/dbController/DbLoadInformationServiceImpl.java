@@ -6,29 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class DbLoadInformationServiceImpl implements DbLoadInformationService {
 
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     DbLoadInformationeDAO dbLoadInformationeDAO;
 
 
     @Override
     public DbLoadResponseDto getDbLoadInformation() {
-
-        //List<DbLoadRowMapper.JobExecutionInformation> data = dbLoadInformationeDAO.getDbLoadInformation();
-        DbLoadResponseDto dbLoadResponseDto = new DbLoadResponseDto(dbLoadInformationeDAO.getDbLoadInformation(), isDbLoaded());
-
-
-        return dbLoadResponseDto;
+        return new DbLoadResponseDto(dbLoadInformationeDAO.getDbLoadInformation(), isDbLoaded());
     }
 
     @Override
     public boolean isDbLoaded() {
-        boolean status = false;
-
-
-        if (dbLoadInformationeDAO.getMonthTableCount() > 0) {
-            status = true;
-        }
-
-        return status;
+        return (dbLoadInformationeDAO.getMonthTableCount() > 0);
     }
 }

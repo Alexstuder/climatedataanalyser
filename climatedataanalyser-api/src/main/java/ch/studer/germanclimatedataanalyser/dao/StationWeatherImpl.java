@@ -1,6 +1,5 @@
 package ch.studer.germanclimatedataanalyser.dao;
 
-import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -40,10 +39,5 @@ public class StationWeatherImpl implements StationWeatherDAO {
         for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears) {
             save(stationWeatherPerYear);
         }
-    }
-
-    @Override
-    public List<Station> StationWeatherDAO(Station station) {
-        return null;
     }
 }

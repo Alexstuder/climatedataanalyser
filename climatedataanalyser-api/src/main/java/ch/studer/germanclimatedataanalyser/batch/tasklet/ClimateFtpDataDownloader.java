@@ -48,7 +48,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
 
     @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         log.info("###############   Start the Download from the Weather Server   ############");
 
         try {
@@ -72,7 +72,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         return null;
     }
 
-    private FTPClient getFTPConection(String ftpUser, String ftpPwd) throws IOException {
+    private FTPClient getFTPConection(String ftpUser, String ftpPwd) {
 
         FTPClient ftpClient = new FTPClient();
         String[] filenameList;
@@ -101,7 +101,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
             e.printStackTrace();
         }
 
-        deleteDirectoryFiles(directory);
+        DirectoryUtility.deleteDirectoryFiles(directory);
         log.info("FTPDataFolderName : " + directory.getPath());
 
         for (FTPFile ftpFile : ftpFiles) {
@@ -128,7 +128,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         log.info("End Download  : " + LocalDateTime.now().toString());
     }
 
-    public FTPFile[] list(FTPClient ftpConnection) throws IOException {
+    public FTPFile[] list(FTPClient ftpConnection) {
         String[] filenameList;
         FTPFile[] ftpFiles;
 
@@ -151,7 +151,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         return ftpFiles;
     }
 
-    private void deleteDirectoryFiles(File directory) throws IOException {
+  /*  private void deleteDirectoryFiles(File directory) throws IOException {
         File[] allContent = null;
         allContent = directory.listFiles();
 
@@ -168,7 +168,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         }
         // Make dir
         directory.mkdir();
-    }
+    }*/
 
     private File getDirectory(String directoryName) throws IOException {
         Resource[] resources = new Resource[0];

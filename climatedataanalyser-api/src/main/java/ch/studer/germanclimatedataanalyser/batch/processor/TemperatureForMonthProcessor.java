@@ -32,7 +32,8 @@ public class TemperatureForMonthProcessor implements ItemProcessor<MonthFile, Mo
         final BigDecimal MO_RR = BigDecimal.valueOf(Double.valueOf(monthFile.getMoRr().trim()));
         final BigDecimal MX_RS = BigDecimal.valueOf(Double.valueOf(monthFile.getMxRs().trim()));
 
-        final Month transformedMonth = new Month(STATIONS_ID
+
+        return new Month(STATIONS_ID
                 , MESS_DATUM_BEGINN
                 , MESS_DATUM_ENDE
                 , QN_4
@@ -48,8 +49,6 @@ public class TemperatureForMonthProcessor implements ItemProcessor<MonthFile, Mo
                 , QN_6
                 , MO_RR
                 , MX_RS);
-
-        return transformedMonth;
     }
 
     private Date getSQLDate(String dateIn) {

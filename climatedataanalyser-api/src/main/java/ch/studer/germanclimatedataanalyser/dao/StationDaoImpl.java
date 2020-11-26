@@ -95,16 +95,11 @@ public class StationDaoImpl implements StationDAO {
     }
 
     @Override
-    public List<String> getAllBundeslaenderOrderAsc() throws NotFoundException {
+    public List<String> getAllBundeslaenderOrderAsc() {
 
         List<String> bundeslaender = new ArrayList<String>();
 
         Session currentSession = getSession();
-
-        /*
-        SELECT distinct(BUNDES_LAND) as Bundesland FROM climate.station
-               order by Bundesland asc;
-         */
 
         Query<String> theQuery = currentSession.createQuery("SELECT DISTINCT(s.bundesLand) FROM Station s ORDER BY s.bundesLand ASC", String.class);
         bundeslaender = theQuery.getResultList();

@@ -13,14 +13,13 @@ public class StationTestData {
     public static List<Station> getStations(int numberOfStations) {
         List<Station> stations = new ArrayList<Station>();
 
-        for (int i = 0; i < numberOfStations; i++) {
+        for (int stationId = 0; stationId < numberOfStations; stationId++) {
 
-            int stationId = i;
             Date dateBegin = Date.valueOf("1990-01-25");
             Date dateEnd = Date.valueOf("2020-01-25");
             BigDecimal stationHigh = BigDecimal.valueOf(200);
-            BigDecimal geoLatitude = BigDecimal.valueOf(50.0001 - i);
-            BigDecimal geoLength = BigDecimal.valueOf(8.0001 + i);
+            BigDecimal geoLatitude = BigDecimal.valueOf(50.0001 - stationId);
+            BigDecimal geoLength = BigDecimal.valueOf(8.0001 + stationId);
             String stationName = "noNeed";
             String bundesLand = "noNeed";
 

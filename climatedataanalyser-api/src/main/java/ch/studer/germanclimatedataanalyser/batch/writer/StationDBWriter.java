@@ -25,7 +25,7 @@ public class StationDBWriter implements ItemWriter<Station> {
     }
 
     @Override
-    public void write(List<? extends Station> stations) throws Exception {
+    public void write(List<? extends Station> stations) {
 
         stationService.saveAllStation(stations);
 
