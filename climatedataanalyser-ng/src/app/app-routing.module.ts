@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AnalyticsComponent} from "./analytics/analytics.component";
 import {DatabaseComponent} from "./database/database.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
+import {ClimatesComponent} from "./climates/climates.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path:'database',
     component:DatabaseComponent
+
+  },
+  { path:'climates',
+    component:ClimatesComponent
 
   },
   {

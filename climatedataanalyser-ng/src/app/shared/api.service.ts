@@ -20,15 +20,18 @@ export class ApiService {
   private LOAD_DATABASE_DATA_URL = `${this.BASE_URL}\\database\\`;
   private ANALYTICS_INIT_URL = `${this.BASE_URL}\\analytics\\`;
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL = `${this.BASE_URL}\\analytics\\request\\`;
+  private CLIMATE_RECORDS = `${this.BASE_URL}\\climateRecords\\`;
   private climateRequestDto: ClimateAnalyserRequest;
   constructor(private http: HttpClient) { }
 
   loadDataBase(): Observable<string> {
     return this.http.get<string>(this.LOAD_DATABASE_URL);
   }
+
   initAnalytics(): Observable<Bundeslaender> {
     return this.http.get<Bundeslaender>(this.ANALYTICS_INIT_URL);
   }
+
   initDbLoad(): Observable<HttpEvent<DbLoadResponseDto>> {
     const req = new HttpRequest('GET', this.LOAD_DATABASE_DATA_URL, {}, {
       reportProgress: true,
@@ -39,7 +42,8 @@ export class ApiService {
 
   getColumns(): string[] {
     return ['stepName', 'startTime', 'stepEndTime', 'stepStatus', 'readCount', 'writeCount']; }
-  // tslint:disable-next-line:max-line-length
+
+    // tslint:disable-next-line:max-line-length
   getAnalyticsByRequest(bundesland: string, gps1: GpsPoint, gps2: GpsPoint, yearOrigine: string, yearToCompare: string): Observable<HttpEvent<ClimateAnalyserResponseDto>> {
     // tslint:disable-next-line:max-line-length
     const req = new HttpRequest('POST', this.ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL, {bundesland, gps1, gps2, yearOrigine, yearToCompare}, {
@@ -54,5 +58,24 @@ export class ApiService {
       responseType: 'json'
     });
     return this.http.request<ClimateAnalyserResponseDto>(req);
+  }
+  //
+  public getClimateRecords(bundesland: string
+                           , gps1Lat: string
+                           , gps1Long: string
+                           , gps2Lat: string
+                           , gps2Long: string
+                           , startYear: string
+                           , distanceYear: string
+  ){
+    const httpParms = new HttpParams().set('bundesland', bundesland)
+                                      .set('gps1.lat', gps1Lat)
+                                      .set('gps1.long', gps1Long)
+                                      .set('gps2.lat', gps2Lat)
+                                      .set('gps2.long', gps2Long)
+                                      .set('startYear', startYear)
+                                      .set('distanceYear', distanceYear);
+    return this.http.get(this.CLIMATE_RECORDS,{params:  httpParms});
+
   }
 }

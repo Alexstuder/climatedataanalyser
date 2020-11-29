@@ -1,0 +1,13 @@
+<div>
+
+  <label for="Bundeslaender"></label>
+  <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+    <!--    <option value="" disabled selected>>select an option</option>-->
+    <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
+  </select>
+</div>
+<div>{{selectedBundesland}}</div>
+
+<p>
+  ErrorMsg : {{ climateResponseDto.errorMsg}}
+</p>
