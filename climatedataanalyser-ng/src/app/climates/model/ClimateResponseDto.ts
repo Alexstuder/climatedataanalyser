@@ -1,8 +1,8 @@
 import {ClimateRecords} from "./ClimateRecords";
 
-export interface ClimateResponseDto {
+export class ClimateResponseDto {
 
-  climateRecords:Array<ClimateRecords>;
+  climateRecordList:Array<ClimateRecords>;
   errorMsg:string;
 
 

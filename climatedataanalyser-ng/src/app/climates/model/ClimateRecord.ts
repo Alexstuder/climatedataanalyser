@@ -1,6 +1,6 @@
 import {ClimateAnalyserOneTemp} from "../../analytics/model/climate-analyser-one-temp";
 
-export interface ClimateRecord {
+export class ClimateRecord {
 
   header: String;
   climateRecord: ClimateAnalyserOneTemp;

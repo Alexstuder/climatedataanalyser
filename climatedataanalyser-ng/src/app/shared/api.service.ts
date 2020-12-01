@@ -6,6 +6,7 @@ import {GpsPoint} from '../analytics/model/GpsPoint';
 import {ClimateAnalyserResponseDto} from '../analytics/model/ClimateAnalyserResponseDto';
 import {ClimateAnalyserRequest} from '../analytics/model/ClimateAnalyserRequest';
 import {DbLoadResponseDto} from '../database/model/DbLoadResponseDto';
+import {ClimateResponseDto} from "../climates/model/ClimateResponseDto";
 
 
 @Injectable({
@@ -22,6 +23,9 @@ export class ApiService {
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL = `${this.BASE_URL}\\analytics\\request\\`;
   private CLIMATE_RECORDS = `${this.BASE_URL}\\climateRecords\\`;
   private climateRequestDto: ClimateAnalyserRequest;
+
+  private JSON:string = 'json';
+
   constructor(private http: HttpClient) { }
 
   loadDataBase(): Observable<string> {
@@ -60,7 +64,7 @@ export class ApiService {
     return this.http.request<ClimateAnalyserResponseDto>(req);
   }
   //
-  public getClimateRecords(bundesland: string
+/*  public getClimateRecords(bundesland: string
                            , gps1Lat: string
                            , gps1Long: string
                            , gps2Lat: string
@@ -75,7 +79,30 @@ export class ApiService {
                                       .set('gps2.long', gps2Long)
                                       .set('startYear', startYear)
                                       .set('distanceYear', distanceYear);
-    return this.http.get(this.CLIMATE_RECORDS,{params:  httpParms});
+    return this.http.get<ClimateResponseDto>(this.CLIMATE_RECORDS,{params:  httpParms});
+
+  }*/
+  public getClimateRecords(bundesland: string
+    , gps1Lat: string
+    , gps1Long: string
+    , gps2Lat: string
+    , gps2Long: string
+    , startYear: string
+    , distanceYear: string
+  ): Observable<HttpEvent<ClimateResponseDto>>{
+    const httpParms = new HttpParams().set('bundesland', bundesland)
+      .set('gps1.lat', gps1Lat)
+      .set('gps1.long', gps1Long)
+      .set('gps2.lat', gps2Lat)
+      .set('gps2.long', gps2Long)
+      .set('startYear', startYear)
+      .set('distanceYear', distanceYear);
+    const req = new HttpRequest('GET',this.CLIMATE_RECORDS, {} ,{
+      reportProgress:true,
+      responseType: 'json',
+      params: httpParms
+    });
+    return this.http.request<ClimateResponseDto>(req);
 
   }
 }
