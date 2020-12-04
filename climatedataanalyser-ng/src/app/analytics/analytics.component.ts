@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../shared/api.service';
 import {Bundeslaender} from './model/bundeslaender';
 import {GpsPoint} from './model/GpsPoint';
 import {ClimateAnalyserResponseDto} from './model/ClimateAnalyserResponseDto';
-import {HttpEvent, HttpEventType, HttpResponse} from '@angular/common/http';
+import {HttpEventType} from '@angular/common/http';
 import {ClimateAnalyserRequest} from './model/ClimateAnalyserRequest';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -15,7 +15,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} f
 })
 export class AnalyticsComponent implements OnInit {
 
-  bundeslaender: Bundeslaender;
+  bundeslaender: Array<String>;
   selectedBundesland: string;
   climateAnalyserResponseDto: ClimateAnalyserResponseDto;
   climateAnalyserRequestDto: ClimateAnalyserRequest;
@@ -44,26 +44,24 @@ export class AnalyticsComponent implements OnInit {
       yearC: new FormControl('2015')
     });
   }
+
   onClickSubmit() {
 
     this.climateAnalyserRequest = new ClimateAnalyserRequest(''
-      , new GpsPoint( this.angForm.value.valueOf().gps1long, this.angForm.value.valueOf().gps1lat)
-      , new GpsPoint( this.angForm.value.valueOf().gps2long, this.angForm.value.valueOf().gps2lat)
+      , new GpsPoint(this.angForm.value.valueOf().gps1long, this.angForm.value.valueOf().gps1lat)
+      , new GpsPoint(this.angForm.value.valueOf().gps2long, this.angForm.value.valueOf().gps2lat)
       , this.angForm.value.valueOf().yearO
       , this.angForm.value.valueOf().yearC);
 
 
     this.apiService.getAnalyticsByRequest(
-
-
-
       ''
-      , new GpsPoint( this.angForm.value.valueOf().gps1long, this.angForm.value.valueOf().gps1lat)
-      , new GpsPoint( this.angForm.value.valueOf().gps2long, this.angForm.value.valueOf().gps2lat)
+      , new GpsPoint(this.angForm.value.valueOf().gps1long, this.angForm.value.valueOf().gps1lat)
+      , new GpsPoint(this.angForm.value.valueOf().gps2long, this.angForm.value.valueOf().gps2lat)
       , this.angForm.value.valueOf().yearO
       , this.angForm.value.valueOf().yearC
     ).subscribe(
-    // this.apiService.getAnalyticsByRequest2(this.climateAnalyserRequest).subscribe(
+      // this.apiService.getAnalyticsByRequest2(this.climateAnalyserRequest).subscribe(
 
       value => {
 
@@ -93,7 +91,6 @@ export class AnalyticsComponent implements OnInit {
       error => {
         alert('An error occurred while init Analytics, trying to get all Bundeslaender from Backend !');
       }
-
     );
 
   }
@@ -102,12 +99,11 @@ export class AnalyticsComponent implements OnInit {
     this.yearOrigine = this.angForm.value.valueOf().yearO;
     this.yearToCompare = this.angForm.value.valueOf().yearC;
     this.apiService.getAnalyticsByRequest(selectedBundesland, this.gps1, this.gps2, this.yearOrigine, this.yearToCompare).subscribe(
-
       value => {
 
         switch (value.type) {
           case HttpEventType.Response:
-             this.climateAnalyserResponseDto = value.body;
+            this.climateAnalyserResponseDto = value.body;
 
         }
       },

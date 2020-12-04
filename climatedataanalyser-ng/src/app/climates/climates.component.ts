@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Bundeslaender} from "../analytics/model/bundeslaender";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ApiService} from "../shared/api.service";
 import {ClimateResponseDto} from "./model/ClimateResponseDto";
 import {HttpEventType} from "@angular/common/http";
+import {Bundeslaender} from "./model/bundeslaender";
 
 @Component({
   selector: 'app-climates',
@@ -12,8 +12,8 @@ import {HttpEventType} from "@angular/common/http";
 })
 export class ClimatesComponent implements OnInit {
 
-  bundeslaender: Bundeslaender;
-  selectedBundesland: string;
+  bundeslaender: Array<String>;
+  private selectedBundesland: string;
 
   private startYear;
   private distanceYear;
@@ -75,6 +75,8 @@ export class ClimatesComponent implements OnInit {
     this.apiService.initAnalytics().subscribe(
       value => {
         this.bundeslaender = value;
+        console.log("Bundesland versucht zu laden !");
+        console.log(this.bundeslaender);
         // alert("Bundeslande :" + this.bundeslaender);
       },
       error => {

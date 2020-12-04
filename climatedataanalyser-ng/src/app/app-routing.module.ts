@@ -8,6 +8,12 @@ import {ClimatesComponent} from "./climates/climates.component";
 
 const routes: Routes = [
   {
+    path:'',
+    component:ClimatesComponent,
+    pathMatch:'full'
+
+  },
+  {
     path:'analytics',
     component:AnalyticsComponent
 
@@ -19,12 +25,6 @@ const routes: Routes = [
   },
   { path:'climates',
     component:ClimatesComponent
-
-  },
-  {
-    path:'',
-    component:AnalyticsComponent,
-    pathMatch:'full'
 
   },
   {

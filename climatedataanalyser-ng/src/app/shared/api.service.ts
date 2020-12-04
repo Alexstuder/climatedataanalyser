@@ -32,8 +32,8 @@ export class ApiService {
     return this.http.get<string>(this.LOAD_DATABASE_URL);
   }
 
-  initAnalytics(): Observable<Bundeslaender> {
-    return this.http.get<Bundeslaender>(this.ANALYTICS_INIT_URL);
+  initAnalytics(): Observable<Array<String>> {
+    return this.http.get<Array<String>>(this.ANALYTICS_INIT_URL);
   }
 
   initDbLoad(): Observable<HttpEvent<DbLoadResponseDto>> {
