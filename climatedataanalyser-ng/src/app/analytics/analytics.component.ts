@@ -35,13 +35,15 @@ export class AnalyticsComponent implements OnInit {
   }
 
   createForm() {
+    //Weisweil   79367 : 48.181837104192695, 7.6906623449884695
+    //Stühlingen 79780 : 47.73683613454628, 8.360463439669749
     this.angForm = this.fb.group({
-      gps1lat: new FormControl('49'),
-      gps1long: new FormControl('7.3'),
-      gps2lat: new FormControl('47'),
-      gps2long: new FormControl('9.2'),
+      gps1lat: new FormControl('48.181837104192695'),
+      gps1long: new FormControl('7.6906623449884695'),
+      gps2lat: new FormControl('47.73683613454628'),
+      gps2long: new FormControl('8.360463439669749'),
       yearO: new FormControl('1989'),
-      yearC: new FormControl('2015')
+      yearC: new FormControl('2018')
     });
   }
 
