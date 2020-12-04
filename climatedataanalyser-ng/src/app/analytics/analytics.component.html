@@ -9,7 +9,7 @@
 <div>{{selectedBundesland}}</div>
 
 <p>
-  ErrorMsg : {{ climateAnalyserResponseDto.errorMsg}}
+  ErrorMsg : {{ climateAnalyserResponseDto?.errorMsg}}
 </p>
 
 <div>
@@ -56,7 +56,7 @@
 <table class="table">
   <thead class="thead-light">
   <tr>
-    <th scope="col">{{climateAnalyserResponseDto.originYear}}</th>
+    <th scope="col">{{climateAnalyserResponseDto?.originYear}}</th>
     <th scope="col">Januar</th>
     <th scope="col">Februar</th>
     <th scope="col">März</th>
@@ -74,33 +74,33 @@
   <tbody>
   <tr>
     <th scope="row">Climate : </th>
-    <td>{{climateAnalyserResponseDto.original.januar}}</td>
-    <td>{{climateAnalyserResponseDto.original.februar}}</td>
-    <td>{{climateAnalyserResponseDto.original.maerz}}</td>
-    <td>{{climateAnalyserResponseDto.original.april}}</td>
-    <td>{{climateAnalyserResponseDto.original.mai}}</td>
-    <td>{{climateAnalyserResponseDto.original.juni}}</td>
-    <td>{{climateAnalyserResponseDto.original.juli}}</td>
-    <td>{{climateAnalyserResponseDto.original.august}}</td>
-    <td>{{climateAnalyserResponseDto.original.september}}</td>
-    <td>{{climateAnalyserResponseDto.original.oktober}}</td>
-    <td>{{climateAnalyserResponseDto.original.november}}</td>
-    <td>{{climateAnalyserResponseDto.original.dezember}}</td>
+    <td>{{climateAnalyserResponseDto?.original.januar}}</td>
+    <td>{{climateAnalyserResponseDto?.original.februar}}</td>
+    <td>{{climateAnalyserResponseDto?.original.maerz}}</td>
+    <td>{{climateAnalyserResponseDto?.original.april}}</td>
+    <td>{{climateAnalyserResponseDto?.original.mai}}</td>
+    <td>{{climateAnalyserResponseDto?.original.juni}}</td>
+    <td>{{climateAnalyserResponseDto?.original.juli}}</td>
+    <td>{{climateAnalyserResponseDto?.original.august}}</td>
+    <td>{{climateAnalyserResponseDto?.original.september}}</td>
+    <td>{{climateAnalyserResponseDto?.original.oktober}}</td>
+    <td>{{climateAnalyserResponseDto?.original.november}}</td>
+    <td>{{climateAnalyserResponseDto?.original.dezember}}</td>
   </tr>
   <tr>
     <th scope="row">Compare:</th>
-    <td>{{climateAnalyserResponseDto.compare.januar}}</td>
-    <td>{{climateAnalyserResponseDto.compare.februar}}</td>
-    <td>{{climateAnalyserResponseDto.compare.maerz}}</td>
-    <td>{{climateAnalyserResponseDto.compare.april}}</td>
-    <td>{{climateAnalyserResponseDto.compare.mai}}</td>
-    <td>{{climateAnalyserResponseDto.compare.juni}}</td>
-    <td>{{climateAnalyserResponseDto.compare.juli}}</td>
-    <td>{{climateAnalyserResponseDto.compare.august}}</td>
-    <td>{{climateAnalyserResponseDto.compare.september}}</td>
-    <td>{{climateAnalyserResponseDto.compare.oktober}}</td>
-    <td>{{climateAnalyserResponseDto.compare.november}}</td>
-    <td>{{climateAnalyserResponseDto.compare.dezember}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.januar}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.februar}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.maerz}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.april}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.mai}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.juni}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.juli}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.august}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.september}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.oktober}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.november}}</td>
+    <td>{{climateAnalyserResponseDto?.compare.dezember}}</td>
   </tr>
   </tbody>
 </table>

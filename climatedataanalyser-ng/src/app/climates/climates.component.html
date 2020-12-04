@@ -1,0 +1,98 @@
+<div>
+  <label>
+
+    <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+<!--      <option value="wähle">select an option</option>-->
+      <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
+    </select>
+  </label>
+</div>
+
+<p>
+  ErrorMsg : {{ climateResponseDto?.errorMsg}}
+</p>
+
+<div>
+
+  <form [formGroup]="angForm" (ngSubmit)="onClickSubmit()">
+    <label>
+      GPS1.Latitude :
+      <input type="number" formControlName="gps1lat">
+    </label>
+
+    <label>
+      . GPS1.Longitude :
+      <input type="number" formControlName="gps1long">
+    </label>
+
+    <br/>
+    <label>
+      GPS2.Latitude :
+      <input type="number" formControlName="gps2lat">
+    </label>
+
+    <label>
+      . GPS2.Longitude :
+      <input type="number" formControlName="gps2long">
+    </label>
+
+    <br/>
+    <label>
+      Start Year :
+      <input type="text" formControlName="startYear">
+    </label>
+
+    <label>
+      . Years between each climatic period :
+      <input type="text" formControlName="distanceYear">
+    </label>
+
+    <br/>
+    <button type="submit">Submit</button>
+  </form>
+
+</div>
+
+
+<ol>
+  <!--  <li *ngFor ="let climate of climateResponseDto.climateRecordList">{{climate.climateRecord.januar.}}</li>-->
+
+</ol>
+<table class="table">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col"> Climate Period</th>
+    <th scope="col">Januar</th>
+    <th scope="col">Februar</th>
+    <th scope="col">März</th>
+    <th scope="col">April</th>
+    <th scope="col">Mai</th>
+    <th scope="col">Juni</th>
+    <th scope="col">Juli</th>
+    <th scope="col">August</th>
+    <th scope="col">September</th>
+    <th scope="col">Oktober</th>
+    <th scope="col">November</th>
+    <th scope="col">Dezember</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let climateRecord of climateResponseDto?.climateRecordList">
+    <td>{{climateRecord.header}}</td>
+    <td>{{climateRecord.januar}}</td>
+    <td>{{climateRecord.februar}}</td>
+    <td>{{climateRecord.maerz}}</td>
+    <td>{{climateRecord.april}}</td>
+    <td>{{climateRecord.mai}}</td>
+    <td>{{climateRecord.juni}}</td>
+    <td>{{climateRecord.juli}}</td>
+    <td>{{climateRecord.august}}</td>
+    <td>{{climateRecord.september}}</td>
+    <td>{{climateRecord.oktober}}</td>
+    <td>{{climateRecord.november}}</td>
+    <td>{{climateRecord.dezember}}</td>
+  </tr>
+  </tbody>
+
+</table>

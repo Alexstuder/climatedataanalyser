@@ -3,9 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 import {AnalyticsComponent} from "./analytics/analytics.component";
 import {DatabaseComponent} from "./database/database.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
+import {ClimatesComponent} from "./climates/climates.component";
 
 
 const routes: Routes = [
+  {
+    path:'',
+    component:ClimatesComponent,
+    pathMatch:'full'
+
+  },
   {
     path:'analytics',
     component:AnalyticsComponent
@@ -16,10 +23,8 @@ const routes: Routes = [
     component:DatabaseComponent
 
   },
-  {
-    path:'',
-    component:AnalyticsComponent,
-    pathMatch:'full'
+  { path:'climates',
+    component:ClimatesComponent
 
   },
   {

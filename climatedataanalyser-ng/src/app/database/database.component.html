@@ -21,9 +21,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr mdbTableCol *ngFor="let char of dbLoadResponseDto.dbLoadSteps ">
+      <tr mdbTableCol *ngFor="let dbLoadStep of dbLoadResponseDto.dbLoadSteps ">
         <td *ngFor="let col of columns">
-          {{char[col]}}
+          {{dbLoadStep[col]}}
         </td>
       </tr>
     </tbody>

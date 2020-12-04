@@ -53,6 +53,33 @@ class ClimateServiceImplIntegrationTest {
     }
 
     @Test
+    void getClimateByGpsForClimateRecords(){
+
+        GpsPoint gps1 = new GpsPoint(49, 9);
+        GpsPoint gps2 = new GpsPoint(38, 20);
+        String fromYear = "1995";
+        List<StationClimate> stationClimates = climateService.getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations(gps1,gps2,fromYear);
+
+        //Check size
+        Assertions.assertEquals(10,stationClimates.size());
+
+        //Check Order by startPeriod and Stations
+        Assertions.assertEquals("1995" ,stationClimates.get(0).getStartPeriod());
+        Assertions.assertEquals(8 ,stationClimates.get(0).getStationId());
+
+        Assertions.assertEquals("1995" ,stationClimates.get(3).getStartPeriod());
+        Assertions.assertEquals(11 ,stationClimates.get(3).getStationId());
+
+        Assertions.assertEquals("1996" ,stationClimates.get(5).getStartPeriod());
+        Assertions.assertEquals(10 ,stationClimates.get(5).getStationId());
+
+
+        Assertions.assertEquals("1997" ,stationClimates.get(8).getStartPeriod());
+        Assertions.assertEquals(11 ,stationClimates.get(8).getStationId());
+
+
+    }
+    @Test
     void getClimateByGps() {
 
         GpsPoint gps1 = new GpsPoint(49, 9);

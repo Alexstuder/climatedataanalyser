@@ -96,14 +96,14 @@ public class StationClimateImpl implements StationClimateDAO {
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                " AND ((s.geoLatitude <= :gps1Latitude AND s.geoLength >= :gps1Longitude) AND ( s.geoLength >= :gps2Latitude AND s.geoLength <= :gps2Longitude))" +
-                " AND c.startPeriod >= :yearFrom" +
+                " AND ((s.geoLatitude <= :gps1Latitude AND s.geoLength >= :gps1Longitude) AND ( s.geoLatitude >= :gps2Latitude AND s.geoLength <= :gps2Longitude))" +
+                " AND cast(c.startPeriod as int) >= :yearFrom" +
                 " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
                 .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
                 .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
                 .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
                 .setParameter("gps2Longitude", BigDecimal.valueOf(gps2.getLongitude()))
-                .setParameter("yearFrom", yearFrom);
+                .setParameter("yearFrom", Integer.valueOf(yearFrom));
 
         // execute and get result list
         climateForGpsCoordinates = theQuery.getResultList();
