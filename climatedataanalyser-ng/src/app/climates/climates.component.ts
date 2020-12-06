@@ -91,8 +91,8 @@ export class ClimatesComponent implements OnInit {
 
   onBundeslaenderDropDownListSelected(selectedBundesland: any) {
 
-    this.angForm.controls['gps1lat'].disable();
-    this.angForm.value.valueOf().gps1lat('');
+   // this.angForm.controls['gps1lat'].disable();
+    // this.angForm.value.valueOf().gps1lat('');
     this.startYear = this.angForm.value.valueOf().startYear;
     this.distanceYear = this.angForm.value.valueOf().distanceYear;
 

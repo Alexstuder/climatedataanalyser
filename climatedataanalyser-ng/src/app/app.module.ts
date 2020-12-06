@@ -10,6 +10,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ClimatesComponent } from './climates/climates.component';
+import { WolfgangComponent } from './wolfgang/wolfgang.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ClimatesComponent } from './climates/climates.component';
     AnalyticsComponent,
     DatabaseComponent,
     NotFoundComponent,
-    ClimatesComponent
+    ClimatesComponent,
+    WolfgangComponent
   ],
     imports: [
         BrowserModule,

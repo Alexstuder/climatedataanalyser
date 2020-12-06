@@ -4,6 +4,7 @@ import {AnalyticsComponent} from "./analytics/analytics.component";
 import {DatabaseComponent} from "./database/database.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {ClimatesComponent} from "./climates/climates.component";
+import {WolfgangComponent} from "./wolfgang/wolfgang.component";
 
 
 const routes: Routes = [
@@ -25,6 +26,10 @@ const routes: Routes = [
   },
   { path:'climates',
     component:ClimatesComponent
+
+  },
+  { path:'wolfgang',
+    component:WolfgangComponent
 
   },
   {
