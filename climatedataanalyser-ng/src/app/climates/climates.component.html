@@ -2,7 +2,7 @@
   <label>
 
     <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
-<!--      <option value="wähle">select an option</option>-->
+      <option value="" selected>select a Bundesland</option>
       <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
     </select>
   </label>

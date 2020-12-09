@@ -1,8 +1,8 @@
 <div>
 
 <label for="Bundeslaender"></label>
-  <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
-<!--    <option value="" disabled selected>>select an option</option>-->
+  <select id="Bundeslaender" [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+    <option value="" selected>select a Bundesland</option>
     <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
   </select>
 </div>
