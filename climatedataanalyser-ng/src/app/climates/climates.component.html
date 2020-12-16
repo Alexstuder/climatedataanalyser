@@ -1,17 +1,19 @@
 <div>
-  <label>
+  <label for="Bundeslaender"></label>
 
-    <select [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+    <select id="Bundeslaender" [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
       <option value="" selected>select a Bundesland</option>
       <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
     </select>
-  </label>
 </div>
+<div>
+  <p *ngIf="climateResponseDto?.errorMsg != '';then showErrorMsg;else noErrorMsg">
 
-<p>
-  ErrorMsg : {{ climateResponseDto?.errorMsg}}
-</p>
-
+  </p>
+  <ng-template #showErrorMsg>ErrorMsg : {{ climateResponseDto?.errorMsg}}</ng-template>
+  <ng-template #noErrorMsg> <br></ng-template>
+</div>
+<div>
 <div>
 
   <form [formGroup]="angForm" (ngSubmit)="onClickSubmit()">

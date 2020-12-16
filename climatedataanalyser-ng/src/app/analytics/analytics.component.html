@@ -1,50 +1,53 @@
 <div>
 
-<label for="Bundeslaender"></label>
-  <select id="Bundeslaender" [(ngModel)]="selectedBundesland" (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
+  <label for="Bundeslaender"></label>
+  <select id="Bundeslaender" [(ngModel)]="selectedBundesland"
+          (ngModelChange)='onBundeslaenderDropDownListSelected($event)'>
     <option value="" selected>select a Bundesland</option>
     <option *ngFor="let bundesland of bundeslaender" [value]="bundesland">{{bundesland}}</option>
   </select>
 </div>
-<div>{{selectedBundesland}}</div>
+<!-- -->
+<div>
+  <p *ngIf="climateAnalyserResponseDto?.errorMsg != '';then showErrorMsg;else noErrorMsg">
 
-<p>
-  ErrorMsg : {{ climateAnalyserResponseDto?.errorMsg}}
-</p>
-
+  </p>
+  <ng-template #showErrorMsg>ErrorMsg : {{ climateAnalyserResponseDto?.errorMsg}}</ng-template>
+  <ng-template #noErrorMsg> <br></ng-template>
+</div>
 <div>
 
   <form [formGroup]="angForm" (ngSubmit)="onClickSubmit()">
     <label>
-      GPS1.Latitude   :
-      <input type = "number" formControlName="gps1lat">
+      GPS1.Latitude :
+      <input type="number" formControlName="gps1lat">
     </label>
 
     <label>
-        . GPS1.Longitude :
-      <input type = "number" formControlName="gps1long">
+      . GPS1.Longitude :
+      <input type="number" formControlName="gps1long">
     </label>
 
     <br/>
     <label>
-      GPS2.Latitude  :
-      <input type = "number" formControlName="gps2lat">
+      GPS2.Latitude :
+      <input type="number" formControlName="gps2lat">
     </label>
 
     <label>
       . GPS2.Longitude :
-      <input type = "number" formControlName="gps2long">
+      <input type="number" formControlName="gps2long">
     </label>
 
     <br/>
     <label>
-      Climate for Year    :
-      <input type = "text" formControlName="yearO">
+      Climate for Year :
+      <input type="text" formControlName="yearO">
     </label>
 
     <label>
-      . Compare with StationID ,existing in Year    :
-      <input type = "text" formControlName="yearC">
+      . Compare with StationID ,existing in Year :
+      <input type="text" formControlName="yearC">
     </label>
 
     <br/>
@@ -73,7 +76,7 @@
   </thead>
   <tbody>
   <tr>
-    <th scope="row">Climate : </th>
+    <th scope="row">Climate :</th>
     <td>{{climateAnalyserResponseDto?.original.januar}}</td>
     <td>{{climateAnalyserResponseDto?.original.februar}}</td>
     <td>{{climateAnalyserResponseDto?.original.maerz}}</td>

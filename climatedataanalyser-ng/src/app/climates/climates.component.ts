@@ -4,6 +4,7 @@ import {ApiService} from "../shared/api.service";
 import {ClimateResponseDto} from "./model/ClimateResponseDto";
 import {HttpEventType} from "@angular/common/http";
 import {Bundeslaender} from "./model/bundeslaender";
+import {timeout} from "rxjs/operators";
 
 @Component({
   selector: 'app-climates',
@@ -35,6 +36,11 @@ export class ClimatesComponent implements OnInit {
     this.zero = "0";
   }
 
+  reset(){
+    this.bundeslaender= null;
+    setTimeout(this.initClimates,1000);
+    alert("Timeout");
+  }
 
   private createForm() {
 
@@ -51,6 +57,7 @@ export class ClimatesComponent implements OnInit {
   }
 
   onClickSubmit() {
+    this.reset();
 
     this.apiService.getClimateRecords(""
       , this.angForm.value.valueOf().gps1lat
@@ -69,8 +76,6 @@ export class ClimatesComponent implements OnInit {
         alert('An error occurred ,while getting climateRecords from Backend');
       }
     )
-
-
   }
 
   initClimates() {
@@ -80,7 +85,7 @@ export class ClimatesComponent implements OnInit {
         this.bundeslaender = value;
         console.log("Bundesland versucht zu laden !");
         console.log(this.bundeslaender);
-        // alert("Bundeslande :" + this.bundeslaender);
+        //alert("Bundeslande :" + this.bundeslaender);
       },
       error => {
         alert('An error occurred while init Analytics, trying to get all Bundeslaender from Backend !');
