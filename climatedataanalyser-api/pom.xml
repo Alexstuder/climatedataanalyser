@@ -16,7 +16,14 @@
     <description>Analyser for German Climate Data</description>
 
     <properties>
-        <java.version>13</java.version>
+        <java.version>11</java.version>
+        <!--maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.report.outputEncoding>${encoding}</project.report.outputEncoding>
+        <project.resources.sourceEncoding>${encoding}</project.resources.sourceEncoding>
+        <achetype.encoding>${encoding}</achetype.encoding-->
     </properties>
 
     <dependencies>
@@ -87,7 +94,6 @@
             <version>18.0.0</version>
         </dependency>
 
-
         <!-- Executable and self-hosted -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,13 +112,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>12</source>
-                    <target>12</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
     <!-- https://mvnrepository.com/artifact/com.madgag/util-compress -->
-
 
 </project>

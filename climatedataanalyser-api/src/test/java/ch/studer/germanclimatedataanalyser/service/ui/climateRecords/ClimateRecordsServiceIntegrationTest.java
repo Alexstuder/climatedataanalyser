@@ -5,6 +5,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,8 @@ public class ClimateRecordsServiceIntegrationTest {
     }
 
 
-    @Test
+    //@Test
+    @Ignore
     void testClimateRecordServiceWithBundesland() {
 
         //setup();
@@ -84,7 +86,8 @@ public class ClimateRecordsServiceIntegrationTest {
         assertRecords(climateRecordsDto);
     }
 
-    @Test
+    // @Test
+    @Ignore
     void testClimateRecordServiceWithCoordinates() {
 
         final String BUNDESLAND = "";

@@ -15,7 +15,6 @@ public class Bundesland {
     }
 
     public boolean exists() {
-        boolean exists = false;
         return stationService.bundeslandExists(this.name);
 
     }
