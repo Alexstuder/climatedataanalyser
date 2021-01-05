@@ -112,7 +112,7 @@ export class ClimatesComponent implements OnInit {
 
       },
       error => {
-        alert('An error occurred ,while getting analytics by Bundesland: ' + selectedBundesland);
+        alert('An error occurred ,while getting analytics by Bundesland : ' + selectedBundesland);
       }
     );
     selectedBundesland = 'The value ' + selectedBundesland + ' was selected !';
