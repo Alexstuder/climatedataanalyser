@@ -1,25 +1,38 @@
 -- ## Pre-Work
 
--- User:climateDataUser PWD:climateDataUser
+-- User:climateDataRUN PWD:climateDataRUN
 -- Copy following sql and drop into MySQL
 -- The User has no Limitation at all !!
 -- and is granted with all privileges
+/*-- This User is used by the application
+ CREATE USER 'climateRUN'@'localhost' IDENTIFIED BY 'climateRUN'
+     WITH MAX_QUERIES_PER_HOUR 0
+              MAX_UPDATES_PER_HOUR 0
+              MAX_CONNECTIONS_PER_HOUR 0
+              MAX_USER_CONNECTIONS 0;
+ GRANT INSERT,SELECT,DELETE,UPDATE ON climate.* TO 'climateRUN'@'localhost';
 
--- CREATE USER 'climateUser'@'localhost' IDENTIFIED BY 'climateUser'
---     WITH MAX_QUERIES_PER_HOUR 0
---              MAX_UPDATES_PER_HOUR 0
---              MAX_CONNECTIONS_PER_HOUR 0
---              MAX_USER_CONNECTIONS 0;
--- GRANT ALL PRIVILEGES ON climate.* TO 'climateUser'@'localhost';
--- create database if not exists climate;
+-- This User is used to monitor the DB actions
+CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'climateDBA'
+    WITH MAX_QUERIES_PER_HOUR 0
+        MAX_UPDATES_PER_HOUR 0
+        MAX_CONNECTIONS_PER_HOUR 0
+        MAX_USER_CONNECTIONS 0;
+GRANT ALL PRIVILEGES ON climate.* TO 'climateDBA'@'localhost';
+
+
+
+
+create database if not exists climate;
+use climate;*/
 
 -- ##########################
 -- Drop Tables
 -- ##########################
--- DROP  TABLE if exists month ;
--- DROP  TABLE if exists station ;
--- DROP  TABLE if exists weather ;
--- DROP  TABLE if exists climate ;
+DROP TABLE if exists month;
+DROP TABLE if exists station;
+DROP TABLE if exists weather;
+DROP TABLE if exists climate;
 
 
 -- ##########################

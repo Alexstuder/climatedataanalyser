@@ -30,11 +30,11 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
                         "      ,s.Write_Count\n" +
                         "      ,s.Status as Step_Status\n" +
                         "      \n" +
-                        "      FROM climate.batch_job_execution j ,climate.batch_step_execution s\n" +
+                        "      FROM climate.BATCH_JOB_EXECUTION j ,climate.BATCH_STEP_EXECUTION s\n" +
                         "\n" +
                         "\n" +
                         "where j.Job_execution_id = s.job_execution_id \n" +
-                        "and j.job_execution_id = (select max(JOB_EXECUTION_ID) from climate.batch_job_execution)\n" +
+                        "and j.job_execution_id = (select max(JOB_EXECUTION_ID) from climate.BATCH_JOB_EXECUTION)\n" +
                         "order by s.step_execution_id;", new DbLoadRowMapper());
     }
 

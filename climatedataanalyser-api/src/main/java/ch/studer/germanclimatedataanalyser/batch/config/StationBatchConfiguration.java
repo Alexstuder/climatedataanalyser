@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DirectoryHandler;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
 import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
@@ -32,6 +33,9 @@ public class StationBatchConfiguration {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactoryImport;
+
+    @Autowired
+    DirectoryHandler directoryHandler;
 
     @Value("${climate.path.ftpDataFolderName}")
     private String FtpDirectory;
@@ -75,7 +79,8 @@ public class StationBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);
+            inputResources = patternResolver.getResources(directoryHandler.getFtpDataFolder() + directoryHandler.getFs() + stationFileName);
+            /*inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);*/
         } catch (IOException e) {
             e.printStackTrace();
         }

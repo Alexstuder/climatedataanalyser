@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser;
 
 import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.reader.WeatherReader;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DirectoryHandler;
 import ch.studer.germanclimatedataanalyser.model.dto.helper.Bundesland;
 import ch.studer.germanclimatedataanalyser.service.db.*;
 import ch.studer.germanclimatedataanalyser.service.ui.analytics.ClimateAnalyserService;
@@ -60,4 +61,10 @@ public class GermanClimateDataAnalyserApplicationContext {
     Bundesland bundesland() {
         return new Bundesland();
     }
+
+    @Bean
+    DirectoryHandler directoryHandler() {
+        return new DirectoryHandler();
+    }
+
 }

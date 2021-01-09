@@ -3,6 +3,7 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DirectoryHandler;
 import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
@@ -23,7 +24,9 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
@@ -34,6 +37,9 @@ public class TemperatureForMonthBatchConfiguration {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactoryImport;
+
+    @Autowired
+    private DirectoryHandler directoryHandler;
 
     @Value("${climate.path.temperature.input.file.pattern}")
     private String inputFilePattern;
@@ -46,12 +52,23 @@ public class TemperatureForMonthBatchConfiguration {
     @Bean
     @StepScope
     public MultiResourceItemReader<MonthFile> monthFilesReader() {
+
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
+
             //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
             //.getResources("classpath*:/"+ directory+"/"+classifier);
-            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
+
+            List<File> files = directoryHandler.getAllFilesFromDirectory(directoryHandler.getInputFolder(), inputFilePattern, "");
+
+            String inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + inputFilePattern;
+            inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + "produkt_klima_monat_19980201_20191231_02437.txt";
+            System.out.println(inputResourcesS);
+            inputResources = patternResolver.getResources(inputResourcesS);
+
+            /*  inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);*/
+
         } catch (IOException e) {
             e.printStackTrace();
         }

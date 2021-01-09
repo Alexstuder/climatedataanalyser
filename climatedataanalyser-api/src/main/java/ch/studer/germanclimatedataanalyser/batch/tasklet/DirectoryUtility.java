@@ -5,7 +5,8 @@ import java.io.IOException;
 
 public class DirectoryUtility {
 
-     static void deleteDirectoryFiles(File directory) throws IOException {
+
+    static void deleteDirectoryFilesOld(File directory) throws IOException {
         File[] allContent = null;
         allContent = directory.listFiles();
 
@@ -14,7 +15,7 @@ public class DirectoryUtility {
             for (File file : allContent) {
                 // delete all files and subdir
                 if (file.isDirectory()) {
-                    deleteDirectoryFiles(file);
+                    deleteDirectoryFilesOld(file);
                 } else {
                     file.delete();
                 }

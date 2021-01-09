@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import com.madgag.compress.CompressUtil;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.StepContribution;
@@ -9,21 +10,22 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.util.List;
 
 public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Value("${climate.path.unzipOutputFolderName}")
+    @Autowired
+    DirectoryHandler directoryHandler;
+
+    /*@Value("${climate.path.unzipOutputFolderName}")
     private String unzipOutputFolderName;
 
     @Value("${climate.path.inputFolderName}")
@@ -35,7 +37,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     @Value("${climate.path.temperature.input.file.pattern}")
     private String inputFilePattern;
 
-    static final private String CLASSPATH = "classpath*:";
+    static final private String CLASSPATH = "classpath*:";*/
 
     //private Resource unzipOutputFolder;
 
@@ -45,25 +47,48 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-        // Empty both Directory
-        DirectoryUtility.deleteDirectoryFiles(getDirectory(unzipOutputFolderName));
-        DirectoryUtility.deleteDirectoryFiles(getDirectory(inputFolderName));
+  /*      // Empty both Directory
+        DirectoryUtility.deleteDirectoryFilesOld(getDirectory(unzipOutputFolderName));
+        DirectoryUtility.deleteDirectoryFilesOld(getDirectory(inputFolderName));*/
 
         // allZipFiles = getAllZipFiles();
-        Resource[] allZipFiles = getAllFilesFromDirectory(ftpDataFolderName, "*.zip");
+        //Resource[] allZipFiles = getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), ".txt");
+        List<File> allZipFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), "monatswerte_", ".zip");
+
+        // Unzip all Zip Data from FTP download
+        for (File file : allZipFiles) {
+            CompressUtil.unzip(new FileInputStream(file), directoryHandler.getUnzipOutputFolder());
+        }
+/*
 
         // Unzip all Zip Data from FTP download
         for (Resource resource : allZipFiles) {
             CompressUtil.unzip(new FileInputStream(resource.getFile().getPath()), getDirectory(unzipOutputFolderName));
         }
+*/
+        try {
+            FileUtils.copyDirectory(directoryHandler.getUnzipOutputFolder(), directoryHandler.getInputFolder());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        moveAllClimateDataToInputFilesFolder(getDirectory(unzipOutputFolderName), getDirectory(inputFolderName));
+        //moveAllClimateDataToInputFilesFolder(directoryHandler.getUnzipOutputFolder(), directoryHandler.getInputFolder());
+        //moveAllClimateDataToInputFilesFolder(getDirectory(unzipOutputFolderName), getDirectory(inputFolderName));
         return RepeatStatus.FINISHED;
     }
 
-    private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) {
+    /*private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory){
 
-        Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName, inputFilePattern);
+
+        try {
+            FileUtils.copyDirectory(inputDirectory,outputDirectory);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Files.copy(Path.of(inputDirectory.getPath()), Path.of(outputDirectory.toPath()));
+
+
+        *//*Resource[] resources = getAllFilesFromDirectory(unzipOutputFolderName, inputFilePattern);
 
         for (Resource resource : resources) {
             try {
@@ -78,10 +103,12 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
                 e.printStackTrace();
             }
         }
+*//*
+    }*/
 
-    }
 
-    private Resource[] getAllFilesFromDirectory(String directory, String classifier) {
+
+    /*private Resource[] getAllFilesFromDirectory(String directory, String classifier) {
 
         Resource[] files = new Resource[0];
         {
@@ -92,28 +119,9 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
             }
         }
         return files;
-    }
-
-/*    private void deleteDirectoryFiles(File directory) throws IOException {
-        File[] allContent = null;
-        allContent = directory.listFiles();
-
-        // First check , if directory is empty
-        if (allContent != null) {
-            for (File file : allContent) {
-                // delete all files and subdir
-                if (file.isDirectory()) {
-                    deleteDirectoryFiles(file);
-                } else {
-                    file.delete();
-                }
-            }
-        }
-        // Make dir
-        directory.mkdir();
     }*/
 
-    private File getDirectory(String directoryName) throws IOException {
+    /*private File getDirectory(String directoryName) throws IOException {
         Resource[] resources = new Resource[0];
         Resource resource = null;
         try {
@@ -137,9 +145,9 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
             }
         }
         return resource.getFile();
-    }
+    }*/
 
-    public Resource[] getAllZipFiles() {
+/*    public Resource[] getAllZipFiles() {
 
         Resource[] zipFiles = new Resource[0];
         {
@@ -151,7 +159,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         }
 
         return zipFiles;
-    }
+    }*/
 
     @Override
     public void afterPropertiesSet() {
