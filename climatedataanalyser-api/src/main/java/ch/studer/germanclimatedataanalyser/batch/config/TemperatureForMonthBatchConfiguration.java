@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -41,11 +42,18 @@ public class TemperatureForMonthBatchConfiguration {
     @Autowired
     private DirectoryHandler directoryHandler;
 
+   /* @Value("${climate.path.temperature.input.file.pattern}")
+    private String inputFilePattern;
+*/
+    @Value("${climate.path.inputFolderName}")
+    private String inputDirectory;
+
+
     @Value("${climate.path.temperature.input.file.pattern}")
     private String inputFilePattern;
 
-    @Value("${climate.path.inputFolderName}")
-    private String inputDirectory;
+    @Value("${climate.path.temperature.input.file.type}")
+    private String inputFileType;
 
     static final private String CLASSPATH = "classpath*:";
 
@@ -53,25 +61,28 @@ public class TemperatureForMonthBatchConfiguration {
     @StepScope
     public MultiResourceItemReader<MonthFile> monthFilesReader() {
 
-        Resource[] inputResources = null;
-        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
-        try {
+        Resource[] inputResources = directoryHandler.getResourceFromDirectory(directoryHandler.getInputFolder(),inputFilePattern,inputFileType);
+       /* FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();*/
+        /*  try {*/
 
-            //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
-            //.getResources("classpath*:/"+ directory+"/"+classifier);
+        //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
+        //.getResources("classpath*:/"+ directory+"/"+classifier);
 
-            List<File> files = directoryHandler.getAllFilesFromDirectory(directoryHandler.getInputFolder(), inputFilePattern, "");
+        /*List<File> files = directoryHandler.getAllFilesFromDirectory(directoryHandler.getInputFolder(), inputFilePattern, inputFileType);
+*/
 
-            String inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + inputFilePattern;
-            inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + "produkt_klima_monat_19980201_20191231_02437.txt";
-            System.out.println(inputResourcesS);
-            inputResources = patternResolver.getResources(inputResourcesS);
 
-            /*  inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);*/
 
-        } catch (IOException e) {
+        String inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + inputFilePattern;
+        //inputResourcesS = "file:" + directoryHandler.getInputFolder().getPath() + directoryHandler.getFs() + "produkt_klima_monat_19980201_20191231_02437.txt";
+        System.out.println(inputResourcesS);
+        //inputResources = patternResolver.getResources(inputResourcesS);
+
+        /*  inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);*/
+
+    /*    } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
         resourceItemReader.setResources(inputResources);
 

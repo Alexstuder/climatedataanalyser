@@ -10,11 +10,13 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
@@ -41,6 +43,14 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     //private Resource unzipOutputFolder;
 
+
+    @Value("${climate.path.temperature.input.file.pattern}")
+    private String inputFilePatttern;
+
+    @Value("${climate.path.temperature.input.file.type}")
+    private String inputFileType;
+
+
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataUnziper.class);
 
 
@@ -53,7 +63,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
         // allZipFiles = getAllZipFiles();
         //Resource[] allZipFiles = getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), ".txt");
-        List<File> allZipFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), "monatswerte_", ".zip");
+        ArrayList<File> allZipFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), inputFilePatttern, inputFileType);
 
         // Unzip all Zip Data from FTP download
         for (File file : allZipFiles) {

@@ -22,7 +22,9 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
@@ -42,6 +44,12 @@ public class StationBatchConfiguration {
 
     @Value("${climate.path.station.input.file.pattern}")
     private String stationFileName;
+
+    @Value("${climate.path.station.input.file.pattern}")
+    private String stationFilePattern;
+
+    @Value("${climate.path.station.input.file.type}")
+    private String stationFileType;
 
     static final private String CLASSPATH = "classpath*:";
 
@@ -76,14 +84,26 @@ public class StationBatchConfiguration {
     @Bean
     @StepScope
     public FlatFileItemReader<StationFile> readerStation() {
-        Resource[] inputResources = null;
+        //Resource[] inputResources = null;
+        Resource[] inputResources = directoryHandler.getResourceFromDirectory(directoryHandler.getInputFolder(),stationFilePattern,stationFileType);
+
+
+        /**/List<File> files = directoryHandler.getAllFilesFromDirectory(directoryHandler.getInputFolder(), stationFilePattern,stationFileType);
+
+
+
+
+/*
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
             inputResources = patternResolver.getResources(directoryHandler.getFtpDataFolder() + directoryHandler.getFs() + stationFileName);
-            /*inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);*/
+            */
+/*inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);*//*
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
 
         //Create reader instance
         FlatFileItemReader<StationFile> reader = new FlatFileItemReader<StationFile>();

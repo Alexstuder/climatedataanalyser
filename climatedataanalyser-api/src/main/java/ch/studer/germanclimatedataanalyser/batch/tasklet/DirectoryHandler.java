@@ -2,6 +2,8 @@ package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,17 +28,6 @@ public class DirectoryHandler implements InitializingBean {
     @Value("${climate.path.inputFolderName}")
     private String inputFolderName;
 
-    @Value("${climate.path.temperature.input.file.pattern}")
-    private String inputFilePatttern;
-
-    @Value("${climate.path.temperature.input.file.type}")
-    private String inputFileType;
-
-    @Value("${climate.path.station.input.file.pattern}")
-    private String stationFilePattern;
-
-    @Value("${climate.path.station.input.file.type}")
-    private String stationFileType;
 
     private String fs; // FileSeparator
     private String path; // Path OS specific
@@ -123,11 +114,10 @@ public class DirectoryHandler implements InitializingBean {
 
     }
 
-    public List<File> getAllFilesFromDirectory(File directory, String filePattern, String fileTyp) {
+    public ArrayList<File> getAllFilesFromDirectory(File directory, String filePattern, String fileTyp) {
 
 
-        List<File> filesTmp = Arrays.asList(directory.listFiles());
-        ArrayList<File> files = new ArrayList<File>(filesTmp);
+        ArrayList<File> files = new ArrayList<File>(Arrays.asList(directory.listFiles()));
 
         //for (File file : files) {
         for (int i = 0; i < files.size(); i++) {
@@ -140,6 +130,25 @@ public class DirectoryHandler implements InitializingBean {
         }
 
         return files;
+    }
+
+    public Resource[] getResourceFromDirectory(File folder, String pattern, String type) {
+        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
+
+        Resource[] returnResources;
+
+        List<File> files = this.getAllFilesFromDirectory(folder,pattern, type);
+
+        ArrayList<Resource> resources = new ArrayList<Resource>();
+
+        for (File file : files) {
+            resources.add(patternResolver.getResource(file.getPath()));
+        }
+
+        returnResources = resources.toArray(new Resource[0]);
+
+
+        return returnResources;
     }
 
 }
