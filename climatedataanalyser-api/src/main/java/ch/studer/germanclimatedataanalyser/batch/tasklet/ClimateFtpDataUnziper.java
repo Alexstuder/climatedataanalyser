@@ -15,9 +15,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
@@ -63,7 +61,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
         // allZipFiles = getAllZipFiles();
         //Resource[] allZipFiles = getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), ".txt");
-        ArrayList<File> allZipFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), inputFilePatttern, inputFileType);
+        ArrayList<File> allZipFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getFtpDataFolder(), "monatswerte_", ".zip");
 
         // Unzip all Zip Data from FTP download
         for (File file : allZipFiles) {
@@ -76,11 +74,16 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
             CompressUtil.unzip(new FileInputStream(resource.getFile().getPath()), getDirectory(unzipOutputFolderName));
         }
 */
-        try {
+        ArrayList<File> allProduktFiles = directoryHandler.getAllFilesFromDirectory(directoryHandler.getUnzipOutputFolder(), inputFilePatttern, inputFileType);
+        for (File file : allProduktFiles) {
+            FileUtils.copyFileToDirectory(file, directoryHandler.getInputFolder());
+        }
+
+ /*       try {
             FileUtils.copyDirectory(directoryHandler.getUnzipOutputFolder(), directoryHandler.getInputFolder());
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         //moveAllClimateDataToInputFilesFolder(directoryHandler.getUnzipOutputFolder(), directoryHandler.getInputFolder());
         //moveAllClimateDataToInputFilesFolder(getDirectory(unzipOutputFolderName), getDirectory(inputFolderName));

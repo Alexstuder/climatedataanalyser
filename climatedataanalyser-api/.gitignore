@@ -1,3 +1,4 @@
 /log/*
 /climatedatabase.db.mv.db
 /climatedatabase.db.trace.db
+/climateAnalyser.log.*gz

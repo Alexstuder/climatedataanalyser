@@ -18,12 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -85,7 +83,7 @@ public class StationBatchConfiguration {
     @StepScope
     public FlatFileItemReader<StationFile> readerStation() {
         //Resource[] inputResources = null;
-        Resource[] inputResources = directoryHandler.getResourceFromDirectory(directoryHandler.getInputFolder(),stationFilePattern,stationFileType);
+        Resource[] inputResources = directoryHandler.getResourceFromDirectory(directoryHandler.getFtpDataFolder(), stationFilePattern, stationFileType);
 
 
         /**/List<File> files = directoryHandler.getAllFilesFromDirectory(directoryHandler.getInputFolder(), stationFilePattern,stationFileType);

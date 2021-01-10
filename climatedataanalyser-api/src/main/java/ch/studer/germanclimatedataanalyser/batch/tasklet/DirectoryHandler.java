@@ -1,11 +1,13 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,12 +47,11 @@ public class DirectoryHandler implements InitializingBean {
 
     private void createFolders(ArrayList<File> folders) {
 
-        /*for (File folder : folders) {
+        for (File folder : folders) {
 
             // delete the folder if exists
             try {
-                //TODO Remove comment for delete
-              //  FileUtils.deleteDirectory(folder);
+                FileUtils.deleteDirectory(folder);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -64,7 +65,7 @@ public class DirectoryHandler implements InitializingBean {
             } catch (SecurityException e) {
                 throw new RuntimeException("Security Exception trying to create directory :" + folder.getAbsolutePath() + " \\nl" + e);
             }
-        }*/
+        }
     }
 
     public File getFtpDataFolder() {
@@ -137,7 +138,7 @@ public class DirectoryHandler implements InitializingBean {
 
         Resource[] returnResources;
 
-        List<File> files = this.getAllFilesFromDirectory(folder,pattern, type);
+        List<File> files = this.getAllFilesFromDirectory(folder, pattern, type);
 
         ArrayList<Resource> resources = new ArrayList<Resource>();
 
