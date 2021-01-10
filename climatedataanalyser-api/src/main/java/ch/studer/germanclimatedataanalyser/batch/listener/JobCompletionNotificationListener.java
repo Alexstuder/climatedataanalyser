@@ -27,11 +27,6 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         return entityManager.unwrap(Session.class);
     }
 
-//    @Autowired
-//    public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
-
     @Override
     public void beforeJob(JobExecution jobExecution) {
 
@@ -39,11 +34,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!                      JOB START                           !!!");
         log.info("****************************************************************");
 
+        // TODO define a specific delete tasklet !
         // Prepend the Tables
-        jdbcTemplate.execute("Delete FROM station");
-        jdbcTemplate.execute("Delete FROM month");
-        jdbcTemplate.execute("Delete FROM weather");
-        jdbcTemplate.execute("Delete FROM climate");
+        jdbcTemplate.execute("Delete FROM STATION");
+        jdbcTemplate.execute("Delete FROM MONTH");
+        jdbcTemplate.execute("Delete FROM WEATHER");
+        jdbcTemplate.execute("Delete FROM CLIMATE");
 
 
     }
