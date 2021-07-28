@@ -121,7 +121,7 @@
                             <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory >
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/tutorial-web/src/main/web/dist/np-app/</directory >
+                                    <directory>${project.parent.basedir}/climatedataanalyser-ng/src/main/web/dist/np-app/</directory >
                                 </resource>
                             </resources>
                         </configuration>

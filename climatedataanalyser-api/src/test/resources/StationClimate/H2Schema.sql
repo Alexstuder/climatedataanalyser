@@ -1,17 +1,35 @@
 -- ## Pre-Work
 
--- User:climateDataUser PWD:climateDataUser
--- Copy following sql and drop into MySQL
--- The User has no Limitation at all !!
--- and is granted with all privileges
-
--- CREATE USER 'climateUser'@'localhost' IDENTIFIED BY 'climateUser'
+--
+-- DROP user if exists climateRUN@localhost;
+-- DROP user if exists climateDBA@localhost;
+-- flush privileges;
+--
+-- DROP database if exists climate;
+-- commit;
+-- -- Create the Database
+-- CREATE database if not exists climate;
+--
+-- -- Create the Run user
+-- -- this is the User used in the application
+-- CREATE USER 'climateRUN'@'localhost' IDENTIFIED BY 'climateRUN'
 --     WITH MAX_QUERIES_PER_HOUR 0
---              MAX_UPDATES_PER_HOUR 0
---              MAX_CONNECTIONS_PER_HOUR 0
---              MAX_USER_CONNECTIONS 0;
--- GRANT ALL PRIVILEGES ON climate.* TO 'climateUser'@'localhost';
+--         MAX_UPDATES_PER_HOUR 0
+--         MAX_CONNECTIONS_PER_HOUR 0
+--         MAX_USER_CONNECTIONS 0;
+-- -- GRANT CREATE,INSERT,SELECT,DELETE,UPDATE,DROP ON climate.* TO 'climateRUN'@'localhost';
+--  GRANT ALL privileges ON climate.* TO 'climateRUN'@'localhost';
+--
+-- -- This User is used to monitor the DB actions
+-- CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'climateDBA'
+--    WITH MAX_QUERIES_PER_HOUR 0
+--         MAX_UPDATES_PER_HOUR 0
+--         MAX_CONNECTIONS_PER_HOUR 0
+--         MAX_USER_CONNECTIONS 0;
+--
+-- GRANT ALL PRIVILEGES ON climate.* TO 'climateDBA'@'localhost';
 -- create database if not exists climate;
+
 
 -- ##########################
 -- Drop Tables
