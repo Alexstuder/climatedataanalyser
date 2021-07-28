@@ -99,62 +99,7 @@
             <version>18.0.0</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>ch.alexstuder.climate</groupId>
-            <artifactId>climatedataanalyser-ng</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals><goal>copy-resources</goal></goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory >
-                            <resources>
-                                <resource>
-                                    <directory>${project.parent.basedir}/tutorial-web/src/main/web/dist/np-app/</directory >
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <packagingExcludes>WEB-INF/lib/tomcat-*.jar</packagingExcludes>
-                    <warName>ClimateAnalyser</warName>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-</project>
-
-<!--
-
-        &lt;!&ndash; Executable and self-hosted &ndash;&gt;
+        <!-- Executable and self-hosted -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -178,7 +123,6 @@
             </plugin>
         </plugins>
     </build>
-    &lt;!&ndash; https://mvnrepository.com/artifact/com.madgag/util-compress &ndash;&gt;
+    <!-- https://mvnrepository.com/artifact/com.madgag/util-compress -->
 
 </project>
--->
