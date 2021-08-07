@@ -18,5 +18,6 @@ jobs:
 
     - name: undeployment
       run: curl --upload-file ClimateAnalyser.war "http://alex:climate@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
+
     - name: deployment
-       run:    curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://alex:climate@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
+       run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://alex:climate@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
