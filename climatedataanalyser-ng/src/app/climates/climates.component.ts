@@ -14,7 +14,7 @@ import {timeout} from "rxjs/operators";
 export class ClimatesComponent implements OnInit {
 
   bundeslaender: Array<String>;
-  private selectedBundesland: string;
+  selectedBundesland: string;
 
   private startYear;
   private distanceYear;

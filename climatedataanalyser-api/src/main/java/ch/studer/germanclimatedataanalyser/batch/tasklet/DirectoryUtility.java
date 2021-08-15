@@ -1,27 +1,19 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+
 import java.io.File;
-import java.io.IOException;
 
-public class DirectoryUtility {
+public interface DirectoryUtility {
 
-     static void deleteDirectoryFiles(File directory) throws IOException {
-        File[] allContent = null;
-        allContent = directory.listFiles();
 
-        // First check , if directory is empty
-        if (allContent != null) {
-            for (File file : allContent) {
-                // delete all files and subdir
-                if (file.isDirectory()) {
-                    deleteDirectoryFiles(file);
-                } else {
-                    file.delete();
-                }
-            }
-        }
-        // Make dir
-        directory.mkdir();
+    private void deleteDirectoryFiles(File directoryName) {
+    }
+
+    static File createDir(String directoryName) {
+        return null;
     }
 
 }

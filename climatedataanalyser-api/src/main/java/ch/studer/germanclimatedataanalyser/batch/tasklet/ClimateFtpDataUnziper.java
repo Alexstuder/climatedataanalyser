@@ -46,8 +46,8 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         // Empty both Directory
-        DirectoryUtility.deleteDirectoryFiles(getDirectory(unzipOutputFolderName));
-        DirectoryUtility.deleteDirectoryFiles(getDirectory(inputFolderName));
+        DirectoryUtilityImpl.createDir(unzipOutputFolderName);
+        DirectoryUtilityImpl.createDir(inputFolderName);
 
         // allZipFiles = getAllZipFiles();
         Resource[] allZipFiles = getAllFilesFromDirectory(ftpDataFolderName, "*.zip");

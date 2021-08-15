@@ -12,7 +12,6 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,12 +95,10 @@ public class ClimateFtpDataDownloader implements Tasklet {
         File directory = null;
         log.info("Start Download  : " + LocalDateTime.now().toString());
         try {
-            directory = getDirectory(ftpDataFolderName);
+            directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        DirectoryUtility.deleteDirectoryFiles(directory);
         log.info("FTPDataFolderName : " + directory.getPath());
 
         for (FTPFile ftpFile : ftpFiles) {
@@ -134,56 +131,24 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         try {
 
-            //ftpFiles = ftpConnection.listFiles(remoteDirectory);
             ftpFiles = ftpConnection.listFiles();
-           /* for (FTPFile file : ftpFiles) {
-                System.out.println(file.getName());
-            }*/
+
         } catch (Exception e) {
             throw new RuntimeException("Runtime Exeption in list FTP Files : " + e.getMessage());
 
-            //ftpClient.logout();
         } finally {
             System.out.println("Finaly in List arrived !");
-            //  ftpClient.disconnect();
         }
 
         return ftpFiles;
     }
 
-  /*  private void deleteDirectoryFiles(File directory) throws IOException {
-        File[] allContent = null;
-        allContent = directory.listFiles();
+  /*  private File createDirectory(String directoryName) throws IOException {
+        File directory = new File(directoryName);
 
-        // First check , if directory is empty
-        if (allContent != null) {
-            for (File file : allContent) {
-                // delete all files and subdir
-                if (file.isDirectory()) {
-                    deleteDirectoryFiles(file);
-                } else {
-                    file.delete();
-                }
-            }
+        if (directory.exists()) {
+            DirectoryUtilityImpl.deleteDirectoryFiles(directory);
         }
-        // Make dir
-        directory.mkdir();
+        return new File(directoryName);
     }*/
-
-    private File getDirectory(String directoryName) throws IOException {
-        Resource[] resources = new Resource[0];
-        Resource resource = null;
-
-        try {
-            resources = applicationContext.getResources("classpath*:/" + directoryName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (Resource directory : resources) {
-            if (directory.getFilename().equals(directoryName)) {
-                resource = directory;
-            }
-        }
-        return resource.getFile();
-    }
 }

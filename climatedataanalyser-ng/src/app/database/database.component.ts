@@ -10,8 +10,8 @@ import {DbLoadResponseDto} from './model/DbLoadResponseDto';
 })
 export class DatabaseComponent implements OnInit {
 
-  private dbLoadResponseDto: DbLoadResponseDto;
-  private columns: string[];
+  dbLoadResponseDto: DbLoadResponseDto;
+  columns: string[];
 
   constructor(private apiService: ApiService) { }
 
