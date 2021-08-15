@@ -8,7 +8,7 @@ import {ClimateAnalyserRequest} from '../analytics/model/ClimateAnalyserRequest'
 import {DbLoadResponseDto} from '../database/model/DbLoadResponseDto';
 import {ClimateResponseDto} from "../climates/model/ClimateResponseDto";
 import {ApiInterceptor} from "./dynamicurl";
-
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -20,7 +20,8 @@ export class ApiService {
   // private BASE_URL = window.cfgApiBaseUrl + '/api' ;
   //private BASE_URL = window["cfgApiBaseUrl"] + "/api";
   //private BASE_URL = document.getElementsByTagName('base')[0].href + "api";
-  private BASE_URL = window["cfgApiBaseUrl"] + "/api";
+  //private BASE_URL = window["cfgApiBaseUrl"] + "/api";
+  private BASE_URL = environment.BASE_URL + '/api';
   private LOAD_DATABASE_URL = `${this.BASE_URL}\\database\\batchImportStart\\`;
   private LOAD_DATABASE_DATA_URL = `${this.BASE_URL}\\database\\`;
   private ANALYTICS_INIT_URL = `${this.BASE_URL}\\analytics\\`;

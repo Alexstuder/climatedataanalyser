@@ -5,6 +5,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DirectoryUtilityImpl implements DirectoryUtility {
 
@@ -26,12 +30,22 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     }
 
     static File createDir(String directoryName) {
-        File directory = new File(directoryName);
+        Path path = Paths.get(directoryName);
 
-        if (directory.exists()) {
-            deleteDirectoryFiles(directory);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            deleteDirectoryFiles(path.toFile());
+            e.printStackTrace();
         }
-        return new File(directoryName);
+
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return path.toFile();
     }
 
 }
