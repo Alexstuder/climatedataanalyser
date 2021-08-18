@@ -21,6 +21,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -34,7 +35,7 @@ public class StationBatchConfiguration {
     private StepBuilderFactory stepBuilderFactoryImport;
 
     @Value("${climate.path.ftpDataFolderName}")
-    private String FtpDirectory;
+    private String FtpDirectoryName;
 
     @Value("${climate.path.station.input.file.pattern}")
     private String stationFileName;
@@ -75,7 +76,7 @@ public class StationBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            inputResources = patternResolver.getResources(CLASSPATH + "/" + FtpDirectory + "/" + stationFileName);
+            inputResources = patternResolver.getResources(new File(FtpDirectoryName) + "/" + stationFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }

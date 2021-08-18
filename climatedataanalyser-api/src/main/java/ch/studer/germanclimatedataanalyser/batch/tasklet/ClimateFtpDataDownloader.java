@@ -93,16 +93,15 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         int counter = 0;
         File directory = null;
-        log.info("Start Download  : " + LocalDateTime.now().toString());
+        log.info("Start Download  : " + LocalDateTime.now());
         try {
             directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.info("FTPDataFolderName : " + directory.getPath());
+        log.info("FTPDataFolderName : " + directory.getAbsolutePath());
 
         for (FTPFile ftpFile : ftpFiles) {
-
             FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() + "/" + ftpFile.getName());
             try {
                 ftpConnection.retrieveFile(ftpFile.getName(), out);
@@ -122,7 +121,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         log.info("*************************************************");
 
         log.info(counter + " Files downloaded !");
-        log.info("End Download  : " + LocalDateTime.now().toString());
+        log.info("End Download  : " + LocalDateTime.now());
     }
 
     public FTPFile[] list(FTPClient ftpConnection) {
@@ -137,18 +136,10 @@ public class ClimateFtpDataDownloader implements Tasklet {
             throw new RuntimeException("Runtime Exeption in list FTP Files : " + e.getMessage());
 
         } finally {
-            System.out.println("Finaly in List arrived !");
+            System.out.println("End of the List arrived !");
         }
 
         return ftpFiles;
     }
 
-  /*  private File createDirectory(String directoryName) throws IOException {
-        File directory = new File(directoryName);
-
-        if (directory.exists()) {
-            DirectoryUtilityImpl.deleteDirectoryFiles(directory);
-        }
-        return new File(directoryName);
-    }*/
 }

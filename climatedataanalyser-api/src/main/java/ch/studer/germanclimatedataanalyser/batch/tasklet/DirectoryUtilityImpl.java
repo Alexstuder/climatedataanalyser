@@ -44,7 +44,6 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return path.toFile();
     }
 

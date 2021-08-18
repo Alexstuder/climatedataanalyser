@@ -23,7 +23,9 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.IOException;
+
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
@@ -51,10 +53,12 @@ public class TemperatureForMonthBatchConfiguration {
         try {
             //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
             //.getResources("classpath*:/"+ directory+"/"+classifier);
-            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
+//            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
+            inputResources = patternResolver.getResources(new File(inputDirectory) + "/" + inputFilePattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
         resourceItemReader.setResources(inputResources);
 
