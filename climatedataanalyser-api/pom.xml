@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
+    <version>0.0.1-SNAPSHOT</version>
     <parent>
         <groupId>ch.alexstuder.climate</groupId>
         <artifactId>ClimateDataAnalyser</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-<!--    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
-        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
-    </parent>-->
-    <groupId>ch.studer</groupId>
     <artifactId>climatedataanalyser-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
     <name>climatedataanalyser-api</name>
+    <packaging>war</packaging>
     <description>Analyser for German Climate Data</description>
 
     <properties>
@@ -116,12 +110,16 @@
                     <execution>
                         <id>copy-resources</id>
                         <phase>validate</phase>
-                        <goals><goal>copy-resources</goal></goals>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory >
+                            <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/climatedataanalyser-ng/dist/climatedataanalyser-ng/</directory >
+                                    <directory>
+                                        ${project.parent.basedir}/climatedataanalyser-ng/dist/climatedataanalyser-ng/
+                                    </directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -152,33 +150,33 @@
     </build>
 </project>
 
-<!--
+        <!--
 
-        &lt;!&ndash; Executable and self-hosted &ndash;&gt;
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <finalName>ClimateAnalyser</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    &lt;!&ndash; https://mvnrepository.com/artifact/com.madgag/util-compress &ndash;&gt;
+                &lt;!&ndash; Executable and self-hosted &ndash;&gt;
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <finalName>ClimateAnalyser</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>11</source>
+                            <target>11</target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            &lt;!&ndash; https://mvnrepository.com/artifact/com.madgag/util-compress &ndash;&gt;
 
-</project>
--->
+        </project>
+        -->

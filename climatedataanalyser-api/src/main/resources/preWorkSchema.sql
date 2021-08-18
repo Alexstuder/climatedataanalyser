@@ -28,10 +28,6 @@ CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'al349vbn*mvc(.cu"+u'
 
 GRANT ALL PRIVILEGES ON climate.* TO 'climateDBA'@'localhost';
 
-
-create database if not exists climate;
-use climate;
-
 -- ##########################
 -- Drop Tables
 -- ##########################
