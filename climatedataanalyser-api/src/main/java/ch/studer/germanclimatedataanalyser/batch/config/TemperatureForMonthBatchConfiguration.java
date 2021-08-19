@@ -3,9 +3,13 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
+import ch.studer.germanclimatedataanalyser.batch.tasklet.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -45,6 +49,9 @@ public class TemperatureForMonthBatchConfiguration {
 
     static final private String CLASSPATH = "classpath*:";
 
+
+    private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthBatchConfiguration.class);
+
     @Bean
     @StepScope
     public MultiResourceItemReader<MonthFile> monthFilesReader() {
@@ -54,11 +61,11 @@ public class TemperatureForMonthBatchConfiguration {
             //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
             //.getResources("classpath*:/"+ directory+"/"+classifier);
 //            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
-            inputResources = patternResolver.getResources(new File(inputDirectory) + "/" + inputFilePattern);
+            inputResources = patternResolver.getResources(DirectoryUtilityImpl.getDirectory(inputDirectory) + "/" + inputFilePattern);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        log.info("InputRessource :" + inputResources.toString());
         MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
         resourceItemReader.setResources(inputResources);
 

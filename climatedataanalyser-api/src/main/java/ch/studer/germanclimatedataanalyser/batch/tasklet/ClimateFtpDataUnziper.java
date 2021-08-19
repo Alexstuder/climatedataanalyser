@@ -49,11 +49,12 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         // Empty both Directory
+        File ftpDataFolder = DirectoryUtilityImpl.getDirectory(ftpDataFolderName);
         File unzipOutputFolde = DirectoryUtilityImpl.createDir(unzipOutputFolderName);
         File inputFolder = DirectoryUtilityImpl.createDir(inputFolderName);
 
         // allZipFiles = getAllZipFiles();
-        List<File> allZipFiles = getAllFilesFromDirectory(new File(ftpDataFolderName), ".zip");
+        List<File> allZipFiles = getAllFilesFromDirectoryFiltered(ftpDataFolder, ".zip");
 
         // Unzip all Zip Data from FTP download
         for (File file : allZipFiles) {
@@ -82,7 +83,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
             }
     }
 
-    private List<File> getAllFilesFromDirectory(File directory, String classifier) {
+    private List<File> getAllFilesFromDirectoryFiltered(File directory, String classifier) {
 
         List<File> files = Arrays.stream(directory.listFiles())
                                          .filter(file -> file.getName().endsWith(classifier))
@@ -91,7 +92,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         return files;
     }
 
-    private Resource[] getAllFilesFromDirectory(String directory, String classifier) {
+    private Resource[] getAllFilesFromDirectoryFiltered(String directory, String classifier) {
 
         Resource[] files = new Resource[0];
         {
