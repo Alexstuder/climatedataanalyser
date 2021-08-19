@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,8 +59,14 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         File directory = null;
         try {
            // path = Paths.get(rootPath.getFile().getPath() + "/" + directoryName);
-            log.info(System.getProperty( "catalina.base" ));
-            log.info(System.getProperty("user.dir"));
+            log.info("catalina.base :" + System.getProperty( "catalina.base" ));
+            log.info("User.dir :" + System.getProperty("user.dir"));
+            log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
+            log.info("File.absolutFile :" + new File("").getAbsoluteFile());
+//            log.info("getClass.getClassLoader :" + DirectoryUtilityImpl.class.getClass().getClassLoader().getResource("").getPath() );
+            log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
+            log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
+            log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
             directory = new File("dataFiles/" + directoryName);
             Files.deleteIfExists(directory.toPath());
             deleteDirectoryFiles(directory);
