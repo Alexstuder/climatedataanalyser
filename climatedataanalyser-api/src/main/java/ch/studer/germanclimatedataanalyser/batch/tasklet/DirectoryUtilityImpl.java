@@ -58,6 +58,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         File directory = null;
         try {
            // path = Paths.get(rootPath.getFile().getPath() + "/" + directoryName);
+            log.info(System.getProperty( "catalina.base" ));
+            log.info(System.getProperty("user.dir"));
             directory = new File("dataFiles/" + directoryName);
             Files.deleteIfExists(directory.toPath());
             deleteDirectoryFiles(directory);
