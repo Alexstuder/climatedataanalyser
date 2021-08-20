@@ -22,7 +22,9 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     private ApplicationContext appCont;
 
     private ApplicationContext applicationContext;
-    static private Resource rootPath;
+    static private Resource classpath;
+    static private Resource resourcesPath;
+    static private String tomcatRootPath=null;
     static final private String CLASSPATH = "classpath*:";
 
 
@@ -31,9 +33,10 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     @PostConstruct
     private void init() {
         this.applicationContext = appCont;
-        rootPath = applicationContext.getResource(CLASSPATH + "/");
-        rootPath = applicationContext.getResource("src/test/resources/");
-        log.info("RootPath :" + rootPath);
+        classpath = applicationContext.getResource(CLASSPATH + "/");
+        resourcesPath = applicationContext.getResource("src/test/resources/");
+
+        log.info("catalina.base :" + System.getProperty( "catalina.base" ));
     }
 
     private static void deleteDirectoryFiles(File directory) {
@@ -59,10 +62,14 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         File directory = null;
         try {
            // path = Paths.get(rootPath.getFile().getPath() + "/" + directoryName);
+
+            log.info("applicatioContext classpath "+ classpath.toString());
+            log.info("applicatioContext resources "+ resourcesPath.toString());
             log.info("catalina.base :" + System.getProperty( "catalina.base" ));
             log.info("User.dir :" + System.getProperty("user.dir"));
             log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
             log.info("File.absolutFile :" + new File("").getAbsoluteFile());
+
 //            log.info("getClass.getClassLoader :" + DirectoryUtilityImpl.class.getClass().getClassLoader().getResource("").getPath() );
             log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
             log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
