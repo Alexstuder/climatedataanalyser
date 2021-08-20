@@ -33,3 +33,4 @@ build/
 
 ### Log Files ###
 /log/
+/dataFiles/
