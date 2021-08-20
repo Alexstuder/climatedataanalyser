@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -21,11 +22,13 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     @Autowired
     private ApplicationContext appCont;
 
+    @Autowired
+    ServletContext cont;
+
     private ApplicationContext applicationContext;
-    static private Resource classpath;
-    static private Resource resourcesPath;
     static private String tomcatRootPath=null;
-    static final private String CLASSPATH = "classpath*:";
+    static private String junitRootPath;
+    static private String path;
 
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImpl.class);
@@ -33,9 +36,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     @PostConstruct
     private void init() {
         this.applicationContext = appCont;
-        classpath = applicationContext.getResource(CLASSPATH + "/");
-        resourcesPath = applicationContext.getResource("src/test/resources/");
-
+        // If it running in a Tomcat Server this method will be called
+        tomcatRootPath =  System.getProperty( "catalina.base" );
         log.info("catalina.base :" + System.getProperty( "catalina.base" ));
     }
 
@@ -58,13 +60,17 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     static File createDir(String directoryName) {
 
-        Path path = null;
+        //not running in tomcat = running with junit
+        if(tomcatRootPath == null) {
+            path=System.getProperty("user.dir");
+        } else {
+            path=tomcatRootPath;
+        }
+
         File directory = null;
         try {
            // path = Paths.get(rootPath.getFile().getPath() + "/" + directoryName);
 
-            log.info("applicatioContext classpath "+ classpath.toString());
-            log.info("applicatioContext resources "+ resourcesPath.toString());
             log.info("catalina.base :" + System.getProperty( "catalina.base" ));
             log.info("User.dir :" + System.getProperty("user.dir"));
             log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
@@ -74,7 +80,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
             log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
             log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
             log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
-            directory = new File("dataFiles/" + directoryName);
+
+            directory = new File(path + "/dataFiles/" + directoryName);
             Files.deleteIfExists(directory.toPath());
             deleteDirectoryFiles(directory);
             Files.createDirectories(directory.toPath());
