@@ -17,7 +17,7 @@ CREATE USER 'climateRUN'@'localhost' IDENTIFIED BY 'sk93?69cj3kc0a2v'
         MAX_CONNECTIONS_PER_HOUR 0
         MAX_USER_CONNECTIONS 0;
 -- GRANT CREATE,INSERT,SELECT,DELETE,UPDATE,DROP ON climate.* TO 'climateRUN'@'localhost';
- GRANT ALL privileges ON climate.* TO 'climateRUN'@'localhost';
+ GRANT ALL privileges ON CLIMATE.* TO 'climateRUN'@'localhost';
 
 -- This User is used to monitor the DB actions
 CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'al349vbn*mvc(.cu"+u'
