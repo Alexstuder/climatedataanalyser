@@ -64,7 +64,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         if(tomcatRootPath == null) {
             path=System.getProperty("user.dir");
         } else {
-            path=tomcatRootPath;
+            path=tomcatRootPath+"/webapps/ClimateAnalyser";
         }
 
         File directory = null;
