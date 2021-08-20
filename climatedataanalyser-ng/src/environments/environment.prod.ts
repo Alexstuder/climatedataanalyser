@@ -1,6 +1,5 @@
 
 export const environment = {
   production: true,
-
-  BASE_URL : "http://94.16.122.234:8080/ClimateAnalyser"
+  BASE_URL : 'http://' + window.location.hostname + ':8080/ClimateAnaylser'
 };
