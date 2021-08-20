@@ -21,13 +21,12 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     @Autowired
     private ApplicationContext appCont;
-
     @Autowired
-    ServletContext cont;
+    private ServletContext context;
 
     private ApplicationContext applicationContext;
+    private ServletContext servletContext = null;
     static private String tomcatRootPath=null;
-    static private String junitRootPath;
     static private String path;
 
 
@@ -36,8 +35,10 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     @PostConstruct
     private void init() {
         this.applicationContext = appCont;
+        this.servletContext = context;
         // If it running in a Tomcat Server this method will be called
         tomcatRootPath =  System.getProperty( "catalina.base" );
+        log.info("context.getcontextpath:" + context.getContextPath());
         log.info("catalina.base :" + System.getProperty( "catalina.base" ));
     }
 
@@ -70,6 +71,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         File directory = null;
         try {
            // path = Paths.get(rootPath.getFile().getPath() + "/" + directoryName);
+
 
             log.info("catalina.base :" + System.getProperty( "catalina.base" ));
             log.info("User.dir :" + System.getProperty("user.dir"));
