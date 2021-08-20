@@ -35,7 +35,7 @@ public class MonthReader {
                         ",QN_6" +
                         ",MO_RR" +
                         ",MX_RS" +
-                        "             from MONTH " +
+                        "             from month " +
                         "ORDER BY STATIONS_ID,MESS_DATUM_BEGINN ASC")
                 .rowMapper(new MonthRowMapper())
                 .build();
