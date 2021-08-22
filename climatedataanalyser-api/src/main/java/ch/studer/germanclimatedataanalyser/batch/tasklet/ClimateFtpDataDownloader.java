@@ -59,7 +59,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
 
             FTPFile[] ftpFiles = list(ftpConnection);
-            downloadFTPFiles(ftpFiles, remoteDirectory);
+            downloadFTPFiles(ftpFiles);
 
             ftpConnection.logout();
             ftpConnection.disconnect();
@@ -74,34 +74,31 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private FTPClient getFTPConection(String ftpUser, String ftpPwd) {
 
         FTPClient ftpClient = new FTPClient();
-        String[] filenameList;
-        FTPFile[] ftpFiles;
-
         try {
             ftpClient.connect(ftpServer);
             ftpClient.login(ftpUser, ftpPwd);
 
         } catch (Exception e) {
-            System.out.println("Connection to FTP Server Failed : " + e);
+            //TODO : Was ,wenn zum FTP Server keine Verbindung hergestellt werden kann
+            log.debug("Connection to FTP Server Failed : " + e);
         }
         return ftpClient;
-
-
     }
 
-    private void downloadFTPFiles(FTPFile[] ftpFiles, String remoteDirectory) throws IOException {
-
+    private void downloadFTPFiles(FTPFile[] ftpFiles) throws IOException {
         int counter = 0;
         File directory = null;
         log.info("Start Download  : " + LocalDateTime.now());
         try {
             directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
         } catch (Exception e) {
+            //TODO Was ist ,falls das directory nicht erstellt werden konnte ?
+            // Aktuell , wird eine Fehlermeldung ins Log geschrieben ?!
             e.printStackTrace();
         }
 
 //        for (FTPFile ftpFile : ftpFiles) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
 
             FTPFile ftpFile = ftpFiles[i];
             FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() + "/" + ftpFile.getName());

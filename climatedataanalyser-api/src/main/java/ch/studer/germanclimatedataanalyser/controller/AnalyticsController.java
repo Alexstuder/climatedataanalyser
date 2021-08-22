@@ -29,13 +29,8 @@ public class AnalyticsController {
 
     @GetMapping("/")
     public List<String> handle() throws Exception {
-//        List<String> bundeslaender = new ArrayList<String>();
-//        bundeslaender.add("Zürich");
         BundeslaenderDto bundeslaenderDto = new BundeslaenderDto();
-
-//        return bundeslaenderDto.mapToDto(bundeslaender);
         return bundeslaenderDto.mapToDto(stationService.getAllBundeslaender());
-
     }
 
     @PostMapping("/request/")

@@ -18,19 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
-public class StationBatchConfiguration {
-
-    @Autowired
-    private JobBuilderFactory jobBuilderFactoryImport;
+public class StationBatchStepDefinition {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactoryImport;
@@ -40,8 +35,6 @@ public class StationBatchConfiguration {
 
     @Value("${climate.path.station.input.file.pattern}")
     private String stationFileName;
-
-    static final private String CLASSPATH = "classpath*:";
 
     @Bean
     @StepScope
@@ -74,42 +67,41 @@ public class StationBatchConfiguration {
     @Bean
     @StepScope
     public FlatFileItemReader<StationFile> readerStation() {
-        Resource[] inputResources = null;
-        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
-            //TODO Refact
-            inputResources = patternResolver.getResources(DirectoryUtilityImpl.getDirectory(ftpDirectoryName) + "/" + stationFileName);
-            inputResources = DirectoryUtilityImpl.getResources(DirectoryUtilityImpl.getDirectory(ftpDirectoryName).listFiles(), stationFileName);
-        } catch (IOException e) {
+            // Get the File as Resource object
+            Resource inputResource = DirectoryUtilityImpl.getResource(DirectoryUtilityImpl.getDirectory(ftpDirectoryName), stationFileName);
+
+            //Create reader instance
+            FlatFileItemReader<StationFile> reader = new FlatFileItemReader<StationFile>();
+
+            // There should be only One File ! So take the first one !
+            reader.setResource(inputResource);
+
+            //Set the right encoding for ANSI
+            reader.setEncoding("Cp1252");
+
+            //Set number of lines to skips. Use it if file has header rows.
+            reader.setLinesToSkip(2);
+
+            //Configure how each line will be parsed and mapped to different values
+            reader.setLineMapper(new DefaultLineMapper() {
+                {
+                    //
+                    setLineTokenizer(stationTokenizer());
+                    //Set values in Employee class
+                    setFieldSetMapper(new BeanWrapperFieldSetMapper<StationFile>() {
+                        {
+                            setTargetType(StationFile.class);
+                        }
+                    });
+                }
+            });
+            return reader;
+
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }
-
-        //Create reader instance
-        FlatFileItemReader<StationFile> reader = new FlatFileItemReader<StationFile>();
-
-        // There should be only One File ! So take the first one !
-        reader.setResource(inputResources[0]);
-
-        //Set the right encoding for ANSI
-        reader.setEncoding("Cp1252");
-
-        //Set number of lines to skips. Use it if file has header rows.
-        reader.setLinesToSkip(2);
-
-        //Configure how each line will be parsed and mapped to different values
-        reader.setLineMapper(new DefaultLineMapper() {
-            {
-                //
-                setLineTokenizer(stationTokenizer());
-                //Set values in Employee class
-                setFieldSetMapper(new BeanWrapperFieldSetMapper<StationFile>() {
-                    {
-                        setTargetType(StationFile.class);
-                    }
-                });
-            }
-        });
-        return reader;
     }
 
     @Transactional
@@ -118,9 +110,7 @@ public class StationBatchConfiguration {
         return stepBuilderFactoryImport.get("import-station-records")
                 .<StationFile, Station>chunk(100)
                 .reader(readerStation())
-                //.listener(new StepProcessorListener(statistics()))
                 .processor(stationProcessor())
-                //.listener(new StepWriterListener(statistics()))
                 .writer(stationWriter())
                 .build()
                 ;

@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
 @EnableBatchProcessing
-@Import({WeatherBatchConfiguration.class, StationBatchConfiguration.class})
-public class AnalyzerBatchConfiguration {
+@Import({WeatherBatchStepDefinition.class, StationBatchStepDefinition.class})
+public class AnalyzerBatchJobConfiguration {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactoryImport;
@@ -28,13 +28,13 @@ public class AnalyzerBatchConfiguration {
     private StepBuilderFactory stepBuilderFactoryImport;
 
     @Autowired
-    private ClimateBatchConfiguration climateBatchConfiguration;
+    private ClimateBatchStepDefinition climateBatchConfiguration;
 
     @Autowired
-    private WeatherBatchConfiguration weatherBatchConfiguration;
+    private WeatherBatchStepDefinition weatherBatchConfiguration;
 
     @Autowired
-    private StationBatchConfiguration stationBatchConfiguration;
+    private StationBatchStepDefinition stationBatchConfiguration;
 
     @Autowired
     private TemperatureForMonthBatchConfiguration temperatureForMonthBatchConfiguration;

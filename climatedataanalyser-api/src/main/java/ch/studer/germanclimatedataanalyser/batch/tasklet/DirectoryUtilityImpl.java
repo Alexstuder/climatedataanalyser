@@ -2,32 +2,41 @@ package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
+// **************************************************************
+//  Beim Zugriff auf das Filesystem gibt es 3 möglichkeiten zur Laufzeit
+//     - Junit Test
+//     - Spring-boot-Tomcat-Test
+//     - Tomcat Container
+//  Jede dieser Variante möchte berücksichtig werden$
+//  Zusätzlich gibt es für Spreing die möglichketi aus dem src/resource Ordner zu lesen
+//
+//      Nachstehend um zu evaluieren welche Runtime umgebung aktive ist
+//      ,gibt es folgende Möglichkeiten dies zu evaluieren.
+//
+//        log.info("catalina.base :" + System.getProperty("catalina.base"));
+//        log.info("User.dir :" + System.getProperty("user.dir"));
+//        log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
+//        log.info("File.absolutFile :" + new File("").getAbsoluteFile());
+//
+//        log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
+//        log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
+//        log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
+//        log.info("Directory created:" + directory.getAbsolutePath());
+//
+////
 @Component
 public class DirectoryUtilityImpl implements DirectoryUtility {
 
-    @Autowired
-    private ApplicationContext appCont;
-    @Autowired
-    private ServletContext context;
-
-    private ApplicationContext applicationContext;
-    private ServletContext servletContext = null;
     static private String tomcatRootPath = null;
     static private String path;
     static private String contextPath;
@@ -36,17 +45,9 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImpl.class);
 
-    @PostConstruct
-    private void init() {
-        this.applicationContext = appCont;
-        this.servletContext = context;
+    public DirectoryUtilityImpl() {
         // If it running in a Tomcat Server this method will be called
         tomcatRootPath = System.getProperty("catalina.base");
-        contextPath = context.getContextPath();
-        log.info("context.getcontextpath:" + context.getContextPath());
-        log.info("context.getMajorVersion:" + context.getMajorVersion());
-        log.info("context.getMinorVersion:" + context.getMinorVersion());
-        log.info("catalina.base :" + System.getProperty("catalina.base"));
     }
 
     private static void deleteDirectoryFiles(File directory) {
@@ -66,7 +67,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
     }
 
-    static File createDir(String directoryName) {
+    static File createDir(String directoryName) throws IOException {
 
         //not running in tomcat = running with junit
         if (tomcatRootPath == null) {
@@ -78,24 +79,14 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
 
         File directory = null;
-        try {
-            log.info("catalina.base :" + System.getProperty("catalina.base"));
-            log.info("User.dir :" + System.getProperty("user.dir"));
-            log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
-            log.info("File.absolutFile :" + new File("").getAbsoluteFile());
-
-            log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
-            log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
-            log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
-
             directory = new File(path + directoryName);
+            if (directory.list().length != 0) {
+                deleteDirectoryFiles(directory);
+            }
+            // Delete the directory it's self ;just to remove everything
             Files.deleteIfExists(directory.toPath());
-            deleteDirectoryFiles(directory);
+            // create a fresh directory
             Files.createDirectories(directory.toPath());
-            log.info("Directory created:" + directory.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return directory;
     }
 
@@ -115,6 +106,15 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
         Resource[] returnR = new Resource[resources.size()];
         return resources.toArray(returnR);
+    }
+
+    public static Resource getResource(File directory, String fileName) throws FileNotFoundException {
+        for (File file : directory.listFiles()) {
+            if (file.getName().contains(fileName)) {
+                return getResource(file);
+            }
+        }
+        throw new FileNotFoundException("File :" + fileName + " existiert nicht !");
     }
 
     public static Resource getResource(File file) {

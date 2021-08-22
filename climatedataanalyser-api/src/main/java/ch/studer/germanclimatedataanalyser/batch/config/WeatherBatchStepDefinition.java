@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
-public class WeatherBatchConfiguration {
+public class WeatherBatchStepDefinition {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactoryImport;

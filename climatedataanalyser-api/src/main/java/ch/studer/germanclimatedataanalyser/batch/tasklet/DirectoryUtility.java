@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
+import java.io.IOException;
 
 public interface DirectoryUtility {
 
@@ -12,7 +13,7 @@ public interface DirectoryUtility {
     private void deleteDirectoryFiles(File directoryName) {
     }
 
-    static File createDir(String directoryName) {
+    static File createDir(String directoryName) throws IOException {
         return null;
     }
 
