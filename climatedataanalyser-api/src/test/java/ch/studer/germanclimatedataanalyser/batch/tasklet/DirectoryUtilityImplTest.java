@@ -1,9 +1,8 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,20 +14,21 @@ class DirectoryUtilityImplTest {
     @Test
     public void test() {
         int firstLoad = 40;
-        int secondload = 20;
+        int secondLoad = 20;
         File directory = null;
         try {
             directory = DirectoryUtilityImpl.createDir(folderName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(directory.isDirectory());
+        assert directory != null;
+        Assertions.assertTrue(directory.isDirectory());
         fillDirectoryWithFiles(firstLoad, directory);
 
         File directoryTest = DirectoryUtilityImpl.getDirectory(folderName);
-        Assert.assertEquals(directory, directoryTest);
+        Assertions.assertEquals(directory, directoryTest);
 
-        Assert.assertEquals(firstLoad, directoryTest.listFiles().length);
+        Assertions.assertEquals(firstLoad, directoryTest.listFiles().length);
 
         // Do it again to make sure , the needed folder gets deleted before filling it again!
         try {
@@ -36,8 +36,8 @@ class DirectoryUtilityImplTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fillDirectoryWithFiles(secondload, directory);
-        Assert.assertEquals(secondload, directoryTest.listFiles().length);
+        fillDirectoryWithFiles(secondLoad, directory);
+        Assertions.assertEquals(secondLoad, directoryTest.listFiles().length);
 
 
     }

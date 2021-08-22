@@ -122,18 +122,12 @@ class StationWeatherServiceImplTest {
     @Test
     void fillHolesWithToMuchNullValuesInTheMiddle() {
 
-        //TODO  Insert the right TestData
-
-        List<StationWeatherPerYear> stationWeatherPerYears = new ArrayList<StationWeatherPerYear>();
-
         List<StationWeatherPerYear> stationWeatherPerYearsWithHoles = StationWeatherPerYearTestData.getStationWeatherPerYearList("2019", 2, true);
 
         stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1989", 2, false));
         stationWeatherPerYearsWithHoles.addAll(StationWeatherPerYearTestData.getStationWeatherPerYearList("1959", 2, true));
 
-
-        // remove random record between 1989 and 1960 !
-        //TODO Remove all not needed Records
+        //Remove not needed Records
         stationWeatherPerYearsWithHoles.remove(20);
 
 
@@ -143,7 +137,6 @@ class StationWeatherServiceImplTest {
 
         // calculate size !
         int size = period + (2 * range);
-        //TODO implement assertions
         Assertions.assertEquals(testList.size(), size);
 
         for (StationWeatherPerYear stationWeatherPerYear : testList) {

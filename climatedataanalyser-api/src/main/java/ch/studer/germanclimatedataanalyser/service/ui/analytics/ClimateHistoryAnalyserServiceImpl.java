@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ClimateHistoryAnalyserServiceImpl implements ClimateHistoryAnalyserService {
 
-    // TODO : yearDifference as Parameter from GUI
     int yearDifference = 30;
 
     @Override
