@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +16,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 @Component
 public class DirectoryUtilityImpl implements DirectoryUtility {
@@ -29,7 +32,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     static private String path;
     static private String contextPath;
     private static final String WEBAPPS = "/webapps";
-    private static final String DATAFILES ="/dataFiles/";
+    private static final String DATAFILES = "/dataFiles/";
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImpl.class);
 
@@ -85,7 +88,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
             log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
             log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
 
-            directory = new File(path  + directoryName);
+            directory = new File(path + directoryName);
             Files.deleteIfExists(directory.toPath());
             deleteDirectoryFiles(directory);
             Files.createDirectories(directory.toPath());
@@ -101,4 +104,20 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         return new File(path + folderName);
     }
 
+    public static Resource[] getResources(File[] files, String pattern) {
+
+        ArrayList<Resource> resources = new ArrayList<Resource>();
+        //Filter Pattern
+        for (File file : files) {
+            if (file.getName().contains(pattern)) {
+                resources.add(getResource(file));
+            }
+        }
+        Resource[] returnR = new Resource[resources.size()];
+        return resources.toArray(returnR);
+    }
+
+    public static Resource getResource(File file) {
+        return new FileSystemResource(file);
+    }
 }

@@ -77,7 +77,9 @@ public class StationBatchConfiguration {
         Resource[] inputResources = null;
         FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
         try {
+            //TODO Refact
             inputResources = patternResolver.getResources(DirectoryUtilityImpl.getDirectory(ftpDirectoryName) + "/" + stationFileName);
+            inputResources = DirectoryUtilityImpl.getResources(DirectoryUtilityImpl.getDirectory(ftpDirectoryName).listFiles(), stationFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
