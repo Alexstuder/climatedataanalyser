@@ -1,14 +1,17 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
 class DirectoryUtilityImplTest {
+
+    private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImplTest.class);
     private static final String folderName = "/TestDirectory";
 
     @Test
@@ -17,6 +20,7 @@ class DirectoryUtilityImplTest {
         int secondLoad = 20;
         File directory = null;
         try {
+            log.debug("FolderName :" + folderName);
             directory = DirectoryUtilityImpl.createDir(folderName);
         } catch (IOException e) {
             e.printStackTrace();
