@@ -33,4 +33,7 @@ build/
 
 ### Log Files ###
 /log/
+
+### FTP / Unzip and Input Test Files ###
 /dataFiles/
+/climatedataanalyser-api/TestDirectory/

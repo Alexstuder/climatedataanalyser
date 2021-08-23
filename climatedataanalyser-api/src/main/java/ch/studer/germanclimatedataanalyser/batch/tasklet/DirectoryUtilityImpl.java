@@ -75,18 +75,18 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         } else {
             //for Tomcat build path like : /opt/tomcat/webapps/ClimateAnalyser/dataFiles/
             path = tomcatRootPath + WEBAPPS + contextPath + DATAFILES;
-            log.info("Path to files :" + path);
         }
+        log.info("Path to files :" + path);
 
         File directory = null;
-            directory = new File(path + directoryName);
-            if (directory.list().length != 0) {
-                deleteDirectoryFiles(directory);
-            }
-            // Delete the directory it's self ;just to remove everything
-            Files.deleteIfExists(directory.toPath());
-            // create a fresh directory
-            Files.createDirectories(directory.toPath());
+        directory = new File(path + directoryName);
+        if (directory.list().length != 0) {
+            deleteDirectoryFiles(directory);
+        }
+        // Delete the directory it's self ;just to remove everything
+        Files.deleteIfExists(directory.toPath());
+        // create a fresh directory
+        Files.createDirectories(directory.toPath());
         return directory;
     }
 
