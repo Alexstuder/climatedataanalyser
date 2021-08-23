@@ -88,9 +88,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         Files.deleteIfExists(directory.toPath());
         // create a fresh directory
         Path directoryP = Files.createDirectories(directory.toPath());
-        log.debug("Path to dir  : " + directoryP.getFileSystem().getPath());
         log.debug("Path to File : " + directoryP.toFile());
-        log.debug("Path to Name : " + directoryP.getName().toString());
         return directory;
     }
 
