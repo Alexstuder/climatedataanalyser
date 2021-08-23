@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 // **************************************************************
@@ -86,7 +87,10 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         // Delete the directory it's self ;just to remove everything
         Files.deleteIfExists(directory.toPath());
         // create a fresh directory
-        Files.createDirectories(directory.toPath());
+        Path directoryP = Files.createDirectories(directory.toPath());
+        log.debug("Path to dir  : " + directoryP.getFileSystem().getPath());
+        log.debug("Path to File : " + directoryP.toFile());
+        log.debug("Path to Name : " + directoryP.getName().toString());
         return directory;
     }
 
