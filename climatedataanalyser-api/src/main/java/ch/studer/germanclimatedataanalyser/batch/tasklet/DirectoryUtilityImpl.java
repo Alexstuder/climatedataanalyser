@@ -81,11 +81,15 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
         File directory = null;
         directory = new File(path + directoryName);
+        log.info("directory.name:" + directory.getName());
+        log.info("directory.length:" + directory.list().length);
         if (directory.list().length != 0) {
             deleteDirectoryFiles(directory);
+            log.info("Directory has some files and needed to be deleteed first!");
         }
         // Delete the directory it's self ;just to remove everything
         Files.deleteIfExists(directory.toPath());
+        log.info("Files.deleteIfExists");
         // create a fresh directory
         Path directoryP = Files.createDirectories(directory.toPath());
         log.debug("Path to File : " + directoryP.toFile());
