@@ -19,12 +19,8 @@ class DirectoryUtilityImplTest {
         int firstLoad = 40;
         int secondLoad = 20;
         File directory = null;
-        try {
-            log.debug("FolderName :" + folderName);
-            directory = DirectoryUtilityImpl.createDir(folderName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        log.debug("FolderName :" + folderName);
+        directory = DirectoryUtilityImpl.createDir(folderName);
         assert directory != null;
         Assertions.assertTrue(directory.isDirectory());
         fillDirectoryWithFiles(firstLoad, directory);
@@ -35,11 +31,7 @@ class DirectoryUtilityImplTest {
         Assertions.assertEquals(firstLoad, directoryTest.listFiles().length);
 
         // Do it again to make sure , the needed folder gets deleted before filling it again!
-        try {
-            directory = DirectoryUtilityImpl.createDir(folderName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        directory = DirectoryUtilityImpl.createDir(folderName);
         fillDirectoryWithFiles(secondLoad, directory);
         Assertions.assertEquals(secondLoad, directoryTest.listFiles().length);
 

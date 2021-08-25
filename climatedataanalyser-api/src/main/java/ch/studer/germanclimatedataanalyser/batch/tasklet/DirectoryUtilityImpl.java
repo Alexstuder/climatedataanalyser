@@ -68,7 +68,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
     }
 
-    static File createDir(String directoryName) throws IOException {
+    static File createDir(String directoryName) {
 
         //not running in tomcat = running with junit
         if (tomcatRootPath == null) {
@@ -99,10 +99,19 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
         log.info("ggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         // Delete the directory it's self ;just to remove everything
-        Files.deleteIfExists(directory.toPath());
-        log.info("Files.deleteIfExists");
-        // create a fresh directory
-        Path directoryP = Files.createDirectories(directory.toPath());
+        try {
+            Files.deleteIfExists(directory.toPath());
+        } catch (IOException e) {
+            log.info("Files.deleteIfExists");
+            // create a fresh directory
+            e.printStackTrace();
+        }
+        Path directoryP = null;
+        try {
+            directoryP = Files.createDirectories(directory.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         log.debug("Path to File : " + directoryP.toFile());
         return directory;
     }
