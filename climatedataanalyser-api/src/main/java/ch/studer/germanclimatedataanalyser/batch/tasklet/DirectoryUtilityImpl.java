@@ -89,6 +89,12 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
         log.info("directory.name:" + directory.getName());
         log.info("ddddddddddddddddddddddddddddddddddddddddddd");
+        if(directory == null){
+            log.info("Directory is null !");
+        }
+        if(directory.list()==null){
+            log.info("direcoty files is null");
+        }
         log.info("directory.length:" + directory.list().length);
         log.info("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
