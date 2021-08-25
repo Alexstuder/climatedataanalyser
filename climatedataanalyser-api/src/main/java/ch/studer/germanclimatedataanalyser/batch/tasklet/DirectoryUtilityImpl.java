@@ -73,24 +73,31 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         //not running in tomcat = running with junit
         if (tomcatRootPath == null) {
             path = System.getProperty("user.dir");
+            log.info("user.dir");
         } else {
             //for Tomcat build path like : /opt/tomcat/webapps/ClimateAnalyser/dataFiles/
             path = tomcatRootPath + WEBAPPS + contextPath + DATAFILES;
+            log.info("tomcat");
         }
         log.info("Path to files:" + path);
 
         File directory = null;
-        directory = new File(path + directoryName);
+        try {
+            directory = new File(path + directoryName);
+        } catch (Exception e) {
+            log.info("Here throws exeptions : " + e);
+        }
         log.info("directory.name:" + directory.getName());
         log.info("ddddddddddddddddddddddddddddddddddddddddddd");
         log.info("directory.length:" + directory.list().length);
         log.info("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
         if (directory.list().length != 0) {
             log.info("fffffffffffffffffffffffffffffffffffffffx");
             deleteDirectoryFiles(directory);
             log.info("Directory has some files and needed to be deleteed first!");
         }
-            log.info("ggggggggggggggggggggggggggggggggggggggggggggggggggggg");
+        log.info("ggggggggggggggggggggggggggggggggggggggggggggggggggggg");
         // Delete the directory it's self ;just to remove everything
         Files.deleteIfExists(directory.toPath());
         log.info("Files.deleteIfExists");
