@@ -7,6 +7,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,10 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     public DirectoryUtilityImpl() {
         // If it running in a Tomcat Server this method will be called
         tomcatRootPath = System.getProperty("catalina.base");
+    }
+
+    @PostConstruct
+    public void setContextPath() {
         contextPath = "/" + context.getContextPath();
         log.info("ContextPath: {}", contextPath);
     }
