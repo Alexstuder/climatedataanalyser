@@ -2,10 +2,12 @@ package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -35,6 +37,11 @@ import java.util.ArrayList;
 @Component
 public class DirectoryUtilityImpl implements DirectoryUtility {
 
+
+    @Autowired
+    private ServletContext context;
+
+
     static private String tomcatRootPath = null;
     static private String path;
     static private String contextPath;
@@ -46,6 +53,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
     public DirectoryUtilityImpl() {
         // If it running in a Tomcat Server this method will be called
         tomcatRootPath = System.getProperty("catalina.base");
+        contextPath = "/" + context.getContextPath();
+        log.info("ContextPath: {}", contextPath);
     }
 
     private static void deleteDirectoryFiles(File directory) {
