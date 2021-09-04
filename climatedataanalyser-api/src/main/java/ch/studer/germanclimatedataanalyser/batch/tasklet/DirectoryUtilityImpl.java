@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 // **************************************************************
@@ -81,51 +78,20 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
         log.info("Path to files:" + path);
 
-        File directory = null;
-        try {
-            boolean dirCreated = new File(path + directoryName).mkdir();
-            //directory = new File(path + directoryName);
-            log.info("Dir created yeaaaahh");
-        } catch (Exception e) {
-            log.info("Dir not created  ");
-            log.info("Here throws exeptions : " + e);
+        File directory = new File(path + directoryName);
+        directory.mkdir();
+
+        //Check if directory and if there are some files in it
+        if (directory.isDirectory()) {
+            //delete all Files
+            File[] directoryFiles = directory.listFiles();
+            if (directoryFiles.length != 0) {
+                deleteDirectoryFiles(directory);
+            }
         }
         log.info("directory.name:" + directory.getName());
         log.info("ddddddddddddddddddddddddddddddddddddddddddd");
         // if directory is directory and hase some Files in it : delete first content and then directory
-        if (directory.isDirectory()) {
-            deleteDirectoryFiles(directory);
-        }
-        try {
-            Path directoryP = Files.createDirectories(directory.toPath());
-        } catch (IOException e) {
-            log.info("creating failed again");
-            e.printStackTrace();
-        }
-
-        if (directory == null) {
-            log.info("Directory is null !");
-        }
-        directory.mkdir();
-        if (directory.list() == null) {
-            log.info("direcoty files is null");
-        }
-        log.info("directory.length:" + directory.list().length);
-        log.info("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-
-        if (directory.list().length != 0) {
-            log.info("fffffffffffffffffffffffffffffffffffffffx");
-            log.info("Directory has some files and needed to be deleteed first!");
-        }
-        log.info("ggggggggggggggggggggggggggggggggggggggggggggggggggggg");
-        // Delete the directory it's self ;just to remove everything
-        try {
-            Files.deleteIfExists(directory.toPath());
-        } catch (IOException e) {
-            log.info("Files.deleteIfExists");
-            // create a fresh directory
-            e.printStackTrace();
-        }
 
         return directory;
     }
