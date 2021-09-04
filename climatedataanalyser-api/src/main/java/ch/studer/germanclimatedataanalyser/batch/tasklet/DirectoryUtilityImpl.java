@@ -58,7 +58,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     @PostConstruct
     public void setContextPath() {
-        contextPath = "/" + context.getContextPath();
+        contextPath = context.getContextPath();
         log.info("ContextPath: {}", contextPath);
     }
 
