@@ -83,16 +83,31 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
         File directory = null;
         try {
-            directory = new File(path + directoryName);
+            boolean dirCreated = new File(path + directoryName).mkdir();
+            //directory = new File(path + directoryName);
+            log.info("Dir created yeaaaahh");
         } catch (Exception e) {
+            log.info("Dir not created  ");
             log.info("Here throws exeptions : " + e);
         }
         log.info("directory.name:" + directory.getName());
         log.info("ddddddddddddddddddddddddddddddddddddddddddd");
-        if(directory == null){
+        // if directory is directory and hase some Files in it : delete first content and then directory
+        if (directory.isDirectory()) {
+            deleteDirectoryFiles(directory);
+        }
+        try {
+            Path directoryP = Files.createDirectories(directory.toPath());
+        } catch (IOException e) {
+            log.info("creating failed again");
+            e.printStackTrace();
+        }
+
+        if (directory == null) {
             log.info("Directory is null !");
         }
-        if(directory.list()==null){
+        directory.mkdir();
+        if (directory.list() == null) {
             log.info("direcoty files is null");
         }
         log.info("directory.length:" + directory.list().length);
@@ -100,7 +115,6 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
         if (directory.list().length != 0) {
             log.info("fffffffffffffffffffffffffffffffffffffffx");
-            deleteDirectoryFiles(directory);
             log.info("Directory has some files and needed to be deleteed first!");
         }
         log.info("ggggggggggggggggggggggggggggggggggggggggggggggggggggg");
@@ -112,13 +126,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
             // create a fresh directory
             e.printStackTrace();
         }
-        Path directoryP = null;
-        try {
-            directoryP = Files.createDirectories(directory.toPath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.debug("Path to File : " + directoryP.toFile());
+
         return directory;
     }
 
