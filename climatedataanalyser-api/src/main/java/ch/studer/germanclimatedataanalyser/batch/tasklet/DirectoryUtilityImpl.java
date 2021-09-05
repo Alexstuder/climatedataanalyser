@@ -88,12 +88,14 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         } else {
             //for Tomcat build path like : /opt/tomcat/webapps/ClimateAnalyser/dataFiles/
             path = tomcatRootPath + WEBAPPS + contextPath + DATAFILES;
+            path = "/tmp" + DATAFILES;
             log.info("tomcat");
         }
         log.info("Path to files:" + path);
 
         File directory = new File(path + directoryName);
-        directory.mkdir();
+        boolean createDirectory = directory.mkdir();
+        log.info("Directory created : " + createDirectory);
 
         //Check if directory and if there are some files in it
         if (directory.isDirectory()) {
