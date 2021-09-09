@@ -93,9 +93,13 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
         log.info("Path to files:" + path);
 
+        boolean createDirectory = new File(path).mkdir();
+        ;
+        log.info("1 Directory created : " + createDirectory);
+
         File directory = new File(path + directoryName);
-        boolean createDirectory = directory.mkdir();
-        log.info("Directory created : " + createDirectory);
+        createDirectory = directory.mkdir();
+        log.info("2 Directory created : " + createDirectory);
 
         //Check if directory and if there are some files in it
         if (directory.isDirectory()) {
