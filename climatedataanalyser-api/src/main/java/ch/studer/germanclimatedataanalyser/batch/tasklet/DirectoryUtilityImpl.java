@@ -88,7 +88,7 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         } else {
             //for Tomcat build path like : /opt/tomcat/webapps/ClimateAnalyser/dataFiles/
             path = tomcatRootPath + WEBAPPS + contextPath + DATAFILES;
-            path = "/tmp" + DATAFILES;
+            //path = "/tmp" + DATAFILES;
             log.info("tomcat");
         }
         log.info("Path to files:" + path);
