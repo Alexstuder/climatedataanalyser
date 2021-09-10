@@ -44,8 +44,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
 
     static private String tomcatRootPath = null;
-    static private String path;
-    static private String contextPath;
+    static private String pathName;
+    static private String contextPathName;
     private static final String WEBAPPS = "/webapps";
     private static final String DATAFILES = "/dataFiles/";
 
@@ -58,8 +58,8 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     @PostConstruct
     public void setContextPath() {
-        contextPath = context.getContextPath();
-        log.info("ContextPath: {}", contextPath);
+        contextPathName = context.getContextPath();
+        log.info("ContextPath: {}", contextPathName);
     }
 
     private static void deleteDirectoryFiles(File directory) {
@@ -79,29 +79,36 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         }
     }
 
-    static File createDir(String directoryName) {
 
+    private static final String getPathName() {
+
+        String tmpPathName = null;
         //not running in tomcat = running with junit
         if (tomcatRootPath == null) {
-            path = System.getProperty("user.dir");
-            log.info("user.dir");
+            tmpPathName = System.getProperty("user.dir");
+            log.info("It's not running on tomcat , so we try to write the Files in user.dir : " + pathName);
         } else {
             //for Tomcat build path like : /opt/tomcat/webapps/ClimateAnalyser/dataFiles/
-            path = tomcatRootPath + WEBAPPS + contextPath + DATAFILES;
+            tmpPathName = tomcatRootPath + WEBAPPS + contextPathName + DATAFILES;
             //path = "/tmp" + DATAFILES;
-            log.info("tomcat");
+            log.info("It's running on tomcat , so we try to write the ftp files in : " + pathName);
         }
-        log.info("Path to files:" + path);
 
-        boolean createDirectory = new File(path).mkdir();
-        ;
-        log.info("1 Directory created : " + createDirectory);
+        return tmpPathName;
+    }
 
-        File directory = new File(path + directoryName);
-        createDirectory = directory.mkdir();
-        log.info("2 Directory created : " + createDirectory);
+    static File createDir(String directoryName) {
 
-        //Check if directory and if there are some files in it
+        // get the correct PathName
+        pathName = getPathName();
+        // first create the directory dataFiles first
+        new File(pathName).mkdir();
+        File directory = new File(pathName + directoryName);
+
+        // then create all other directory based on dataFiles (FtpData,InputFiles ...etc.)
+        directory.mkdir();
+
+        //Check if directory exists already and if there are some files in it, delete them !
         if (directory.isDirectory()) {
             //delete all Files
             File[] directoryFiles = directory.listFiles();
@@ -109,18 +116,16 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
                 deleteDirectoryFiles(directory);
             }
         }
-        log.info("directory.name:" + directory.getName());
-        log.info("ddddddddddddddddddddddddddddddddddddddddddd");
-        // if directory is directory and hase some Files in it : delete first content and then directory
-
         return directory;
     }
 
     public static File getDirectory(String folderName) {
 
-        return new File(path + folderName);
+        return new File(pathName + folderName);
     }
 
+
+    // TODO replace the methode with a simple getDirectory !
     public static Resource[] getResources(File[] files, String pattern) {
 
         ArrayList<Resource> resources = new ArrayList<Resource>();

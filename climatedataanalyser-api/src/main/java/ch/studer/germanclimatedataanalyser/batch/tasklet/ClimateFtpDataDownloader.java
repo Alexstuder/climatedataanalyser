@@ -97,10 +97,11 @@ public class ClimateFtpDataDownloader implements Tasklet {
             e.printStackTrace();
         }
 
-//        for (FTPFile ftpFile : ftpFiles) {
-        for (int i = 0; i < 2; i++) {
+        for (FTPFile ftpFile : ftpFiles) {
 
-            FTPFile ftpFile = ftpFiles[i];
+            //TODO Work with a toggle switch to switch between test and production mode
+            //     for (int i = 0; i < 2; i++) {
+            // FTPFile ftpFile = ftpFiles[i];
             FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() + "/" + ftpFile.getName());
             try {
                 ftpConnection.retrieveFile(ftpFile.getName(), out);
