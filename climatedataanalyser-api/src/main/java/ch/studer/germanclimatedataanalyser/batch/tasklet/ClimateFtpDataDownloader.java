@@ -43,6 +43,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
     @Value("${climate.ftp.server.pwd}")
     private String ftpPwd;
 
+    @Value("${climate.path.downloadFolder}")
+    private String downloadFolderName;
     private FTPClient ftpConnection;
 
 
@@ -90,7 +92,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
         File directory = null;
         log.info("Start Download  : " + LocalDateTime.now());
         try {
-            directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
+            //directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
+            directory = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
         } catch (Exception e) {
             //TODO Was ist ,falls das directory nicht erstellt werden konnte ?
             // Aktuell , wird eine Fehlermeldung ins Log geschrieben ?!

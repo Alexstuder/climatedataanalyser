@@ -29,6 +29,9 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     @Value("${climate.path.ftpDataFolderName}")
     private String ftpDataFolderName;
 
+    @Value("${climate.path.downloadFolder}")
+    private String downloadFolderName;
+
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataUnziper.class);
 
 
@@ -36,9 +39,13 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         // Empty both Directory
-        File ftpDataFolder = DirectoryUtilityImpl.getDirectory(ftpDataFolderName);
-        File unzipOutputFolde = DirectoryUtilityImpl.createDir(unzipOutputFolderName);
-        File inputFolder = DirectoryUtilityImpl.createDir(inputFolderName);
+        //TODO A.Studer clean
+        //File ftpDataFolder = DirectoryUtilityImpl.getDirectory(ftpDataFolderName);
+        File ftpDataFolder = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
+        //File unzipOutputFolde = DirectoryUtilityImpl.createDir(unzipOutputFolderName);
+        File unzipOutputFolde = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, unzipOutputFolderName);
+        //File inputFolder = DirectoryUtilityImpl.createDir(inputFolderName);
+        File inputFolder = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, inputFolderName);
 
         // allZipFiles = getAllZipFiles();
         List<File> allZipFiles = getAllFilesFromDirectoryFiltered(ftpDataFolder, ".zip");

@@ -3,16 +3,22 @@ package ch.studer.germanclimatedataanalyser.batch.tasklet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
+//TODO A.Studer Clean
 // **************************************************************
 //  Beim Zugriff auf das Filesystem gibt es 3 möglichkeiten zur Laufzeit
 //     - Junit Test
@@ -40,6 +46,10 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
 
     @Autowired
+    private ApplicationContext applicationContextBean;
+    static ApplicationContext applicationContext;
+
+    @Autowired
     private ServletContext context;
 
 
@@ -58,8 +68,36 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
     @PostConstruct
     public void setContextPath() {
+        applicationContext = applicationContextBean;
         contextPathName = context.getContextPath();
         log.info("ContextPath: {}", contextPathName);
+    }
+
+    private static File getPath(String pathName) {
+
+        File path = null;
+        //test if path is available if not ! exit PGM
+        try {
+            path = ResourceUtils.getFile("classpath:" + pathName);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("-------------------Downloadfolder :" + pathName + "- doesn't exists ! ------------ " + e);
+        }
+
+        return path;
+    }
+
+    public static File getEmptyDirectory(String pathName, String folderName) {
+        File directory = null;
+
+        try {
+            directory = new File(getPath(pathName).getPath() + "/" + folderName);
+            Files.deleteIfExists(directory.toPath());
+            Files.createDirectory(directory.toPath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return directory;
     }
 
     private static void deleteDirectoryFiles(File directory) {
@@ -119,9 +157,37 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         return directory;
     }
 
+    static File getDirectoryNew(String directoryName) throws FileNotFoundException {
+        Resource[] resources = new Resource[0];
+        Resource resource = null;
+        File dir = ResourceUtils.getFile("classpath:" + directoryName);
+        return dir;
+
+
+    }
+
+    public File getFileFromURL() {
+        URL url = this.getClass().getClassLoader().getResource("download");
+        File file = null;
+        try {
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            file = new File(url.getPath());
+        } finally {
+            return file;
+        }
+    }
+
+    public static File getDirectory(String pathName, String folderName) {
+
+
+        return new File(getPath(pathName) + "/" + folderName);
+    }
+
     public static File getDirectory(String folderName) {
 
-        return new File(pathName + folderName);
+        //File f = new File(getPath("download/" + folderName).getPath());
+        return new File(getPath("download/" + folderName).getPath());
     }
 
 
