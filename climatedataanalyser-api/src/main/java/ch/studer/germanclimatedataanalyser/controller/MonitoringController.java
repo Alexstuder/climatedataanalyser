@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class MonitoringController {
 
+    //http://94.16.122.234:8080/ClimateAnalyser/api/memory-status/
+
     @GetMapping("/memory-status/")
     public MemoryStats getMemoryStatistics() {
         MemoryStats stats = new MemoryStats();
