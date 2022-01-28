@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import com.madgag.compress.CompressUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

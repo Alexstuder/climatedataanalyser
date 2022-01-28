@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;

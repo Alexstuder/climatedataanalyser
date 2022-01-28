@@ -1,4 +1,4 @@
-package ch.studer.germanclimatedataanalyser.batch.tasklet;
+package ch.studer.germanclimatedataanalyser.common;
 
 import java.io.File;
 import java.io.IOException;

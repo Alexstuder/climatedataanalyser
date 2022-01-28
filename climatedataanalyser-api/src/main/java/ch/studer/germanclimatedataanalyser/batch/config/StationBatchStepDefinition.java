@@ -1,12 +1,11 @@
 package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
-import ch.studer.germanclimatedataanalyser.batch.tasklet.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
+import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.file.FlatFileItemReader;
