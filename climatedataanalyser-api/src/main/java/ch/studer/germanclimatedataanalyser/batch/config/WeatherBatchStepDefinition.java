@@ -43,7 +43,7 @@ public class WeatherBatchStepDefinition {
     @Bean("importWeatherRecords")
     public Step importWeatherRecords() {
         return stepBuilderFactoryImport.get("import-weather-records")
-                .<Month, Month>chunk(100)
+                .<Month, Month>chunk(110)
                 //.reader(temperatureFromDbReader())
                 .reader(monthReader.getMonthFromDbReader())
                 //.listener(new StepProcessorListener(statistics()))
