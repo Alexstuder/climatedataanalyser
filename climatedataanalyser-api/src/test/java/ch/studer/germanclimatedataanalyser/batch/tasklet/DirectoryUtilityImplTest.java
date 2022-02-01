@@ -37,10 +37,33 @@ class DirectoryUtilityImplTest {
         File dir = null;
         dir = DirectoryUtilityImpl.getEmptyDirectory(DOWNLOAD, FOLDER_NAME);
 
-        Assertions.assertNotNull(dir, "dir, souhld not be null !");
+        Assertions.assertNotNull(dir, "dir, should not be null !");
         //the directory is not longer needed so clean your space!
         dir.delete();
     }
+
+    @Test
+    void testFullDirectory() {
+
+        int LOAD = 10;
+        int SUBDIR = 1;
+        //Create a dir
+        File dir = DirectoryUtilityImpl.getEmptyDirectory(DOWNLOAD, FOLDER_NAME);
+        File subdir = DirectoryUtilityImpl.getEmptyDirectory(DOWNLOAD + "/" + FOLDER_NAME, FOLDER_NAME);
+        //fill the directory with files
+        fillDirectoryWithFiles(LOAD, dir);
+        //fill the subdir with files
+        fillDirectoryWithFiles(LOAD, subdir);
+        Assertions.assertEquals(LOAD + SUBDIR, dir.listFiles().length);//LOAD and 1 subdir
+        Assertions.assertEquals(LOAD, subdir.listFiles().length);
+
+        //create the same dir and empty the dir
+        dir = DirectoryUtilityImpl.getEmptyDirectory(DOWNLOAD, FOLDER_NAME);
+        Assertions.assertEquals(true, dir.isDirectory());
+        Assertions.assertEquals(0, dir.listFiles().length);
+        Assertions.assertEquals(false, subdir.exists());
+    }
+
 
     @Test
     void createDirNoFolderFoundError() {
