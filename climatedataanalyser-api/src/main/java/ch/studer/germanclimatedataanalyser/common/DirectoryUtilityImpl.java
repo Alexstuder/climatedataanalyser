@@ -9,36 +9,11 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-//TODO A.Studer Clean
-// **************************************************************
-//  Beim Zugriff auf das Filesystem gibt es 3 möglichkeiten zur Laufzeit
-//     - Junit Test
-//     - Spring-boot-Tomcat-Test
-//     - Tomcat Container
-//  Jede dieser Variante möchte berücksichtig werden$
-//  Zusätzlich gibt es für Spreing die möglichketi aus dem src/resource Ordner zu lesen
-//
-//      Nachstehend um zu evaluieren welche Runtime umgebung aktive ist
-//      ,gibt es folgende Möglichkeiten dies zu evaluieren.
-//
-//        log.info("catalina.base :" + System.getProperty("catalina.base"));
-//        log.info("User.dir :" + System.getProperty("user.dir"));
-//        log.info("Path.absolut Paths :" + Paths.get("").toAbsolutePath().toString());
-//        log.info("File.absolutFile :" + new File("").getAbsoluteFile());
-//
-//        log.info("Path.of.toAbsolutPath :" + Path.of("").toAbsolutePath().toString());
-//        log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath(".").toAbsolutePath());
-//        log.info("FileSystem.getDefault :" + FileSystems.getDefault().getPath("WEB-INF"));
-//        log.info("Directory created:" + directory.getAbsolutePath());
-//
-////
 @Component
-public class DirectoryUtilityImpl implements DirectoryUtility {
+public class DirectoryUtilityImpl {
 
     private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImpl.class);
 
@@ -59,7 +34,9 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
 
         try {
             directory = new File(getPath(pathName).getPath() + "/" + folderName);
-            Files.deleteIfExists(directory.toPath());
+            if (directory.exists()) {
+                deleteDirectory(directory);
+            }
             Files.createDirectory(directory.toPath());
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,16 +45,23 @@ public class DirectoryUtilityImpl implements DirectoryUtility {
         return directory;
     }
 
-    public File getFileFromURL() {
-        URL url = this.getClass().getClassLoader().getResource("download");
-        File file = null;
-        try {
-            file = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            file = new File(url.getPath());
-        } finally {
-            return file;
+    // function to delete subdirectories and files
+    private static void deleteDirectory(File file) {
+        // store all the paths of files and folders present
+        // inside directory
+        for (File subfile : file.listFiles()) {
+
+            // if it is a subfolder,e.g Rohan and Ritik,
+            // recursiley call function to empty subfolder
+            if (subfile.isDirectory()) {
+                deleteDirectory(subfile);
+            }
+
+            // delete files and empty subfolders
+            subfile.delete();
         }
+        //delete the directory itself
+        file.delete();
     }
 
     public static File getDirectory(String folderName) {

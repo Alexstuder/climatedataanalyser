@@ -39,13 +39,9 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
-        // Empty both Directory
-        //TODO A.Studer clean
-        //File ftpDataFolder = DirectoryUtilityImpl.getDirectory(ftpDataFolderName);
+        // create empty Directories
         File ftpDataFolder = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
-        //File unzipOutputFolde = DirectoryUtilityImpl.createDir(unzipOutputFolderName);
         File unzipOutputFolde = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, unzipOutputFolderName);
-        //File inputFolder = DirectoryUtilityImpl.createDir(inputFolderName);
         File inputFolder = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, inputFolderName);
 
         // allZipFiles = getAllZipFiles();

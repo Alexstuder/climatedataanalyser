@@ -82,8 +82,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
             ftpClient.login(ftpUser, ftpPwd);
 
         } catch (Exception e) {
-            //TODO : Was ,wenn zum FTP Server keine Verbindung hergestellt werden kann
-            log.debug("Connection to FTP Server Failed : " + e);
+            throw new RuntimeException("Connection to FTP Server Failed : STOP the Program : " + e);
         }
         return ftpClient;
     }
@@ -92,14 +91,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
         int counter = 0;
         File directory = null;
         log.info("Start Download  : " + LocalDateTime.now());
-        try {
-            //directory = DirectoryUtilityImpl.createDir(ftpDataFolderName);
-            directory = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
-        } catch (Exception e) {
-            //TODO Was ist ,falls das directory nicht erstellt werden konnte ?
-            // Aktuell , wird eine Fehlermeldung ins Log geschrieben ?!
-            e.printStackTrace();
-        }
+
+        directory = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
 
         for (FTPFile ftpFile : ftpFiles) {
 
