@@ -2,11 +2,13 @@ package ch.studer.germanclimatedataanalyser.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -15,7 +17,17 @@ import java.util.ArrayList;
 @Component
 public class DirectoryUtilityImpl {
 
+    @Value("${climate.path.downloadFolder}")
+    private String downloadFolderName;
+
+    private static String PATH_NAME;
+
     private static final Logger log = LoggerFactory.getLogger(DirectoryUtilityImpl.class);
+
+    @PostConstruct
+    private void init() {
+        PATH_NAME = downloadFolderName + "/";
+    }
 
     private static File getPath(String pathName) {
 
@@ -65,7 +77,7 @@ public class DirectoryUtilityImpl {
     }
 
     public static File getDirectory(String folderName) {
-        return new File(getPath("download/" + folderName).getPath());
+        return new File(getPath(PATH_NAME + folderName).getPath());
     }
 
     public static Resource[] getResources(File[] files, String pattern) {
