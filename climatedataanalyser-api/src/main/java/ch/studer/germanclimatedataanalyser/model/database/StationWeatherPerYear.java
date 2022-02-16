@@ -11,7 +11,7 @@ public class StationWeatherPerYear extends StationTemperature {
     @Column(name = "WEATHER_ID")
     private int weatherId;
 
-    @Column(name = "YEAR")
+    @Column(name = "YEAR_")
     private String year;
 
     @Column(name = "CALCULATED_ARTIFICIALLY")

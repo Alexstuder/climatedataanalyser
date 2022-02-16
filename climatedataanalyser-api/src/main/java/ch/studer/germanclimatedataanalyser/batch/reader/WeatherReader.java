@@ -20,7 +20,7 @@ public class WeatherReader {
                 .dataSource(this.dataSource)
                 .name("weatherReader")
                 .sql("select STATION_ID" +
-                        ",YEAR" +
+                        ",YEAR_" +
                         ",JANUAR" +
                         ",FEBRUAR" +
                         ",MAERZ" +
@@ -34,7 +34,7 @@ public class WeatherReader {
                         ",NOVEMBER" +
                         ",DEZEMBER" +
                         "             from WEATHER" +
-                        " ORDER BY STATION_ID, YEAR DESC")
+                        " ORDER BY STATION_ID, YEAR_ DESC")
                 .rowMapper(new StationWeatherRowMapper())
                 .build();
 
@@ -45,7 +45,7 @@ public class WeatherReader {
 class StationWeatherRowMapper implements RowMapper<StationWeatherPerYear> {
 
     final String STATION_ID = "STATION_ID";
-    final String YEAR = "YEAR";
+    final String YEAR_ = "YEAR_";
     final String JANUAR = "JANUAR";
     final String FEBRUAR = "FEBRUAR";
     final String MAERZ = "MAERZ";
@@ -63,7 +63,7 @@ class StationWeatherRowMapper implements RowMapper<StationWeatherPerYear> {
     public StationWeatherPerYear mapRow(ResultSet resultSet, int i) throws SQLException {
 
         StationWeatherPerYear stationWeatherPerYear = new StationWeatherPerYear(resultSet.getInt(STATION_ID));
-        stationWeatherPerYear.setYear(resultSet.getString(YEAR));
+        stationWeatherPerYear.setYear(resultSet.getString(YEAR_));
         stationWeatherPerYear.setJanuar(resultSet.getBigDecimal(JANUAR));
         stationWeatherPerYear.setFebruar(resultSet.getBigDecimal(FEBRUAR));
         stationWeatherPerYear.setMaerz(resultSet.getBigDecimal(MAERZ));

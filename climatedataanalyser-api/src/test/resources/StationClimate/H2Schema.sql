@@ -34,7 +34,7 @@
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP TABLE if exists month;
+DROP TABLE if exists month_;
 DROP TABLE if exists station;
 DROP TABLE if exists weather;
 DROP TABLE if exists climate;
@@ -44,7 +44,7 @@ DROP TABLE if exists climate;
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE IF NOT EXISTS `month`
+CREATE TABLE IF NOT EXISTS `month_`
 (
     MONTH_ID          BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATIONS_ID       int                   NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `weather`
 (
     WEATHER_ID              BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID              int                   NOT NULL,
-    YEAR                    VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
+    YEAR_                    VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
     CALCULATED_ARTIFICIALLY BOOLEAN               Not Null Comment 'Marks a record as calculated and not as delivered',
     JANUAR                  DECIMAL(7, 4)         NOT NULL,
     FEBRUAR                 DECIMAL(7, 4)         NOT NULL,

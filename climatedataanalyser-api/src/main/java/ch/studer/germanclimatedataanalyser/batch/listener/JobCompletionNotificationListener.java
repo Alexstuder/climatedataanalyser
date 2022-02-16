@@ -40,10 +40,10 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("****************************************************************");
 
         // Prepend the Tables
-        jdbcTemplate.execute("Delete FROM STATION");
-        jdbcTemplate.execute("Delete FROM MONTH");
-        jdbcTemplate.execute("Delete FROM WEATHER");
-        jdbcTemplate.execute("Delete FROM CLIMATE");
+        jdbcTemplate.execute("Delete FROM station");
+        jdbcTemplate.execute("Delete FROM month_");
+        jdbcTemplate.execute("Delete FROM weather");
+        jdbcTemplate.execute("Delete FROM climate");
 
 
     }

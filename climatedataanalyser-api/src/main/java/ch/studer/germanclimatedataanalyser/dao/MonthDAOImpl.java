@@ -52,7 +52,7 @@ public class MonthDAOImpl implements MonthDAO {
 
         Session currentSession = getSession();
 
-        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month m WHERE m.stationsId = :stationsID", Month.class)
+        Query<Month> theQuery = currentSession.createQuery("SELECT m FROM Month_ m WHERE m.stationsId = :stationsID", Month.class)
                 .setParameter("stationsID", stationsID);
 
 
