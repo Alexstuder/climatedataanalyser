@@ -1,7 +1,7 @@
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE IF NOT EXISTS `month`
+CREATE TABLE IF NOT EXISTS `MONTH`
 (
     MONTH_ID          BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATIONS_ID       int                   NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `month`
     MX_RS             DECIMAL(7, 4) DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `station`
+CREATE TABLE IF NOT EXISTS `Station`
 (
     ID           BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `station`
 
 );
 
-CREATE TABLE IF NOT EXISTS `weather`
+CREATE TABLE IF NOT EXISTS `WEATHER`
 (
     WEATHER_ID              BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID              int                   NOT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `weather`
 
 );
 
-CREATE TABLE IF NOT EXISTS `climate`
+CREATE TABLE IF NOT EXISTS `CLIMATE`
 (
     CLIMATE_ID   BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,

@@ -19,6 +19,7 @@ public class controller {
     private static final Logger LOG = LoggerFactory.getLogger(controller.class);
 
 
+    //http://94.16.122.234:8080/ClimateAnalyser/api/status/
     @GetMapping("/")
     public List<String> handle() {
         List<String> status = new ArrayList<String>();

@@ -1,0 +1,3 @@
+Write the FTP downloaded files into this Folder ;
+
+CAUTION ; DONT delete this File ! The Build process will not build this folder to the target folder !!

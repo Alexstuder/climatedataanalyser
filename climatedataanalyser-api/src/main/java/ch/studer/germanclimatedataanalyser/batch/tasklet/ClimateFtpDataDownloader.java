@@ -1,5 +1,6 @@
 package ch.studer.germanclimatedataanalyser.batch.tasklet;
 
+import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -12,7 +13,6 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,6 +44,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
     @Value("${climate.ftp.server.pwd}")
     private String ftpPwd;
 
+    @Value("${climate.path.downloadFolder}")
+    private String downloadFolderName;
     private FTPClient ftpConnection;
 
 
@@ -60,7 +62,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
 
             FTPFile[] ftpFiles = list(ftpConnection);
-            downloadFTPFiles(ftpFiles, remoteDirectory);
+            downloadFTPFiles(ftpFiles);
 
             ftpConnection.logout();
             ftpConnection.disconnect();
@@ -75,37 +77,28 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private FTPClient getFTPConection(String ftpUser, String ftpPwd) {
 
         FTPClient ftpClient = new FTPClient();
-        String[] filenameList;
-        FTPFile[] ftpFiles;
-
         try {
             ftpClient.connect(ftpServer);
             ftpClient.login(ftpUser, ftpPwd);
 
         } catch (Exception e) {
-            System.out.println("Connection to FTP Server Failed : " + e);
+            throw new RuntimeException("Connection to FTP Server Failed : STOP the Program : " + e);
         }
         return ftpClient;
-
-
     }
 
-    private void downloadFTPFiles(FTPFile[] ftpFiles, String remoteDirectory) throws IOException {
-
+    private void downloadFTPFiles(FTPFile[] ftpFiles) throws IOException {
         int counter = 0;
         File directory = null;
-        log.info("Start Download  : " + LocalDateTime.now().toString());
-        try {
-            directory = getDirectory(ftpDataFolderName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        log.info("Start Download  : " + LocalDateTime.now());
 
-        DirectoryUtility.deleteDirectoryFiles(directory);
-        log.info("FTPDataFolderName : " + directory.getPath());
+        directory = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
 
         for (FTPFile ftpFile : ftpFiles) {
 
+            //TODO Work with a toggle switch to switch between test and production mode
+            //     for (int i = 0; i < 2; i++) {
+            // FTPFile ftpFile = ftpFiles[i];
             FileOutputStream out = new FileOutputStream(directory.getAbsoluteFile() + "/" + ftpFile.getName());
             try {
                 ftpConnection.retrieveFile(ftpFile.getName(), out);
@@ -125,7 +118,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         log.info("*************************************************");
 
         log.info(counter + " Files downloaded !");
-        log.info("End Download  : " + LocalDateTime.now().toString());
+        log.info("End Download  : " + LocalDateTime.now());
     }
 
     public FTPFile[] list(FTPClient ftpConnection) {
@@ -134,56 +127,16 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
         try {
 
-            //ftpFiles = ftpConnection.listFiles(remoteDirectory);
             ftpFiles = ftpConnection.listFiles();
-           /* for (FTPFile file : ftpFiles) {
-                System.out.println(file.getName());
-            }*/
+
         } catch (Exception e) {
             throw new RuntimeException("Runtime Exeption in list FTP Files : " + e.getMessage());
 
-            //ftpClient.logout();
         } finally {
-            System.out.println("Finaly in List arrived !");
-            //  ftpClient.disconnect();
+            System.out.println("End of the List arrived !");
         }
 
         return ftpFiles;
     }
 
-  /*  private void deleteDirectoryFiles(File directory) throws IOException {
-        File[] allContent = null;
-        allContent = directory.listFiles();
-
-        // First check , if directory is empty
-        if (allContent != null) {
-            for (File file : allContent) {
-                // delete all files and subdir
-                if (file.isDirectory()) {
-                    deleteDirectoryFiles(file);
-                } else {
-                    file.delete();
-                }
-            }
-        }
-        // Make dir
-        directory.mkdir();
-    }*/
-
-    private File getDirectory(String directoryName) throws IOException {
-        Resource[] resources = new Resource[0];
-        Resource resource = null;
-
-        try {
-            resources = applicationContext.getResources("classpath*:/" + directoryName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (Resource directory : resources) {
-            if (directory.getFilename().equals(directoryName)) {
-                resource = directory;
-            }
-        }
-        return resource.getFile();
-    }
 }

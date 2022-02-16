@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams, HttpRequest, HttpResponse, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Bundeslaender} from '../analytics/model/bundeslaender';
 import {GpsPoint} from '../analytics/model/GpsPoint';
@@ -7,6 +7,8 @@ import {ClimateAnalyserResponseDto} from '../analytics/model/ClimateAnalyserResp
 import {ClimateAnalyserRequest} from '../analytics/model/ClimateAnalyserRequest';
 import {DbLoadResponseDto} from '../database/model/DbLoadResponseDto';
 import {ClimateResponseDto} from "../climates/model/ClimateResponseDto";
+import {ApiInterceptor} from "./dynamicurl";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -14,9 +16,12 @@ import {ClimateResponseDto} from "../climates/model/ClimateResponseDto";
 })
 export class ApiService {
 
+
   // private BASE_URL = window.cfgApiBaseUrl + '/api' ;
   //private BASE_URL = window["cfgApiBaseUrl"] + "/api";
-  private BASE_URL = window["cfgApiBaseUrl"] + "/api";
+  //private BASE_URL = document.getElementsByTagName('base')[0].href + "api";
+  //private BASE_URL = window["cfgApiBaseUrl"] + "/api";
+  private BASE_URL = environment.BASE_URL + '/api';
   private LOAD_DATABASE_URL = `${this.BASE_URL}\\database\\batchImportStart\\`;
   private LOAD_DATABASE_DATA_URL = `${this.BASE_URL}\\database\\`;
   private ANALYTICS_INIT_URL = `${this.BASE_URL}\\analytics\\`;

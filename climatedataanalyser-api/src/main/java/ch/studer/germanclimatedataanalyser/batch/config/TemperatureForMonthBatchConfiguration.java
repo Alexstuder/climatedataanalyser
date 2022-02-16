@@ -4,10 +4,12 @@ import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
 import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
+import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -19,18 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Configuration
 public class TemperatureForMonthBatchConfiguration {
-
-    @Autowired
-    private JobBuilderFactory jobBuilderFactoryImport;
 
     @Autowired
     private StepBuilderFactory stepBuilderFactoryImport;
@@ -39,25 +36,19 @@ public class TemperatureForMonthBatchConfiguration {
     private String inputFilePattern;
 
     @Value("${climate.path.inputFolderName}")
-    private String inputDirectory;
+    private String inputDirectoryName;
 
-    static final private String CLASSPATH = "classpath*:";
+    private static final Logger log = LoggerFactory.getLogger(TemperatureForMonthBatchConfiguration.class);
 
     @Bean
     @StepScope
     public MultiResourceItemReader<MonthFile> monthFilesReader() {
-        Resource[] inputResources = null;
-        FileSystemXmlApplicationContext patternResolver = new FileSystemXmlApplicationContext();
-        try {
-            //inputResources = patternResolver.getResources("classpath*:/"+ "InputFiles/produkt*.txt");
-            //.getResources("classpath*:/"+ directory+"/"+classifier);
-            inputResources = patternResolver.getResources(CLASSPATH + "/" + inputDirectory + "/" + inputFilePattern);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        Resource[] inputResources = DirectoryUtilityImpl.getResources(DirectoryUtilityImpl.getDirectory(inputDirectoryName).listFiles(), inputFilePattern);
+        log.info("InputRessource :" + inputResources.toString());
+
         MultiResourceItemReader<MonthFile> resourceItemReader = new MultiResourceItemReader<MonthFile>();
         resourceItemReader.setResources(inputResources);
-
         resourceItemReader.setDelegate(reader());
         return resourceItemReader;
     }
@@ -80,7 +71,6 @@ public class TemperatureForMonthBatchConfiguration {
                 setLineTokenizer(new DelimitedLineTokenizer() {
 
                     {
-
                         setNames("stationsId"
                                 , "messDatumBeginn"
                                 , "messDatumEnde"

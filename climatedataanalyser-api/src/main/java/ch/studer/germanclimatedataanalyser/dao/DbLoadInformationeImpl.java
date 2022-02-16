@@ -30,11 +30,11 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
                         "      ,s.Write_Count\n" +
                         "      ,s.Status as Step_Status\n" +
                         "      \n" +
-                        "      FROM climate.batch_job_execution j ,climate.batch_step_execution s\n" +
+                        "      FROM CLIMATE.BATCH_JOB_EXECUTION j ,CLIMATE.BATCH_STEP_EXECUTION s\n" +
                         "\n" +
                         "\n" +
-                        "where j.Job_execution_id = s.job_execution_id \n" +
-                        "and j.job_execution_id = (select max(JOB_EXECUTION_ID) from climate.batch_job_execution)\n" +
+                        "where j.JOB_EXECUTION_ID = s.JOB_EXECUTION_ID \n" +
+                        "and j.JOB_EXECUTION_ID = (select max(JOB_EXECUTION_ID) from CLIMATE.BATCH_JOB_EXECUTION)\n" +
                         "order by s.step_execution_id;", new DbLoadRowMapper());
     }
 
@@ -42,7 +42,7 @@ public class DbLoadInformationeImpl implements DbLoadInformationeDAO {
     public int getMonthTableCount() {
 
         Integer counter;
-        counter = jdbcTemplate.queryForObject("SELECT count(*) FROM climate.month;", Integer.class);
+        counter = jdbcTemplate.queryForObject("SELECT count(*) FROM CLIMATE.MONTH;", Integer.class);
 
         return counter;
     }

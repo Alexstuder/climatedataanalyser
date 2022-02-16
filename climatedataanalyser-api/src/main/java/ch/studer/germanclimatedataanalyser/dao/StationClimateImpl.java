@@ -63,9 +63,6 @@ public class StationClimateImpl implements StationClimateDAO {
         return climateForBundesland;
     }
 
-
-
-    //TODO needed any more ?
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
@@ -74,7 +71,7 @@ public class StationClimateImpl implements StationClimateDAO {
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                "and ((s.geoLatitude BETWEEN :gps2Latitude AND :gps1Latitude) and ( s.geoLength BETWEEN :gps1Longitude AND :gps2Longitude))", StationClimate.class)
+                        "and ((s.geoLatitude BETWEEN :gps2Latitude AND :gps1Latitude) and ( s.geoLength BETWEEN :gps1Longitude AND :gps2Longitude))", StationClimate.class)
                 .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
                 .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
                 .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
@@ -87,7 +84,6 @@ public class StationClimateImpl implements StationClimateDAO {
         return climateForGpsCoordinates;
     }
 
-
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2, String yearFrom) {
@@ -96,9 +92,9 @@ public class StationClimateImpl implements StationClimateDAO {
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                " AND ((s.geoLatitude <= :gps1Latitude AND s.geoLength >= :gps1Longitude) AND ( s.geoLatitude >= :gps2Latitude AND s.geoLength <= :gps2Longitude))" +
-                " AND cast(c.startPeriod as int) >= :yearFrom" +
-                " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
+                        " AND ((s.geoLatitude <= :gps1Latitude AND s.geoLength >= :gps1Longitude) AND ( s.geoLatitude >= :gps2Latitude AND s.geoLength <= :gps2Longitude))" +
+                        " AND cast(c.startPeriod as int) >= :yearFrom" +
+                        " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
                 .setParameter("gps1Latitude", BigDecimal.valueOf(gps1.getLatitude()))
                 .setParameter("gps1Longitude", BigDecimal.valueOf(gps1.getLongitude()))
                 .setParameter("gps2Latitude", BigDecimal.valueOf(gps2.getLatitude()))
@@ -120,9 +116,9 @@ public class StationClimateImpl implements StationClimateDAO {
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
-                " AND s.bundesLand = :bundesLand " +
-                " AND c.startPeriod >= :yearFrom" +
-                " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
+                        " AND s.bundesLand = :bundesLand " +
+                        " AND c.startPeriod >= :yearFrom" +
+                        " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
                 .setParameter("bundesLand", bundesland)
                 .setParameter("yearFrom", yearFrom);
 
