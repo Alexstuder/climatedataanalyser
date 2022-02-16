@@ -19,7 +19,7 @@ public class MonthReader {
         return new JdbcCursorItemReaderBuilder<Month>()
                 .dataSource(this.dataSource)
                 .name("weatherReader")
-                .sql("select STATIONS_ID" +
+                .sql("SELECT STATIONS_ID" +
                         ",MESS_DATUM_BEGINN" +
                         ",MESS_DATUM_ENDE" +
                         ",QN_4" +
@@ -35,7 +35,7 @@ public class MonthReader {
                         ",QN_6" +
                         ",MO_RR" +
                         ",MX_RS" +
-                        "             from MONTH " +
+                        "             FROM MONTH_ " +
                         "ORDER BY STATIONS_ID,MESS_DATUM_BEGINN ASC")
                 .rowMapper(new MonthRowMapper())
                 .build();

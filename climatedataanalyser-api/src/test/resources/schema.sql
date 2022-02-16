@@ -1,53 +1,17 @@
--- ## Pre-Work
-
--- THIS SCRIPT DROP&CREATES USERS and DATABASES
-
--- DROP user if exists climateRUN@localhost;
--- DROP user if exists climateDBA@localhost;
--- flush privileges;
---
--- DROP database if exists climate;
--- commit;
--- -- Create the Database
--- CREATE database if not exists climate;
---
--- -- Create the Run user
--- -- this is the User used in the application
--- CREATE USER 'climateRUN'@'localhost' IDENTIFIED BY 'climateRUN'
---     WITH MAX_QUERIES_PER_HOUR 0
---         MAX_UPDATES_PER_HOUR 0
---         MAX_CONNECTIONS_PER_HOUR 0
---         MAX_USER_CONNECTIONS 0;
--- -- GRANT CREATE,INSERT,SELECT,DELETE,UPDATE,DROP ON climate.* TO 'climateRUN'@'localhost';
---  GRANT ALL privileges ON climate.* TO 'climateRUN'@'localhost';
---
--- -- This User is used to monitor the DB actions
--- CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'climateDBA'
---    WITH MAX_QUERIES_PER_HOUR 0
---         MAX_UPDATES_PER_HOUR 0
---         MAX_CONNECTIONS_PER_HOUR 0
---         MAX_USER_CONNECTIONS 0;
---
--- GRANT ALL PRIVILEGES ON climate.* TO 'climateDBA'@'localhost';
---
---
--- create database if not exists climate;
--- use climate;
-
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP TABLE if exists month;
-DROP TABLE if exists station;
-DROP TABLE if exists weather;
-DROP TABLE if exists climate;
+DROP TABLE if exists MONTH_;
+DROP TABLE if exists STATION;
+DROP TABLE if exists WEATHER;
+DROP TABLE if exists CLIMATE;
 
 
 
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE IF NOT EXISTS `month`
+CREATE TABLE IF NOT EXISTS `MONTH_`
 (
     MONTH_ID          BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATIONS_ID       int                   NOT NULL,
@@ -68,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `month`
     MX_RS             DECIMAL(7, 4) DEFAULT NULL
     );
 
-CREATE TABLE IF NOT EXISTS `station`
+CREATE TABLE IF NOT EXISTS `STATION`
 (
     ID           BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,
@@ -82,11 +46,11 @@ CREATE TABLE IF NOT EXISTS `station`
 
     );
 
-CREATE TABLE IF NOT EXISTS `weather`
+CREATE TABLE IF NOT EXISTS `WEATHER`
 (
     WEATHER_ID              BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID              int                   NOT NULL,
-    YEAR                    VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
+    YEAR_                    VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
     CALCULATED_ARTIFICIALLY BOOLEAN               Not Null Comment 'Marks a record as calculated and not as delivered',
     JANUAR                  DECIMAL(7, 4)         NOT NULL,
     FEBRUAR                 DECIMAL(7, 4)         NOT NULL,
@@ -103,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `weather`
 
     );
 
-CREATE TABLE IF NOT EXISTS `climate`
+CREATE TABLE IF NOT EXISTS `CLIMATE`
 (
     CLIMATE_ID   BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,

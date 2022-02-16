@@ -51,7 +51,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-        log.info("###############   Start the Download from the Weather Server   ############");
+        log.info("###############   Start Download from the Weather Server   ############");
 
         try {
             ftpConnection = getFTPConection(ftpUser, ftpPwd);

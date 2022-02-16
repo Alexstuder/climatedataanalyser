@@ -5,7 +5,6 @@ import ch.studer.germanclimatedataanalyser.model.database.StationClimate;
 import ch.studer.germanclimatedataanalyser.model.dto.climaterecords.ClimateRecordsDto;
 import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,9 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
-//@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
+@Sql({"classpath:schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 
 public class ClimateRecordsServiceIntegrationTest {
-    // Test Scope
-
-    // 1 Happy Test with Bundesland and some Records calculated with diff.
-    // 1 Happy Test with Bundesland and only one Record calculated without diff. first record on table
-
-    // 1 Happy Test with GPS Coordinates and some Records calculated with diff.
-    // 1 Happy Test with GPS Coordinates only one Record calculated without diff. last record on table
-
-
     @Autowired
     ClimateRecordService climateRecordService;
 
@@ -68,11 +57,8 @@ public class ClimateRecordsServiceIntegrationTest {
     }
 
 
-    //@Test
-    @Ignore
+    @Test
     void testClimateRecordServiceWithBundesland() {
-
-        //setup();
 
         final String BUNDESLAND = "Baden-Württemberg";
         final String GPS_LAT_1 = "0";
@@ -86,8 +72,7 @@ public class ClimateRecordsServiceIntegrationTest {
         assertRecords(climateRecordsDto);
     }
 
-    // @Test
-    @Ignore
+    @Test
     void testClimateRecordServiceWithCoordinates() {
 
         final String BUNDESLAND = "";
@@ -115,8 +100,8 @@ public class ClimateRecordsServiceIntegrationTest {
         final String YEAR_DISTANCE = "5";
 
         ClimateRecordsDto climateRecordsFirstDto = climateRecordService.getClimateRecords(BUNDESLAND, GPS_LAT_1, GPS_LONG_1, GPS_LAT_2, GPS_LONG_2, YEAR_FROM, YEAR_DISTANCE);
-        Assertions.assertEquals(1,climateRecordsFirstDto.getClimateRecordList().size());
-        Assertions.assertEquals("1850 - 1879",climateRecordsFirstDto.getClimateRecordList().get(0).getHeader());
+        Assertions.assertEquals(1, climateRecordsFirstDto.getClimateRecordList().size());
+        Assertions.assertEquals("1850 - 1879", climateRecordsFirstDto.getClimateRecordList().get(0).getHeader());
     }
 
     @Test
@@ -132,8 +117,8 @@ public class ClimateRecordsServiceIntegrationTest {
 
         ClimateRecordsDto climateRecordsLastDto = climateRecordService.getClimateRecords(BUNDESLAND, GPS_LAT_1, GPS_LONG_1, GPS_LAT_2, GPS_LONG_2, YEAR_FROM, YEAR_DISTANCE);
 
-        Assertions.assertEquals(1,climateRecordsLastDto.getClimateRecordList().size());
-        Assertions.assertEquals("1991 - 2020",climateRecordsLastDto.getClimateRecordList().get(0).getHeader());
+        Assertions.assertEquals(1, climateRecordsLastDto.getClimateRecordList().size());
+        Assertions.assertEquals("1991 - 2020", climateRecordsLastDto.getClimateRecordList().get(0).getHeader());
 
     }
 
