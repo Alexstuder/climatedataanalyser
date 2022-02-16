@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:ClimateRecordService/H2Schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
+@Sql({"classpath:schema.sql", "classpath:ClimateRecordService/climates.sql", "classpath:ClimateRecordService/stations.sql"})
 
 public class ClimateRecordsServiceIntegrationTest {
     @Autowired

@@ -19,7 +19,7 @@ public class WeatherReader {
         return new JdbcCursorItemReaderBuilder<StationWeatherPerYear>()
                 .dataSource(this.dataSource)
                 .name("weatherReader")
-                .sql("select STATION_ID" +
+                .sql("SELECT STATION_ID" +
                         ",YEAR_" +
                         ",JANUAR" +
                         ",FEBRUAR" +
@@ -33,7 +33,7 @@ public class WeatherReader {
                         ",OKTOBER" +
                         ",NOVEMBER" +
                         ",DEZEMBER" +
-                        "             from WEATHER" +
+                        "             FROM WEATHER" +
                         " ORDER BY STATION_ID, YEAR_ DESC")
                 .rowMapper(new StationWeatherRowMapper())
                 .build();

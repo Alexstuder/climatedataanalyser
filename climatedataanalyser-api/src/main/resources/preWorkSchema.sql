@@ -4,10 +4,10 @@ DROP user if exists climateRUN@localhost;
 DROP user if exists climateDBA@localhost;
 flush privileges;
 
-DROP database if exists climate;
+DROP database if exists CLIMATE;
 commit;
 -- Create the Database
-CREATE database if not exists climate;
+CREATE database if not exists CLIMATE;
 
 -- Create the Run user
 -- this is the User used in the application
@@ -16,8 +16,8 @@ CREATE USER 'climateRUN'@'localhost' IDENTIFIED BY 'climateRUN$4711'
         MAX_UPDATES_PER_HOUR 0
         MAX_CONNECTIONS_PER_HOUR 0
         MAX_USER_CONNECTIONS 0;
--- GRANT CREATE,INSERT,SELECT,DELETE,UPDATE,DROP ON climate.* TO 'climateRUN'@'localhost';
-GRANT ALL privileges ON climate.* TO 'climateRUN'@'localhost';
+-- GRANT CREATE,INSERT,SELECT,DELETE,UPDATE,DROP ON CLIMATE.* TO 'climateRUN'@'localhost';
+GRANT ALL privileges ON CLIMATE.* TO 'climateRUN'@'localhost';
 
 -- This User is used to monitor the DB actions
 -- CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'al349vbn*mvc(.cu"+u'
@@ -27,25 +27,23 @@ CREATE USER 'climateDBA'@'localhost' IDENTIFIED BY 'climateDBA$4711'
         MAX_CONNECTIONS_PER_HOUR 0
         MAX_USER_CONNECTIONS 0;
 
-GRANT ALL PRIVILEGES ON climate.* TO 'climateDBA'@'localhost';
+GRANT ALL PRIVILEGES ON CLIMATE.* TO 'climateDBA'@'localhost';
 
-
-create database if not exists climate;
-use climate;
+use CLIMATE;
 
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP TABLE if exists month_;
-DROP TABLE if exists station;
-DROP TABLE if exists weather;
-DROP TABLE if exists climate;
+DROP TABLE if exists MONTH_;
+DROP TABLE if exists STATION;
+DROP TABLE if exists WEATHER;
+DROP TABLE if exists CLIMATE;
 
 
 -- ##########################
 -- Create Tables
 -- ##########################
-CREATE TABLE IF NOT EXISTS `month_`
+CREATE TABLE IF NOT EXISTS `MONTH_`
 (
     MONTH_ID          BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATIONS_ID       int                   NOT NULL,
@@ -66,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `month_`
     MX_RS             DECIMAL(7, 4) DEFAULT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `station`
+CREATE TABLE IF NOT EXISTS `STATION`
 (
     ID           BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,
@@ -80,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `station`
 
 );
 
-CREATE TABLE IF NOT EXISTS `weather`
+CREATE TABLE IF NOT EXISTS `WEATHER`
 (
     WEATHER_ID              BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID              int                   NOT NULL,
@@ -101,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `weather`
 
 );
 
-CREATE TABLE IF NOT EXISTS `climate`
+CREATE TABLE IF NOT EXISTS `CLIMATE`
 (
     CLIMATE_ID   BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID   int                   NOT NULL,
