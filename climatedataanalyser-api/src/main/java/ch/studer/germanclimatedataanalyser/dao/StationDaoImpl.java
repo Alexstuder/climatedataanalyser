@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -42,7 +41,7 @@ public class StationDaoImpl implements StationDAO {
     @Override
     public Station getStationsBy(int stationID) throws NotFoundException {
 
-        List<Station> stations = null;
+        List<Station> stations;
 
         Session currentSession = getSession();
 
@@ -64,7 +63,7 @@ public class StationDaoImpl implements StationDAO {
     @Override
     public List<Station> getAllStations() {
 
-        List<Station> stations = null;
+        List<Station> stations;
 
         Session currentSession = getSession();
 
@@ -78,7 +77,7 @@ public class StationDaoImpl implements StationDAO {
     @Override
     public Station getStationByName(String stationName) throws NotFoundException {
 
-        List<Station> stations = null;
+        List<Station> stations;
 
         Session currentSession = getSession();
 
@@ -97,7 +96,7 @@ public class StationDaoImpl implements StationDAO {
     @Override
     public List<String> getAllBundeslaenderOrderAsc() {
 
-        List<String> bundeslaender = new ArrayList<String>();
+        List<String> bundeslaender;
 
         Session currentSession = getSession();
 
@@ -109,7 +108,7 @@ public class StationDaoImpl implements StationDAO {
 
     @Override
     public List<Station> getStationsFromBundesland(String bundesland) {
-        List<Station> stations = null;
+        List<Station> stations;
 
         Session currentSession = getSession();
 
