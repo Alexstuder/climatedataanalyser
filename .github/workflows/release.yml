@@ -1,0 +1,9 @@
+- name: Configure Git user
+  run: |
+    git config user.email "alex@alexstuder.ch"
+    git config user.name "Alexander Studer"
+
+- name: Publish JAR
+  run: ./mvnw -B release:prepare release:perform
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
