@@ -23,11 +23,11 @@ public class ClimateAnalyserServiceImpl implements ClimateAnalyserService {
 
     @Override
     public ClimateAnalyserResponseDto getClimateAnalyticsByClimateAnalyserRequest(ClimateAnalyserRequestDto climateAnalyserRequestDto) {
-        ClimateAnalyserResponseDto climateAnalyserResponseDto = new ClimateAnalyserResponseDto();
+        ClimateAnalyserResponseDto climateAnalyserResponseDto;
 
         // Proof input verification and validation
         climateAnalyserResponseDto = isInputValid(climateAnalyserRequestDto);
-        List<StationClimate> stationClimates = new ArrayList<StationClimate>();
+        List<StationClimate> stationClimates;
 
         // Get Climate data twice for a Region
         // first for a year
