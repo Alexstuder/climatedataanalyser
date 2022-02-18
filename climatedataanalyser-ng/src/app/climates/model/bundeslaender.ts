@@ -1,3 +1,3 @@
 export interface Bundeslaender {
-  bundeslaenderNamen:string;
+  bundeslaenderNamen: string;
 }

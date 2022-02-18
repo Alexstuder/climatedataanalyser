@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../shared/api.service';
-import {Bundeslaender} from './model/bundeslaender';
 import {GpsPoint} from './model/GpsPoint';
 import {ClimateAnalyserResponseDto} from './model/ClimateAnalyserResponseDto';
 import {HttpEventType} from '@angular/common/http';
@@ -15,18 +14,16 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 })
 export class AnalyticsComponent implements OnInit {
 
-  bundeslaender: Array<String>;
+  bundeslaender: Array<string>;
   selectedBundesland: string;
   climateAnalyserResponseDto: ClimateAnalyserResponseDto;
   climateAnalyserRequestDto: ClimateAnalyserRequest;
-
+  angForm: FormGroup;
   private gps1: GpsPoint;
   private gps2: GpsPoint;
   private yearOrigine: string;
   private yearToCompare: string;
   private fb: FormBuilder;
-
-  angForm: FormGroup;
   private climateAnalyserRequest: ClimateAnalyserRequest;
 
   constructor(private apiService: ApiService, fb: FormBuilder) {
@@ -35,8 +32,8 @@ export class AnalyticsComponent implements OnInit {
   }
 
   createForm() {
-    //Weisweil   79367 : 48.181837104192695, 7.6906623449884695
-    //Stühlingen 79780 : 47.73683613454628, 8.360463439669749
+    // Weisweil   79367 : 48.181837104192695, 7.6906623449884695
+    // Stühlingen 79780 : 47.73683613454628, 8.360463439669749
     this.angForm = this.fb.group({
       gps1lat: new FormControl('48.181837104192695'),
       gps1long: new FormControl('7.6906623449884695'),
@@ -63,8 +60,6 @@ export class AnalyticsComponent implements OnInit {
       , this.angForm.value.valueOf().yearO
       , this.angForm.value.valueOf().yearC
     ).subscribe(
-      // this.apiService.getAnalyticsByRequest2(this.climateAnalyserRequest).subscribe(
-
       value => {
 
         switch (value.type) {
@@ -88,7 +83,6 @@ export class AnalyticsComponent implements OnInit {
     this.apiService.initAnalytics().subscribe(
       value => {
         this.bundeslaender = value;
-        // alert("Bundeslande :" + this.bundeslaender);
       },
       error => {
         alert('An error occurred while init Analytics, trying to get all Bundeslaender from Backend !');
@@ -100,7 +94,12 @@ export class AnalyticsComponent implements OnInit {
   onBundeslaenderDropDownListSelected(selectedBundesland: any) {
     this.yearOrigine = this.angForm.value.valueOf().yearO;
     this.yearToCompare = this.angForm.value.valueOf().yearC;
-    this.apiService.getAnalyticsByRequest(selectedBundesland, this.gps1, this.gps2, this.yearOrigine, this.yearToCompare).subscribe(
+    this.apiService.getAnalyticsByRequest(
+      selectedBundesland
+      , this.gps1
+      , this.gps2
+      , this.yearOrigine
+      , this.yearToCompare).subscribe(
       value => {
 
         switch (value.type) {
