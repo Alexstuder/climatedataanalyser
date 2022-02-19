@@ -14,7 +14,7 @@
 
     <properties>
         <project.scm.id>github</project.scm.id>
-        <git.repository>climatedataanalyser</git.repository>
+        <git.repository>Alexstuder/climatedataanalyser</git.repository>
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
