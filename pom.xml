@@ -11,10 +11,11 @@
         <version>2.3.5.RELEASE</version>
         <relativePath />
     </parent>
-
     <properties>
         <project.scm.id>github</project.scm.id>
         <git.repository>Alexstuder/climatedataanalyser</git.repository>
+        <sonar.organization>alexstuder</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
