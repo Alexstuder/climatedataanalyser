@@ -34,3 +34,10 @@ jobs:
         run: mvn -B release:prepare release:perform
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: undeployment
+        run: curl "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080/manager/text/undeploy?path=/ClimateAnalyser"
+
+      - name: deployment
+        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
+

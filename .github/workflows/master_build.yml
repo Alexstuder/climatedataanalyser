@@ -1,6 +1,9 @@
 name: Climate Analyser mvn build on push and automatic un- deployment
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
