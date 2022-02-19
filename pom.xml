@@ -12,13 +12,21 @@
         <version>2.3.5.RELEASE</version>
         <relativePath/>
     </parent>
-    <scm>
-        <developerConnection>scm:git:https://github.com/Alexstuder/climatedataanalyser.git</developerConnection>
-        <tag>Init-Release</tag>
-    </scm>
+
     <properties>
         <project.scm.id>github</project.scm.id>
+        <git.repository>climatedataanalyser</git.repository>
     </properties>
+    <scm>
+        <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
+    </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub</name>
+            <url>https://maven.pkg.github.com/${git.repository}</url>
+        </repository>
+    </distributionManagement>
     <modules>
         <module>climatedataanalyser-api</module>
         <module>climatedataanalyser-ng</module>
