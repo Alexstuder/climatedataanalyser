@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.alexstuder.climate</groupId>
-    <artifactId>ClimateDataAnalyser</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <artifactId>climatedataanalyser</artifactId>
+    <version>0.0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,8 +18,8 @@
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
     <distributionManagement>
         <repository>
             <id>github</id>
@@ -42,4 +42,13 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M5</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>
