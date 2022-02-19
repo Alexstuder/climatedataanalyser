@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.alexstuder.climate</groupId>
     <artifactId>ClimateDataAnalyser</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,7 +18,8 @@
     </properties>
     <scm>
         <developerConnection>scm:git:https://github.com/${git.repository}.git</developerConnection>
-    </scm>
+      <tag>ClimateDataAnalyser-0.0.2</tag>
+  </scm>
     <distributionManagement>
         <repository>
             <id>github</id>
