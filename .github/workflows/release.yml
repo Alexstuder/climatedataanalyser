@@ -12,10 +12,16 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.2
         with:
-          java-version: 13
+          java-version: 14
           server-id: github
       - name: Configure Git user
         run: |
