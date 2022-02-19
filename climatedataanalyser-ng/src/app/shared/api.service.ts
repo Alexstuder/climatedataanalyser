@@ -6,6 +6,7 @@ import {ClimateAnalyserResponseDto} from '../analytics/model/ClimateAnalyserResp
 import {DbLoadResponseDto} from '../database/model/DbLoadResponseDto';
 import {ClimateResponseDto} from '../climates/model/ClimateResponseDto';
 import {environment} from '../../environments/environment';
+import {AppInfoDto} from "../navigation/model/AppInfoDto";
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class ApiService {
   private BASE_URL = environment.BASE_URL + '/api';
   private LOAD_DATABASE_URL = `${this.BASE_URL}\\database\\batchImportStart\\`;
   private LOAD_DATABASE_DATA_URL = `${this.BASE_URL}\\database\\`;
+  private APPINFO_URL = `${this.BASE_URL}\\appInfo\\`;
   private ANALYTICS_INIT_URL = `${this.BASE_URL}\\analytics\\`;
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL = `${this.BASE_URL}\\analytics\\request\\`;
   private CLIMATE_RECORDS = `${this.BASE_URL}\\climateRecords\\`;
@@ -25,6 +27,14 @@ export class ApiService {
 
   loadDataBase(): Observable<string> {
     return this.http.get<string>(this.LOAD_DATABASE_URL);
+  }
+
+  appInfo(): Observable<HttpEvent<AppInfoDto>> {
+    const req = new HttpRequest('GET', this.APPINFO_URL, {}, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.http.request<AppInfoDto>(req);
   }
 
   initAnalytics(): Observable<Array<string>> {

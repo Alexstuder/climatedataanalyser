@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HttpEventType} from '@angular/common/http';
+import {ApiService} from '../shared/api.service';
+import {AppInfoDto} from './model/AppInfoDto';
 
 @Component({
   selector: 'app-navigation',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  appinfo: AppInfoDto;
+
+  constructor(private apiService: ApiService) {
+  }
 
   ngOnInit() {
+
+    this.apiService.appInfo().subscribe(
+      value => {
+
+        switch (value.type) {
+          case HttpEventType.Response:
+            this.appinfo = value.body;
+
+        }
+      },
+      error => {
+        alert('An error occurred ,while getting AppInfo from Backend!');
+      }
+    );
   }
 
 }
