@@ -6,7 +6,7 @@ import {ClimateAnalyserResponseDto} from '../analytics/model/ClimateAnalyserResp
 import {DbLoadResponseDto} from '../database/model/DbLoadResponseDto';
 import {ClimateResponseDto} from '../climates/model/ClimateResponseDto';
 import {environment} from '../../environments/environment';
-import {AppInfoDto} from "../navigation/model/AppInfoDto";
+import {AppInfoDto} from '../navigation/model/AppInfoDto';
 
 
 @Injectable({
