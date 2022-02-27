@@ -17,19 +17,16 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {
 
-    this.apiService.appInfo().subscribe(
-      value => {
-
+    this.apiService.appInfo().subscribe({
+      next: (value) => {
         switch (value.type) {
           case HttpEventType.Response:
             this.appinfo = value.body;
-
         }
       },
-      error => {
+      error: () => {
         alert('An error occurred ,while getting AppInfo from Backend!');
       }
-    );
+    });
   }
-
 }
