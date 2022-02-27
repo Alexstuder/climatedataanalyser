@@ -45,14 +45,18 @@ export class ClimatesComponent implements OnInit {
       , this.angForm.value.valueOf().gps2long
       , this.angForm.value.valueOf().startYear
       , this.angForm.value.valueOf().distanceYear)
-      .subscribe(value => {
-        switch (value.type) {
-          case HttpEventType.Response:
-            this.climateResponseDto = value.body;
+      .subscribe({
+        next: (value) => {
+          switch (value.type) {
+            case HttpEventType.Response:
+              this.climateResponseDto = value.body;
+          }
+        },
+        error: () => {
+          alert('An error occurred ,while getting climateRecords from Backend');
         }
-      }, error => {
-        alert('An error occurred ,while getting climateRecords from Backend');
-      });
+      })
+    ;
   }
 
   initClimates() {
