@@ -48,30 +48,19 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private String downloadFolderName;
     private FTPClient ftpConnection;
 
+    @Value("climate.skipFTP")
+    private static String SKIP_FTP;
 
-    @Override
-    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
-        log.info("###############   Start Download from the Weather Server   ############");
+    private static boolean skipFTP;
 
-        try {
-            ftpConnection = getFTPConection(ftpUser, ftpPwd);
-            ftpConnection.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpConnection.enterLocalPassiveMode();
-            ftpConnection.changeWorkingDirectory(remoteDirectory);
-            log.info("Connected " + ftpConnection.getStatus());
+    public ClimateFtpDataDownloader() {
+        setSkipFTP(SKIP_FTP);
 
+    }
 
-            FTPFile[] ftpFiles = list(ftpConnection);
-            downloadFTPFiles(ftpFiles);
+    public static void setSkipFTP(String SKIP_FTP) {
 
-            ftpConnection.logout();
-            ftpConnection.disconnect();
-        } catch (Exception e) {
-            throw new RuntimeException("Error Connecting FTP Server : " + e);
-        }
-        log.info("#################   Ende Download from the Weather Server   ############");
-
-        return null;
+        skipFTP = SKIP_FTP != null && SKIP_FTP == "true";
     }
 
     private FTPClient getFTPConection(String ftpUser, String ftpPwd) {
@@ -137,6 +126,35 @@ public class ClimateFtpDataDownloader implements Tasklet {
         }
 
         return ftpFiles;
+    }
+
+    @Override
+    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
+        log.info("###############   Start Download from the Weather Server   ############");
+
+        if (!skipFTP) {
+            try {
+                ftpConnection = getFTPConection(ftpUser, ftpPwd);
+                ftpConnection.setFileType(FTP.BINARY_FILE_TYPE);
+                ftpConnection.enterLocalPassiveMode();
+                ftpConnection.changeWorkingDirectory(remoteDirectory);
+                log.info("Connected " + ftpConnection.getStatus());
+
+
+                FTPFile[] ftpFiles = list(ftpConnection);
+                downloadFTPFiles(ftpFiles);
+
+                ftpConnection.logout();
+                ftpConnection.disconnect();
+            } catch (Exception e) {
+                throw new RuntimeException("Error Connecting FTP Server : " + e);
+            }
+            log.info("#################   Ende Download from the Weather Server   ############");
+        } else {
+            log.info("FTP was skipt by parameter : climate.skipFTP = true");
+        }
+        // TODO Return Status ??
+        return null;
     }
 
 }
