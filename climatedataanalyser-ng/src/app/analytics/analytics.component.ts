@@ -80,14 +80,14 @@ export class AnalyticsComponent implements OnInit {
 
   initAnalytics() {
 
-    this.apiService.initAnalytics().subscribe(
-      value => {
+    this.apiService.initAnalytics().subscribe({
+      next: (value) => {
         this.bundeslaender = value;
       },
-      error => {
+      error: () => {
         alert('An error occurred while init Analytics, trying to get all Bundeslaender from Backend !');
       }
-    );
+    });
 
   }
 
