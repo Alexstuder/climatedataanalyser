@@ -20,22 +20,6 @@ export class DatabaseComponent implements OnInit {
 
     this.columns = this.apiService.getColumns();
 
-    /*    this.apiService.initDbLoad().subscribe(
-          value => {
-
-            switch (value.type) {
-              case HttpEventType.Response:
-                this.dbLoadResponseDto = value.body;
-
-            }
-          },
-          error => {
-            alert('An error occurred ,while getting DB informations from DB-Server');
-          }
-        );*/
-
-
-    // ----- new
     this.apiService.initDbLoad().subscribe({
         complete: () => {
         }, // completeHandler
@@ -53,18 +37,16 @@ export class DatabaseComponent implements OnInit {
 
   loadDataBase() {
     if (confirm('Do you really want to load the Database ? (Takes about 20 min)')) {
-      this.apiService.loadDataBase().subscribe(
-        value => {
 
-          alert('DataBase Successfully loaded !');
-
+      this.apiService.loadDataBase().subscribe({
+        error: (err) => {
+          alert(err.toString());
         },
-        error => {
-          alert(error.toString());
+        complete: () => {
+        },
+        next: () => {
         }
-      );
-
-
+      });
     }
   }
 }
