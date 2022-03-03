@@ -10,7 +10,7 @@
   </parent>
   <artifactId>climatedataanalyser-ng</artifactId>
   <name>climatedataanalyser-ng</name>
-  <version>{$revision}</version>
+  <version>0.0.12-SNAPSHOT</version>
   <!--  <version>0.0.12-SNAPSHOT</version>-->
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
