@@ -26,5 +26,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Alexstuder_climatedataanalyser
+
+      - name: undeployment
+        run: curl "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080/manager/text/undeploy?path=/ClimateAnalyser"
+
       - name: deployment
-        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyserTest"
+        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
+
