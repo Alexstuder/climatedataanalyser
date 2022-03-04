@@ -14,10 +14,10 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v1
 
-      - name: Set up JDK 13
+      - name: Set up JDK 11
         uses: actions/setup-java@v1.4.3
         with:
-          java-version: 13
+          java-version: 11
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
@@ -28,8 +28,12 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Alexstuder_climatedataanalyser
 
       - name: undeployment
-        run: curl "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080/manager/text/undeploy?path=/ClimateAnalyser"
+        run: curl "http://${{secrets.DEPLOY_USER}}@studertest.tk:8090/manager/text/undeploy?path=/ClimateAnalyser"
+
+      #       run: curl "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080/manager/text/undeploy?path=/ClimateAnalyser"
 
       - name: deployment
-        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
+        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@studertest.tk:8090//manager/text/deploy?path=/ClimateAnalyser"
+
+  #       run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
 
