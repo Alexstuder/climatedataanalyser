@@ -27,11 +27,19 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Alexstuder_climatedataanalyser
 
-      - name: undeployment
+      - name: undeployment Master
         run: curl "http://${{secrets.DEPLOY_USER}}@studertest.tk:8080/manager/text/undeploy?path=/ClimateAnalyser"
 
+      - name: undeployment Release
+        run: curl "http://${{secrets.DEPLOY_USER}}@studer.tk:8080/manager/text/undeploy?path=/ClimateAnalyser"
 
-      - name: deployment
+      - name: undeployment OLD
+        run: curl "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080/manager/text/undeploy?path=/ClimateAnalyser"
+
+      - name: deployment Master
         run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@studertest.tk:8080//manager/text/deploy?path=/ClimateAnalyser"
-
+      - name: deployment Release
+        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@studer.tk:8080//manager/text/deploy?path=/ClimateAnalyser"
+      - name: deployment OLD
+        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
 
