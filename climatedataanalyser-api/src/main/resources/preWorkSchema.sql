@@ -1,7 +1,7 @@
 -- THIS SCRIPT DROP&CREATES USERS and DATABASES
 
-DROP user if exists climateRUN@localhost;
-DROP user if exists climateDBA@localhost;
+DROP user if exists 'climateRUN'@'localhost';
+DROP user if exists 'climateDBA'@'localhost';
 flush privileges;
 
 DROP database if exists CLIMATE;
