@@ -38,8 +38,4 @@ jobs:
 
       - name: deployment Master
         run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@studertest.tk:8080//manager/text/deploy?path=/ClimateAnalyser"
-      - name: deployment Release
-        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@studer.tk:8080//manager/text/deploy?path=/ClimateAnalyser"
-      - name: deployment OLD
-        run: curl --upload-file /home/runner/work/climatedataanalyser/climatedataanalyser/climatedataanalyser-api/target/ClimateAnalyser.war "http://${{secrets.DEPLOY_USER}}@94.16.122.234:8080//manager/text/deploy?path=/ClimateAnalyser"
 
