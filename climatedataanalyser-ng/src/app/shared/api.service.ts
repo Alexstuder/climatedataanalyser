@@ -21,12 +21,15 @@ export class ApiService {
   private ANALYTICS_INIT_URL = `${this.BASE_URL}\\analytics\\`;
   private ANALYTICS_BY_CLIMATE_ANALYSER_REQUEST_DTO_URL = `${this.BASE_URL}\\analytics\\request\\`;
   private CLIMATE_RECORDS = `${this.BASE_URL}\\climateRecords\\`;
+  public dbIsLoaded = false;
 
   constructor(private http: HttpClient) {
   }
 
-  loadDataBase(): Observable<string> {
-    return this.http.get<string>(this.LOAD_DATABASE_URL);
+  loadDataBase(withFTP: string): Observable<string> {
+    let myQueryparams = new HttpParams();
+    myQueryparams = myQueryparams.append('withFTP', withFTP);
+    return this.http.get<string>(this.LOAD_DATABASE_URL, {params: myQueryparams});
   }
 
   appInfo(): Observable<HttpEvent<AppInfoDto>> {
