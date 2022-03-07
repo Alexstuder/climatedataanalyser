@@ -11,16 +11,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class ComparedStations {
     //TODO write Controller !
 
-
-/*    @Autowired
-
-
-    @GetMapping("/")
-    ClimateAnalyserResponseDto climateByClimateAnalyserRequest(
-            @RequestBody ClimateAnalyserRequestDto climateAnalyserRequestDto
-            @RequestParam(name = "bundesland") String bundesland
-    )
-    {
-        return this.climateAnalyserService.getClimateAnalyticsByClimateAnalyserRequest(climateAnalyserRequestDto);
-    }*/
 }
