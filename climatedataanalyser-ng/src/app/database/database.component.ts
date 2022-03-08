@@ -29,6 +29,11 @@ export class DatabaseComponent implements OnInit {
           switch (value.type) {
             case HttpEventType.Response:
               this.dbLoadResponseDto = value.body;
+              // check if DB is Loaded !
+              if (this.dbLoadResponseDto.isDbLoaded === 'DB is loaded!') {
+                this.apiService.dbIsLoaded = true;
+                alert('DB is successfully loaded.');
+              }
           }
         },
       }
@@ -36,9 +41,13 @@ export class DatabaseComponent implements OnInit {
   }
 
   loadDataBase() {
+    let withFTP = 'false';
     if (confirm('Do you really want to load the Database ? (Takes about 20 min)')) {
+      if (confirm('Get fresh files from FTP-Server?')) {
+        withFTP = 'true';
+      }
 
-      this.apiService.loadDataBase().subscribe({
+      this.apiService.loadDataBase(withFTP).subscribe({
         error: (err) => {
           alert(err.toString());
         },

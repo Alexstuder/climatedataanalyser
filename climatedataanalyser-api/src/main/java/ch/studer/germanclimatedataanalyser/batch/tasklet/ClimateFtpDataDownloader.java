@@ -48,20 +48,13 @@ public class ClimateFtpDataDownloader implements Tasklet {
     private String downloadFolderName;
     private FTPClient ftpConnection;
 
-    @Value("climate.skipFTP")
-    private static String SKIP_FTP;
-
-    private static boolean skipFTP;
+    private static String withFTP = "false";
 
     public ClimateFtpDataDownloader() {
-        setSkipFTP(SKIP_FTP);
+
 
     }
 
-    public static void setSkipFTP(String SKIP_FTP) {
-
-        skipFTP = SKIP_FTP != null && SKIP_FTP == "true";
-    }
 
     private FTPClient getFTPConection(String ftpUser, String ftpPwd) {
 
@@ -132,7 +125,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         log.info("###############   Start Download from the Weather Server   ############");
 
-        if (!skipFTP) {
+        withFTP = (String) chunkContext.getStepContext().getJobParameters().get("withFTP");
+        if (withFTP.contentEquals("true")) {
             try {
                 ftpConnection = getFTPConection(ftpUser, ftpPwd);
                 ftpConnection.setFileType(FTP.BINARY_FILE_TYPE);
@@ -153,8 +147,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
         } else {
             log.info("FTP was skipt by parameter : climate.skipFTP = true");
         }
-        // TODO Return Status ??
-        return null;
+
+        return RepeatStatus.FINISHED;
     }
 
 }

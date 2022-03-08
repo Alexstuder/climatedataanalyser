@@ -7,10 +7,7 @@ import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @RestController
@@ -28,10 +25,13 @@ public class DataBaseController {
     Job job;
 
     @GetMapping("/batchImportStart")
-    public void handle() throws Exception {
+    public void handle(@RequestParam(value = "withFTP", defaultValue = "false") String withFTP) throws Exception {
+
+
         JobParameters jobParameters =
                 new JobParametersBuilder()
                         .addLong("time", System.currentTimeMillis())
+                        .addString("withFTP", withFTP)
                         .toJobParameters();
         jobLauncher.run(job, jobParameters);
 

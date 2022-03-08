@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
 import org.hibernate.Session;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.BatchStatus;
@@ -27,13 +28,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         return entityManager.unwrap(Session.class);
     }
 
-//    @Autowired
-//    public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
-//        this.jdbcTemplate = jdbcTemplate;
-//    }
-
     @Override
-    public void beforeJob(JobExecution jobExecution) {
+    public void beforeJob(@NotNull JobExecution jobExecution) {
 
         log.info("****************************************************************");
         log.info("!!!                      JOB START                           !!!");
@@ -59,7 +55,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
             log.info("??????????????????????????????????????????????????????????");
             log.info("!!!          JOB FAILED                                !!!");
             log.info("??????????????????????????????????????????????????????????");
-            log.info("Batch Exit Status :" + jobExecution.getStatus().toString());
+            log.info("Batch Exit Status :" + jobExecution.getStatus());
 
         }
 
