@@ -1,12 +1,7 @@
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP TABLE if exists MONTH_;
-DROP TABLE if exists STATION;
-DROP TABLE if exists WEATHER;
-DROP TABLE if exists CLIMATE;
-
-
+DROP ALL OBJECTS;
 
 -- ##########################
 -- Create Tables
@@ -30,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `MONTH_`
     QN_6              int           DEFAULT NULL,
     MO_RR             DECIMAL(7, 4) DEFAULT NULL,
     MX_RS             DECIMAL(7, 4) DEFAULT NULL
-    );
+);
 
 CREATE TABLE IF NOT EXISTS `STATION`
 (
@@ -44,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `STATION`
     STATION_NAME VARCHAR(100)          NOT NULL,
     BUNDES_LAND  VARCHAR(100)          NOT NULL
 
-    );
+);
 
 CREATE TABLE IF NOT EXISTS `WEATHER`
 (
     WEATHER_ID              BIGINT auto_increment NOT NULL PRIMARY KEY,
     STATION_ID              int                   NOT NULL,
-    YEAR_                    VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
+    YEAR_                   VARCHAR(4) COMMENT 'Weather Temperature for the year : yyyy',
     CALCULATED_ARTIFICIALLY BOOLEAN               Not Null Comment 'Marks a record as calculated and not as delivered',
     JANUAR                  DECIMAL(7, 4)         NOT NULL,
     FEBRUAR                 DECIMAL(7, 4)         NOT NULL,
@@ -65,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `WEATHER`
     NOVEMBER                DECIMAL(7, 4)         NOT NULL,
     DEZEMBER                DECIMAL(7, 4)         NOT NULL
 
-    );
+);
 
 CREATE TABLE IF NOT EXISTS `CLIMATE`
 (
@@ -86,4 +81,4 @@ CREATE TABLE IF NOT EXISTS `CLIMATE`
     NOVEMBER     DECIMAL(7, 4)         NOT NULL,
     DEZEMBER     DECIMAL(7, 4)         NOT NULL
 
-    );
+);
