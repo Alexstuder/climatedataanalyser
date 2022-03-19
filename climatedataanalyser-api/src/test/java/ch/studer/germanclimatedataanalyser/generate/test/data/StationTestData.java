@@ -10,9 +10,14 @@ import java.util.List;
 public class StationTestData {
 
 
-    public static List<Station> getStations(int numberOfStations) {
+    public static List<Station> getStations(int numberOfStations, String bundesland) {
         List<Station> stations = new ArrayList<Station>();
-
+        String bundeslandName = "";
+        if (bundesland == null) {
+            bundeslandName = "noNeed";
+        } else {
+            bundeslandName = bundesland;
+        }
         for (int stationId = 0; stationId < numberOfStations; stationId++) {
 
             Date dateBegin = Date.valueOf("1990-01-25");
@@ -21,13 +26,13 @@ public class StationTestData {
             BigDecimal geoLatitude = BigDecimal.valueOf(50.0001 - stationId);
             BigDecimal geoLength = BigDecimal.valueOf(8.0001 + stationId);
             String stationName = "noNeed";
-            String bundesLand = "noNeed";
 
-            Station station = new Station(stationId, dateBegin, dateEnd, stationHigh, geoLatitude, geoLength, stationName, bundesLand);
+            Station station = new Station(stationId, dateBegin, dateEnd, stationHigh, geoLatitude, geoLength, stationName, bundeslandName);
             stations.add(station);
 
         }
 
         return stations;
     }
+
 }

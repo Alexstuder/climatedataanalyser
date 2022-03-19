@@ -111,7 +111,7 @@ public class StationClimateImpl implements StationClimateDAO {
     @Override
     @Transactional
     public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String yearFrom) {
-        List<StationClimate> climateForGpsCoordinates = null;
+        List<StationClimate> climates = null;
 
         Session currentSession = getSession();
 
@@ -123,9 +123,9 @@ public class StationClimateImpl implements StationClimateDAO {
                 .setParameter("yearFrom", yearFrom);
 
         // execute and get result list
-        climateForGpsCoordinates = theQuery.getResultList();
+        climates = theQuery.getResultList();
 
         // There is only one Station !
-        return climateForGpsCoordinates;
+        return climates;
     }
 }
