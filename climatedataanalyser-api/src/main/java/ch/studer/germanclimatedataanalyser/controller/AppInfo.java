@@ -20,6 +20,7 @@ public class AppInfo {
     AppInfoDto appinfo() {
         AppInfoDto appInfoDto = new AppInfoDto();
         appInfoDto.setVersion(buildProperties.getVersion());
+        appInfoDto.setBuildTime(String.valueOf(buildProperties.getTime()));
 
         return appInfoDto;
     }
