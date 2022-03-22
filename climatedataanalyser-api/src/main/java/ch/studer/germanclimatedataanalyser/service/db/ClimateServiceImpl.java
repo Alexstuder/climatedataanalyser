@@ -123,8 +123,8 @@ public class ClimateServiceImpl implements ClimateService {
 
     @Override
     @Transactional
-    public List<StationClimate> getClimateForBundeslandFromYearOrderedByFromYearAndStations(String bundesland, String fromYear) {
-        return this.stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, fromYear);
+    public List<StationClimate> getClimateForBundeslandFromYearOrderedByFromYearAndStations(String bundesland, String year) {
+        return this.stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, year);
     }
 
 

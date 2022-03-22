@@ -49,7 +49,7 @@ public class StationClimateImpl implements StationClimateDAO {
     @Override
     @Transactional
     public List<StationClimate> getClimateForBundesland(String bundesland) {
-        List<StationClimate> climateForBundesland = null;
+        List<StationClimate> climateForBundesland;
 
         Session currentSession = getSession();
 
@@ -66,7 +66,7 @@ public class StationClimateImpl implements StationClimateDAO {
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinates(GpsPoint gps1, GpsPoint gps2) {
-        List<StationClimate> climateForGpsCoordinates = null;
+        List<StationClimate> climateForGpsCoordinates;
 
         Session currentSession = getSession();
 
@@ -87,7 +87,7 @@ public class StationClimateImpl implements StationClimateDAO {
     @Override
     @Transactional
     public List<StationClimate> getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(GpsPoint gps1, GpsPoint gps2, String yearFrom) {
-        List<StationClimate> climateForGpsCoordinates = null;
+        List<StationClimate> climateForGpsCoordinates;
 
         Session currentSession = getSession();
 
@@ -110,17 +110,17 @@ public class StationClimateImpl implements StationClimateDAO {
 
     @Override
     @Transactional
-    public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String yearFrom) {
-        List<StationClimate> climates = null;
+    public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String year) {
+        List<StationClimate> climates;
 
         Session currentSession = getSession();
 
         Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
                         " AND s.bundesLand = :bundesLand " +
-                        " AND c.startPeriod >= :yearFrom" +
+                        " AND c.endPeriod >= :yearFrom" +
                         " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
                 .setParameter("bundesLand", bundesland)
-                .setParameter("yearFrom", yearFrom);
+                .setParameter("yearFrom", year);
 
         // execute and get result list
         climates = theQuery.getResultList();

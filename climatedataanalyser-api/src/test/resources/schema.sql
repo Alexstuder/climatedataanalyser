@@ -1,8 +1,11 @@
 -- ##########################
 -- Drop Tables
 -- ##########################
-DROP ALL OBJECTS;
-
+-- Clear all Tables
+DROP TABLE IF EXISTS MONTH_ CASCADE;
+DROP TABLE IF EXISTS CLIMATE CASCADE;
+DROP TABLE IF EXISTS STATION CASCADE;
+DROP TABLE IF EXISTS WEATHER CASCADE;
 -- ##########################
 -- Create Tables
 -- ##########################
