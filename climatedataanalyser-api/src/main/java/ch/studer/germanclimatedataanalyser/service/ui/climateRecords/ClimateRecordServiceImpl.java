@@ -46,12 +46,12 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             , String gps1Long
             , String gps2Lat
             , String gps2Long
-            , String yearFrom
+            , String year
             , String distanceYear) {
 
 
         // Proof input :cause all @GetMapping parameters are String
-        climateRecordsDto.setErrorMsg(proofInput(bundesland, gps1Lat, gps1Long, gps2Lat, gps2Long, yearFrom, distanceYear));
+        climateRecordsDto.setErrorMsg(proofInput(bundesland, gps1Lat, gps1Long, gps2Lat, gps2Long, year, distanceYear));
 
         //proceed only if errorMsg is empty
         if (climateRecordsDto.getErrorMsg().isEmpty()) {
@@ -60,22 +60,22 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
             this.bundesland.setName(bundesland);
             this.Gps1 = new GpsPoint(Double.parseDouble(gps1Lat), Double.parseDouble(gps1Long));
             this.Gps2 = new GpsPoint(Double.parseDouble(gps2Lat), Double.parseDouble(gps2Long));
-            this.year = yearFrom.trim();
+            this.year = year.trim();
             this.distanceYear = Integer.parseInt(distanceYear.trim());
 
             // ****************************************************************
-            // get all Bundesland ClimateRecords from yearFrom
+            // get all Bundesland ClimateRecords from year
             // ****************************************************************
             List<StationClimate> allStationClimates;
 
             if (this.bundesland.getName().isEmpty()) {
-                allStationClimates = stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(Gps1, Gps2, yearFrom);
+                allStationClimates = stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(Gps1, Gps2, year);
             } else {
-                allStationClimates = stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, yearFrom);
+                allStationClimates = stationClimateDAO.getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, year);
             }
 
             // ***************************************************************************
-            // Remove all years between yearFrom + distanceYear
+            // Remove all years between year + distanceYear
             // ***************************************************************************
             List<StationClimate> relevantYearsStationClimates;
 
@@ -225,7 +225,7 @@ public class ClimateRecordServiceImpl implements ClimateRecordService {
      */
     private List<StationClimate> getStationClimatesFromYearWithDistance(int distanceYear, List<StationClimate> stationClimatesIn) {
 
-        List<StationClimate> stationClimatesRe = new ArrayList<>();
+        List<StationClimate> stationClimatesRe;
 
         int currentYear = Integer.parseInt(stationClimatesIn.get(0).getStartPeriod());
         int finishYear = Integer.parseInt(stationClimatesIn.get(stationClimatesIn.size() - 1).getStartPeriod());
