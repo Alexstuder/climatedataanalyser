@@ -15,6 +15,8 @@ public class DbStatusInformationServiceImpl implements DbStatusInformationServic
 
     private static final Logger log = LoggerFactory.getLogger(DbStatusInformationServiceImpl.class);
 
+    public DbStatusInformationServiceImpl() {
+    }
 
     /***
      * Getter and Setter
@@ -34,7 +36,8 @@ public class DbStatusInformationServiceImpl implements DbStatusInformationServic
     public int getMonthTableCount() {
 
         Integer counter;
-        counter = jdbcTemplate.queryForObject("SELECT count(*) FROM CLIMATE.MONTH_;", Integer.class);
+        //counter = jdbcTemplate.queryForObject("SELECT count(*) FROM CLIMATE.MONTH_;", Integer.class);
+        counter = jdbcTemplate.queryForObject("SELECT count(*) FROM MONTH_;", Integer.class);
 
         return counter;
     }
