@@ -69,7 +69,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
         // Init the Null cause !! No way to Inject BigDecimal
         NULL_TEMPERATURE = new BigDecimal(NULL_TEMPERATURE_INIT);
 
-        LOG.debug("StationId {}, size{}", stationWeatherPerYears.get(0).getStationID(), stationWeatherPerYears.size());
+        //LOG.debug("StationId {}, size{}", stationWeatherPerYears.get(0).getStationID(), stationWeatherPerYears.size());
 
         //First : Make sure the list does not contain any annual gaps
         List<StationWeatherPerYear> completed = complete(stationWeatherPerYears);
@@ -118,23 +118,18 @@ public class StationWeatherServiceImpl implements StationWeatherService {
     }
 
     private boolean hasNoNullTemperature(StationWeatherPerYear stationWeatherPerYear) {
-        boolean status = true;
-
-        if ((stationWeatherPerYear.getJanuar().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getFebruar().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getMaerz().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getApril().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getMai().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getJuni().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getJuli().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getAugust().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getSeptember().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getOktober().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getNovember().equals(NULL_TEMPERATURE)) ||
-                (stationWeatherPerYear.getDezember().equals(NULL_TEMPERATURE))) {
-            status = false;
-
-        }
+        boolean status = (!stationWeatherPerYear.getJanuar().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getFebruar().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getMaerz().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getApril().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getMai().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getJuni().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getJuli().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getAugust().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getSeptember().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getOktober().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getNovember().equals(NULL_TEMPERATURE)) &&
+                (!stationWeatherPerYear.getDezember().equals(NULL_TEMPERATURE));
 
 
         return status;
@@ -237,7 +232,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
         }
 
-        LOG.debug("Station_Id {} , Month {} , counter {}", completed.get(0).getStationID(), month, counter);
+        // LOG.debug("Station_Id {} , Month {} , counter {}", completed.get(0).getStationID(), month, counter);
 
         // if there are more then 30 years of NULL_TEMPERATURE , the climate Record can not be calculated !
         result = (counter == 0) ? NULL_TEMPERATURE : result.divide(BigDecimal.valueOf(counter), 3, RoundingMode.HALF_UP);
@@ -246,7 +241,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
     private List<StationWeatherPerYear> complete(List<? extends StationWeatherPerYear> stationWeatherPerYears) {
 
-        LOG.debug("StationId {}, size{}", stationWeatherPerYears.get(0).getStationID(), stationWeatherPerYears.size());
+        //LOG.debug("StationId {}, size{}", stationWeatherPerYears.get(0).getStationID(), stationWeatherPerYears.size());
         //
         List<StationWeatherPerYear> completedList = new ArrayList<StationWeatherPerYear>();
 
@@ -268,7 +263,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
                     expectedYear = getExpectedNextYear(stationWeatherPerYears.get(i).getYear());
                 } else {
                     // Insert a Nulled StationWeather to close the gap !
-                    LOG.debug("Insert a nulled Station Weather Record to close the gap ; Station_Id :{} , Year : {} ", actualStationId, expectedYear);
+                    //  LOG.debug("Insert a nulled Station Weather Record to close the gap ; Station_Id :{} , Year : {} ", actualStationId, expectedYear);
                     StationWeatherPerYear n = new StationWeatherPerYear(actualStationId);
                     n.setYear(expectedYear);
                     n.setCalculatedArtificially(true);
@@ -283,7 +278,7 @@ public class StationWeatherServiceImpl implements StationWeatherService {
 
             }
         } else {
-            LOG.debug("No List to complete received !");
+            //  LOG.debug("No List to complete received !");
         }
         return completedList;
     }

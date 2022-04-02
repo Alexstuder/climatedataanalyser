@@ -10,6 +10,8 @@ import ch.studer.germanclimatedataanalyser.service.ui.climateRecords.ClimateReco
 import ch.studer.germanclimatedataanalyser.service.ui.climateRecords.ClimateRecordServiceImpl;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationService;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationServiceImpl;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusInformationService;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusInformationServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -59,5 +61,10 @@ public class GermanClimateDataAnalyserApplicationContext {
     @Bean
     Bundesland bundesland() {
         return new Bundesland();
+    }
+
+    @Bean
+    DbStatusInformationService dbStatus() {
+        return new DbStatusInformationServiceImpl();
     }
 }

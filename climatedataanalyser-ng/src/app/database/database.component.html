@@ -1,16 +1,14 @@
 <div class="container">
 
+  <p>{{ message}}</p>
 
-
-  <p>
-  </p>
-
-  <h2><span class="badge badge-primary">{{dbLoadResponseDto.isDbLoaded}}</span></h2>
+  <h2><span class="badge badge-primary">{{currentDbLoadStatus}}</span></h2>
 
   <p>
     Last run : {{ dbLoadResponseDto.lastLoad}}
     Status : {{ dbLoadResponseDto.status}}
   </p>
+
 
   <table class="table">
     <thead class="thead-dark">

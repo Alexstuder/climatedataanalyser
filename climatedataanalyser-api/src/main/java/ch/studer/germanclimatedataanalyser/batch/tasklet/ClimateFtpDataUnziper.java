@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,12 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     @Value("${climate.path.downloadFolder}")
     private String downloadFolderName;
+
+    @Value("${count.files.to.process}")
+    private String countFileToProcess;
+
+    @Value("${unzipper.test.modus}")
+    private String unzipperTestModus;
 
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataUnziper.class);
 
@@ -68,7 +75,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
                 //Copy
                 Files.copy(inputFile.toPath(), outputFile.toPath());
-                log.debug("Unziped File  :" + outputFile.toPath());
+                // log.warn("Unziped File  :" + outputFile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,8 +86,21 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
         List<File> files = Arrays.stream(directory.listFiles())
                 .filter(file -> file.getName().endsWith(classifier))
                 .collect(Collectors.toList());
+        if (unzipperTestModus.contains("true")) {
+            files = getReducedTestFiles(files);
+        }
 
         return files;
+    }
+
+    private List<File> getReducedTestFiles(List<File> files) {
+        List<File> filesTest = new ArrayList<>();
+
+        for (int i = 0; i < Integer.valueOf(countFileToProcess); i++) {
+            filesTest.add(files.get(i));
+        }
+
+        return filesTest;
     }
 
     @Override

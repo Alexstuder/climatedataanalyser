@@ -44,12 +44,14 @@ export class ApiService {
     return this.http.get<Array<string>>(this.ANALYTICS_INIT_URL);
   }
 
-  initDbLoad(): Observable<HttpEvent<DbLoadResponseDto>> {
+  isDbLoaded(): Observable<HttpEvent<DbLoadResponseDto>> {
+    let response: Observable<HttpEvent<DbLoadResponseDto>>;
     const req = new HttpRequest('GET', this.LOAD_DATABASE_DATA_URL, {}, {
       reportProgress: true,
       responseType: 'json'
     });
-    return this.http.request<DbLoadResponseDto>(req);
+    response = this.http.request<DbLoadResponseDto>(req);
+    return response;
   }
 
   getColumns(): string[] {

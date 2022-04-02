@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 class MemoryStatsTest {
 
-    private static long BYTE = 1l;
-    private static long KILO_BYTE = 1024l;
-    private static long MEGA_BYTE = 1048576l;
-    private static long GIGA_BYTE = 1073741824l;
+    private static final long BYTE = 1l;
+    private static final long KILO_BYTE = 1024l;
+    private static final long MEGA_BYTE = 1048576l;
+    private static final long GIGA_BYTE = 1073741824l;
 
 
     @Test
