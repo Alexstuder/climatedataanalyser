@@ -4,6 +4,7 @@ import ch.studer.germanclimatedataanalyser.batch.listener.StepProcessorListener;
 import ch.studer.germanclimatedataanalyser.batch.listener.StepWriterListener;
 import ch.studer.germanclimatedataanalyser.batch.processor.TemperatureForMonthProcessor;
 import ch.studer.germanclimatedataanalyser.batch.writer.TemperatureForMonthDBWriter;
+import ch.studer.germanclimatedataanalyser.common.BatchStepName;
 import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import ch.studer.germanclimatedataanalyser.model.file.MonthFile;
@@ -116,9 +117,9 @@ public class TemperatureForMonthBatchConfiguration {
 
 
     @Transactional
-    @Bean
+    @Bean("importMonthRecords")
     public Step importTemperatureRecords() {
-        return stepBuilderFactoryImport.get("import-temperature-records")
+        return stepBuilderFactoryImport.get(BatchStepName.import_temperature_records.toString())
                 .<MonthFile, Month>chunk(10000)
                 .reader(monthFilesReader())
                 .listener(new StepProcessorListener())

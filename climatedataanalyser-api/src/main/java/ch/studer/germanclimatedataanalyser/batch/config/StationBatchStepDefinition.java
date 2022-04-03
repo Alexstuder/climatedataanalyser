@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 
 import ch.studer.germanclimatedataanalyser.batch.processor.StationProcessor;
 import ch.studer.germanclimatedataanalyser.batch.writer.StationDBWriter;
+import ch.studer.germanclimatedataanalyser.common.BatchStepName;
 import ch.studer.germanclimatedataanalyser.common.DirectoryUtilityImpl;
 import ch.studer.germanclimatedataanalyser.model.database.Station;
 import ch.studer.germanclimatedataanalyser.model.file.StationFile;
@@ -104,9 +105,9 @@ public class StationBatchStepDefinition {
     }
 
     @Transactional
-    @Bean
-    public Step importStations() {
-        return stepBuilderFactoryImport.get("import-station-records")
+    @Bean("importStationRecords")
+    public Step importStationsRecords() {
+        return stepBuilderFactoryImport.get(BatchStepName.import_station_records.toString())
                 .<StationFile, Station>chunk(100)
                 .reader(readerStation())
                 .processor(stationProcessor())

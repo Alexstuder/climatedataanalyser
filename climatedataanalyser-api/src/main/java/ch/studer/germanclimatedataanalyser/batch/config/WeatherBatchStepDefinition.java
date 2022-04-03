@@ -3,6 +3,7 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.processor.WeatherProcessor;
 import ch.studer.germanclimatedataanalyser.batch.reader.MonthReader;
 import ch.studer.germanclimatedataanalyser.batch.writer.WeatherWriter;
+import ch.studer.germanclimatedataanalyser.common.BatchStepName;
 import ch.studer.germanclimatedataanalyser.model.database.Month;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -42,7 +43,7 @@ public class WeatherBatchStepDefinition {
     @Transactional
     @Bean("importWeatherRecords")
     public Step importWeatherRecords() {
-        return stepBuilderFactoryImport.get("import-weather-records")
+        return stepBuilderFactoryImport.get(BatchStepName.import_weather_records.toString())
                 .<Month, Month>chunk(5000)
                 //.reader(temperatureFromDbReader())
                 .reader(monthReader.getMonthFromDbReader())
