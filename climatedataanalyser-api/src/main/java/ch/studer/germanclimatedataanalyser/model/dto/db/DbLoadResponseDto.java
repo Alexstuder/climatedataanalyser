@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DbLoadResponseDto {
 
-    private String isDbLoaded;
+    private boolean dbLoadStatus;
     private String lastLoad;
     private String status;
     private List<DbLoadStep> dbLoadSteps = new ArrayList<DbLoadStep>();
@@ -20,7 +20,7 @@ public class DbLoadResponseDto {
 
 
     public void mapToDbLoadResponsDto(List<DbLoadRowMapper.JobExecutionInformation> jobExecutionInformations, DbStatusEnum dbStatus) {
-        this.isDbLoaded = dbStatus.name();
+        this.dbLoadStatus = dbStatus == DbStatusEnum.loaded;
         this.lastLoad = jobExecutionInformations.get(0).endTime;
         this.status = jobExecutionInformations.get(0).status;
 
@@ -39,21 +39,21 @@ public class DbLoadResponseDto {
         }
     }
 
-    // TODO remove Code
-//    private String getTextForIsDbLoaded(boolean isDbLoaded) {
-//        String text = "";
-//
-//        if (isDbLoaded) {
-//            text = "DB is loaded!";
-//        } else {
-//
-//            text = "DB is not loaded!";
-//        }
-//
-//
-//        return text;
-//    }
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public boolean getDbLoadStatus() {
+        return dbLoadStatus;
+    }
+
+    public void setDbLoadStatus(boolean dbLoadStat) {
+        dbLoadStatus = dbLoadStat;
+    }
 
     public String getLastLoad() {
         return lastLoad;
@@ -63,27 +63,11 @@ public class DbLoadResponseDto {
         this.lastLoad = lastLoad;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public List<DbLoadStep> getDbLoadSteps() {
         return dbLoadSteps;
     }
 
     public void setDbLoadSteps(List<DbLoadStep> dbLoadSteps) {
         this.dbLoadSteps = dbLoadSteps;
-    }
-
-    public String getIsDbLoaded() {
-        return isDbLoaded;
-    }
-
-    public void setIsDbLoaded(String isDbLoaded) {
-        this.isDbLoaded = isDbLoaded;
     }
 }

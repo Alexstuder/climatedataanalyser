@@ -4,4 +4,5 @@ public interface DbStatusInformationService {
     DbStatusEnum getDbStatus();
 
     void setDbStatus(DbStatusEnum dbStatus);
+
 }

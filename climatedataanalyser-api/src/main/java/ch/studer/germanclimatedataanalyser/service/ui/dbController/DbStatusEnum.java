@@ -5,9 +5,5 @@ public enum DbStatusEnum {
      *
      */
     empty,
-    loading,
-    loaded,
-    stopped,
-    failed
-
+    loaded
 }

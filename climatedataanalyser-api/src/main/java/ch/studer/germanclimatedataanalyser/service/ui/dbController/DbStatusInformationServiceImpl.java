@@ -32,7 +32,6 @@ public class DbStatusInformationServiceImpl implements DbStatusInformationServic
         this.dbStatus = dbStatus;
     }
 
-
     public int getMonthTableCount() {
 
         Integer counter;

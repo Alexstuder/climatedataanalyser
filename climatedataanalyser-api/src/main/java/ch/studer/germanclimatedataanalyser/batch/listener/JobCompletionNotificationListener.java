@@ -40,12 +40,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!                      JOB START                           !!!");
         log.info("****************************************************************");
 
-        dbStatus.setDbStatus(DbStatusEnum.loading);
         // Prepend the Tables
         jdbcTemplate.execute("Delete FROM STATION");
         jdbcTemplate.execute("Delete FROM MONTH_");
         jdbcTemplate.execute("Delete FROM WEATHER");
         jdbcTemplate.execute("Delete FROM CLIMATE");
+        dbStatus.setDbStatus(DbStatusEnum.empty);
 
 
     }
@@ -59,7 +59,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
             log.info("!!!          JOB FINISHED! SUCCESSFULLY                !!!");
             log.info("##########################################################");
         } else {
-            dbStatus.setDbStatus(DbStatusEnum.failed);
+            dbStatus.setDbStatus(DbStatusEnum.empty);
             log.info("??????????????????????????????????????????????????????????");
             log.info("!!!          JOB FAILED                                !!!");
             log.info("??????????????????????????????????????????????????????????");

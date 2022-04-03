@@ -1,6 +1,6 @@
 export class DbLoadResponseDto {
 
-  isDbLoaded: string;
+  dbLoadStatus: boolean;
   lastLoad: string;
   status: string;
   dbLoadSteps: Array<DbLoadSteps>;
