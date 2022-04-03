@@ -6,6 +6,7 @@ import ch.studer.germanclimatedataanalyser.service.db.ClimateService;
 import ch.studer.germanclimatedataanalyser.service.db.StationWeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.*;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
+public class ClimateWriter implements ItemWriter<StationWeatherPerYear>, JobExecutionListener, StepExecutionListener {
 
     @Autowired
     ClimateService climateService;
@@ -23,6 +24,8 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
 
     @Value("#{new Integer('${climate.calculation.period.year}')}")
     int period;
+
+    private int counter = 0;
 
     private static final Logger LOG = LoggerFactory.getLogger(ClimateWriter.class);
 
@@ -48,6 +51,7 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
 
                         if (stationClimates.size() > 0) {
                             climateService.saveAllClimateAtStationId(stationClimates);
+                            counter = counter + stationClimates.size();
                         } else {
                             LOG.debug("There was nothing to persist on database! ");
                         }
@@ -60,5 +64,27 @@ public class ClimateWriter implements ItemWriter<StationWeatherPerYear> {
                 }
             }
         }
+    }
+
+    @Override
+    public void beforeJob(JobExecution jobExecution) {
+        counter = 0;
+
+    }
+
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+
+    }
+
+    @Override
+    public void beforeStep(StepExecution stepExecution) {
+
+    }
+
+    @Override
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        stepExecution.setWriteCount(counter);
+        return null;
     }
 }

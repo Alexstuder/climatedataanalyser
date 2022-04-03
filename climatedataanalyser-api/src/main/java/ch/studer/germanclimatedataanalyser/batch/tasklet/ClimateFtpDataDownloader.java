@@ -6,7 +6,10 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -19,7 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class ClimateFtpDataDownloader implements Tasklet {
+public class ClimateFtpDataDownloader implements Tasklet, StepExecutionListener {
 
     private static final Logger log = LoggerFactory.getLogger(ClimateFtpDataDownloader.class);
 
@@ -69,7 +72,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         return ftpClient;
     }
 
-    private void downloadFTPFiles(FTPFile[] ftpFiles) throws IOException {
+    private void downloadFTPFiles(FTPFile[] ftpFiles, StepContribution contribution) throws IOException {
         int counter = 0;
         File directory = null;
         log.info("Start Download  : " + LocalDateTime.now());
@@ -77,6 +80,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
         directory = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, ftpDataFolderName);
 
         for (FTPFile ftpFile : ftpFiles) {
+
 
             //TODO Work with a toggle switch to switch between test and production mode
             //     for (int i = 0; i < 2; i++) {
@@ -94,7 +98,7 @@ public class ClimateFtpDataDownloader implements Tasklet {
             if (ftpConnection.getReplyCode() == 550) {
                 throw new RuntimeException("FTP Download Error : " + ftpConnection.getReplyString());
             }
-            counter++;
+            contribution.getStepExecution().setWriteCount(++counter);
 
         }
         log.info("*************************************************");
@@ -136,7 +140,8 @@ public class ClimateFtpDataDownloader implements Tasklet {
 
 
                 FTPFile[] ftpFiles = list(ftpConnection);
-                downloadFTPFiles(ftpFiles);
+                contribution.getStepExecution().setReadCount(ftpFiles.length);
+                downloadFTPFiles(ftpFiles, contribution);
 
                 ftpConnection.logout();
                 ftpConnection.disconnect();
@@ -151,4 +156,13 @@ public class ClimateFtpDataDownloader implements Tasklet {
         return RepeatStatus.FINISHED;
     }
 
+    @Override
+    public void beforeStep(StepExecution stepExecution) {
+
+    }
+
+    @Override
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        return null;
+    }
 }

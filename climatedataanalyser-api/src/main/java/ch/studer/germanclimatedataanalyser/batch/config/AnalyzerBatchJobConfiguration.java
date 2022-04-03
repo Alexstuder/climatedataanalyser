@@ -3,6 +3,7 @@ package ch.studer.germanclimatedataanalyser.batch.config;
 import ch.studer.germanclimatedataanalyser.batch.listener.JobCompletionNotificationListener;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataDownloader;
 import ch.studer.germanclimatedataanalyser.batch.tasklet.ClimateFtpDataUnziper;
+import ch.studer.germanclimatedataanalyser.common.BatchStepName;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -50,7 +51,7 @@ public class AnalyzerBatchJobConfiguration {
     @Transactional
     @Bean
     public Step downloadFiles() {
-        return stepBuilderFactoryImport.get("download")
+        return stepBuilderFactoryImport.get(BatchStepName.download.toString())
                 .tasklet(download())
                 .build();
     }
@@ -64,7 +65,7 @@ public class AnalyzerBatchJobConfiguration {
     @Transactional
     @Bean
     public Step unzipFiles() {
-        return stepBuilderFactoryImport.get("unzipFiles")
+        return stepBuilderFactoryImport.get(BatchStepName.unzipFiles.toString())
                 .tasklet(unziper())
                 .build();
     }
@@ -81,7 +82,7 @@ public class AnalyzerBatchJobConfiguration {
                 .start(downloadFiles())
                 .next(unzipFiles())
                 .next(temperatureForMonthBatchConfiguration.importTemperatureRecords())
-                .next(stationBatchConfiguration.importStations())
+                .next(stationBatchConfiguration.importStationsRecords())
                 .next(weatherBatchConfiguration.importWeatherRecords())
                 .next(climateBatchConfiguration.importClimateRecords())
                 .build()

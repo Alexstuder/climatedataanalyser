@@ -45,7 +45,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-
+        int counter = 0;
 
         File ftpDataFolder = DirectoryUtilityImpl.getDirectory(ftpDataFolderName);
         File unzipOutputFolde = DirectoryUtilityImpl.getEmptyDirectory(downloadFolderName, unzipOutputFolderName);
@@ -53,18 +53,20 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
         // allZipFiles = getAllZipFiles();
         List<File> allZipFiles = getAllFilesFromDirectoryFiltered(ftpDataFolder, ".zip");
+        contribution.getStepExecution().setReadCount(allZipFiles.size());
 
         // Unzip all Zip Data from FTP download
         for (File file : allZipFiles) {
             CompressUtil.unzip(new FileInputStream(file.getPath()), unzipOutputFolde);
         }
 
-        moveAllClimateDataToInputFilesFolder(unzipOutputFolde, inputFolder);
+        moveAllClimateDataToInputFilesFolder(unzipOutputFolde, inputFolder, contribution);
         return RepeatStatus.FINISHED;
     }
 
-    private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory) {
+    private void moveAllClimateDataToInputFilesFolder(File inputDirectory, File outputDirectory, StepContribution contribution) {
 
+        int counter = 0;
         File[] files = inputDirectory.listFiles();
 
         for (File f : files)
@@ -75,6 +77,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
                 //Copy
                 Files.copy(inputFile.toPath(), outputFile.toPath());
+                contribution.getStepExecution().setWriteCount(++counter);
                 // log.warn("Unziped File  :" + outputFile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -83,6 +86,7 @@ public class ClimateFtpDataUnziper implements Tasklet, InitializingBean {
 
     private List<File> getAllFilesFromDirectoryFiltered(File directory, String classifier) {
 
+        int counter = 0;
         List<File> files = Arrays.stream(directory.listFiles())
                 .filter(file -> file.getName().endsWith(classifier))
                 .collect(Collectors.toList());
