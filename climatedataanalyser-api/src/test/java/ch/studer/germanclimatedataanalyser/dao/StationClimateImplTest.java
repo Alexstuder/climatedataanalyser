@@ -16,12 +16,13 @@ import java.util.List;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
-@Sql({"classpath:schema.sql", "classpath:StationClimate/climates.sql", "classpath:StationClimate/stations.sql"})
+@Sql({"classpath:schema.sql", "classpath:StationClimate/climates.sql", "classpath:StationClimate/stations.sql", "classpath:StationClimate/climate_batch_job_execution.sql", "classpath:StationClimate/climate_batch_step_execution.sql"})
 //@Sql({"classpath:StationClimateH2Version2/H2Schema.sql"})
 class StationClimateImplTest {
 
     @Autowired
     ClimateService climateService;
+
 
     private static final Logger LOG = LoggerFactory.getLogger(StationClimateImplTest.class);
 

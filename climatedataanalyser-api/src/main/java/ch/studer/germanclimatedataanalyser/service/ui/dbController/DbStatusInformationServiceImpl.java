@@ -61,7 +61,12 @@ public class DbStatusInformationServiceImpl implements DbStatusInformationServic
     }
 
     boolean isDbFullyLoaded() {
-        boolean isFullyLoaded = true;
+        boolean isFullyLoaded = false;
+
+        int climateCount = 0;
+        int stationCount = 0;
+        int monthCount = 0;
+        int weatherCount = 0;
 
         DbLoadResponseDto dbLoadResponseDto = dbLoadInformationService.getDbLoadInformation();
 
@@ -70,25 +75,31 @@ public class DbStatusInformationServiceImpl implements DbStatusInformationServic
             BatchStepName nextStepName = BatchStepName.valueOf(dbLoadStep.getStepName());
             switch (nextStepName) {
                 case import_climate_records:
-                    isFullyLoaded = Integer.valueOf(dbLoadStep.getWriteCount()) == getClimateTableCount();
+                    climateCount = Integer.valueOf(dbLoadStep.getWriteCount());
                     break;
                 case import_station_records:
-                    isFullyLoaded = Integer.valueOf(dbLoadStep.getWriteCount()) == getStationTableCount();
+                    stationCount = Integer.valueOf(dbLoadStep.getWriteCount());
                     break;
                 case import_temperature_records:
-                    isFullyLoaded = Integer.valueOf(dbLoadStep.getWriteCount()) == getMonthTableCount();
+                    monthCount = Integer.valueOf(dbLoadStep.getWriteCount());
                     break;
                 case import_weather_records:
-                    isFullyLoaded = Integer.valueOf(dbLoadStep.getWriteCount()) == getWeatherTableCount();
+                    weatherCount = Integer.valueOf(dbLoadStep.getWriteCount());
                     break;
                 default:
                     break;
             }
-            // if Table is not fully Loaded break the for loop and return false immediately
-            if (isFullyLoaded == false) {
-                break;
-            }
         }
+
+
+        // When all Tabels still got the las load amount of Records ,the DB is fully loaded
+        if (climateCount == getClimateTableCount()
+                && stationCount == getStationTableCount()
+                && monthCount == getMonthTableCount()
+                && weatherCount == getWeatherTableCount()) {
+            isFullyLoaded = true;
+        }
+
         return isFullyLoaded;
     }
 }
