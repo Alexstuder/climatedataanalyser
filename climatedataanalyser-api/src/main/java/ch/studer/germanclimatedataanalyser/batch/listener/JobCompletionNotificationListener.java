@@ -1,5 +1,7 @@
 package ch.studer.germanclimatedataanalyser.batch.listener;
 
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusEnum;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusInformationService;
 import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    DbStatusInformationService dbStatus;
+
     private Session getSession() {
         return entityManager.unwrap(Session.class);
     }
@@ -35,6 +40,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
         log.info("!!!                      JOB START                           !!!");
         log.info("****************************************************************");
 
+        dbStatus.setDbStatus(DbStatusEnum.loading);
         // Prepend the Tables
         jdbcTemplate.execute("Delete FROM STATION");
         jdbcTemplate.execute("Delete FROM MONTH_");
@@ -48,10 +54,12 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     public void afterJob(JobExecution jobExecution) {
 
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+            dbStatus.setDbStatus(DbStatusEnum.loaded);
             log.info("##########################################################");
             log.info("!!!          JOB FINISHED! SUCCESSFULLY                !!!");
             log.info("##########################################################");
         } else {
+            dbStatus.setDbStatus(DbStatusEnum.failed);
             log.info("??????????????????????????????????????????????????????????");
             log.info("!!!          JOB FAILED                                !!!");
             log.info("??????????????????????????????????????????????????????????");

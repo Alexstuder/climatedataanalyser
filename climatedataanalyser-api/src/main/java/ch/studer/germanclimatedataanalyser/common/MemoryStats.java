@@ -2,9 +2,9 @@ package ch.studer.germanclimatedataanalyser.common;
 
 
 public class MemoryStats {
-    private Bytes heapSize = new Bytes();
-    private Bytes heapMaxSize = new Bytes();
-    private Bytes heapFreeSize = new Bytes();
+    private final Bytes heapSize = new Bytes();
+    private final Bytes heapMaxSize = new Bytes();
+    private final Bytes heapFreeSize = new Bytes();
 
     public Bytes getHeapSize() {
         return heapSize;
@@ -33,7 +33,7 @@ public class MemoryStats {
 
 class Bytes {
     private long bytes;
-    private static long SIZE = 1024l;
+    private static final long SIZE = 1024l;
 
     public long getBytes() {
         return bytes;

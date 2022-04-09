@@ -1,6 +1,7 @@
 package ch.studer.germanclimatedataanalyser.model.dto.db;
 
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadRowMapper;
+import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,14 @@ public class DbLoadResponseDto {
     private String status;
     private List<DbLoadStep> dbLoadSteps = new ArrayList<DbLoadStep>();
 
-    public DbLoadResponseDto(List<DbLoadRowMapper.JobExecutionInformation> dbLoadInformation, boolean isDbLoaded) {
-        this.mapToDbLoadResponsDto(dbLoadInformation, isDbLoaded);
+    public DbLoadResponseDto(List<DbLoadRowMapper.JobExecutionInformation> dbLoadInformation, DbStatusEnum dbStatus) {
+        this.mapToDbLoadResponsDto(dbLoadInformation, dbStatus);
 
     }
 
 
-    public void mapToDbLoadResponsDto(List<DbLoadRowMapper.JobExecutionInformation> jobExecutionInformations, boolean isDbLoaded) {
-        this.isDbLoaded = getTextForIsDbLoaded(isDbLoaded);
+    public void mapToDbLoadResponsDto(List<DbLoadRowMapper.JobExecutionInformation> jobExecutionInformations, DbStatusEnum dbStatus) {
+        this.isDbLoaded = dbStatus.name();
         this.lastLoad = jobExecutionInformations.get(0).endTime;
         this.status = jobExecutionInformations.get(0).status;
 
@@ -38,19 +39,20 @@ public class DbLoadResponseDto {
         }
     }
 
-    private String getTextForIsDbLoaded(boolean isDbLoaded) {
-        String text = "";
-
-        if (isDbLoaded) {
-            text = "DB is loaded!";
-        } else {
-
-            text = "DB is not loaded!";
-        }
-
-
-        return text;
-    }
+    // TODO remove Code
+//    private String getTextForIsDbLoaded(boolean isDbLoaded) {
+//        String text = "";
+//
+//        if (isDbLoaded) {
+//            text = "DB is loaded!";
+//        } else {
+//
+//            text = "DB is not loaded!";
+//        }
+//
+//
+//        return text;
+//    }
 
 
     public String getLastLoad() {
