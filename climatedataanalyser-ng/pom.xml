@@ -21,8 +21,8 @@
         <version>1.12.0</version>
 
         <configuration>
-          <nodeVersion>v12.14.0</nodeVersion>
-          <npmVersion>6.14.11</npmVersion>
+          <nodeVersion>v16.10.0</nodeVersion>
+          <npmVersion>8.6.0</npmVersion>
           <workingDirectory>src/main/web/</workingDirectory>
         </configuration>
 
