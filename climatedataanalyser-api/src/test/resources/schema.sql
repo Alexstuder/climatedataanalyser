@@ -1,7 +1,3 @@
-DROP SCHEMA CLIMATE CASCADE;
-CREATE SCHEMA CLIMATE;
-SET SCHEMA CLIMATE;
-
 -- ##########################
 -- Drop Tables
 -- ##########################
