@@ -110,4 +110,12 @@ public class MonthDAOImpl implements MonthDAO {
 
         return stationIds;
     }
+
+    @Override
+    public long count() {
+        Query<Long> theQuery = getSession().createQuery("SELECT count(*)  FROM Month m ", Long.class);
+
+        // execute and get result list
+        return theQuery.getSingleResult();
+    }
 }

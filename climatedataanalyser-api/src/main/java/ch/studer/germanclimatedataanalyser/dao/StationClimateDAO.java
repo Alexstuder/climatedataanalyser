@@ -5,7 +5,7 @@ import ch.studer.germanclimatedataanalyser.model.dto.helper.GpsPoint;
 
 import java.util.List;
 
-public interface StationClimateDAO {
+public interface StationClimateDAO extends DAO{
 
 
     void save(StationClimate stationClimate);

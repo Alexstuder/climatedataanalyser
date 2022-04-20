@@ -2,6 +2,7 @@ package ch.studer.germanclimatedataanalyser.dao;
 
 import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,13 @@ public class StationWeatherImpl implements StationWeatherDAO {
         for (StationWeatherPerYear stationWeatherPerYear : stationWeatherPerYears) {
             save(stationWeatherPerYear);
         }
+    }
+
+    @Override
+    public long count() {
+        Query<Long> theQuery = getSession().createQuery("SELECT count(*)  FROM StationWeatherPerYear w ", Long.class);
+
+        // execute and get result list
+        return theQuery.getSingleResult();
     }
 }

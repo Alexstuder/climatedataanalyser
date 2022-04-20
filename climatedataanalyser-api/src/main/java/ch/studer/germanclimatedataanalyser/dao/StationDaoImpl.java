@@ -119,4 +119,13 @@ public class StationDaoImpl implements StationDAO {
 
         return stations;
     }
+
+    @Override
+    public long count() {
+
+        Query<Long> theQuery = getSession().createQuery("SELECT count(*)  FROM Station s", Long.class);
+
+        // execute and get result list
+        return theQuery.getSingleResult();
+    }
 }

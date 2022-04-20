@@ -4,7 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.database.StationWeatherPerYear;
 
 import java.util.List;
 
-public interface StationWeatherDAO {
+public interface StationWeatherDAO extends DAO {
 
 
     void save(StationWeatherPerYear stationWeatherPerYear);

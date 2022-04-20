@@ -12,8 +12,12 @@ import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInforma
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbLoadInformationServiceImpl;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusInformationService;
 import ch.studer.germanclimatedataanalyser.service.ui.dbController.DbStatusInformationServiceImpl;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Properties;
 
 @Configuration
 public class GermanClimateDataAnalyserApplicationContext {
@@ -66,5 +70,15 @@ public class GermanClimateDataAnalyserApplicationContext {
     @Bean
     DbStatusInformationService dbStatus() {
         return new DbStatusInformationServiceImpl();
+    }
+
+    @ConditionalOnMissingBean
+    @Bean
+    public BuildProperties buildProperties() {
+        Properties properties = new Properties();
+        properties.put("group", "ch.climateDataAnalyser");
+        properties.put("artifact", "Climate Data Analyser");
+        properties.put("version", "not-jarred");
+        return new BuildProperties(properties);
     }
 }

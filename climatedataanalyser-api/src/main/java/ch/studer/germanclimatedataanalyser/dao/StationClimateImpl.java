@@ -113,9 +113,7 @@ public class StationClimateImpl implements StationClimateDAO {
     public List<StationClimate> getClimateForBundeslandFromYearOrderByYearAndStationId(String bundesland, String year) {
         List<StationClimate> climates;
 
-        Session currentSession = getSession();
-
-        Query<StationClimate> theQuery = currentSession.createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
+        Query<StationClimate> theQuery = getSession().createQuery("SELECT c FROM StationClimate as c , Station as s WHERE  c.stationId = s.stationId " +
                         " AND s.bundesLand = :bundesLand " +
                         " AND c.endPeriod >= :yearFrom" +
                         " Order by c.endPeriod asc , s.stationId asc", StationClimate.class)
@@ -127,5 +125,15 @@ public class StationClimateImpl implements StationClimateDAO {
 
         // There is only one Station !
         return climates;
+    }
+
+    @Override
+    public long count() {
+
+
+        Query<Long> theQuery = getSession().createQuery("SELECT count(*)  FROM StationClimate c", Long.class);
+
+        // execute and get result list
+        return theQuery.getSingleResult();
     }
 }

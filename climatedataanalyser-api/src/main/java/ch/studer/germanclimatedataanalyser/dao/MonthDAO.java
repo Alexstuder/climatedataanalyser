@@ -4,7 +4,7 @@ import ch.studer.germanclimatedataanalyser.model.database.Month;
 
 import java.util.List;
 
-public interface MonthDAO {
+public interface MonthDAO extends DAO {
 
     void save(Month month);
 

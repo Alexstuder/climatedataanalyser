@@ -5,7 +5,7 @@ import javassist.NotFoundException;
 
 import java.util.List;
 
-public interface StationDAO {
+public interface StationDAO extends DAO {
 
 
     void save(Station station);

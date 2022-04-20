@@ -17,13 +17,13 @@ import java.util.List;
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test-it.properties")
 @Sql({"classpath:schema.sql", "classpath:StationClimate/climates.sql", "classpath:StationClimate/stations.sql"})
-//@Sql({"classpath:StationClimateH2Version2/H2Schema.sql"})
 class StationClimateImplTest {
 
     @Autowired
-    ClimateService climateService;
+    DataAccess dataAccess;
 
     private static final Logger LOG = LoggerFactory.getLogger(StationClimateImplTest.class);
+
 
     @Test
     void getClimateForGpsCoordinatesFromYearOrderByYearAndStationId() {
@@ -32,7 +32,7 @@ class StationClimateImplTest {
         GpsPoint gpsPoint2 = new GpsPoint(10d, 20d);
         String fromYear = "1961";
 
-        List<StationClimate> stationClimateList = climateService.getClimateForGpsCoordinatesFromYearOrderedByFromYearAndStations(gpsPoint1, gpsPoint2, fromYear);
+        List<StationClimate> stationClimateList = dataAccess.stationClimateDAO.getClimateForGpsCoordinatesFromYearOrderByYearAndStationId(gpsPoint1, gpsPoint2, fromYear);
         int index = 1;
         for (StationClimate stationClimate : stationClimateList) {
 
@@ -54,7 +54,7 @@ class StationClimateImplTest {
         final String bundesland = "Baden-Württemberg";
         String fromYear = "1961";
 
-        List<StationClimate> stationClimateList = climateService.getClimateForBundeslandFromYearOrderedByFromYearAndStations(bundesland, fromYear);
+        List<StationClimate> stationClimateList = dataAccess.getStationClimateDAO().getClimateForBundeslandFromYearOrderByYearAndStationId(bundesland, fromYear);
         int index = 1;
         for (StationClimate stationClimate : stationClimateList) {
 
@@ -68,6 +68,15 @@ class StationClimateImplTest {
 
         }
         Assertions.assertNotEquals(1, index, "Test wurde nicht durchlaufen !");
+
+    }
+
+    @Test
+    void getStationCount(){
+
+
+        long count = dataAccess.getStationDAO().count();
+        Assertions.assertEquals(9l,count,"DataAccess count(*) test ist wrong");
 
     }
 }
